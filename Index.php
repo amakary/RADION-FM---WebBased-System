@@ -129,6 +129,9 @@ return $final;
 <style>
 .linko { color: #FFF; }
 .linko:hover { color: #F39C12; }
+.fa-github: { color: #FFF; }
+.fa-github:hover {
+color:#F39C12; }
 </style>
 
 </head>
@@ -586,6 +589,7 @@ Micropayment as well as Distribution are some of the challenges that the talente
 		<blockquote>
 		<strong>- FIND US ON SOCIAL MEDIA -</strong><br>
 		<div style="padding-top:8px;"></div>
+					
 					<!-- SOCIAL MEDIA -->
 					<button class="btn btn-rounded btn-default btn-xs" onClick="window.open('https://twitter.com/fm_radion','_blank')" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fab fa-twitter fa-lg"></i></button>
                     <button class="btn btn-rounded btn-default btn-xs" onClick="window.open('https://www.youtube.com/channel/UCuJOeoT-2o2stPXXJJGzAdg','_blank')" data-toggle="tooltip" data-placement="top" title="YouTube"><i class="fab fa-youtube fa-lg"></i></button>
@@ -661,11 +665,13 @@ Micropayment as well as Distribution are some of the challenges that the talente
 		<p style="color:#85929E; margin-bottom:-3px;">© 2020 RADION FM </p>
 		<p style="color:#85929E;">Made with <i class="fas fa-heart"></i> in Delaware, U.S.</p>
 		</div>
-		
 		</div>
+		
 		<div style="background-color:#33414E; padding-bottom:10px; padding-right:30px;" align="right">
 		<a style="text-decoration: none;" href="privacy-policy.php" class="linko">Privacy Policy</a> 
-		<span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="terms-of-use.php" class="linko">Terms of Use </a>
+		<span style="color: #85929E;">|</span> <a style="text-decoration:none;" href="terms-of-use.php" class="linko">Terms of Use </a>
+		<span style="padding-right:20px; padding-left:20px;"></span>
+		<a href="https://github.com/amakary" style="color:#fff;"><i class="fab fa-github fa-lg"></i></a>
 		</div>
 </footer>
 
@@ -720,9 +726,7 @@ Micropayment as well as Distribution are some of the challenges that the talente
         <div class="modal" id="modal_small" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content" style="width:350px; background-color:#222;">
-                    
                     <div class="modal-body" style="background-color:#222;">
-					
 					<h2 align="center" style="padding-top:30px; color:#fff;"><strong>CONTACT US</strong></h2>
 					<br>
 					<div align="jusity" style="padding-right:5px; padding-left:5px; font-size:9px; color:#515A5A;">
