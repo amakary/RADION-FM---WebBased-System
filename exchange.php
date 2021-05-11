@@ -1,64 +1,20 @@
 <?php
- $groupswithaccess="RADIONER,CEO,FOUNDER"; 
 
-require_once("/slpw/sitelokpw.php");
- require_once "slpw/slconfig.php"; 
+$groupswithaccess = 'RADIONER,CEO,FOUNDER';
 
-?>
-
-<?php
-
-function getValue($val){
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-CURLOPT_URL => "api.coincap.io/v2/assets/tezos",
-CURLOPT_RETURNTRANSFER => true,
-CURLOPT_ENCODING => "",
-CURLOPT_MAXREDIRS => 10,
-CURLOPT_TIMEOUT => 0,
-CURLOPT_FOLLOWLOCATION => true,
-CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-CURLOPT_CUSTOMREQUEST => "GET",
-));
-
-$output = curl_exec($curl);
-$decodedObject = json_decode($output,true);
-$data = $decodedObject['data'];
-// echo '<ul>';
-// echo '<li>'.$data['id'].'</li>' ;
-// echo '<li>'.$data['rank'].'</li>' ;
-// echo '<li>'.$data['symbol'].'</li>' ;
-// echo '<li>'.$data['name'].'</li>' ;
-// echo '<li>'.$data['priceUsd'].'</li>' ;
-// echo '<li>'.$data['supply'].'</li>' ;
-// echo '<li>'.$data['changePercent24Hr'].'</li>' ;
-// echo '<li>'.$data['marketCapUsd'].'</li>';
-// echo '<li>'.$data['volumeUsd24Hr'].'</li>';
-// echo '</ul>';
-$final = '';
-$pos = strpos($data[$val],'.');
-if($pos>-1){
-$pos = $pos+3;
-$final = substr($data[$val], 0, $pos);
-}else{
-$final = $data[$val];
-}
-
-return $final;
-}
+require_once 'slpw/sitelokpw.php';
+require_once 'slpw/slconfig.php';
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>        
+    <head>
         <!-- META SECTION -->
-        <title>RADION - EXCHANGE</title>            
+        <title>RADION - EXCHANGE</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
+
 <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
@@ -77,8 +33,8 @@ return $final;
 <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
         <!-- END META SECTION -->
-        
-        <!-- CSS INCLUDE -->        
+
+        <!-- CSS INCLUDE -->
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-dark.css"/>
 		<link rel="stylesheet" type="text/css" href="css/all.css" />
 		<link rel="stylesheet" type="text/css" href="css/cropper/cropper.min.css"/>
@@ -88,25 +44,15 @@ return $final;
         <script src="https://www.tezbridge.com/plugin.js"></script>
 		<script src="https://unpkg.com/@taquito/taquito@6.1.0-beta.0/dist/taquito.min.js" crossorigin="anonymous" integrity="sha384-sk4V+57zLUCfkna8z4p1u6CioucJqmeo+QnaiXoFiuE8vdkm7/ae2TNFLbL+Ys02"></script>
         <!-- TAQUITO -->
-		
-		<!-- TEZBRIDGE CSS -->
-		<link rel="stylesheet" type="text/css" href="tezbridge/base.d9dce89e.css"/>
-		<link rel="stylesheet" type="text/css" href="tezbridge/base.dcedc90f.css"/>
-		<link rel="stylesheet" type="text/css" href="tezbridge/base.e9d1c96c.css"/>
-		<link rel="stylesheet" type="text/css" href="tezbridge/base.97de024b.css"/>
-		
-        <!-- TEZBRIDGE JS --> 
+
+        <!-- TEZBRIDGE JS -->
 		<script src="./plugin.js"></script>
-		<script src="/tezbridge/base.3b889bf7.js"></script>
-		<script src="/tezbridge/base.6ab6a587.js"></script>
-		<script src="/tezbridge/base.764feec2.js"></script>
-		<script src="/tezbridge/base.546361df.js"></script>
-		<script src="/tezbridge/base.f14781ea.js"></script>
-		
-		<!-- TAQUITO -->
-         
+
+    <script src="js/plugins/jquery/jquery.min.js"></script>
+    <script src="js/tezos.js"></script>
+
         <!-- sweet alert 2 -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
         <!-- sweet alert 2 -->
 
 	<style>
@@ -116,9 +62,9 @@ return $final;
 			font-size: 14px;
 			family-font: Arial;
 			padding-left:20px;
-			padding-right:20px;	
+			padding-right:20px;
 		}
-		
+
 .fa-sort-down{color:#C0392B}
 .fa-sort-up{color:#27AE60}
 .tDown{color:#C0392B}
@@ -131,13 +77,7 @@ return $final;
     }
 </style>
 
-
-        <!-- EOF CSS INCLUDE -->    
-
-    </head>
-    <body>
-        
-   <!-- MODAL FOR SIGNER -->        
+   <!-- MODAL FOR SIGNER -->
         <div class="modal" id="modal_basic" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -149,7 +89,7 @@ return $final;
 					    <iframe name="connect-iframe" class="connect-iframe"></iframe>
                     </div>
                     <div class="modal-footer">
-					
+
                         <div style="height:25px; width:25px; position:relative; left:95%;">
 <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
 <path style="fill:#333;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
@@ -171,22 +111,21 @@ return $final;
                 </div>
             </div>
         </div>
-    
+
         <!-- END MODAL FOR SIGNER -->
-    
+
         <!-- START PAGE CONTAINER -->
         <div class="page-container">
-		
-		
+
 		<!--- ALERT MESSAGE --->
-		
-		
+
+
 		  <div class="message-box message-box-warning animated fadeIn" id="message-box-warning">
             <div class="mb-container">
                 <div class="mb-middle">
                     <div class="mb-title"><span class="fa fa-warning"></span> Warning</div>
                     <div class="mb-content">
-                        <p>Please complete all information required to save your song.</p>                  
+                        <p>Please complete all information required to save your song.</p>
                     </div>
                     <div class="mb-footer">
                         <button class="btn btn-default btn-lg pull-right mb-control-close">Close</button>
@@ -197,83 +136,81 @@ return $final;
 		<button type="button" class="btn btn-warning mb-control hide"  id="warning_btn"  data-box="#message-box-warning">Warning</button>
             		<!--- ALERT MESSAGE --->
 
-<script type="text/javascript"> 
-var memberprofilepage=1 
-</script>
+<script type="text/javascript"> var memberprofilepage=1 </script>
 <?php if (function_exists('startwhoisonline')) startwhoisonline('userid'); ?>
 
-<script type="text/javascript">
-var blabfolderpath="/slpw/plugin_blab/"
-</script>
+<script type="text/javascript"> var blabfolderpath="/slpw/plugin_blab/" </script>
 <script type="text/javascript" src="/slpw/plugin_blab/sarissa.js"></script>
 <script type="text/javascript" src="/slpw/plugin_blab/blab.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-					
+</head>
+
+	<body>
+
             <!-- START PAGE SIDEBAR -->
-            <div class="page-sidebar">
-                <!-- START X-NAVIGATION -->
-                <ul class="x-navigation">
-                    <li class="xn-logo">
-                        <a href="index.php">RADION</a>
-                        <a href="#" class="x-navigation-control"></a>
-                    </li>
-                    <li class="xn-profile">
-                        <a href="#" class="profile-mini">
-                            <img src="<?php siteloklink($slcustom2,0); ?>" alt=""/>
-                        </a>
-                        <div class="profile">
-                            <div class="profile-image">
-                                <img src="<?php siteloklink($slcustom2,0); ?>" alt=""/>
-                            </div>
-                            <div class="profile-data">
-                                <div class="profile-data-name"><?php echo $slusername; ?></div>
-                                <div class="profile-data-title"><?php echo $slusergroups; ?></div>
-                            </div>
-                            <div class="profile-controls">
-                                <a href="#" class="profile-control-left sidebar-toggle"><span class="fa fa-info"></span></a>
-                                <a href="edit-profile.php" class="profile-control-right"><span class="fas fa-user-cog"></span></a>
-                            </div>
-                        </div>                                                                        
-                    </li>
-                    <li class="xn-title">MENU</li>
-					<li class="xn-openable">
-                        <a href="submission.php"><span class="fas fa-upload"></span> <span class="xn-text"> UPLOAD</span></a>
-                    </li>
-                                       
-                    <li class="xn-openable">
-                        <a href="submission.php"><span class="fas fa-briefcase"></span> <span class="xn-text"> SERVICES</span></a>
-						<ul>
-						<li><a href="#"><span class="xn-text"><span class="fas fa-user-shield"></span> COPYRIGHT PROTECTION</span></a></li>
-						<li><a href="#"><span class="xn-text"><span class="fas fa-copyright"></span> COPYRIGHT REGISTRATION</span></a></li>
-						<li><a href="#"><span class="xn-text"><span class="fab fa-creative-commons"></span> MUSIC LICENSING</span></a></li>
-						</ul>
-                    </li>
-                    <li class="xn-openable">
-                        <a href="marketplace.php"><span class="fas fa-store"></span> <span class="xn-text"> MARKETPLACE</span></a>
-                    </li>
-                                    
-                    <li class="xn-openable">
-                        <a href="exchange.php"><span class="fas fa-exchange-alt"></span> <span class="xn-text"> EXCHANGE</span></a>
-						
-                    </li> 
-					
-					<li class="xn-openable">
-                        <a href="#"><span class="fas fa-audio-description"></span> <span class="xn-text"> NETWORK ADS</span></a>
-						<ul>
-						<li><a href="ad-submission.php"><span class="xn-text"><span class="fas fa-donate"></span> SUBMIT AD</span></a></li>
-						</ul>
-                    </li> 
-					
-					
-					
-                </ul>
-                <!-- END X-NAVIGATION -->
-            </div>
-            <!-- END PAGE SIDEBAR -->
-            
+        <div class="page-sidebar">
+            <!-- START X-NAVIGATION -->
+            <ul class="x-navigation">
+                <li class="xn-logo">
+                    <a href="index.php">RADION</a>
+                    <a href="#" class="x-navigation-control"></a>
+                </li>
+                <li class="xn-profile">
+                    <a href="#" class="profile-mini">
+                        <img src="<?php siteloklink($slcustom2, 0); ?>" alt="" />
+                    </a>
+                    <div class="profile">
+                        <div class="profile-image">
+                            <img src="<?php siteloklink($slcustom2, 0); ?>" alt="" />
+                        </div>
+                        <div class="profile-data">
+                            <div class="profile-data-name"><?php echo $slusername; ?></div>
+                            <div class="profile-data-title"><?php echo $slusergroups; ?></div>
+                        </div>
+                        <div class="profile-controls">
+                            <a href="#" class="profile-control-left sidebar-toggle"><i class="far fa-comment-alt-lines"></i></a>
+                            <a href="edit-profile.php" class="profile-control-right"><i class="fad fa-user-edit"></i></a>
+                        </div>
+
+                    </div>
+                </li>
+
+                <div id="get_source" style="color:#1b1e24; font-size:2px;"></div>
+
+                <li class="xn-openable">
+                    <a href="submission.php"><i class="fad fa-upload fa-lg"></i><span class="xn-text">&nbsp;&nbsp; UPLOAD</span></a>
+                </li>
+
+                <li class="xn-openable">
+                    <a href="submission.php"><i class="fad fa-business-time fa-lg"></i> <span class="xn-text">&nbsp;&nbsp; SERVICES</span></a>
+                    <ul>
+                        <li><a href="#"><span class="xn-text"><i class="fad fa-file-certificate fa-lg"></i> COPYRIGHT PROTECTION</span></a></li>
+                        <li><a href="#"><span class="xn-text"><i class="fas fa-copyright fa-lg"></i> COPYRIGHT REGISTRATION</span></a></li>
+                        <li><a href="#"><span class="xn-text"><i class="fab fa-creative-commons fa-lg"></i> MUSIC LICENSING</span></a></li>
+                    </ul>
+                </li>
+                <li class="xn-openable">
+                    <a href="marketplace.php"><i class="fad fa-poll-people fa-lg"></i> <span class="xn-text">&nbsp;&nbsp; MARKETPLACE</span></a>
+                </li>
+                <li class="xn-openable">
+                    <a href="exchange.php"><i class="fad fa-exchange-alt fa-lg"></i> <span class="xn-text">&nbsp;&nbsp; EXCHANGE</span></a>
+
+                </li>
+                <li class="xn-openable">
+                    <a href="#"><i class="fad fa-ad fa-lg"></i> <span class="xn-text">&nbsp;&nbsp; RADION ADS</span></a>
+                    <ul>
+                        <li><a href="ad-submission.php"><span class="xn-text"><i class="far fa-bring-forward"></i> CREATE AD</span></a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <!-- END X-NAVIGATION -->
+        </div>
+        <!-- END PAGE SIDEBAR -->
+
             <!-- PAGE CONTENT -->
             <div class="page-content">
-                
+
                 <!-- START X-NAVIGATION VERTICAL -->
                 <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
                     <!-- TOGGLE NAVIGATION -->
@@ -281,20 +218,17 @@ var blabfolderpath="/slpw/plugin_blab/"
                         <a href="#" class="x-navigation-minimize"><span class="fas fa-outdent"></span></a>
                     </li>
                     <!-- END TOGGLE NAVIGATION -->
-					<li class="xn-icon-button pull-right" style="margin-right:0px;">
-					<a href="#" class="sidebar-toggle"><span class="fas fa-ellipsis-v"></span></a>						
-                    </li> 
-                    
+
 
                     <!-- POWER OFF -->
                     <li class="xn-icon-button pull-right last">
                         <a href="#"><span class="fa fa-power-off"></span></a>
                         <ul class="xn-drop-left animated zoomIn">
                             <li><a href="pages-lock-screen.php"><span class="fa fa-lock"></span> Lock Screen</a></li>
-							<li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fas fa-sign-out-alt"></span> Sign Out</a></li>		
-                        </ul>                        
-                    </li> 
-                    <!-- END POWER OFF --> 
+							<li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fas fa-sign-out-alt"></span> Sign Out</a></li>
+                        </ul>
+                    </li>
+                    <!-- END POWER OFF -->
 
 					<!-- ALERT NOTIFICATIONS -->
                     <li class="xn-icon-button pull-right">
@@ -302,7 +236,7 @@ var blabfolderpath="/slpw/plugin_blab/"
                         <div class="informer informer-danger"><?php if (function_exists('sl_showprivatemessagecount')) { sl_showprivatemessagecount(); } ?></div>
                         <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><span class="fa fa-bell"></span> Notifications</h3>                                
+                                <h3 class="panel-title"><span class="fa fa-bell"></span> Notifications</h3>
                                 <div class="pull-right">
                                     <span class="label label-warning"><?php if (function_exists('sl_showprivatemessagecount')) { sl_showprivatemessagecount(); } ?> new</span>
                                 </div>
@@ -335,55 +269,54 @@ var blabfolderpath="/slpw/plugin_blab/"
   'showfileimages'=>false,
 )); } ?>
 
-                            </div>     
+                            </div>
                             <div class="panel-footer text-center">
                                 <a href="#" class="sidebar-toggle">Show all messages</a>
-                            </div>                            
-                        </div>                        
+                            </div>
+                        </div>
                     </li>
-                    
-					<!-- ALERT NOTIFICATIONS ENDS -->					
 
-                    
+					<!-- ALERT NOTIFICATIONS ENDS -->
+
+
                     <!-- LANG BAR -->
                     <li class="xn-icon-button pull-right">
                         <a href="#"><span class="fas fa-language fa-lg"></span></a>
                         <ul class="xn-drop-left xn-drop-white animated zoomIn">
-                            <li><a href="#"><span class="flag flag-us"></span> English</a></li>
-                            <li><a href="#"><span class="flag flag-es"></span> Espanol</a></li>
-                        </ul>                        
-                    </li> 
+                            <li><a href="#"> English</a></li>
+                            <li><a href="#"> Espanol</a></li>
+                        </ul>
+                    </li>
 
                     <!-- END LANG BAR -->
-					
-					
+
+
                 </ul>
-                <!-- END X-NAVIGATION VERTICAL -->                     
-                      
-                
+                <!-- END X-NAVIGATION VERTICAL -->
+
+                <!-- START BREADCRUMB -->
+                <ul class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li class="active">Exchange</li>
+                </ul>
+                <!-- END BREADCRUMB -->
+
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-				
+
 				<div class="row">
                         <div class="col-md-12">
                             <div class="alert alert-info" role="alert" id="message_box" style="display:none">
                                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                                 <span><i class="fa fa-audio-description fa-lg"></i></span><span style="padding-right:20px;"></span>
-								<span id="on_sibmission">RADION is always active in Social Media! If you want to be updated with our progress, we recommend you to follow us in our <a href="https://web.telegram.org/#/im?p=@radion_project" target="blank">Telegram</a> Group.</span>
-								</div>                            
+								<span id="on_sibmission"></span>
+								</div>
                         </div>
-                    </div> 
-                    
-                  <!-- START WIDGETS -->                    
-                    <div class="row">
-                       
-                     
-                       
                     </div>
-                    <!-- END WIDGETS --> 
-					
+
+
                    <div class="row">
-					
+
 		<div class="page-content-wrap">
           <div class="row">
             <div class="col-md-12">
@@ -391,34 +324,48 @@ var blabfolderpath="/slpw/plugin_blab/"
                 <div class="panel-body">
                   <div class="row">
 				  <div class="col-md-12">
-				   
+
 				  <div align="right">
 				  <span class="label label-primary label-form">
 				  <a href="#modal_basic" data-toggle="modal" style="color:#fff; text-decoration:none;"><li class="far fa-wallet"></li>&nbsp;&nbsp;&nbsp;CONNECT WALLET</a>
 				  </span>
 				  </div>
-				  
-				  <div style="padding-left:30px; padding-right:0px; padding-bottom:0px;" align="justify"><strong>IMPORTANT NOTE:</strong><br>Your have to connect your wallet in order to use these features...</div>
+
+				  <div style="padding-left:30px; padding-right:0px; padding-bottom:0px;" align="justify"><strong>IMPORTANT NOTE:</strong><br>Market Chart Shows Every days Closings</div>
 				<div align="right" style="margin-bottom:-10px; padding-right:1%;">
 				  <div class="label label-default label-rounded label-xs"><i class="far fa-link"></i> <span id="get_source" style="font-family:Arial;"></span></div>
 				  </div>
 				<hr>
 				</div>
-				
+
 				 <div class="col-md-8">
-                      
+
                         <div class="panel-body">
-						<h3>MARKET CHART</h3>
-						<p align="right" style="padding-right:30px; color:#E0401D;">Chart is Currently Offline!</p>
-						<div id="chart-6" style="height:300px;"><svg></svg></div>
-						
+						<h3><small>120 DAYS</small> CHART</h3>
+						<p align="right" style="padding-right:30px; color:#E0401D;">TEZOS XTZ/USD EST</p>
+						<div style="height:300px;">
+
+
+				<!-- START DASHBOARD CHART -->
+                    <div class="block-full-width" style="padding-top:0px; margin-top:0px; margin-bottom:0px; border-left:1px solid #dddddd; border-bottom:1px solid #dddddd;">
+
+                        <div class="tezos_graph">
+						<div id="charts-legend"></div>
+
 						</div>
-                      
+
                     </div>
-				  
-				  
+			<!-- END DASHBOARD CHART -->
+
+						</div>
+
+						</div>
+
+                    </div>
+
+
                     <div class="col-md-4" style="padding-bottom:30px;">
-                      
+
                         <div class="panel-body">
 						<div style="height:35px; width:35px;">
 <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
@@ -437,7 +384,7 @@ var blabfolderpath="/slpw/plugin_blab/"
 </svg>
 </div>
 						<div style="width:100%; margin:-35px 20px 0px 40px; padding-bottom:15px;" align="left">
-						<h3><strong><?php echo getValue('name') ?></strong></h3>
+						<h3><strong class="tezos-name"></strong></h3>
 						<div style="margin-top:-10px;">XTZ/USD</div>
 						</div>
                             <table style="border-top:1px solid #dddddd;">
@@ -445,47 +392,47 @@ var blabfolderpath="/slpw/plugin_blab/"
 <tr style="background-color:#f8f9f9;">
 <td style="width:60%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-left:10px;"><strong>MARKET RANK</strong></td>
 <td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"> </td>
-<td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"> <strong>&nbsp;&nbsp;&nbsp;<?php echo getValue('rank') ?></strong></td>
+<td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"> <strong>&nbsp;&nbsp;&nbsp;<span class="tezos-rank"></span></strong></td>
 </tr>
 <tr>
 <td style="width:60%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-left:10px;"><strong>SUPPLY</strong></td>
-<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><strong><?php echo getValue('supply') ?></strong></td>
+<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><strong class="tezos-supply"></strong></td>
 <td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-right:10px;"><span>&nbsp;&nbsp;&nbsp;<strong>XTZ</strong></span></td>
 </tr>
 <tr>
 <td style="width:60%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-left:10px;"><strong>CURRENT PRICE</strong></td>
-<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <strong><?php echo getValue('priceUsd') ?></strong></td>
+<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <strong class="tezos-price-usd"></strong></td>
 <td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-right:10px;"><span>&nbsp;&nbsp;&nbsp;<strong>USD</strong></span></td>
 </tr>
 
 <tr style="background-color:#f8f9f9;">
 <td style="width:60%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-left:10px">MARKET CAP</td>
-<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <?php echo getValue('marketCapUsd') ?></td>
+<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <span class="tezos-market-cap-usd"></span></td>
 <td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-right:10px;"><span>&nbsp;&nbsp;&nbsp;USD</span></td>
 </tr>
 
 <tr>
 <td style="width:60%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-left:10px;">AVERAGE 24H</td>
-<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <?php echo getValue('vwap24Hr') ?></td>
+<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <span class="tezos-vwap-24hr"></span></td>
 <td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-right:10px;"><span>&nbsp;&nbsp;&nbsp;USD</span></td>
 </tr>
 <tr>
 <td style="width:60%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-left:10px;">24H VOLUME</td>
-<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <?php echo getValue('volumeUsd24Hr') ?></td>
+<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <span class="tezos-volume-usd-24hr"></span></td>
 <td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-right:10px;">&nbsp;&nbsp;&nbsp;USD</td>
 </tr>
 <tr>
 <td style="width:60%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-left:10px;">24H % CHANGE</td>
-<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><?php
-$changePercent24Hr = getValue('changePercent24Hr');
-
-if(strpos($changePercent24Hr,'-')>-1 ){
-echo '<span class="fas fa-sort-down" style="vertical-align:-2px;"></span> <span class="tDown" style="vertical-align:2px;">'.$changePercent24Hr.'%</span>';
-}
-else{
-echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span class="tUp" style="vertical-align:2px;">'.$changePercent24Hr.'%</span>';
-}
-?></td>
+<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;">
+  <span class="tezos-change-24hr-down" style="display:none;">
+    <span class="fas fa-sort-down fa-xs" style="vertical-align:-2px;"></span>
+    <span class="tDown tezos-change-24hr" style="vertical-align:2px;"></span>
+  </span>
+  <span class="tezos-change-24hr-up" style="display:none;">
+    <span class="fas fa-sort-up fa-xs" style="vertical-align:-2px;"></span>
+    <span class="tUp tezos-change-24hr" style="vertical-align:2px;"></span>
+  </span>
+</td>
 <td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-right:10px;">&nbsp;&nbsp;&nbsp;</td>
 </tr>
 
@@ -494,10 +441,10 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
 </table>
 
 						</div>
-                      
+
                     </div>
-					
-					
+
+
 
                   </div>
                 </div>
@@ -505,14 +452,14 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
             </div>
           </div>
         </div>
-					
+
                     </div>
-					
-					
+
+
 					<div class="row">
 
 			<div class="col-md-4">
-              
+
                 <div class="panel panel-default" style="padding-bottom:30px; padding-top:20px;">
 				<div class="panel-body">
 				<h3 align="center" style="border-bottom: 1px dashed #f39c12; height:40px;"><strong>B U Y</strong></h3>
@@ -520,10 +467,10 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
 <div align="right" style="padding-right:0px; padding-bottom:7px; margin-top:-5px; font-size:11px;"><strong>BALANCE</strong>: <span id="ethBalance"></span></div>
 				  <br>
                   <div class="form-group">
-				  
+
 				  <div class="col-md-12" style="padding-bottom:10px;">
                                                 <div class="input-group" style="padding-right:3%; padding-left:3%;">
-                                                   
+
 													 <span class="input-group-addon"><div style="height:15px; width:15px; margin-top:-23px;">
 <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
 <path style="fill:#ffffff;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
@@ -541,13 +488,13 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
 </svg>
 </div></span>
                                                     <input id="ethAmountTest" style="padding-right:5%; text-align:right;" type="text" class="form-control" placeholder="0.00000000 XTZ"/>
-                                                    
+
 													<span class="input-group-btn">
                                                         <button class="btn btn-info" type="button" style="width:100px;" onclick="expectedBuy()">ESTIMATE</button>
                                                     </span>
                                                 </div>
                                             </div>
-											
+
 
 											<div class="col-md-12" style="padding-bottom:25px;">
                                                 <div class="input-group" style="padding-right:3%; padding-left:3%;">
@@ -569,74 +516,74 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
 </div></span>
                                                     <input id="ethAmountBuy" style="padding-right:5%; text-align:right;" type="text" class="form-control" placeholder="0.00000000 XTZ"/>
 													<span class="input-group-addon" style="width:100px;">XTZ</span>
-                                                    
-													
+
+
                                                 </div>
                                             </div>
 
                                         </div>
-				  
+
 				  <div style="font-size:11px;">
                   <p align="center" style="color:#7b7d7d;">TRANSACTION FEE</p>
 				  <p style="color:#E0401D; margin-top:-10px;" align="center">0.00%</p>
-					
+
                   </div>
 				  <hr>
                   <div align="center" style="padding-top:17px;">
-				  
+
 				  <button class="btn btn-primary btn-block" type="button" onclick="buy()" disabled > <i class="fas fa-plus fa-lg"></i>&nbsp;&nbsp;BUY RADIO</button>
 				</div>
                 </div>
-              
+
             </div>
 			</div>
-			
-			
+
+
 			<div class="col-md-4">
 					<div class="panel panel-default" style="padding-bottom:28px; padding-top:20px;">
-                                                        
+
                             <!-- START BASIC ELEMENTS -->
                             <div class="panel-body">
 							<h3 align="center" style="border-bottom: 1px dashed #f39c12; height:40px;"><strong>W I T H D R A W</strong></h3>
 						<div align="right" style="padding-right:0px; margin-bottom:-10px; margin-top:-5px; font-size:11px;"><strong>BALANCE</strong>: <span id="_address"></span></div>
-                            <div style="padding-bottom:30px;"></div> 
+                            <div style="padding-bottom:30px;"></div>
                                     <form id="myForm" class="form-material" action="" method="post" role="form" onsubmit="return form_confirmation()">
                                         <div class="form-group" style="padding-left:5%; padding-right:5%;">
-                                            <input type="text" name="recipient" id="receiptAddress" class="form-control" placeholder="tz1..." required />                                            
+                                            <input type="text" name="recipient" id="receiptAddress" class="form-control" placeholder="tz1..." required />
                                             <span class="form-bar"></span>
                                             <label for="exampleInputEmail1"><strong>RECIPIENT PUBLIC ADDRESS</strong></label>
                                         </div>
 
-											<div class="form-group" style="padding-left:5%; padding-right:5%;">  
-                                            <input type="text" name="amount" id="sendAmount" class="form-control" placeholder="0.00000000"  required />                                           
+											<div class="form-group" style="padding-left:5%; padding-right:5%;">
+                                            <input type="text" name="amount" id="sendAmount" class="form-control" placeholder="0.00000000"  required />
                                             <span class="form-bar"></span>
-                                            <label for="exampleInputPassword1"><strong>TEZOS AMOUNT</strong></label>        
+                                            <label for="exampleInputPassword1"><strong>TEZOS AMOUNT</strong></label>
                                         </div>
-										
+
 <div style="font-size:11px;">
                   <p align="center" style="color:#7b7d7d;">TRANSACTION FEE</p>
 				  <p style="color:#E0401D; margin-top:-10px;" align="center">0.00%</p>
-					
-                  </div>		
+
+                  </div>
                                         <div align="center">
 										<a class="btn btn-info btn-block" type="button" href="#modal_basic" data-toggle="modal" data-target="#modal_basic">
 										<i class="fas fa-share-square"></i> WITHDRAW NOW <a>
                                         <!-- <a href="#" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal_basic" data-toggle="tooltip" data-placement="bottom" title="Connect Wallet"><i class="fas fa-share-square"></i> TRANSFER RADIO</a> -->
                                         <!-- <button class="btn btn-info btn-block" type="button" onclick="transfer()"><i class="fas fa-share-square"></i> TRANSFER RADIO </button> -->
                                         </div>
-                                    </form>                     
+                                    </form>
 
-                                                   
+
                             <!-- END BASIC ELEMENTS -->
-                            
+
                         </div>
 						</div>
 						</div>
-		
-			
-			
+
+
+
             <div class="col-md-4">
-              
+
                 <div class="panel panel-default" style="padding-bottom:30px; padding-top:20px;">
 				<div class="panel-body">
 				<h3 align="center" style="border-bottom: 1px dashed #f39c12; height:40px;"><strong>S E L L</strong></h3>
@@ -646,7 +593,7 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
                   <div class="form-group">
 				   <div class="col-md-12" style="padding-bottom:10px;">
                                                 <div class="input-group" style="padding-right:3%; padding-left:3%;">
-                                                    
+
 													<span class="input-group-addon"><i class="fas fa-signal-stream"></i></span>
                                                     <input id="tokenAmountTest" style="padding-right:5%; text-align:right" type="text" class="form-control" placeholder="0.00000000 RADIO"/>
                                                     <span class="input-group-btn">
@@ -654,55 +601,52 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
                                                     </span>
                                                 </div>
                                             </div>
-											
+
                                             <div class="col-md-12" style="padding-bottom:25px;">
                                                 <div class="input-group" style="padding-left:3%; padding-right:3%;">
-                                                    
+
 													<span class="input-group-addon"><i class="fas fa-signal-stream"></i></span>
                                                     <input style="padding-right:5%; text-align:right" id="tokenAmountSell" type="text" class="form-control" placeholder="0.00000000 RADIO"/>
                                                     <span class="input-group-addon" style="width:100px;">RADIO</span>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
-										
+
 				  <div style="font-size:11px;">
                   <p align="center" style="color:#7b7d7d;">TRANSACTION FEE</p>
 				  <p style="color:#E0401D; margin-top:-10px;" align="center">0.00%</p>
-					
+
                   </div>
-				  
+
 				   <hr>
                   <div align="center" style="padding-top:17px;">
 				  <button class="btn btn-primary btn-block" type="button" onclick="sell()" disabled ><i class="fas fa-minus fa-lg"></i>&nbsp;&nbsp;SELL RADIO</button>
 				  </div>
                 </div>
-              
+
             </div>
 
-            <!-- END PAGE CONTENT WRAPPER -->                                
-                     
+            <!-- END PAGE CONTENT WRAPPER -->
+
             <!-- END PAGE CONTENT -->
         </div>
         <!-- END PAGE CONTAINER -->
 		</div>
-                    
-                </div>                              
-            </div>            
 
+                </div>
+            </div>
         </div>
 
-		
 <!-- START SIDEBAR -->
-        <div class="sidebar">            
-            <div class="sidebar-wrapper scroll">
-                
-                <div class="sidebar-tabs">
-                    <a href="#sidebar_1" class="sidebar-tab"><span class="fas fa-info-circle"></span> Community</a>
-                    <a href="#sidebar_2" class="sidebar-tab"><span class="fas fa-map-signs"></span> Road Map</a>
-                </div>
-                
-                <div class="sidebar-tab-content active" id="sidebar_1">
-                    <div style="padding-left:10px; padding-right:10px; height:730px;">
+<div class="sidebar">
+<div class="sidebar-wrapper scroll">
+<div class="sidebar-tabs">
+<a href="#sidebar_1" class="sidebar-tab"> CHAT</a>
+<a href="#sidebar_2" class="sidebar-tab"> NEWS</a>
+</div>
+
+<div class="sidebar-tab-content active" id="sidebar_1">
+<div style="padding-left:10px; padding-right:10px; height:730px;">
 <?php if (function_exists('sl_combichatbox')) { sl_combichatbox(array(
   'width'=>'100%',
   'maxwidth'=>'400px',
@@ -725,7 +669,7 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
   'usersortdir'=>'ASC',
   'userlistgroups'=>'',
   'userlistfilter'=>'',
-  'searchfields'=>'nickname,username',
+  'searchfields'=>'nickname',
   'maxlength'=>'300',
   'number'=>7,
   'usernumber'=>11,
@@ -738,29 +682,25 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
   'userlisthtml'=>'',
   'recentuserhtml'=>''
 )); } ?>
-                  </div>  
-                </div>
-                
-                <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
-                    
-<div style="padding-left:30px; padding-right:30px; height:1150px;">
-						<small>
-						
-						</small>                                
-                    </div>
-                </div>
-                
-            </div>            
+</div>
+</div>
+
+<div class="sidebar-tab-content form-horizontal" id="sidebar_2">
+<div style="padding-left:10px; padding-right:10px; height:1150px;"></div>
+</div>
+
+            </div>
         </div>
-        <!-- END SIDEBAR -->     
-		
+        <!-- END SIDEBAR -->
+		</body>
+
 		    <!-- MESSAGE BOX-->
         <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
             <div class="mb-container">
                 <div class="mb-middle">
                     <div class="mb-title"><span class="fas fa-sign-out-alt"></span> Log <strong>Out</strong> ?</div>
                     <div class="mb-content">
-                        <p>Are you sure you want to log out?</p>                    
+                        <p>Are you sure you want to log out?</p>
                         <p>Press No if youwant to continue work. Press Yes to logout current session.</p>
                     </div>
                     <div class="mb-footer">
@@ -773,57 +713,57 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
             </div>
         </div>
         <!-- END MESSAGE BOX-->
-		
+
 
 
         <!-- START PRELOADS -->
         <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
         <audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
-        <!-- END PRELOADS -->                  
-        
+        <!-- END PRELOADS -->
+
     <!-- START SCRIPTS -->
         <!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
-		<script type="text/javascript" src="js/all.js"></script> 		
+        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/all.js"></script>
         <!-- END PLUGINS -->
-		
 
-        <!-- START THIS PAGE PLUGINS-->        
-        <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>        
+
+        <!-- START THIS PAGE PLUGINS-->
+        <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
         <script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
-		
+
         <script type="text/javascript" src="js/plugins/scrolltotop/scrolltopcontrol.js"></script>
 		<script type="text/javascript" src="js/plugins/cropper/cropper.min.js"></script>
-		<script type="text/javascript" src="js/plugins/fileinput/fileinput.min.js"></script>     
+		<script type="text/javascript" src="js/plugins/fileinput/fileinput.min.js"></script>
         <script type="text/javascript" src="js/plugins/rickshaw/d3.v3.js"></script>
-        <script type="text/javascript" src="js/plugins/rickshaw/rickshaw.min.js"></script>  
-        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>                 
+        <script type="text/javascript" src="js/plugins/rickshaw/rickshaw.min.js"></script>
+        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
 		<script type="text/javascript" src="js/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="js/demo_file_handling.js"></script>
-        <!-- END THIS PAGE PLUGINS--> 
+        <!-- END THIS PAGE PLUGINS-->
 
-        <!-- THIS PAGE PLUGINS -->  
+        <!-- THIS PAGE PLUGINS -->
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap-file-input.js"></script>
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script>
-		
-        <!-- END THIS PAGE PLUGINS -->   		
+
+        <!-- END THIS PAGE PLUGINS -->
 		<script type='text/javascript' src='js/plugins/noty/jquery.noty.js'></script>
-        <script type='text/javascript' src='js/plugins/noty/layouts/topRight.js'></script>            		  
+        <script type='text/javascript' src='js/plugins/noty/layouts/topRight.js'></script>
         <script type='text/javascript' src='js/plugins/noty/themes/default.js'></script>
         <!-- START TEMPLATE -->
-        <script type="text/javascript" src="js/plugins.js"></script>        
+        <script type="text/javascript" src="js/plugins.js"></script>
         <script type="text/javascript" src="js/actions.js"></script>
         <script type="text/javascript" src="js/demo_dashboard.js"></script>
         <script type="text/javascript" src="js/id3-minimized.js"></script>
-		<script type="text/javascript" src="js/plugins/nvd3/lib/d3.v3.js"></script>        
+		<script type="text/javascript" src="js/plugins/nvd3/lib/d3.v3.js"></script>
         <script type="text/javascript" src="js/plugins/nvd3/nv.d3.min.js"></script>
 		<script type="text/javascript" src="js/demo_charts_nvd3.js"></script>
 		<script type="text/javascript" src="taquito-functions.js"></script>
         <!-- END TEMPLATE -->
-		       
+
 
 <script>
 	const initWallet = async ()=> {
@@ -852,8 +792,8 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
 
 	<!-- END OCLASUS SCRIPT -->
 
-    
-	
+
+
 	<script>
         var bal = document.getElementById('_address')
         let connectModal = $("#modal_basic");
@@ -866,20 +806,20 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
             tezbridge.request({method: 'get_source'}).then((address) => {
                 console.log(address);
             document.getElementById("get_source").innerHTML = address;
-          
+
             taquito.Tezos.setProvider({ rpc: 'https://rpc.tzkt.io/mainnet' });
 			taquito.Tezos.tz.getBalance(address)
                 .then(balance => bal.innerHTML = `${balance.toNumber() / 1000000} ꜩ`)
-                .catch(error => console.log(JSON.stringify(error))); 
+                .catch(error => console.log(JSON.stringify(error)));
 
-            
+
             console.log(balance.innerHTML);
-				
+
                 connectModal.modal('');
             }).catch(console.log);
         });
 
-        
+
       connectModal.on("show.bs.modal", () => {
         tezbridge.request({
             method: 'inject_operations',
@@ -897,7 +837,7 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
                 Swal.fire({
 			title: "CONSIDER IT DONE!",
 			width: 500,
-            html: "<br><p align = 'left' style='padding-left:15px;'> Wait for confirmation!<br>Be Patient, this may take a while.</p><hr><p align='left' style='padding-left:15px;'><strong>Transaction ID:</strong></p> "  + "<p align = 'left' style='padding-left:15px; font-size:13px;'>" +  a.operation_id + '</p>',
+            html: "<br><p align = 'left' style='padding-left:15px;'> Wait for confirmation!<br>Be Patient, this may take a while. Do not refresh this page.</p><hr><p align='left' style='padding-left:15px;'><strong>Transaction ID:</strong></p> "  + "<p align = 'left' style='padding-left:15px; font-size:13px;'>" +  a.operation_id + '</p>',
 			imageUrl: 'https://radion.fm/img/radion-connection.gif',
 			imageWidth: 200,
 			imageHeight: 50,
@@ -919,7 +859,7 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
             });
 
         function get_transaction() {
-            
+
             Swal.fire({
                 icon: "success",
                 title: "GREAT",
@@ -931,14 +871,14 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
             }).then((result) => {
                 if(result.value) {
                     window.open(url);
-           
-                }    
+
+                }
             })
         }
-        
+
     </script>
-	
-    
+
+
     <!-- <script>
      var bal = document.getElementById('_address')
         // let connectModal = $("#modal_basic");
@@ -963,7 +903,7 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
                 a = result
                 url = 'https://tzstats.com/' + a.operation_id
                 Swal.fire({
-                title: "THANK YOU!", 
+                title: "THANK YOU!",
                 html: "<br><p align = 'left'>Please wait for confirmation! This may take a while. <strong>Transaction ID:</strong></p> "  + "<p align = 'left'>" +  a.operation_id + '</p>',
                 icon:  "info"
                 })
@@ -979,19 +919,97 @@ echo '<span class="fas fa-sort-up" style="vertical-align:-2px;"></span> <span cl
                     }
                 })
             });
-        
+
     </script>
 	 -->
-	
-	
-    <!-- END SCRIPTS -->  
-		
-    </body>
+
+
+    <!-- END SCRIPTS -->
+
+<!-- TEZOS CHART -->
+<script>
+$(document).ready(function () {
+  const xhr = new XMLHttpRequest()
+  xhr.onload = function () {
+    const data = JSON.parse(this.responseText)
+    makeGraph(data)
+  }
+
+  xhr.open('GET', '/tezos.php')
+  xhr.send()
+
+  function makeGraph (data) {
+    const today = new Date()
+    const days = 86400000 // number of milliseconds in a day
+    const fiveDaysAgo = new Date(today - (120 * days))
+    const newArray = []
+
+    for (const k in data.data) {
+      const tezosData = data.data[k]
+      if (tezosData.time > fiveDaysAgo) {
+        newArray.push({
+          x: parseFloat(k),
+          y: parseFloat(tezosData.priceUsd)
+        })
+      }
+    }
+
+    // Area Chart
+    //         var seriesData = [ ];
+    //         var random = new Rickshaw.Fixtures.RandomData(100);
+    // console.log(data.data.priceUsd)
+    //         for (var i = 0; i < 100; i++) {
+    //             seriesData[i].x = data.data.priceUsd;
+    //             seriesData[i].y = data.data.time;
+    //              //   random.addData(seriesData);
+    //         }
+    // console.log(seriesData)
+    const graph = new Rickshaw.Graph({
+      element: document.getElementById('charts-legend'),
+      renderer: 'area',
+      stroke: true,
+      stack: true,
+      width: $('#charts-legend').width(),
+      series: [{
+        color: '#EAF2F8',
+        stroke: '#A9CCE3',
+        data: newArray,
+        name: 'XTZ/USD'
+      }]
+    })
+
+    graph.render()
+    const hoverDetail = new Rickshaw.Graph.HoverDetail({
+      graph: graph,
+      formatter: function (series, x, y) {
+        const date = data.data.filter(function (a) {
+          return a.priceUsd.includes(parseFloat(y.toString().slice(0, 7)))
+        })
+
+        $('.rickshaw_graph .detail .x_label').text(new Date(date[0].time).toLocaleString('en-US'))
+        const content = series.name + ': $' + y.toFixed(2)
+        return content
+      }
+    })
+
+    const legend = new Rickshaw.Graph.Legend({ graph: graph, element: document.getElementById('legend') })
+    const shelving = new Rickshaw.Graph.Behavior.Series.Toggle({ graph: graph, legend: legend })
+    const order = new Rickshaw.Graph.Behavior.Series.Order({ graph: graph, legend: legend })
+    const highlight = new Rickshaw.Graph.Behavior.Series.Highlight({ graph: graph, legend: legend })
+
+    const resize = function () {
+      graph.configure({
+        width: $('#charts-legend').width(),
+        height: $('#charts-legend').height()
+      })
+      graph.render()
+    }
+
+    window.addEventListener('resize', resize)
+    resize()
+  }
+})
+</script>
+<!-- END TEZOS CHART -->
+
 </html>
-
-
-
-
-
-
-

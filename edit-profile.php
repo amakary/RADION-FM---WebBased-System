@@ -1,22 +1,19 @@
-
 <?php
-$groupswithaccess="RADIONER,CEO,FOUNDER";
-require_once("slpw/sitelokpw.php");
-require_once("slpw/slupdateform.php");
+$groupswithaccess = 'RADIONER,CEO,FOUNDER';
+require_once 'slpw/sitelokpw.php';
+require_once 'slpw/slupdateform.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
 
+<!-- META SECTION -->
+<title>PROFILE</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	
-        <!-- META SECTION -->
-        <title>RADION - PROFILE</title>            
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
-        <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
@@ -33,83 +30,858 @@ require_once("slpw/slupdateform.php");
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
-<style>
-    .connect-iframe{
-        width: 100%;
-        height: 250px;
-        border: 0;
+<!-- END META SECTION -->
+
+<!-- CSS INCLUDE -->
+<link rel="stylesheet" href="/css/cropper/cropper.min.css">
+<link rel="stylesheet" id="theme" href="css/theme-dark.css">
+<link rel="stylesheet" href="/css/all.css">
+<script defer src="/js/all.js"></script>
+
+<script src="https://cdn.lordicon.com//libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+<!-- SWEET ALERT 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
+<!-- QR CODE CDN -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+<!-- CLIPBOARD -->
+<script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
+
+<script>
+function slvalidateform_4(form)
+{
+  var errorfound=false;
+  document.getElementById('slformmsg_4').innerHTML='';
+  //document.getElementById('slformmsg_4').style['display']="none";
+
+  // Clear custom2 message
+  var obj=document.getElementById('slmsg_4_0');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_0');
+  if (obj!==null)
+    obj.style['display']="none";
+
+
+  // Clear username message
+  var obj=document.getElementById('slmsg_4_1');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_1');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  // Clear custom3 message
+  var obj=document.getElementById('slmsg_4_2');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_2');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  // Clear custom8 message
+  var obj=document.getElementById('slmsg_4_3');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_3');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  // Clear custom16 message
+  var obj=document.getElementById('slmsg_4_4');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_4');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  // Clear custom14 message
+  var obj=document.getElementById('slmsg_4_5');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_5');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  // Clear custom4 message
+  var obj=document.getElementById('slmsg_4_6');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_6');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  // Clear custom5 message
+  var obj=document.getElementById('slmsg_4_7');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_7');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  // Clear custom6 message
+  var obj=document.getElementById('slmsg_4_8');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_8');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  // Clear custom15 message
+  var obj=document.getElementById('slmsg_4_9');
+  if (obj!==null)
+    obj.innerHTML='';
+  obj=document.getElementById('slmsg_4_9');
+  if (obj!==null)
+    obj.style['display']="none";
+
+  if (errorfound)
+  {
+    document.getElementById('slformmsg_4').innerHTML='Please correct the errors above';
+    //document.getElementById('slformmsg_4').style['display']="block";
+    return(false);
+  }
+  document.getElementById('slformmsg_4').innerHTML='';
+  //document.getElementById('slformmsg_4').style['display']="none";
+  //See if any file fields in form by checking enctype
+  var slfilefields=false;
+  var slajaxavailable=false;
+  var slformdataavailable=false;
+  form.slajaxform.value="0";
+  if (form.enctype=="multipart/form-data")
+    slfilefields=true;
+  if ((window.XMLHttpRequest) && (typeof JSON === "object"))
+  {
+    slajaxavailable=true;
+    var xhr = new XMLHttpRequest();
+    slformdataavailable=(xhr && ('upload' in xhr));
+  }
+  // If ajax supported but no FormData then only use if no file fields
+  if ((!slformdataavailable) && (slfilefields))
+    slajaxavailable=false;
+  if (slajaxavailable)
+  {
+    form.slajaxform.value="1";
+    xhr.onreadystatechange = function()
+    {
+      if (xhr.readyState == 4 && xhr.status == 200)
+      {
+        // Handle callback
+        document.getElementById('myButton_4').disabled=false;
+        document.getElementById('slspinner_4').style['display']="none";
+        var data = JSON.parse(xhr.responseText);
+        if(data.hasOwnProperty("error"))
+        {
+          if (data.error.substr(-3,3)=="001")
+          {
+              location.reload(true);
+              return(false);
+          }
+          return(false);
+        }
+        if (data.success)
+        {
+          if (data.redirect!="")
+          {
+            window.location=data.redirect;
+            return(false);
+          }
+          else
+          {
+            document.getElementById('slformmsg_4').innerHTML=data.message;
+            //document.getElementById('slformmsg_4').style['display']="block"
+            return(false);
+          }
+        }
+        else
+        {
+          document.getElementById('slformmsg_4').innerHTML=data.message;
+          //document.getElementById('slformmsg_4').style['display']="block"
+          return(false);
+        }
+      }
+    };
+    // Serialize form
+    if (slformdataavailable)
+      var formData = new FormData(form);
+    else
+      var formData=sl_serialize(form);
+    var slfrmact=window.location.href;
+    document.getElementById('myButton_4').disabled=true;
+    document.getElementById('slspinner_4').style['display']="block";
+    xhr.open("POST", slfrmact, true);
+    if (!slformdataavailable)
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(formData);
+    return(false);
+  }
+  return(true)
+}
+
+function slvalidateemail_4(email)
+{
+  var ck_email = /^([\w-\'!#$%&\*]+(?:\.[\w-\'!#$%&\*]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,20}(?:\.[a-z]{2})?)$/i;
+  if (!ck_email.test(email))
+    return(false);
+  return(true);
+}
+
+function slvalidinteger_4(value,min,max)
+{
+  var validchars="0123456789-";
+  var reg = new RegExp('^[' + validchars + ']+$');
+  if (!reg.test(value))
+    return(false);
+  if ((min!='') && (Number(value)<Number(min)))
+      return(false);
+  if ((max!='') && (Number(value)>Number(max)))
+      return(false);
+  value=Number(value).toFixed(0);
+  return(value.toString());
+}
+
+function slvalidfloat_4(value,min,max,decimals)
+{
+  if (isNaN(value))
+    return(false);
+  value=Number(value);
+  if (decimals!='')
+    value=value.toFixed(decimals);
+  if ((min!='') && (value<Number(min)))
+    return(false);
+  if ((max!='') && (value>Number(max)))
+    return(false);
+  return(value.toString());
+}
+
+function slcountwords_4(s)
+{
+    if (s.trim()=='')
+      return(0);
+    s = s.replace(/(^\s*)|(\s*$)/gi,"");
+    s = s.replace(/[ ]{2,}/gi," ");
+    s = s.replace(/\n /,"\n");
+    return s.split(' ').length;
+}
+
+function slvalidatedate_4(fval,min,max,dtfmt)
+{
+  var spchar1=dtfmt.substring(2,3);
+  var spchar2=dtfmt.substring(5,6);
+  dtfmt=dtfmt.substring(0,2)+dtfmt.substring(3,5)+dtfmt.substring(6,10);
+  if (fval==fval.replace(/[^0-9]/g,""))
+  {
+    if (fval.length!=8)
+      return(false);
+    switch (dtfmt)
+    {
+      case 'ddmmyyyy':
+        var dd=parseInt(fval.substring(0,2));
+        var mm=parseInt(fval.substring(2,4));
+        var yy=parseInt(fval.substring(4));
+        var retval=slpadinteger_4(dd,2)+spchar1+slpadinteger_4(mm,2)+spchar2+slpadinteger_4(yy,4);
+      break;
+      case 'mmddyyyy':
+        var dd=parseInt(fval.substring(2,4));
+        var mm=parseInt(fval.substring(0,2));
+        var yy=parseInt(fval.substring(4));
+        var retval=slpadinteger_4(mm,2)+spchar1+slpadinteger_4(dd,2)+spchar2+slpadinteger_4(yy,4);
+      break;
     }
-</style>
-        <!-- END META SECTION -->
-        
-        <!-- CSS INCLUDE -->
-        <link rel="stylesheet" type="text/css" href="css/cropper/cropper.min.css"/>
-        <!--  EOF CSS INCLUDE -->        
-        
-        <!-- CSS INCLUDE -->  
+  }
+  else
+  {
+    fval=fval.replace(/[^0-9]/g,'|');
+    fval=fval.replace(/\|\|+/g,'|');
+    var dateparts=fval.split('|');
+    if (dateparts.length!=3)
+      return(false);
+    if (dateparts[2].length<4)
+      return(false);
+    switch (dtfmt)
+    {
+      case 'ddmmyyyy':
+        var dd=parseInt(dateparts[0]);
+        var mm=parseInt(dateparts[1]);
+        var yy=parseInt(dateparts[2]);
+        var retval=slpadinteger_4(dd,2)+spchar1+slpadinteger_4(mm,2)+spchar2+slpadinteger_4(yy,4);
+      break;
+      case 'mmddyyyy':
+        var dd=parseInt(dateparts[1]);
+        var mm=parseInt(dateparts[0]);
+        var yy=parseInt(dateparts[2]);
+        var retval=slpadinteger_4(mm,2)+spchar1+slpadinteger_4(dd,2)+spchar2+slpadinteger_4(yy,4);
+      break;
+    }
+  }
+  var ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+  if (mm<1 || mm>12)
+    return(false);
+  if (mm==1 || mm>2)
+  {
+    if (dd>ListofDays[mm-1])
+      return (false);
+  }
+  if (mm==2)
+  {
+    var lyear = false;
+    if ( (!(yy % 4) && yy % 100) || !(yy % 400))
+      lyear = true;
+    if ((lyear==false) && (dd>=29))
+      return (false);
+    if ((lyear==true) && (dd>29))
+      return (false);
+  }
+  if (min!='')
+  {
+    if (isNaN(min))
+    {
+      min=min.replace(/[^0-9]/g,'|');
+      min=min.replace(/\|\|+/g,'|');
+      var dateparts=min.split('|');
+      if (dateparts.length!=3)
+        return(retval);
+      if (dateparts[2].length<4)
+        return(retval);
+      switch (dtfmt)
+      {
+        case 'ddmmyyyy':
+          var mindd=parseInt(dateparts[0]);
+          var minmm=parseInt(dateparts[1]);
+          var minyy=parseInt(dateparts[2]);
+        break;
+        case 'mmddyyyy':
+          var mindd=parseInt(dateparts[1]);
+          var minmm=parseInt(dateparts[0]);
+          var minyy=parseInt(dateparts[2]);
+        break;
+      }
+      entdt=new Date(yy,mm-1,dd,0,0,0,0);
+      mindt=new Date(minyy,minmm-1,mindd,0,0,0,0);
+      if (entdt<mindt)
+        return(false);
+    }
+    else
+    {
+      var today = new Date();
+      var age = today.getFullYear() - yy;
+      if (today.getMonth() < (mm-1) || (today.getMonth() == (mm-1) && today.getDate() < dd))
+        age--;
+      if (age<min)
+        return(false);
+    }
+  }
+  if (max!='')
+  {
+    if (isNaN(max))
+    {
+      max=max.replace(/[^0-9]/g,'|');
+      max=max.replace(/\|\|+/g,'|');
+      var dateparts=max.split('|');
+      if (dateparts.length!=3)
+        return(retval);
+      if (dateparts[2].length<4)
+        return(retval);
+      switch (dtfmt)
+      {
+        case 'ddmmyyyy':
+          var maxdd=parseInt(dateparts[0]);
+          var maxmm=parseInt(dateparts[1]);
+          var maxyy=parseInt(dateparts[2]);
+        break;
+        case 'mmddyyyy':
+          var maxdd=parseInt(dateparts[1]);
+          var maxmm=parseInt(dateparts[0]);
+          var maxyy=parseInt(dateparts[2]);
+        break;
+      }
+      entdt=new Date(yy,mm-1,dd,0,0,0,0);
+      maxdt=new Date(maxyy,maxmm-1,maxdd,0,0,0,0);
+      if (entdt>maxdt)
+        return(false);
+    }
+    else
+    {
+      var today = new Date();
+      var age = today.getFullYear() - yy;
+      if (today.getMonth() < (mm-1) || (today.getMonth() == (mm-1) && today.getDate() < dd))
+        age--;
+      if (age>max)
+        return(false);
+    }
+  }
+  return(retval);
+}
+function slvalidatetime_4(fval,min,max,tmfmt)
+{
+  if (tmfmt=='24')
+  {
+    if (!/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/i.test(fval))
+      return(false);
+    if (fval.length<5)
+      fval='0'+fval;
+    fval24=fval;
+    min24=min;
+    max24=max;
+  }
+  else
+  {
+    if (!/^(1[0-2]|0?[1-9]):[0-5][0-9] *(AM|PM)$/i.test(fval))
+      return(false);
+    if (fval.substring(0,1)=="0")
+      fval=fval.substring(1);
+    fval=fval.replace(/ /g,'');
+    fval=fval.replace(/AM/gi,' AM');
+    fval=fval.replace(/PM/gi,' PM');
+    fval24=sl12to24_4(fval);
+  }
+  if (min!='')
+  {
+    if (tmfmt!='24')
+      min24=sl12to24_4(min);
+    enttm=new Date(1,1,1,parseInt(fval24.substring(0,2)),parseInt(fval24.substring(3,5)),0,0);
+    mintm=new Date(1,1,1,parseInt(min24.substring(0,2)),parseInt(min24.substring(3,5)),0,0);
+    if (enttm<mintm)
+      return(false);
+  }
+  if (max!='')
+  {
+    if (tmfmt!='24')
+      max24=sl12to24_4(max);
+    enttm=new Date(1,1,1,parseInt(fval24.substring(0,2)),parseInt(fval24.substring(3,5)),0,0);
+    maxtm=new Date(1,1,1,parseInt(max24.substring(0,2)),parseInt(max24.substring(3,5)),0,0);
+    if (enttm>maxtm)
+      return(false);
+  }
+  return(fval);
+}
 
-        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-dark.css"/>
-		<link href="css/all.css" rel="stylesheet">
-		
-		
-		<!-- TEZBRIDGE CSS -->
-		<link rel="stylesheet" type="text/css" href="tezbridge/base.d9dce89e.css"/>
-		<link rel="stylesheet" type="text/css" href="tezbridge/base.dcedc90f.css"/>
-		<link rel="stylesheet" type="text/css" href="tezbridge/base.e9d1c96c.css"/>
-		<link rel="stylesheet" type="text/css" href="tezbridge/base.97de024b.css"/>
-		
-        <!-- TEZBRIDGE JS --> 
-		<script src="./plugin.js"></script>
-		<script src="/tezbridge/base.3b889bf7.js"></script>
-		<script src="/tezbridge/base.6ab6a587.js"></script>
-		<script src="/tezbridge/base.764feec2.js"></script>
-		<script src="/tezbridge/base.546361df.js"></script>
-		<script src="/tezbridge/base.f14781ea.js"></script>
-		
-		<!-- TAQUITO -->
-		<script src="https://unpkg.com/@taquito/taquito@6.1.1-beta.0/dist/taquito.min.js"></script>
-		
-		<script defer src="js/all.js"></script>
+function sl12to24_4(fval)
+{
+  fval=fval.toUpperCase();
+  var hours = Number(fval.match(/^(\d+)/)[1]);
+  var minutes = Number(fval.match(/:(\d+)/)[1]);
+  var AMPM = fval.match(/\s(.*)$/)[1];
+  if(AMPM == "PM" && hours<12) hours = hours+12;
+  if(AMPM == "AM" && hours==12) hours = hours-12;
+  var sHours = hours.toString();
+  var sMinutes = minutes.toString();
+  if(hours<10) sHours = "0" + sHours;
+  if(minutes<10) sMinutes = "0" + sMinutes;
+  return(sHours + ":" + sMinutes);
+}
 
-        <!-- QR code cdn -->
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+function slvalidateurl_4(fval)
+{
+  fval=fval.toLowerCase();
+  if ((fval.substring(0,7)!="http://") && (fval.substring(0,8)!="https://"))
+    return(false);
+  if (fval.indexOf('.')==-1)
+    return(false);
+  return(true);
+}
 
-        <!-- clipboard -->
+function slmatchesregex_4(str,rgex)
+{
+  var matcher = new RegExp(rgex);
+  if (!matcher.test(str))
+    return(false);
+  return(true);
+}
 
-        <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
+function slpadinteger_4(num,size)
+{
+  var s = num+"";
+    while (s.length < size) s = "0" + s;
+  return s;
+}
 
-		
-<?php if (function_exists('sl_updateformhead')) sl_updateformhead(4,false); ?>	
+function slshowcharcount_4(fieldobj,showobj,min,max)
+{
+  var txt=document.getElementById(fieldobj).value;
+  if (min==0)
+  {
+    if (txt.length>max)
+      document.getElementById(showobj).innerHTML='<span class="counterror_4">'+(max-txt.length)+'</span>';
+    else
+      document.getElementById(showobj).innerHTML='<span>'+(max-txt.length)+'</span>';
+  }
+  else
+  {
+    if ((txt.length<min) || (txt.length>max))
+      document.getElementById(showobj).innerHTML='<span class="counterror_4">'+txt.length+'/'+min+'-'+max+'</span>';
+    else
+      document.getElementById(showobj).innerHTML='<span>'+txt.length+'/'+min+'-'+max+'</span>';
+  }
+}
 
+function slshowwordcount_4(fieldobj,showobj,min,max)
+{
+  var txt=document.getElementById(fieldobj).value;
+  var txtlen=slcountwords_4(txt);
+  if (min==0)
+  {
+    if (txtlen>max)
+      document.getElementById(showobj).innerHTML='<span class="counterror_4">'+(max-txtlen)+'</span>';
+    else
+      document.getElementById(showobj).innerHTML='<span>'+(max-txtlen)+'</span>';
+  }
+  else
+  {
+    if ((txtlen<min) || (txtlen>max))
+      document.getElementById(showobj).innerHTML='<span class="counterror_4">'+txtlen+'/'+min+'-'+max+'</span>';
+    else
+      document.getElementById(showobj).innerHTML='<span>'+txtlen+'/'+min+'-'+max+'</span>';
+  }
+}
 
-		<!-- MODAL FOR SIGNER -->        
-        <div class="modal" id="modal_basic" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h3 class="modal-title" id="defModalHead" style="padding-left:20px;"><i class="fa fa-wallet"></i> CONNECT WALLET</h3>
+function sltrim_4(x)
+{
+    return x.replace(/^\s+|\s+$/gm,'');
+}
+
+function slseeifchecked_4(name,idprefix)
+{
+  var checked=false;
+  var controls=document.getElementsByName(name);
+  for (i=0;i<controls.length;i++)
+  {
+    // if not from this form then ignore
+    if (controls[i].id.indexOf(idprefix)==-1)
+      continue;
+    if (controls[i].checked)
+    {
+      checked=true;
+      break;
+    }
+  }
+  // Also check for field[] if necessary
+  if(!checked)
+  {
+    var controls=document.getElementsByName(name+'[]');
+    for (i=0;i<controls.length;i++)
+    {
+      // if not from this form then ignore
+      if (controls[i].id.indexOf(idprefix)==-1)
+        continue;
+      if (controls[i].checked)
+      {
+        checked=true;
+        break;
+      }
+    }
+  }
+  return(checked);
+}function sl_serialize(form)
+{
+ if (!form || form.nodeName !== "FORM") {
+   return;
+ }
+ var i, j, q = [];
+ for (i = form.elements.length - 1; i >= 0; i = i - 1) {
+   if (form.elements[i].name === "") {
+     continue;
+   }
+   switch (form.elements[i].nodeName) {
+   case 'INPUT':
+     switch (form.elements[i].type) {
+     case 'text':
+     case 'email':
+     case 'number':
+     case 'hidden':
+     case 'password':
+     case 'button':
+     case 'reset':
+     case 'submit':
+       q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
+       break;
+     case 'checkbox':
+     case 'radio':
+       if (form.elements[i].checked) {
+         q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
+       }
+       break;
+     case 'file':
+       break;
+     }
+     break;
+   case 'TEXTAREA':
+     q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
+     break;
+   case 'SELECT':
+     switch (form.elements[i].type) {
+     case 'select-one':
+       q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
+       break;
+     case 'select-multiple':
+       for (j = form.elements[i].options.length - 1; j >= 0; j = j - 1) {
+         if (form.elements[i].options[j].selected) {
+           q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].options[j].value));
+         }
+       }
+       break;
+     }
+     break;
+   case 'BUTTON':
+     switch (form.elements[i].type) {
+     case 'reset':
+     case 'submit':
+     case 'button':
+       q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
+       break;
+     }
+     break;
+   }
+ }
+ return q.join("&");
+}
+</script>
+
+</head>
+
+	<body>
+        <!-- START PAGE CONTAINER -->
+        <div class="page-container">
+
+          <!-- START PAGE SIDEBAR -->
+          <div class="page-sidebar">
+              <!-- START X-NAVIGATION -->
+              <ul class="x-navigation">
+                  <li class="xn-logo">
+                  <a href="index.php">RADION</a>
+                  <a href="#" class="x-navigation-control"></a>
+              </li>
+              <li class="xn-profile">
+                  <a href="#" class="profile-mini">
+                      <img src="<?php siteloklink($slcustom2, 0); ?>" alt="" />
+                  </a>
+                  <div class="profile">
+                      <div class="profile-image">
+                          <img src="<?php siteloklink($slcustom2, 0); ?>" alt="" />
+                      </div>
+                      <div class="profile-data">
+                          <div class="profile-data-name"><?php echo $slusername; ?></div>
+                          <div class="profile-data-title"><?php echo $slusergroups; ?></div>
+                      </div>
+                      <div class="profile-controls">
+                          <a href="#" class="profile-control-left sidebar-toggle"><i class="far fa-comment-alt-lines"></i></a>
+                          <a href="edit-profile.php" class="profile-control-right"><i class="fad fa-user-edit"></i></a>
+                      </div>
+
+                  </div>
+              </li>
+                  <li class="xn-openable">
+                  <a href="#"><lord-icon
+          src="https://cdn.lordicon.com//mmspidej.json"
+          trigger="click" target="a"
+          colors="primary:#ffffff,secondary:#F39C12"
+          style="width:45px;height:45px">
+      </lord-icon><span class="xn-text">&nbsp;&nbsp; MUSIC</span></a>
+        <ul>
+                      <li><a href="submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD MP3 TO STREAM</span></a></li>
+                      <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; MINT NFT MUSIC</span></a></li>
+                  </ul>
+              </li>
+
+              <li class="xn-openable">
+                  <a href="#"><lord-icon
+          src="https://cdn.lordicon.com//hciqteio.json"
+          trigger="click" target="a"
+          colors="primary:#ffffff,secondary:#F39C12"
+          style="width:45px;height:45px">
+      </lord-icon> <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span></a>
+        <ul>
+                      <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
+                      <li><a href="#"><span class="xn-text"><i class="fad fa-file-certificate fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE &nbsp;&nbsp;&nbsp;<label class="label label-success"> INCOMING</label></span></a></li>
+                  </ul>
+              </li>
+
+              <li class="xn-openable">
+                  <a href="#"><lord-icon
+          src="https://cdn.lordicon.com//dizvjgip.json"
+          trigger="click" target="a"
+          colors="primary:#ffffff,secondary:#F39C12"
+          style="width:45px;height:45px">
+      </lord-icon> <span class="xn-text">&nbsp;&nbsp; RADION SERVICES</span></a>
+                  <ul>
+          <li><a href="ad-submission.php"><span class="xn-text"><i class="fad fa-ad fa-lg"></i>&nbsp;&nbsp; CREATE AD</span></a></li>
+          <li><a href="#"><span class="xn-text"><i class="fal fa-fingerprint fa-lg"></i>&nbsp;&nbsp; ISRC ASSIGNMENT &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
+
+                  </ul>
+              </li>
+
+      <li class="xn-openable">
+                  <a href="submission.php"><lord-icon
+          src="https://cdn.lordicon.com//zqxcrgvd.json"
+          trigger="click" target="a"
+          colors="primary:#ffffff,secondary:#F39C12"
+          style="width:45px;height:45px">
+      </lord-icon> <span class="xn-text">&nbsp;&nbsp; LAB</span></a>
+                  <ul>
+                      <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; MUSIC SYNC LICENSING &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
+                      <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; MECHANICAL ROYALTIES &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
+          <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; CRYPTO BILLBOARD CHART &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
+        </ul>
+              </li>
+
+              </ul>
+              <!-- END X-NAVIGATION -->
+          </div>
+          <!-- END PAGE SIDEBAR -->
+
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+
+                <!-- START X-NAVIGATION VERTICAL -->
+                <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+
+				<!-- TOGGLE NAVIGATION -->
+                    <li class="xn-icon-button">
+                    <a href="#" class="x-navigation-minimize"><span class="fas fa-outdent"></span></a>
+                    </li>
+                <!-- END TOGGLE NAVIGATION -->
+				<!-- POWER OFF -->
+                    <li class="xn-icon-button pull-right last">
+                        <a href="#"><i class="fad fa-sign-out-alt fa-lg"></i></a>
+                        <ul class="xn-drop-left animated zoomIn">
+
+                            <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fas fa-sign-out-alt"></span> Sign Out</a></li>
+                        </ul>
+                    </li>
+                <!-- END POWER OFF -->
+				<!-- ALERT NOTIFICATIONS -->
+                    <li class="xn-icon-button pull-right">
+                        <a href="#"><i class="fad fa-bell-on fa-lg"></i></a>
+                        <div class="informer informer-danger"><?php if (function_exists('sl_showprivatemessagecount')) { sl_showprivatemessagecount(); } ?></div>
+                        <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fad fa-bell-on"></i> Notifications</h3>
+                                <div class="pull-right">
+                                    <span class="label label-warning"><?php if (function_exists('sl_showprivatemessagecount')) { sl_showprivatemessagecount(); } ?> new</span>
+                                </div>
+                            </div>
+
+<div class="panel-footer text-center">
+<a href="#">Show all messages</a>
+</div>
+</div>
+</li>
+
+<!-- ALERT NOTIFICATIONS ENDS -->
+<!-- LANG BAR -->
+<li class="xn-icon-button pull-right">
+<a href="#"><i class="far fa-language fa-lg"></i></a>
+<ul class="xn-drop-left xn-drop-dark animated zoomIn">
+<li><a href="#"><img src="img/flags/us.png" style="height:20px; width:20;">&nbsp &nbsp English</a></li>
+</ul>
+</li>
+<!-- END LANG BAR -->
+</ul>
+<!-- END X-NAVIGATION VERTICAL -->
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+<br>
+                    <div class="row">
+
+					<div class="col-md-12">
+					<div class="panel panel-default">
+                    <div class="panel-body">
+                      <div sryle="margin-top:-50px;">
+                      <img id="wallet-radion" src="img/let'sgo.png" style="display:none;"><img id="wallet-radioff" src="img/notyet.png">
                     </div>
-                    <div class="modal-body">
-					    <iframe name="connect-iframe" class="connect-iframe"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <!-- END MODAL FOR SIGNER -->
-		
-		<!-- MODAL FOR QR -->        
-        <div class="modal" id="modal_small" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    
-                    <div class="modal-body">
-					<div align="left" style="color:#33414E; width:30px; height:30px;">
+                      <div align="right" style="margin-top:-40px; padding-bottom:5px;"><button id="connect-wallet" class="btn btn-default btn-rounded">CONNECT WALLET</button></div>
+								</div>
+								</div>
+					</div>
 
+					<div class="col-md-6">
+					<div class="panel panel-default">
+                    <div class="panel-body">
+
+<div id="slform_4">
+<form action="" method="post" enctype="multipart/form-data" onSubmit="return slvalidateform_4(this)" style="padding:20px;">
+    <input type="hidden" name="slajaxform" value="0">
+<?php if (function_exists('sitelokmodify')) sitelokmodify("updateuser.htm","updateuseradmin.htm","update-successful.php?nocache=1616462224","YNNNNYYYNNYYNNYYYYYYNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN","4"); ?>
+
+<div id="slfielddiv_4_10" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_10">Bio</label>
+<textarea class="form-control" name="newcustom7" id="slfieldinput_4_10" maxlength="255" rows="5"><?= $newcustom7 ?></textarea>
+<div id="slmsg_4_10" class="slmsg_4" aria-live="polite"></div>
+</div>
+
+<div id="slfielddiv_4_0" class="slfilefield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_0">Picture or Avatar<em>*</em>
+</label>
+<input type="file" class="form-control" name="newcustom2" id="slfieldinput_4_0">
+<div id="slmsg_4_0" class ="slmsg_4" aria-live="polite"></div>
+</div>
+
+<div id="slfielddiv_4_1" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_1">User Name</label>
+<input type="text" class="form-control" name="newusername" id="slfieldinput_4_1" autocorrect="off" autocapitalize="off" spellcheck="off" autocomplete="off" maxlength="100" value="<?php echo $newusername; ?>">
+<div id="slmsg_4_1" class="slmsg_4" aria-live="polite"></div>
+</div>
+
+<div id="slfielddiv_4_2" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_2">DOB</label>
+<input type="text" class="form-control" name="newcustom3" id="slfieldinput_4_2" placeholder="00/00/0000" maxlength="255" value="<?php echo $newcustom3; ?>">
+<div id="slmsg_4_2" class="slmsg_4" aria-live="polite"></div>
+</div>
+
+<div id="slfielddiv_4_3" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_3">Phone Number</label>
+<input type="text" class="form-control" name="newcustom4" id="slfieldinput_4_3" placeholder="+1 (000) 000-0000" maxlength="255" value="<?php echo $newcustom4; ?>">
+<div id="slmsg_4_3" class="slmsg_4" aria-live="polite"></div>
+</div>
+<div id="slfielddiv_4_4" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_4">Website</label>
+<input type="text" class="form-control" name="newcustom8" id="slfieldinput_4_4" placeholder="www.yourwebsite.com" maxlength="255" value="<?php echo $newcustom8; ?>">
+<div id="slmsg_4_4" class="slmsg_4" aria-live="polite"></div>
+</div>
+<div id="slfielddiv_4_5" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_5">Twitter</label>
+<input type="text" class="form-control" name="newcustom12" id="slfieldinput_4_5" maxlength="255" value="<?php echo $newcustom12; ?>">
+<div id="slmsg_4_5" class="slmsg_4" aria-live="polite"></div>
+</div>
+<div id="slfielddiv_4_6" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_6">YouTube Channel URL</label>
+<input type="text" class="form-control" name="newcustom11" id="slfieldinput_4_6" maxlength="255" value="<?php echo $newcustom11; ?>">
+<div id="slmsg_4_6" class="slmsg_4" aria-live="polite"></div>
+</div>
+<div id="slfielddiv_4_7" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_7">SoundCloud URL</label>
+<input type="text" class="form-control" name="newcustom15" id="slfieldinput_4_7" maxlength="255" value="<?php echo $newcustom15; ?>">
+<div id="slmsg_4_7" class="slmsg_4" aria-live="polite"></div>
+</div>
+<div id="slfielddiv_4_8" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_8">Spotify URL</label>
+<input type="text" class="form-control" name="newcustom16" id="slfieldinput_4_8" maxlength="255" value="<?php echo $newcustom16; ?>">
+<div id="slmsg_4_8" class ="slmsg_4" aria-live="polite"></div>
+</div>
+<div id="slfielddiv_4_9" class="sltextfield_4" style="padding-bottom:5px;">
+<label for="slfieldinput_4_9">iTunes URL</label>
+<input type="text" class="form-control" name="newcustom14" id="slfieldinput_4_9" maxlength="255" value="<?php echo $newcustom14; ?>">
+<div id="slmsg_4_9" class="slmsg_4" aria-live="polite"></div>
+</div>
+<br>
+<button id="myButton_4" class="btn btn-warning btn-block" type="submit">UPDATE NOW!</button><div id="slspinner_4"></div>
+<div id="slformmsg_4" class="slformmsg_4" aria-live="polite"><?php if ($msg!="") echo $msg; ?></div>
+
+</form>
+</div>
+
+
+								</div>
+								</div>
+					</div>
+
+						<div class="col-md-6">
+
+                            <!-- START DEFAULT PANEL -->
+                            <div class="panel panel-default" style="padding:40px;">
+
+							<div class="panel-body" style="padding-bottom:30px;">
+						<div style="height:35px; width:35px;">
 <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
 <path style="fill:#3498DB;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
  0 0 1 1.489-1.489c.629-.363 1.403-.544 2.323-.544.92 0 1.693.181 2.323.544.629.363 1.125.86 1.488 1.489.363.629.544 1.403.544
@@ -123,415 +895,84 @@ require_once("slpw/slupdateform.php");
  1.952V.066h6.751l2.54 1.306v11.325l26.28-.072 2.614 2.613-16.116 16.116a10.807 10.807 0 0 1 3.049-.726c1.742
  0 3.702.557 5.88 1.67 2.202 1.089 3.896 2.59 5.081 4.5 1.186 1.888 1.948 3.703 2.287 5.445.363 1.743.545 3.291.545
  4.646 0 3.098-.654 5.977-1.96 8.64-1.307 2.661-3.291 4.645-5.953 5.952-2.662 1.307-5.542 1.96-8.639 1.96z"></path>
-</svg></div>
-					<div style="padding-left:35px; margin-top:-20px;"><Strong>Receive Tezos</strong></div>
-					<br>
-					<div align="jusity" style="padding-right:5px; padding-left:5px; font-size:9px; color:#515A5A;">
-						<strong>Important:</strong> We are not custodian of your keys, so please connect your wallet if you want to see your QR code.</div>
-					<hr>
-						<div align="center" id ='qraddress'></div>
-						<hr>
-						<div style="padding-bottom:20px;">
-					    <p style="color:#333; margin-bottom:-5px;"><strong>Wallet Address:</strong></p>
-						<span style="font-size:11px; padding-right:10px;" id='wallet_address'></span>
-						<div align="right" style="margin-top:-20px;"><button class="btn btn-default btn-xs copyButton" data-clipboard-action="copy" data-clipboard-target="#wallet_address"><i class="fad fa-copy"></i></button>
+</svg>
+</div>
+						<div style="width:100%; margin:-35px 20px 0px 40px; padding-bottom:15px;" align="left">
+						<h3><strong class="tezos-name"></strong></h3>
+						<div style="margin-top:-10px;">XTZ/USD</div>
 						</div>
+
+						<table style="border-top:1px solid #dddddd; margin-top:-52px; margin-left:120px;">
+<tbody style="width:100%;">
+<tr style="background-color:#f8f9f9;">
+<td style="width:60%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-left:10px;"><strong>CURRENT PRICE</strong></td>
+<td style="width:80%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd;"><i class="fas fa-dollar-sign"></i> <strong class="tezos-price-usd"></strong></td>
+<td style="width:70%; padding-top:10px; padding-bottom:10px; border-bottom: 1px solid #dddddd; padding-right:10px;"><span>&nbsp;&nbsp;&nbsp;<strong>USD</strong></span></td>
+</tr>
+
+</tbody>
+</table>
+
 						</div>
-						
-					</div>
-                    
-                </div>
-            </div>
-        </div>
-    
-        <!-- END MODAL FOR QR -->
 
-	
-    </head>
-    <body>
-        <!-- START PAGE CONTAINER -->
-        <div class="page-container">
-            
-            <!-- START PAGE SIDEBAR -->
-            <div class="page-sidebar">
-                <!-- START X-NAVIGATION -->
-                <ul class="x-navigation">
-                    <li class="xn-logo">
-                        <a href="index.php">RADION</a>
-                        <a href="#" class="x-navigation-control"></a>
-                    </li>
-                    <li class="xn-profile">
-                        <a href="#" class="profile-mini">
-                            <img src="<?php siteloklink($slcustom2,0); ?>" alt=""/>
-                        </a>
-                        <div class="profile">
-                            <div class="profile-image">
-                                <img src="<?php siteloklink($slcustom2,0); ?>" alt=""/>
-                            </div>
-                            <div class="profile-data">
-                                <div class="profile-data-name"><?php echo $slusername; ?></div>
-                                <div class="profile-data-title"><?php echo $slusergroups; ?></div>
-                            </div>
-                            <div class="profile-controls">
-							<a href="#modal_basic" data-toggle="modal" class="profile-control-left"><i class="fas fa-wallet"></i></a>
-							<a href="edit-profile.php" class="profile-control-right"><i class="fad fa-user-edit"></i></a>
-                            </div>
-                        </div>                                                                        
-                    </li>
-					
 
-					
-                    <li class="xn-title">MENU</li>
-					<li class="xn-openable">
-                        <a href="submission.php"><i class="fad fa-upload fa-2x"></i><span class="xn-text">&nbsp;&nbsp;UPLOAD</span></a>
-                    </li>
-                                       
-                    <li class="xn-openable">
-                        <a href="submission.php"><i class="fad fa-business-time fa-2x"></i> <span class="xn-text">&nbsp;&nbsp;SERVICES</span></a>
-						<ul>
-						<li><a href="#"><span class="xn-text"><i class="fad fa-file-certificate fa-lg"></i> COPYRIGHT PROTECTION</span></a></li>
-						<li><a href="#"><span class="xn-text"><i class="fas fa-copyright fa-lg"></i> COPYRIGHT REGISTRATION</span></a></li>
-						<li><a href="#"><span class="xn-text"><i class="fab fa-creative-commons fa-lg"></i> MUSIC LICENSING</span></a></li>
-						</ul>
-                    </li>
-                    <li class="xn-openable">
-                        <a href="marketplace.php"><i class="fad fa-head-side-headphones fa-2x"></i> <span class="xn-text">&nbsp;&nbsp;MARKETPLACE</span></a>
-                    </li>                    
-                    <li class="xn-openable">
-                        <a href="exchange.php"><i class="fad fa-exchange-alt fa-2x"></i> <span class="xn-text">&nbsp;&nbsp;EXCHANGE</span></a>
-						
-                    </li> 
-					<li class="xn-openable">
-                        <a href="#"><i class="fad fa-megaphone fa-2x"></i> <span class="xn-text">&nbsp;&nbsp;PROMOTE</span></a>
-						<ul>
-						<li><a href="ad-submission.php"><span class="xn-text"><i class="fad fa-layer-plus"></i> CREATE AD</span></a></li>
-						</ul>
-                    </li> 
-	
-                </ul>
-                <!-- END X-NAVIGATION -->
-            </div>
-            <!-- END PAGE SIDEBAR -->
-            
-            <!-- PAGE CONTENT -->
-            <div class="page-content">
-                
-                <!-- START X-NAVIGATION VERTICAL -->
-                <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
-                    <!-- TOGGLE NAVIGATION -->
-                    <li class="xn-icon-button">
-                        <a href="#" class="x-navigation-minimize"><span class="fas fa-outdent"></span></a>
-                    </li>
-                    <!-- END TOGGLE NAVIGATION -->
-					
-					<li class="xn-icon-button pull-right" style="margin-right:0px;">
-					<a href="#" class="sidebar-toggle"><span class="fas fa-ellipsis-v"></span></a>						
-                    </li> 
-                                     
-                    <!-- POWER OFF -->
-                    <li class="xn-icon-button pull-right last">
-                        <a href="#"><i class="fad fa-sign-out-alt fa-lg"></i></a>
-                        <ul class="xn-drop-left animated zoomIn">
-                            <li><a href="pages-lock-screen.php"><span class="fa fa-lock"></span> Lock Screen</a></li>
-                            <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fas fa-sign-out-alt"></span> Sign Out</a></li>
-                        </ul>                        
-                    </li> 
-                    <!-- END POWER OFF -->    
+                                <form action="#" class="form-horizontal">
+								<div class="panel-body form-group-separated" style="padding-bottom:30px;">
 
-<!-- ALERT NOTIFICATIONS -->
-                    <li class="xn-icon-button pull-right">
-                        <a href="#"><i class="fad fa-bell-on fa-lg"></i></a>
-                        <div class="informer informer-danger"><?php if (function_exists('sl_showprivatemessagecount')) { sl_showprivatemessagecount(); } ?></div>
-                        <div class="panel panel-primary animated zoomIn xn-drop-left xn-panel-dragging">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fad fa-bell-on"></i> Notifications</h3>                                
-                                <div class="pull-right">
-                                    <span class="label label-warning"><?php if (function_exists('sl_showprivatemessagecount')) { sl_showprivatemessagecount(); } ?> new</span>
-                                </div>
-                            </div>
-                            <div class="panel-body list-group list-group-contacts scroll" style="height: 200px;">
+										<div align="right" style="padding-top:10px; margin-bottom:-10px;" class="text-muted">
+										<?php if ($slcustom12) { ?><i class="fab fa-twitter fa-lg"></i><?php } ?>
+										<?php if ($slcustom11) { ?><i class="fab fa-youtube fa-lg"></i><?php } ?>
+										<?php if ($slcustom15) { ?><i class="fab fa-soundcloud fa-lg"></i><?php } ?>
+										<?php if ($slcustom16) { ?><i class="fab fa-spotify fa-lg"></i><?php } ?>
+										<?php if ($slcustom14) { ?><i class="fab fa-itunes fa-lg"></i><?php } ?>
+										</div>
+                                        <div><h2><?php echo $slusername; ?></h2></div>
+										<div class="text-info" style="margin-top:-17px; padding-left:3px;"><?php echo $slusergroups; ?></div>
 
-<?php if (function_exists('sl_messagebox')) { sl_messagebox(array(
-  'messagetype'=>'receivedprivate',
-  'width'=>'100%',
-  'maxwidth'=>'600px',
-  'height'=>'200px',
-  'sendenabled'=>false,
-  'sendheight'=>'0px',
-  'placeholder'=>MSG_BLAB_TYPEMSG,
-  'profileid'=>'1',
-  'showframe'=>true,
-  'showimage'=>true,
-  'messagelinks'=>true,
-  'about'=>'',
-  'datetoday'=>'!A! ago',
-  'dateearlier'=>'!D!/!M!/!Y! !H!:!I!',
-  'userpage'=>'user-profile.php',
-  'maxlength'=>'1000',
-  'number'=>3,
-  'usernumber'=>10,
-  'refresh'=>10,
-  'sendfiles'=>false,
-  'allowedfiles'=>'',
-  'maxfilesize'=>'',
-  'showfileimages'=>true,
-)); } ?>
+										<div align="right" style="margin-bottom:-10px;"><i class="fad fa-map-marker-alt"></i> <span class="text-muted"> <?php echo $slcustom1; ?></span><spacer style="padding-left:20px; padding-right:20px;">|</spacer><i class="fad fa-link"></i> <span class="text-muted"><?php echo $slcustom8; ?></span><spacer style="padding-left:20px; padding-right:20px;">|</spacer><i class="fad fa-calendar-alt"></i> <span class="text-muted">Joined <?php echo date("m/d/y",$slcreated ); ?></span></div>
+<hr>
 
-                            </div>     
-                            <div class="panel-footer text-center">
-                                <a href="#">Show all messages</a>
-                            </div>                            
-                        </div>                        
-                    </li>
-                    
-					<!-- ALERT NOTIFICATIONS ENDS -->						
-                    
-                    <!-- LANG BAR -->
-                    <li class="xn-icon-button pull-right">
-                        <a href="#"><i class="far fa-language fa-lg"></i></a>
-                        <ul class="xn-drop-left xn-drop-white animated zoomIn">
-                            <li><a href="#"><span class="flag flag-us"></span> English</a></li>
-                            <li><a href="#"><span class="flag flag-es"></span> Espanol</a></li>
- 
-                        </ul>                        
-                    </li> 
-                    <!-- END LANG BAR -->
-					
-					
-                </ul>
-                <!-- END X-NAVIGATION VERTICAL -->                 
-                                                               
-                
-                 <!-- START BREADCRUMB -->                  
-                
-                <!-- PAGE CONTENT WRAPPER -->
-                <div class="page-content-wrap" style="padding-top:10px;">
-                    
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="alert alert-default" role="alert" id="message_box" style="display:none">
-                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                <span><i class="fa fa-audio-description fa-lg"></i></span><span style="padding-right:20px;"></span>
-								<span id="ad_on_sibmission">RADION is always active in Social Media! If you want to be updated with our progress, we recommend you to follow us in our <a href="https://web.telegram.org/#/im?p=@radion_project" target="blank">Telegram</a> Group.</span>
-								</div>                            
-                        </div>
-                    </div>
-                    </div>     
-                    
-                    <div class="row">                        
-                        <div class="col-md-6 col-sm-4 col-xs-5">
-                            
-                            <form action="#" class="form-horizontal">
-                            <div class="panel panel-default">                                
-                                <div class="panel-body" style="padding-bottom:30px;">
-								
-								<?php
-								
-									require_once('php/db.php'); 
-	
-			$sql2 = "SELECT Username FROM sitelok WHERE `Username`='$slusername' AND `Custom25`=1";
-$wallet_available=0;
-	  $result1 = mysqli_query($con,$sql2);
-	  
-     
-      $count = mysqli_num_rows($result1);
-					
- if($count > 0) {
-		  $wallet_available=1;
-		  
-		  
-	  }	
-	 //  echo $sql2.":".$count ;
-		//echo $count;						
-								?>
-							
-							
-									<ul class="panel-controls">
-										<li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
-									</ul> 
+<blockquote>
+<div style="padding-left:50px; padding-right:50px;" align="justify"><?php echo $newcustom7; ?></div>
+</blockquote>
 
-									<div style="padding-bottom:20px; padding-left:20px;"><span class="label label-default label-form"><i class="fa fa-exclamation-triangle"></i> NOTE:</span></div>
-							
-									<p style="padding-left:20px; padding-right:20px;" align="justify"><small>Personal information such as; Name, D.O.B, Phone Number and Email are not Public.</small>
-									<hr></p>
-									
-                                    <h1 align="center"><span><strong><?php echo $slname; ?></strong></span></h1>
-									
-                                       
-                                    <div class="text-center" id="user_image">
-                                        <img src="<?php siteloklink($slcustom2,0); ?>" class="img-thumbnail"/>
-                                    </div>                                    
-                                </div>
-								
-								
-								
+										<div class="col-md-12"><div class="col-md-3"><strong>Name:</strong></div><div class="col-md-9"><?php echo $slname; ?></div></div>
+										<div class="col-md-12"><div class="col-md-3"><strong>DOB:</strong></div><div class="col-md-9"><?php echo $slcustom3; ?></div></div>
+										<div class="col-md-12"><span><div class="col-md-3"><strong>Phone Number:</strong></div><div class="col-md-9"><?php echo $slcustom4; ?></div></div>
+										<div class="col-md-12"><div class="col-md-3"><strong>Email:</strong></div><div class="col-md-9"><?php echo $slemail; ?></div></div>
+										<div class="col-md-12"><div class="col-md-3"><strong>Wallet:</strong></div><div id="user-address" class="col-md-9"><?php echo $slcustom6; ?></div></div>
+</div>
+								</form>
+
 								<div style="padding:20px;">
-								<div align="right">
-								<span class="label label-primary label-form">
-								<a href="#modal_basic" data-toggle="modal" style="color:#fff; text-decoration:none;"><i class="fad fa-wallet fa-lg"></i>&nbsp;&nbsp;&nbsp;CONNECT WALLET</a>
-								</span>	
-								</div>								
-								
-								</div>
-                                <div class="panel-body form-group-separated">
+										<h3>Sync</h3>
+										</div>
 
-									<!-- New lines to prompt public address and balance -->
-                                    <div class="form-group">
-                                        <label class="col-md-3 col-xs-5 control-label">Public Address</label>
-										<div class="col-md-8 col-xs-7 line-height-base" style="color:#2980b9; padding-left:30px;" id="get_source">tz1</div>
-										
-										<a href="#modal_small" data-toggle="modal" style="color:#333;"><span align="right" class="fad fa-qrcode fa-lg" style="margin-top:25px;"></span></a>
-                                    </div>
-									<div class="form-group">
-                                        <label class="col-md-3 col-xs-5 control-label">Account Balance</label>
-										<div class="col-md-8 col-xs-7 line-height-base" style="color:#2980b9; padding-left:30px;" id="_address">&#42793;</div>
-										<a href="#" style="color:#333;"><span align="right" class="fad fa-sack-dollar fa-lg" style="margin-top:25px;"></span></a>   
-                                    </div>
-									<!-- End New lines to prompt public address and balance -->
+										<div class="col-md-12"><div class="col-md-3"><strong>Sync:</strong></div><div class="col-md-9" id="source-address">tz1</div></div>
+										<div class="col-md-12"><div class="col-md-3"><strong>Balance:</strong></div><div class="col-md-9" id="xtz-balance">tez</div></div>
+										<div class="col-md-12"><div class="col-md-3"><strong>USD:</strong></div><div class="col-md-9" id="usd-balance"></div></div>
 
-                                </div>
+
                             </div>
-                            </form>
-							
-							<div class="panel panel-default form-horizontal">
-                                <div class="panel-body">
-                                    <h3><span class="fa fa-info-circle"></span> YOUR DATA</h3>
-                                    <p>This section has more information about you.</p>
-                                </div>
-                                <div class="panel-body form-group-separated"> 
-									
-									<div class="form-group">
-                                        <label class="col-md-4 col-xs-5 control-label">E-mail</label>
-										<div class="col-md-8 col-xs-7 line-height-base"><?php echo $slemail; ?></div>
-                                    </div>
-									
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-5 control-label">Location</label>
-                                        <div class="col-md-8 col-xs-7 line-height-base"><?php echo $slcustom1; ?></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-5 control-label">Joined</label>
-                                        <div class="col-md-8 col-xs-7 line-height-base"><?php echo date("m/d/y",$slcreated ); ?></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-5 control-label">Role</label>
-                                        <div class="col-md-8 col-xs-7 line-height-base"><?php echo $slusergroups; ?></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-5 control-label">Birthday</label>
-                                        <div class="col-md-8 col-xs-7 line-height-base"><?php echo $slcustom3; ?></div>
-                                    </div>
-									<div class="form-group">
-                                        <label class="col-md-4 col-xs-5 control-label">Phone Number</label>
-                                        <div class="col-md-8 col-xs-7 line-height-base"><?php echo $slcustom8; ?></div>
-                                    </div>
-									<div class="form-group">
-                                        <label class="col-md-4 col-xs-5 control-label">Website</label>
-                                        <div class="col-md-8 col-xs-7 line-height-base"><?php echo $slcustom16; ?></div>
-                                    </div>
-									<div class="form-group">
-                                        <label class="col-md-4 col-xs-5 control-label">Twitter</label>
-                                        <div class="col-md-8 col-xs-7 line-height-base"><?php echo $slcustom14; ?></div>
-                                    </div>
-									<div style="padding-top:50px; padding-bottom:30px;">
-                                        <h3 style="padding-left:50px;">Bio</h3>
-                                        <div style="padding-left:50px; padding-right:50px;" align="justify"><?php echo $slcustom10; ?></div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            
+                            <!-- END DEFAULT PANEL -->
+
                         </div>
-                        <div class="col-md-6 col-sm-8 col-xs-7">
-                            
-                            <form action="#" class="form-horizontal">
-							<div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div style="padding-bottom:20px; padding-left:20px;"><span class="label label-default label-form"><i class="fa fa-exclamation-triangle"></i> UPDATE PROFILE</span></div>
-                                    <p>Use this section to edit or update your profile.</p>
-                                </div>
-                                <div class="panel-body form-group-separated">
-                                <div align="center" style="padding-left:15%; padding-right:15%; padding-top:30px; padding-bottom:20px;">
-								<div align="left">                                
-								<?php if (function_exists('sl_updateformbody')) sl_updateformbody(4,false); ?>
-                                </div> 
-								</div>								
-                                    
-                                </div>
-                            </div>
-                            </form>      
 
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+<!-- CONTENT GOES HERE-->
+                        </div>
+                        <div class="col-md-6">
+<!-- CONTENT GOES HERE -->
                         </div>
                     </div>
-                    
 
                 </div>
-                <!-- END PAGE CONTENT WRAPPER -->                                                 
-            </div>            
+                <!-- END PAGE CONTENT WRAPPER -->
+            </div>
             <!-- END PAGE CONTENT -->
-			
-					<!-- START SIDEBAR -->
-        <div class="sidebar">            
-            <div class="sidebar-wrapper scroll">
-                
-                <div class="sidebar-tabs">
-                    <a href="#sidebar_1" class="sidebar-tab"><span class="fas fa-info-circle"></span> Community</a>
-                    <a href="#sidebar_2" class="sidebar-tab"><span class="fas fa-map-signs"></span> Road Map</a>
-                </div>
-                
-                <div class="sidebar-tab-content active" id="sidebar_1">
-                    <div style="padding-left:10px; padding-right:10px; height:730px;">
-<?php if (function_exists('sl_combichatbox')) { sl_combichatbox(array(
-  'width'=>'100%',
-  'maxwidth'=>'400px',
-  'height'=>'720px',
-  'sendheight'=>'110px',
-  'showframe'=>true,
-  'starttab'=>'receivedprivate',
-  'showimage'=>true,
-  'messagelinks'=>true,
-  'userlistlinks'=>true,
-  'publicenabled'=>true,
-  'allmsgtype'=>'',
-  'about'=>'',
-  'datetoday'=>'!A! ago',
-  'dateearlier'=>'!D!/!M!/!Y! !H!:!I!',
-  'userpage'=>'user-profile.php',
-  'displayfields'=>'nickname',
-  'showonline'=>true,
-  'usersortby'=>'nickname',
-  'usersortdir'=>'ASC',
-  'userlistgroups'=>'',
-  'userlistfilter'=>'',
-  'searchfields'=>'nickname,username',
-  'maxlength'=>'300',
-  'number'=>7,
-  'usernumber'=>11,
-  'refresh'=>5,
-  'sendpublicfiles'=>true,
-  'sendprivatefiles'=>true,
-  'allowedfiles'=>'.jpg,.jpeg,.png,.gif',
-  'maxfilesize'=>'2000000',
-  'showfileimages'=>true,
-  'userlisthtml'=>'',
-  'recentuserhtml'=>''
-)); } ?>
-                  </div>  
-                </div>
-                
-                <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
-                    
-<div style="padding-left:30px; padding-right:30px; height:1150px;">
-						<small>
-						
-						</small>                                
-                    </div>
-                </div>
-                
-            </div>            
-        </div>
-        <!-- END SIDEBAR -->
-			
         </div>
         <!-- END PAGE CONTAINER -->
 
@@ -539,9 +980,9 @@ $wallet_available=0;
         <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
             <div class="mb-container">
                 <div class="mb-middle">
-                    <div class="mb-title"><span class="fas fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
                     <div class="mb-content">
-                        <p>Are you sure you want to log out?</p>                    
+                        <p>Are you sure you want to log out?</p>
                         <p>Press No if youwant to continue work. Press Yes to logout current user.</p>
                     </div>
                     <div class="mb-footer">
@@ -554,119 +995,94 @@ $wallet_available=0;
             </div>
         </div>
         <!-- END MESSAGE BOX-->
-		
-        
-      
-        
-        <!-- START PRELOADS -->
-        <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
-        <audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
-        <!-- END PRELOADS -->          
-        
-    <!-- START SCRIPTS -->
-        <!-- START PLUGINS -->
-        <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
-        <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/all.js"></script> 
-        
-        <script type="text/javascript" src="js/plugins/jquery/jquery-migrate.min.js"></script>
-        <!-- END PLUGINS -->
 
-        <!-- START THIS PAGE PLUGINS-->        
-        <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
-        <script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>  
-        
-        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap-file-input.js"></script>
-        <script type="text/javascript" src="js/plugins/form/jquery.form.js"></script>
-        
-        <script type="text/javascript" src="js/plugins/cropper/cropper.min.js"></script>
-        <!-- END THIS PAGE PLUGINS-->        
+  <!-- START PRELOADS -->
+  <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
+  <audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
+  <!-- END PRELOADS -->
 
-        <!-- START TEMPLATE -->      
-        <script type="text/javascript" src="js/plugins.js"></script>        
-        <script type="text/javascript" src="js/actions.js"></script>
-        <script type="text/javascript" src="js/demo_edit_profile.js"></script>
-        <!-- END TEMPLATE -->
+  <!-- START SCRIPTS -->
+  <!-- START PLUGINS -->
+  <script src="/js/plugins/jquery/jquery.min.js"></script>
+  <script src="/js/plugins/jquery/jquery-ui.min.js"></script>
+  <script src="/js/plugins/bootstrap/bootstrap.min.js"></script>
+  <script src="/js/plugins/jquery/jquery-migrate.min.js"></script>
+  <script src="/js/plugins/noty/jquery.noty.js"></script>
+  <script src="/js/plugins/noty/layouts/topRight.js"></script>
+  <script src="/js/plugins/noty/themes/default.js"></script>
+  <!-- END PLUGINS -->
 
-    <!-- SCRIPTS -->       
-		<script type="text/javascript" src="taquito-functions.js"></script>
-	
-	<!-- OCLASUS SCRIPT - FOLLOW UP LINES 318 -->
-	
-	<script>
-	const initWallet = async ()=> {
-	try{
-	// gets user's address
-	const _address = await tezbridge.request({ method: "get_source" });
-	setUserAddress(_address);
-	// gets user's balance
-	const _balance = await Tezos.tz.getBalance(_address);
-	setBalance(_balance);
-	// gets user's points
-	const storage = await contractInstance.storage();
-	const points = storage.customers.get(_address);
-	setUserPoints(parseInt(points) || 0);
-	// compares user's address with owner's address
-	if (storage.owner === _address){
-		setIsOwner(true);
-		const _contractBalance = await Tezos.tz.getBalance(contractAddress);
-		setContractBalance(_contractBalance.c[0]);
-	  }
-	} catch (error){
-	console.log("error fetching the address or balance;",error);
-	}
-   };
-	</script>
+  <!-- START THIS PAGE PLUGINS-->
+  <script src="js/plugins/icheck/icheck.min.js"></script>
+  <script src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
 
-	<!-- END OCLASUS SCRIPT -->
+  <script src="js/plugins/bootstrap/bootstrap-file-input.js"></script>
+  <script src="js/plugins/form/jquery.form.js"></script>
 
-    
-	
-	<script>
-        var clipboard = new Clipboard('.copyButton');
+  <script src="js/plugins/cropper/cropper.min.js"></script>
+  <!-- END THIS PAGE PLUGINS-->
 
-        clipboard.on('success', function(e) {
-        console.log(e);
-        });
+  <!-- START TEMPLATE -->
+  <script src="js/plugins.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/demo_edit_profile.js"></script>
+  <!-- END TEMPLATE -->
 
-        clipboard.on('error', function(e) {
-        console.log(e);
-        });
-        
-        var bal = document.getElementById('_address')
-        let connectModal = $("#modal_basic");
-        var yes = true;
-        connectModal.on("show.bs.modal", () => {
-            tezbridge.request({method: 'get_source'}).then((address) => {
-                console.log(address);
-            document.getElementById("get_source").innerHTML = address;
-            
-            if(yes){
-                document.getElementById('wallet_address').innerHTML = address;
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.1/dist/walletbeacon.min.js"></script>
+  <script>window.beaconSdk = beacon</script>
+  <script src="https://unpkg.com/@taquito/taquito@8.0.6-beta.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@8.0.6-beta.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="/js/tezos.js"></script>
 
-                new QRCode(document.getElementById('qraddress'), address);
-                yes = false;
-            }
+  <script>
+  const { TezosToolkit, MichelsonMap } = taquito
+  const { BeaconWallet } = taquitoBeaconWallet
+  const { NetworkType } = beacon
 
-            taquito.Tezos.setProvider({ rpc: 'https://rpc.tzkt.io/mainnet' });
-            taquito.Tezos.tz.getBalance(address)
-                .then(balance => bal.innerHTML = `${balance.toNumber() / 1000000} ꜩ`)
-                .catch(error => console.log(JSON.stringify(error))); 
+  const rpc = 'https://mainnet-tezos.giganode.io'
+  const tezos = new TezosToolkit(rpc)
+  const wallet = new BeaconWallet({
+    name: 'RADION FM',
+    iconUrl: 'https://www.radion.fm/favicon/apple-icon-60x60.png',
+    appUrl: 'https://www.radion.fm'
+  })
 
-            
-            console.log(balance.innerHTML);
-				
-                connectModal.modal('');
-            }).catch(console.log);
-        });
-    </script>
+  tezos.setWalletProvider(wallet)
 
-    </body>
+  $('#connect-wallet').click(async function () {
+    if ($(this).text() === 'DISCONNECT WALLET') {
+      await wallet.clearActiveAccount()
+      $(this).text('CONNECT WALLET')
+      $('#xtz-balance').text('ꜩ')
+      $('#usd-balance').text('$')
+      $('#wallet-radioff').show()
+      $('#wallet-radion').hide()
+      return
+    }
+
+    const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
+    await wallet.requestPermissions({ network })
+
+    const userAddress = $('#user-address').text()
+    const walletAddress = await wallet.getPKH()
+    const balanceMutez = await tezos.tz.getBalance(walletAddress)
+    const balance = balanceMutez / 1000000
+    const usdRate = $('.tezos-price-usd').text()
+    const usdBalance = (parseFloat(usdRate) * balance).toFixed(2)
+
+    $('#source-address').text(walletAddress)
+    $('#xtz-balance').text(balance + ' ꜩ')
+    $('#usd-balance').text('$' + usdBalance)
+    $(this).text('DISCONNECT WALLET')
+
+    if (userAddress !== walletAddress) {
+      $('#wallet-radioff').show()
+      $('#wallet-radion').hide()
+    } else {
+      $('#wallet-radioff').hide()
+      $('#wallet-radion').show()
+    }
+  })
+  </script>
+</body>
 </html>
-
-
-
-
-
-
