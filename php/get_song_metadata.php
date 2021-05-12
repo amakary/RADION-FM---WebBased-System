@@ -25,23 +25,27 @@ $mp3info = $getID3->analyze($source);
 $tags = $mp3info['tags']['id3v2'];
 $tags['artwork'] = explode('..', get_art_work($song->RDON_ID, $song->SONG_STATUS, true))[1];
 $tags['filesize'] = filesize($source) / 1000;
+$tags['published'] = $song->SONG_SUBMIT_DATE;
 $tags['record'] = $song->RECORD_LABEL;
 $tags['album_saved'] = $song->ALBUM_NAME;
 $tags['uploader'] = $song->USER_NAME;
 $tags['token_id'] = $song->TOKEN_ID;
 
 // Gets all likes, unlikes, loves, and shares
-$likes = $con->query("SELECT COUNT(`SONG_LIKE_ID`) AS liked FROM `song_like` WHERE `SONG_ID`=$mid AND `SONG_LIKE_STATUS`=1");
-$tags['isLikes'] = $likes->fetch_object()->liked;
+$likes = $con->query("SELECT COUNT(`SONG_LIKE_ID`) AS `liked` FROM `song_like` WHERE `SONG_ID`=$mid AND `SONG_LIKE_STATUS`=1");
+$tags['isLikes'] = $likes->num_rows > 0 ? $likes->fetch_object()->liked : 0;
 
-$unlikes = $con->query("SELECT COUNT(`SONG_LIKE_ID`) AS unlike FROM `song_like` WHERE `SONG_ID`=$mid AND `SONG_LIKE_STATUS`=0");
-$tags['isUnlike'] = $unlikes->fetch_object()->unlike;
+$unlikes = $con->query("SELECT COUNT(`SONG_LIKE_ID`) AS `unlike` FROM `song_like` WHERE `SONG_ID`=$mid AND `SONG_LIKE_STATUS`=0");
+$tags['isUnlike'] = $unlikes->num_rows > 0 ? $unlikes->fetch_object()->unlike : 0;
 
-$loves = $con->query("SELECT COUNT(`SONG_LOVE_ID`) AS loves FROM `song_love` WHERE `SONG_ID`=$mid AND `SONG_LOVE_STATUS`=1");
-$tags['isLoveIt'] = $loves->fetch_object()->loves;
+$loves = $con->query("SELECT COUNT(`SONG_LOVE_ID`) AS `loves` FROM `song_love` WHERE `SONG_ID`=$mid AND `SONG_LOVE_STATUS`=1");
+$tags['isLoveIt'] = $loves->num_rows > 0 ? $loves->fetch_object()->loves : 0;
 
-$dedicate = $con->query("SELECT COUNT(`SONG_SHARE_ID`) AS dedicate FROM `song_share` WHERE `SONG_ID`=$mid AND `SONG_SHARE_STATUS`=1");
-$tags['isDedicate'] = $dedicate->fetch_object()->dedicate;
+$dedicate = $con->query("SELECT COUNT(`SONG_SHARE_ID`) AS `dedicate` FROM `song_share` WHERE `SONG_ID`=$mid AND `SONG_SHARE_STATUS`=1");
+$tags['isDedicate'] = $dedicate->num_rows > 0 ? $dedicate->fetch_object()->dedicate : 0;
+
+$plays = $con->query("SELECT COUNT(*) AS `plays` FROM `song_play` WHERE `SONG_ID`=$mid");
+$tags['playedCount'] = $plays->num_rows > 0 ? $plays->fetch_object()->plays : 0;
 
 if (isset($_SESSION) && isset($_SESSION['ses_slusername'])) {
   // If logged in, this shows if the user liked, disliked, loved, and/or shared
