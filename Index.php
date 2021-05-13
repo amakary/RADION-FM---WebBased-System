@@ -1050,7 +1050,7 @@ if ($result->num_rows > 0) {
   const { BeaconWallet } = taquitoBeaconWallet
   const { NetworkType } = beacon
 
-  const rpc = 'https://mainnet.smartpy.io'
+  const rpc = 'https://mainnet-tezos.giganode.io'
   const tezos = new TezosToolkit(rpc)
   const wallet = new BeaconWallet({
     name: 'RADION FM',
