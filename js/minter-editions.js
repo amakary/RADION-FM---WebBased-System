@@ -41,7 +41,7 @@ async function mint () {
   const files = $('#filename1').prop('files')
   if (files.length === 0) {
     noty({
-      text: 'WAV upload is required',
+      text: 'WAV/MP3 upload is required',
       layout: 'topRight',
       type: 'error',
       timeout: 5000
