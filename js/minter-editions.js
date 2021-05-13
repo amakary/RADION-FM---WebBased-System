@@ -66,7 +66,7 @@ async function mint () {
   const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
   await wallet.requestPermissions({ network })
 
-  const wavData = await readFile(audioFile)
+  const audioData = await readFile(audioFile)
   const ipfsNode = await Ipfs.create({ repo: 'ipfs.io' })
   noty({
     text: 'Uploading asset to IPFS',
@@ -75,7 +75,7 @@ async function mint () {
     timeout: 10000
   })
 
-  const { cid } = await ipfsNode.add(wavData)
+  const { cid } = await ipfsNode.add(audioData)
   const thumbnailCid = 'QmPRSm43Wcpoch3qdaENqV3aGqpBv37wdPEBR9j7wMRoxV'
 
   const contract = await tezos.contract.at('KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj')
@@ -139,7 +139,7 @@ async function mint () {
     thumbnailUri: 'ipfs://' + thumbnailCid,
     formats: [{
       uri: 'ipfs://' + cid,
-      mimeType: 'audio/wav'
+      mimeType: audioExt === 'wav' ? 'audio/wav' : 'audio/mpeg'
     }],
     date: date.toISOString(),
     // assets
