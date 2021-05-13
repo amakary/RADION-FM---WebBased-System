@@ -135,10 +135,10 @@ async function mint () {
     description: description,
     decimals: 0,
     tags: [],
-    artifactUri: 'ipfs://' + cid,
+    artifactUri: 'ipfs://' + cid.toString(),
     thumbnailUri: 'ipfs://' + thumbnailCid,
     formats: [{
-      uri: 'ipfs://' + cid,
+      uri: 'ipfs://' + cid.toString(),
       mimeType: audioExt === 'wav' ? 'audio/wav' : 'audio/mpeg'
     }],
     date: date.toISOString(),
@@ -161,7 +161,7 @@ async function mint () {
   })
 
   const { cid: bytesCid } = await ipfsNode.add(bytes)
-  map.set('', strToHex('ipfs://' + bytesCid))
+  map.set('', strToHex('ipfs://' + bytesCid.toString()))
   map.set('description', strToHex(description))
   map.set('asset_id', strToHex(id))
   map.set('date', strToHex(date.toISOString()))
@@ -248,7 +248,7 @@ async function mint () {
         type: 'POST',
         data: {
           id: id,
-          cid: cid,
+          cid: cid.toString(),
           edition_id: editionId,
           editions_count: editionsCount,
           price: sellPrice,

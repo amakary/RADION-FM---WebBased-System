@@ -105,17 +105,17 @@ async function mint () {
     symbol: 'RADION',
     decimals: 0,
     tags: [],
-    artifactUri: 'ipfs://' + cid,
+    artifactUri: 'ipfs://' + cid.toString(),
     thumbnailUri: 'ipfs://' + thumbnailCid,
     formats: [{
-      uri: 'ipfs://' + cid,
+      uri: 'ipfs://' + cid.toString(),
       mimeType: 'audio/wav'
     }],
     date: date.toISOString()
   })
 
   const { cid: bytesCid } = await ipfsNode.add(bytes)
-  map.set('', strToHex('ipfs://' + bytesCid))
+  map.set('', strToHex('ipfs://' + bytesCid.toString()))
   map.set('description', strToHex(description))
   map.set('asset_id', strToHex(id))
   map.set('date', strToHex(date.toISOString()))
