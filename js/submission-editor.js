@@ -269,7 +269,7 @@ async function submitForm () {
     error: function (xhr, status, error) {
       console.error(status, xhr, error)
       noty({
-        text: 'Something went wrong. Error: ' + error,
+        text: 'Something went wrong. Error: ' + xhr.responseText,
         layout: 'topRight',
         type: 'error'
       })
