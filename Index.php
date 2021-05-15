@@ -1771,7 +1771,6 @@ if ($result->num_rows > 0) {
       noty({
         text: 'Waiting for confirmation',
         layout: 'topRight',
-        type: 'info',
         timeout: 5000
       })
 

@@ -71,7 +71,6 @@ async function mint () {
   noty({
     text: 'Uploading asset to IPFS',
     layout: 'topRight',
-    type: 'info',
     timeout: 10000
   })
 
@@ -239,7 +238,6 @@ async function mint () {
     const n = noty({
       text: 'Waiting for confirmation',
       layout: 'topRight',
-      type: 'info'
     })
 
     const confirmed = await op.confirmation()

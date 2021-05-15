@@ -1240,7 +1240,6 @@ require_once 'slpw/sitelokpw.php';
             noty({
               text: '<i class="fas fa-cog fa-spin fa-lg"></i> Great, we start working on your ad! Just a moment.',
               layout: 'topRight',
-              type: 'info',
               timeout: 5000
             })
           }, 20000)

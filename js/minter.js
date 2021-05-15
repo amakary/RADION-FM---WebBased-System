@@ -71,7 +71,6 @@ async function mint () {
   noty({
     text: 'Uploading asset to IPFS',
     layout: 'topRight',
-    type: 'info',
     timeout: 10000
   })
 
@@ -162,7 +161,6 @@ async function mint () {
   noty({
     text: 'Waiting for confirmation',
     layout: 'topRight',
-    type: 'info',
     timeout: 5000
   })
 
