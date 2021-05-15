@@ -135,7 +135,7 @@ $(document).ready(function () {
 
 async function readTags (file) {
   noty({
-    text: 'Reading current tags',
+    text: 'Reading file',
     layout: 'topRight',
     type: 'information',
     timeout: 5000
