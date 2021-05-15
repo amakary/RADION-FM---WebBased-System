@@ -134,13 +134,21 @@ $(document).ready(function () {
 })
 
 async function readTags (file) {
-  noty({ text: 'Reading current tags', layout: 'topRight' })
+  noty({
+    text: 'Reading current tags',
+    layout: 'topRight',
+    type: 'information',
+    timeout: 5000
+  })
 
   mp3tag = new MP3Tag(await loadFile(file))
   mp3tag.read()
   if (mp3tag.error !== '') {
-    noty({ text: 'Unable to read tags', layout: 'topRight', type: 'error' })
-    return
+    noty({
+      text: 'File has no tags, please continue!',
+      layout: 'topRight',
+      timeout: 5000
+    })
   }
 
   const tags = mp3tag.tags
