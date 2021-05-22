@@ -47,8 +47,10 @@
         <a href="index.php" class="logo"><img src="letsgo.png"></a>
         <div class="pull-right">
           <div class="socials">
-            <a href="#"><span class="fa fa-facebook-square"></span></a>
-            <a href="#"><span class="fa fa-twitter-square"></span></a>
+            <a href="https://t.me/joinchat/TdHnxqPrcJPK3mZ1" target="blank" rel="nofollow"><span class="fa fa-telegram"></span></a>
+            <a href="https://twitter.com/fm_radion" target="blank" rel="nofollow"><span class="fa fa-twitter-square"></span></a>
+            <a href="https://www.youtube.com/channel/UCuJOeoT-2o2stPXXJJGzAdg" target="blank" rel="nofollow"><span class="fa fa-youtube"></span></a>
+
           </div>
 
           <div class="contacts">
@@ -78,7 +80,7 @@
       <!-- START BREADCRUMB -->
       <ul class="breadcrumb">
         <li><a href="#"></a></li>
-        <li class="active">Current commission fee is 3.69% per sell.</li>
+        <li class="active">This is an experimental feature open to the public. Our current commission fee is 3.69% per sell. For example; If you sell a NFT for $20 USD you will receive $19.22 USD.</li>
       </ul>
       <!-- END BREADCRUMB -->
 
@@ -86,8 +88,8 @@
       <div class="row">
         <div class="col-md-2">
           <a href="#" class="tile tile-primary">
-            $<span id="wallet-balance">0</span>
-            <p>Balance</p>
+            <span>Balance</span>
+            <p id="wallet-balance"> <span>tez</span></p>
             <div class="informer informer-primary dir-tr"><span class="fa fa-calendar"></span></div>
           </a>
         </div>
@@ -96,15 +98,15 @@
           <a href="#" class="tile tile-primary">
             $0
             <p>Total Marketcap</p>
-            <div class="informer informer-primary dir-tr"><span class="fa fa-calendar"></span></div>
+            <div class="informer informer-primary dir-tr"></div>
           </a>
         </div>
 
         <div class="col-md-2">
           <a href="#" class="tile tile-primary">
-            $1
-            <p>Stream Downloads</p>
-            <div class="informer informer-primary dir-tr"><span class="fa fa-calendar"></span></div>
+            3.69%
+            <p>Commission Fee</p>
+            <div class="informer informer-primary dir-tr"></div>
           </a>
         </div>
 
@@ -112,7 +114,7 @@
           <a href="#" class="tile tile-primary">
             $0
             <p>Sales</p>
-            <div class="informer informer-primary dir-tr"><span class="fa fa-calendar"></span></div>
+            <div class="informer informer-primary dir-tr"></div>
           </a>
         </div>
 
@@ -126,8 +128,23 @@
 
         <div class="col-md-2">
           <a href="#" class="tile tile-primary">
-            $<span class="tezos-price-usd"></span>
-            <p>Tezos</p>
+            <span><div align="center" style="color:#33414E; width:50px; height:50px; margin-left:80px; margin-bottom:5px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
+                <path style="fill:#85929E;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
+ 0 0 1 1.489-1.489c.629-.363 1.403-.544 2.323-.544.92 0 1.693.181 2.323.544.629.363 1.125.86 1.488 1.489.363.629.544 1.403.544
+ 2.323 0 1.113-.266 2.02-.798 2.722-.533.702-1.162 1.161-1.888 1.38.63.87 1.622 1.487 2.977 1.85 1.355.388 2.71.581 4.065.581
+ 1.887 0 3.593-.508 5.118-1.524 1.524-1.017 2.65-2.517 3.376-4.501.726-1.984 1.089-4.235 1.089-6.752
+ 0-2.734-.4-5.07-1.198-7.005-.775-1.96-1.924-3.412-3.449-4.356a9.21 9.21 0 0 0-4.936-1.415c-1.162 0-2.613.484-4.356
+ 1.452l-3.194 1.597v-1.597L37.076 16.4H17.185v19.89c0 1.646.363 3.001 1.089 4.066s1.839 1.597 3.34 1.597c1.16 0 2.274-.387
+ 3.339-1.162a11.803 11.803 0 0 0 2.758-2.83c.097-.219.218-.376.363-.473a.723.723 0 0 1 .472-.181c.266 0 .58.133.944.4.339.386.508.834.508
+ 1.342a9.243 9.243 0 0 1-.182 1.017c-.822 1.839-1.96 3.242-3.412 4.21a8.457 8.457 0 0
+ 1-4.79 1.452c-4.308 0-7.285-.847-8.93-2.54-1.645-1.695-2.468-3.994-2.468-6.897V16.4H.052v-3.703h10.164v-8.42L7.893
+ 1.952V.066h6.751l2.54 1.306v11.325l26.28-.072 2.614 2.613-16.116 16.116a10.807 10.807 0 0 1 3.049-.726c1.742
+ 0 3.702.557 5.88 1.67 2.202 1.089 3.896 2.59 5.081 4.5 1.186 1.888 1.948 3.703 2.287 5.445.363 1.743.545 3.291.545
+ 4.646 0 3.098-.654 5.977-1.96 8.64-1.307 2.661-3.291 4.645-5.953 5.952-2.662 1.307-5.542 1.96-8.639 1.96z"></path>
+              </svg>
+            </div></span>
+            <p>$ <span class="tezos-price-usd"></span></p>
             <div class="informer informer-default"></div>
           </a>
         </div>
@@ -192,11 +209,13 @@
       </div>
 
       <div class="sidebar-tab-content active" id="sidebar_1">
-        <p style="padding-right:20px; padding-left:20px;" align="justify"><small>Important Note:<br><br><span style="color:#B3B6B7;">This simpe form allow you to mint NFT music and sell them in our marketplace with the proper rights, however; this form is open to the public and it doesn't require a RADION account to use it. Be aware that potential buyers could pay attention to these details to make sure that if they buy a NFT, they are buying something legal and legit.<br><br> If you want to prove that you are the right holder of the song and be recognized by your talent and as an artist, we recommend you mint your NFT in our dashboard for more details.</small></span></p>
+        <p style="padding-right:20px; padding-left:20px;" align="justify"><small>Important:<br><br><span style="color:#B3B6B7;">This simple form allow you to mint NFT music and sell them in our marketplace with the proper rights, however; this form is open to the public and it doesn't require a RADION account to use it. Be aware that potential buyers could pay attention to these details to make sure that if they buy a NFT, they are buying something legal and legit.<br><br> If you want to prove that you are the right holder of the song and be recognized by your talent and as an artist, we recommend you mint your NFT in our dashboard for more details.</small></span></p>
+
         <div class="content-frame-right">
           <div class="block push-up-10">
             <form action="upload.php" class="dropzone dropzone-mini" id="upload-dropzone"></form>
           </div>
+          <p style="padding-left:20px; padding-right:20px;"><small><span style="color:#F39C12;">Note</span>: Make sure you drop your mp3 or wav file and your artwork img to mint your NFT.</small></p>
           <form class="form-horizontal" role="form">
             <div class="form-group">
               <div class="col-md-12">
@@ -262,7 +281,7 @@
           <button class="btn btn-warning btn-block" id="mint-submit">MINT NOW</button>
         </div>
 
-        <p align="center" style="color:#F39C12;"><small>3.69% commission fee per sell</small></p>
+        <p align="center" style="color:#F39C12; padding-bottom:50px;"><small>3.69% commission fee per sell</small></p>
       </div>
 
       <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
@@ -318,6 +337,8 @@
   <script src="/js/plugins.js"></script>
   <script src="/js/actions.js"></script>
   <script src="/js/tezos.js"></script>
+  <script src="/js/helpers.js"></script>
+  <script src="/js/ipfs.js"></script>
   <!-- END TEMPLATE -->
   <!-- END SCRIPTS -->
 
@@ -557,16 +578,6 @@
     }
   })
 
-  function parseBytes (bytes) {
-    let string = ''
-    for (let i = 0; i < bytes.length; i += 2) {
-      const charcode = parseInt(bytes.substr(i, 2), 16)
-      string += String.fromCharCode(charcode)
-    }
-
-    return string
-  }
-
   async function getHash (id) {
     return new Promise((resolve, reject) => {
       $.ajax('/php/get_hash.php', {
@@ -599,8 +610,6 @@
   }
 
   let terms = null
-  const ipfsNodeAsync = Ipfs.create({ repo: 'ipfs.io' })
-
   $('#mint-submit').click(async function (event) {
     event.preventDefault()
 
@@ -813,14 +822,15 @@
     try {
       const op = await tezos.wallet.batch(batch.operations).send()
       const n = noty({
-        text: 'Waiting for confirmation',
-        layout: 'topRight'
+        text: 'Please wait for confirmation!',
+        layout: 'topRight',
+        type: 'info'
       })
 
       const confirmed = await op.confirmation(1)
       if (confirmed) {
         noty({
-          text: 'Minting was successful!',
+          text: 'Operation was successful',
           layout: 'topRight',
           type: 'success'
         })
@@ -871,74 +881,6 @@
     terms = 'commercial'
     $('#mint-terms').text('Commercial')
   })
-
-  async function getIPFS (cid, type) {
-    const ipfsNode = await ipfsNodeAsync
-    let blob = null
-    let url = ''
-
-    for await (const file of ipfsNode.get(cid)) {
-      const buffer = new ArrayBuffer(file.size)
-      const view = new Uint8Array(buffer)
-      let read = 0
-
-      for await (const chunk of file.content) {
-        view.set(chunk, read)
-        read += chunk.length
-      }
-
-      blob = new Blob([buffer], { type: type })
-    }
-
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = function (e) {
-        resolve(e.target.result)
-      }
-      reader.readAsDataURL(blob)
-    })
-  }
-
-  function downloadURL (url, filename) {
-    const a = document.createElement('A')
-    a.href = url
-    a.download = filename
-    a.click()
-  }
-
-  function parseDataURL (url) {
-    const regex = /^data:(.+\/.+);base64,(.*)$/
-    const match = url.match(regex)
-    if (match !== null) {
-      const decoded = atob(match[2])
-      return JSON.parse(decoded)
-    } else {
-      alert('Invalid data URL')
-    }
-  }
-
-  function readFile (file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = function () {
-        resolve(this.result)
-      }
-
-      reader.readAsArrayBuffer(file)
-    })
-  }
-
-  function strToHex (string) {
-    let result = ''
-    string = string.toString()
-
-    for (let i = 0; i < string.length; i++) {
-      const hex = string.charCodeAt(i).toString(16)
-      result += hex
-    }
-
-    return result
-  }
   </script>
 </body>
 </html>

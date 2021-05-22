@@ -970,10 +970,11 @@ if ($result->num_rows > 0) {
   <script src="/js/backgroundChange.js"></script>
   <script src="/js/tezos.js"></script>
   <script src="js/demo_dashboard.js"></script>
-  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.3/dist/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.6/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.0.0/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@9.0.1/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.1/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="/js/helpers.js"></script>
 
   <!-- BACKGROUND SCRIPT MODULAR -->
   <script>
@@ -1805,16 +1806,6 @@ if ($result->num_rows > 0) {
         timeout: 5000
       })
     }
-  }
-
-  function parseBytes (bytes) {
-    let string = ''
-    for (let i = 0; i < bytes.length; i += 2) {
-      const charcode = parseInt(bytes.substr(i, 2), 16)
-      string += String.fromCharCode(charcode)
-    }
-
-    return string
   }
 
   const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
