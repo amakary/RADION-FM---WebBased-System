@@ -47,9 +47,9 @@
         <a href="index.php" class="logo"><img src="letsgo.png"></a>
         <div class="pull-right">
           <div class="socials">
-            <a href="https://t.me/joinchat/TdHnxqPrcJPK3mZ1" target="blank" rel="nofollow"><span class="fa fa-telegram"></span></a>
-            <a href="https://twitter.com/fm_radion" target="blank" rel="nofollow"><span class="fa fa-twitter-square"></span></a>
-            <a href="https://www.youtube.com/channel/UCuJOeoT-2o2stPXXJJGzAdg" target="blank" rel="nofollow"><span class="fa fa-youtube"></span></a>
+            <a href="https://t.me/joinchat/TdHnxqPrcJPK3mZ1" target="blank" rel="nofollow"><span class="fab fa-telegram"></span></a>
+            <a href="https://twitter.com/fm_radion" target="blank" rel="nofollow"><span class="fab fa-twitter"></span></a>
+            <a href="https://www.youtube.com/channel/UCuJOeoT-2o2stPXXJJGzAdg" target="blank" rel="nofollow"><span class="fab fa-youtube"></span></a>
 
           </div>
 
@@ -90,13 +90,13 @@
           <a href="#" class="tile tile-primary">
             <span>Balance</span>
             <p id="wallet-balance"> <span>tez</span></p>
-            <div class="informer informer-primary dir-tr"><span class="fa fa-calendar"></span></div>
+            <div class="informer informer-primary dir-tr"></div>
           </a>
         </div>
 
         <div class="col-md-2">
           <a href="#" class="tile tile-primary">
-            $0
+            $<span class="marketcap">0</span>
             <p>Total Marketcap</p>
             <div class="informer informer-primary dir-tr"></div>
           </a>
@@ -112,7 +112,7 @@
 
         <div class="col-md-2">
           <a href="#" class="tile tile-primary">
-            $0
+            $<span class="sales">0</span>
             <p>Sales</p>
             <div class="informer informer-primary dir-tr"></div>
           </a>
@@ -182,7 +182,7 @@
 
             <div class="panel-body">
               <h3 align="center" class="nft-artist"></h3>
-              <p align="center" class="nft-title"></p>
+              <p align="center"><span class="nft-title"></span> <i class="fas fa-shield-check nft-shield" style="display:none; color:#229954;"></i></p>
               <div>Issuer:<br><span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
               <div>IPFS: <span class="nft-format"></span> Format</div>
               <div>Price: <span class="nft-price"></span> <span>tz</span></div>
@@ -334,6 +334,7 @@
   <!-- END PAGE PLUGINS -->
 
   <!-- START TEMPLATE -->
+  <script src="/js/all.js"></script>
   <script src="/js/plugins.js"></script>
   <script src="/js/actions.js"></script>
   <script src="/js/tezos.js"></script>
@@ -362,6 +363,8 @@
   const editions = []
   let maxEditionsPerRun = 0
   let editionTemplate = null
+  let totalSales = 0
+  let marketCap = 0
 
   $(document).ready(function () {
     editionTemplate = $('#temp-edition').prop('content')
@@ -390,10 +393,15 @@
 
     for (let i = size - 1; i >= 0 && counts < 6; i--) {
       const edition = await storage.editions_metadata.get(i)
+      console.log('Displaying edition: ', edition)
       await displayEdition(i, edition)
+      console.log('Finished displaying', edition)
       editions[i] = edition
       counts++
     }
+
+    $('.marketcap').text(marketCap)
+    $('.sales').text(totalSales)
   }
 
   async function displayEdition (eid, edition) {
@@ -401,18 +409,32 @@
     const values = edition.edition_info.valueMap
     const numberOfEditions = edition.number_of_editions.c[0]
     const cid = parseBytes(values.get('""')).split('ipfs://')[1]
+    console.log('Downloading from IPFS: ', cid)
     const editionDataLink = await getIPFS(cid, 'application/json')
+    console.log('Finished downloading from IPFS: ', cid)
     const editionData = parseDataURL(editionDataLink)
+    const id = parseBytes(values.get('"asset_id"') || '')
     const songName = parseBytes(values.get('"song_name"'))
     const artist = parseBytes(values.get('"artist"'))
     const format = parseBytes(values.get('"asset_format"'))
     const title = songName ? songName.substr(0, 27) : songName
+    console.log('Waiting for sales')
     const sales = await getSales(fixedPrice, eid, edition)
+    console.log('Finished sales')
     const price = sales.price / 1000000
     let audioCID = null
     let audioType = null
     let artworkCID = null
     let artworkType = null
+
+    let metadata = null
+    try {
+      metadata = await getMetadata(id)
+      $(elem).find('.nft-shield').show()
+    } catch (error) {}
+
+    totalSales += ((numberOfEditions - sales.count) * price) * parseFloat(window.priceUsd)
+    marketCap += (numberOfEditions * price) * parseFloat(window.priceUsd)
 
     editionData.formats.forEach(format => {
       if (format.mimeType.startsWith('audio')) {
@@ -424,11 +446,16 @@
       }
     })
 
+    console.log('Downloading from IPFS (Audio): ', audioCID)
     const audioDataUrl = await getIPFS(audioCID, audioType)
-    const artworkDataUrl = artworkCID !== null ? await getIPFS(artworkCID, artworkType) : '/img/bg-capa.jpg'
+    console.log('Finished downloading from IPFS', audioCID)
+    console.log('Downloading from IPFS (Artwork): ', artworkCID)
+    const artworkDataUrl = artworkCID !== null ? await getIPFS(artworkCID, artworkType) : (metadata !== null ? metadata.artwork : '/img/bg-capa.jpg')
+    console.log('Finished downloading from IPFS: ', artworkCID)
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
     $(elem).find('.nft-title').text(title).removeClass('nft-title')
+    $(elem).find('.nft-shield').removeClass('nft-shield')
     $(elem).find('.nft-issuer-address').text(edition.creator).removeClass('nft-issuer-address')
     $(elem).find('.nft-format').text(format).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
