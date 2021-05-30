@@ -523,12 +523,12 @@ if ($result->num_rows > 0) {
 
                       <div class="panel-body">
                         <h3 align="center" class="nft-artist"></h3>
-                        <p align="center" class="nft-title"></p>
+                        <p align="center"><span class="nft-title"></span> <i class="fas fa-shield-check nft-shield" style="display:none; color:#229954;"></i></p>
                         <div>Issuer:<br><span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
                         <div>STREAM: <span class="nft-id"></span></div>
                         <div>IPFS: WAV Format</div>
                         <div>Price: <span class="nft-price"></span> <span>tz</span></div>
-                        <div>Editions Available: <span class="nft-editions"></span></div>
+                        <div>Editions Available: <span class="nft-editions-avail"></span></div>
                       </div>
 
                       <div class="panel-footer text-muted" align="center">
@@ -569,8 +569,8 @@ if ($result->num_rows > 0) {
                 </h4>
               </div>
               <div class="panel-body panel-body" id="accOneColOne" align="justify">
-                RADION offers unconventional features to the music industry! Our platform embeds a unique public address key in every MP3 file that it is uploaded in our system, in order to allow downloads / purchases without third party intervention. Musicians receive payment directly to their public wallets, every time someone downloads their songs.<br><br>
-                This new method can be used with current MP3 files as well as the new generation of digital assets represented by a <strong>non-fungible token (NFT)</strong>.
+                RADION engages in a wide range of functions in the music industry, including but not limited to; establishing a new method of payment with crypto, new artist recruitment and development as well as music publishing, and copyright enforcement. Our platform works as music discovery where users can upload their music to be streamed online. In this process RADION embeds a unique public address key in every MP3 or WAV file that it is uploaded in our system, in order to allow downloads / purchases without third party intervention. Musicians receive payment directly to their public wallets, every time someone downloads their songs from our streams.<br><br>
+                This method can be used with current MP3 files as well as the new generation of digital assets represented by a <strong>non-fungible token (NFT)</strong>.
               </div>
             </div>
 
@@ -582,8 +582,8 @@ if ($result->num_rows > 0) {
               </div>
 
               <div class="panel-body" id="accOneColFive" align="justify">
-                NFT or non-fungible token is a type of cryptographic token that can represents ownership of something unique! A song is a great way to explain NTFs because in today's world you may be able to purchase a song and receive a digital MP3 copy to play the song as many times as you want, but it doesn't mean you can return it and get your money back, or sell it to someone else. NFT is not intended to prove the genesis of the original file, but rather the ownership of the song asset).<br><br>This technology opens a new set of possibilities in the music industry, where musicians can have better control over their songs (digital assets)! With this tech the musician doesn't have to worry about distributor to collect royalties directly from stores/streaming platforms on behalf of labels, not to mention that music licensing and copyrights wont be a problem, because the MP3 can carry all this information and be ready to be bought by anybody without a third party intervention (contract). In a near future, musicians may choose music platforms that works with NFTs and <strong>smart contracts</strong> like RADION. Why? - Because they can benefit much more for less effort.<br><br>
-								Now, the traditional business model of the music industry is a complex subject, especially when we talk about collecting music royalties, copyrights infringements, and music licensing, however we believe that our work can change the entire industry. Having said that, you may wonder; are we working on NFT? You better believe it!
+                NFT or non-fungible token is a type of cryptographic token that can represents ownership of something unique! A song is a great way to explain NTFs because in today's world you may be able to purchase a song and receive a digital MP3 copy to play the song as many times as you want, but it doesn't mean you can return it and get your money back, or sell it to someone else. NFT is not intended to prove the genesis of the original file, but rather the ownership of the song asset).<br><br>This technology opens a new set of possibilities in the music industry, where musicians can have better control over their songs (digital assets). With this tech the musician doesn't have to worry about distributor to collect royalties directly from stores/streaming platforms on behalf of labels, not to mention that music licensing and copyrights wont be a problem, because the MP3 can carry all this information and be ready to be bought by anybody without a third party intervention (contract). In a near future, musicians may choose music platforms that works with NFTs and <strong>smart contracts</strong> like RADION. Why? - Because they can benefit much more for less effort.<br><br>
+								Now, the traditional business model of the music industry is a complex subject, especially when we talk about collecting music royalties, copyrights infringements, and music licensing, however we believe that our work can change the entire industry. Having said that; we have a marketplace for NFT music! This marketplace is open to the public and arbitrated by smart contracts.
               </div>
             </div>
 
@@ -862,13 +862,15 @@ if ($result->num_rows > 0) {
     <div class="x-content-footer" align="center" style="padding-left:2%; padding-right:2%; background-color:#33414E; margin-top:200px;">
       <a style="text-decoration: none;" href="our-mission.php" target="blank" class="linko"> Our Mission</a>
       <span style="color: #85929E;">|</span>
+      <a style="text-decoration: none;" href="NFT-music-marketplace-tezos.php" class="linko"> NFT Music Marketplace</a>
+      <span style="color: #85929E;">|</span>
       <a style="text-decoration: none;" href="radion-ads.php" class="linko"> RADION Ads</a>
       <span style="color: #85929E;">|</span>
       <a style="text-decoration: none;" href="creative-commons.php" class="linko"> Creative Commons</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> White paper</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="free-ID3-tag-editor.php" target="blank" class="linko"> ID3 Tag Editor</a>
       <div style="padding-top:30px; padding-bottom:10px;">
-        <p style="color:#85929E; margin-bottom:-3px;">© 2018 - 2021 RADION V1.1 </p>
+        <p style="color:#85929E; margin-bottom:-3px;">© 2021 RADION V1.1 </p>
         <p style="color:#85929E;">Made with <i class="fas fa-heart"></i> in Delaware, U.S.</p>
       </div>
     </div>
@@ -970,11 +972,13 @@ if ($result->num_rows > 0) {
   <script src="/js/backgroundChange.js"></script>
   <script src="/js/tezos.js"></script>
   <script src="js/demo_dashboard.js"></script>
-  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.6/dist/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/ipfs@0.54.4/dist/index.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.7/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
   <script src="https://unpkg.com/@taquito/taquito@9.0.1/dist/taquito.min.js"></script>
   <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.1/dist/taquito-beacon-wallet.umd.js"></script>
   <script src="/js/helpers.js"></script>
+  <script src="/js/ipfs.js"></script>
 
   <!-- BACKGROUND SCRIPT MODULAR -->
   <script>
@@ -1018,7 +1022,7 @@ if ($result->num_rows > 0) {
   function notyConfirm () {
     if (!window.price) return
     noty({
-      text: '<div align="justify" style="padding:15px;"><div><i class="fad fa-cart-arrow-down fa-2x"></i> &nbsp;&nbsp;<strong>DOWNLOAD ASSET</strong></div><div style="padding-left:60%; margin-top:-14px; font-size:10px; color:#f2c945;"><i class="fas fa-signal-stream fa-lg"></i> <strong id="d_station_name">MAIN STATION</strong> </div><div style="margin-top:10px; color:#999999; padding-bottom:1px;"><strong>Artist</strong>:&nbsp;&nbsp;&nbsp;<span style="color:#F2F4F4;" id="d_artist_name"></span></div><div style="color:#999999; padding-bottom:2px;"><strong>Song</strong>:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#F2F4F4;" id="d_song_name"></span></div><div style="color:#999999; padding-bottom:2px;"><strong>Asset:</strong>&nbsp;&nbsp;&nbsp;<span style="color:#F2F4F4;" id="d_album_name"></span></div><div style="padding-left:50%; position:absolute; margin-top:-15px; font-size:10px;"><strong>Licensed</strong>: <span style="color:#999999;"> <i class="fab fa-creative-commons fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-by fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-nc fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-nd fa-lg" style="color:#ccc;"></i> </span></div><div style="color:#999999; font-size:0px;"">ID #:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#fff; font-size:px;" id="d_id"> </span></div></div><div style="padding-left:10px; margin-bottom:0px;"><strong style="color:#f2c945;">TOTAL:&nbsp;&nbsp;</strong> <span style="color:#f2c945;" class="tezos-price">' + window.price + ' &#42793;</span>&nbsp;&nbsp;=&nbsp;&nbsp; $0.50 USD<div style="font-size:10px; position: absolute;left: 20px; bottom: -25px; z-index: 1; color:#808080;">Powered by Tezos Blockchain</div></div>',
+      text: '<div align="justify" style="padding:15px;"><div><i class="fad fa-cart-arrow-down fa-2x"></i> &nbsp;&nbsp;<strong>DOWNLOAD ASSET</strong></div><div style="padding-left:60%; margin-top:-14px; font-size:10px; color:#f2c945;"><i class="fas fa-signal-stream fa-lg"></i> <strong id="d_station_name">MAIN STATION</strong> </div><div style="margin-top:10px; color:#999999; padding-bottom:1px;"><strong>Artist</strong>:&nbsp;&nbsp;&nbsp;<span style="color:#F2F4F4;" id="d_artist_name"></span></div><div style="color:#999999; padding-bottom:2px;"><strong>Song</strong>:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#F2F4F4;" id="d_song_name"></span></div><div style="color:#999999; padding-bottom:2px;"><strong>Asset:</strong>&nbsp;&nbsp;&nbsp;<span style="color:#F2F4F4;" id="d_album_name"></span></div><div style="padding-left:50%; position:absolute; margin-top:-15px; font-size:10px;"><strong>Licensed</strong>: <span style="color:#999999;"> <i class="fab fa-creative-commons fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-by fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-nc fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-nd fa-lg" style="color:#ccc;"></i> </span></div><div style="color:#999999; font-size:0px;"">ID #:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#fff; font-size:px;" id="d_id"> </span></div></div><div style="padding-left:10px; margin-bottom:0px;"><strong style="color:#f2c945;">TOTAL:&nbsp;&nbsp;</strong> <span style="color:#f2c945;" class="tezos-price">' + window.price + ' &#42793;</span>&nbsp;&nbsp;=&nbsp;&nbsp; $1.00 USD<div style="font-size:10px; position: absolute;left: 20px; bottom: -25px; z-index: 1; color:#808080;">Powered by Tezos Blockchain</div></div>',
       layout: 'topRight',
       buttons: [
         {
@@ -1083,7 +1087,7 @@ if ($result->num_rows > 0) {
     }
 
     try {
-      // Transfer 0.50USD to owner
+      // Transfer 1.00USD to owner
       const op = await tezos.wallet.transfer({
         to: address,
         amount: downloadPrice
@@ -1105,7 +1109,7 @@ if ($result->num_rows > 0) {
         search.append('op', hash)
         search.append('id', id)
         search.append('xtz', downloadPrice)
-        search.append('usd', 0.50)
+        search.append('usd', 1.00)
 
         const download = 'php/download_song_script.php?' + search.toString()
         window.open(download, 'download-iframe')
@@ -1254,21 +1258,6 @@ if ($result->num_rows > 0) {
     })
   }
 
-  async function getHash (id) {
-    return new Promise((resolve, reject) => {
-      $.ajax('/php/get_hash.php', {
-        type: 'GET',
-        data: { id: id },
-        success: function (data, status, xhr) {
-          resolve(data)
-        },
-        error: function (xhr, status, error) {
-          reject(error)
-        }
-      })
-    })
-  }
-
   updateHistory()
   updateSong()
   updateSubmission()
@@ -1285,27 +1274,11 @@ if ($result->num_rows > 0) {
   $(document).on('click', '[data-hash]', async function (event) {
     event.preventDefault()
 
-    const href = $(this).attr('href').split('/')[1]
-    const songId = atob(href)
-
-    if (songId !== currentId) {
-      const hash = $(this).attr('data-hash')
-      const search = new URLSearchParams()
-      search.append('hash', hash)
-      search.append('id', songId)
-
-      currentId = songId
-      player.src = '/asset.php?' + search.toString()
+    if (player.paused) {
+      player.src = $(this).attr('href')
       player.play()
-      iconPause(this)
     } else {
-      if (player.paused) {
-        player.play()
-        iconPause(this)
-      } else {
-        player.pause()
-        iconPlay(this)
-      }
+      player.pause()
     }
   })
 
@@ -1658,14 +1631,29 @@ if ($result->num_rows > 0) {
 
   <!-- TEZOS CHART -->
   <script>
-  async function getEditions (address) {
-    const storage = await tezos.contract.getStorage(address)
-    const size = storage.next_edition_id.c[0]
+  const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
+  const fixedPrice = 'KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6'
+  const editions = {}
+  let editionsStorage = null
+  let marketStorage = null
+  let maxEditionsPerRun = 0
+
+  async function getEditions () {
+    console.log('Displaying Editions...')
+    console.log('Getting edition contract\'s storage...')
+    editionsStorage = await tezos.contract.getStorage(fa2)
+    const size = editionsStorage.next_edition_id.c[0]
     let counts = 0
-    maxEditionsPerRun = storage.max_editions_per_run.c[0]
+
+    console.log(size + ' editions found')
+    console.log('Getting market contract\'s storage')
+    marketStorage = await tezos.contract.getStorage(fixedPrice)
+    maxEditionsPerRun = editionsStorage.max_editions_per_run.c[0]
 
     for (let i = size - 1; i >= 0 && counts < 6; i--) {
-      const edition = await storage.editions_metadata.get(i)
+      console.log('Getting edition\'s (ID: ' + i + ') metadata...')
+      const edition = await editionsStorage.editions_metadata.get(i)
+      console.log(edition)
       await displayEdition(i, edition)
       editions[i] = edition
       counts++
@@ -1676,36 +1664,62 @@ if ($result->num_rows > 0) {
     const elem = $(editionTemplate).clone(true, true)
     const values = edition.edition_info.valueMap
     const numberOfEditions = edition.number_of_editions.c[0]
-    const id = parseBytes(values.get('"asset_id"'))
+    const cid = parseBytes(values.get('""')).split('ipfs://')[1]
+    console.log('Getting edition\'s (ID: ' + eid + ') additional data from IFPS')
+    const editionDataLink = await getIPFS(cid, 'application/json')
+    const editionData = parseDataURL(editionDataLink)
+    console.log('IPFS Metadata', editionData)
+    const id = parseBytes(values.get('"asset_id"') || '')
     const songName = parseBytes(values.get('"song_name"'))
     const artist = parseBytes(values.get('"artist"'))
+    const format = parseBytes(values.get('"asset_format"'))
     const title = songName ? songName.substr(0, 27) : songName
-    const sales = await getSales(fixedPrice, eid, edition)
+    console.log('Getting edition\'s market sales...')
+    const sales = await getSales(eid, edition)
+    console.log(sales)
     const price = sales.price / 1000000
-    const hash = await getHash(id)
-    const href = '/' + btoa(id) + '/' + hash
+    let audioCID = null
+    let audioType = null
+    let artworkCID = null
+    let artworkType = null
 
     let metadata = null
-    try { metadata = await getMetadata(id) } catch (error) {}
-    if (metadata === null) return
+    try {
+      metadata = await getMetadata(id)
+      $(elem).find('.nft-shield').show()
+    } catch (error) {}
 
-    $(elem).find('.nft-artwork').attr('src', metadata.artwork).removeClass('nft-artwork')
+    editionData.formats.forEach(format => {
+      if (format.mimeType.startsWith('audio')) {
+        audioCID = format.uri.split('ipfs://')[1]
+        audioType = format.mimeType
+      } else if (format.mimeType.startsWith('image')) {
+        artworkCID = format.uri.split('ipfs://')[1]
+        artworkType = format.mimeType
+      }
+    })
+
+    // const audioDataUrl = await getIPFS(audioCID, audioType)
+    const audioDataUrl = 'https://gateway.ipfs.io/ipfs/' + audioCID
+    console.log('Getting artwork data from IPFS (CID: ' + artworkCID + ')...')
+    const artworkDataUrl = artworkCID !== null ? await getIPFS(artworkCID, artworkType) : (metadata !== null ? metadata.artwork : '/img/bg-capa.jpg')
+    $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
     $(elem).find('.nft-title').text(title).removeClass('nft-title')
+    $(elem).find('.nft-shield').removeClass('nft-shield')
     $(elem).find('.nft-issuer-address').text(edition.creator).removeClass('nft-issuer-address')
-    $(elem).find('.nft-id').text(id).removeClass('nft-id')
+    $(elem).find('.nft-format').text(format).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
-    $(elem).find('.nft-editions').text(sales.count + '/' + numberOfEditions).removeClass('nft-editions')
+    $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions).removeClass('nft-editions-avail')
     $(elem).find('.nft-buy').attr('data-buy', eid).removeClass('nft-buy').click(buyEdition)
     $(elem).find('.nft-play').attr({
-      href: href,
-      'data-hash': hash
+      href: audioDataUrl,
+      'data-hash': audioCID
     }).removeClass('nft-play')
     $('#nft-editions').append(elem)
   }
 
-  async function getSales (address, eid, edition) {
-    const storage = await tezos.contract.getStorage(address)
+  async function getSales (eid, edition) {
     const keys = []
     let count = 0
     let price = 0
@@ -1721,7 +1735,7 @@ if ($result->num_rows > 0) {
       })
     }
 
-    const values = await storage.sales.getMultipleValues(keys)
+    const values = await marketStorage.sales.getMultipleValues(keys)
     values.valueMap.forEach(item => {
       if (item) {
         price = item.c[0]
@@ -1808,11 +1822,6 @@ if ($result->num_rows > 0) {
     }
   }
 
-  const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
-  const fixedPrice = 'KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6'
-  const editions = {}
-  let maxEditionsPerRun = 0
-
   let editionTemplate = null
   let tokenTemplate = null
   let userTemplate = null
@@ -1822,15 +1831,15 @@ if ($result->num_rows > 0) {
     tokenTemplate = $('#temp-nft').prop('content')
     userTemplate = $('#temp-user').prop('content')
 
-    $.getJSON('https://api.better-call.dev/v1/contract/mainnet/KT1MR8e46WJBq4RcFSogiDbSg3ceDRi81hpE/tokens', function (data) {
-      displayTokens(data)
+    getTokens('KT1MR8e46WJBq4RcFSogiDbSg3ceDRi81hpE').then(tokens => {
+      displayTokens(tokens)
     })
 
     $.getJSON('/php/top_sellers.php', function (data) {
       displayUsers(data)
     })
 
-    getEditions(fa2)
+    getEditions()
 
     const xhr = new XMLHttpRequest()
     xhr.onload = function () {
@@ -1939,16 +1948,21 @@ if ($result->num_rows > 0) {
 
   async function displayTokens (data) {
     let counts = 0
+    console.log(data.length + ' tokens found')
     for (let i = 0; i < data.length && counts < 6; i++) {
       const elem = $(tokenTemplate).clone(true, true)
       const nft = data[i]
+      console.log('Displaying token (ID: ' + nft.token_id + ')')
+      console.log('Getting current owner of token ID: ' + nft.token_id)
       const owner = await getCurrentOwner(nft.token_id)
       const id = nft.name !== 'Unknown' ? nft.name : nft.extras.asset_id
+      console.log('Detected RADION ID: ' + id)
       const songName = nft.extras.song_name || (nft.extras.asset && nft.extras.asset.song_name)
       const title = songName ? songName.substr(0, 27) : songName
       const artist = nft.extras.artist || (nft.extras.asset && nft.extras.asset.artist)
       let metadata = null
-      try { metadata = await getMetadata(id) } catch (error) {}
+      try { metadata = await getMetadata(id) } catch (error) { console.log(error) }
+      console.log('Fetched metadata: ', metadata)
 
       if (metadata === null) continue
       $(elem).find('.nft-artwork').attr('src', metadata.artwork).removeClass('nft-artwork')
