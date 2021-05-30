@@ -72,32 +72,31 @@ let imageBytes = null
 let imageType = ''
 let imageFile = null
 
-let file = null
+let audioFile = null
 let mp3tag = null
 
-$(document).ready(function () {
-  $('#filename1').on('change', function () {
-    const files = $(this).prop('files')
-    if (files.length > 0) {
-      file = files[0]
+Dropzone.options.dropzone = {
+  accept: async function (file, done) {
+    if (file.type === 'audio/mpeg') {
       readTags(file)
-    }
-  })
-
-  $('#filename2').on('change', async function () {
-    const files = $(this).prop('files')
-    if (files.length > 0) {
-      const image = files[0]
-      const buffer = await loadFile(image)
-      imageFile = image
+      audioFile = file
+      done()
+    } else if (file.type.startsWith('image/')) {
+      const buffer = await loadFile(file)
+      imageFile = file
       imageBytes = new Uint8Array(buffer)
-      imageType = image.type
+      imageType = file.type
 
       const url = imageURL(imageBytes, imageType)
       $('#cover-preview, #preview-cover').attr('src', url)
+      done()
+    } else {
+      done('Unaccepted file type: ' + file.type)
     }
-  })
+  }
+}
 
+$(document).ready(function () {
   $('input[name="commercial"],input[name="adaptations"]').on('change', function () {
     const commercial = $('input[name="commercial"]:checked').val()
     const adaptations = $('input[name="adaptations"]:checked').val()
@@ -135,10 +134,10 @@ $(document).ready(function () {
 
 async function readTags (file) {
   noty({
-    text: 'Reading file',
+    text: '<i class="far fa-exclamation-circle fa-lg"></i> Reading file, please continue with other inputs!',
     layout: 'topRight',
     type: 'information',
-    timeout: 5000
+    timeout: 9000
   })
 
   mp3tag = new MP3Tag(await loadFile(file))
@@ -177,7 +176,7 @@ async function readTags (file) {
 
 async function submitForm () {
   $('#submit_btn').attr('disabled', true)
-  if (!file) {
+  if (!audioFile) {
     noty({ text: 'No MP3 file found', layout: 'topRight', type: 'error' })
     $('#submit_btn').attr('disabled', null)
     return
@@ -189,7 +188,7 @@ async function submitForm () {
     return
   }
 
-  const extension = file.name.split('.').pop()
+  const extension = audioFile.name.split('.').pop()
   if (!extension.match(/^(mp3|mp4|m4a)$/i)) {
     noty({ text: 'Not an MP3 file', layout: 'topRight', type: 'error' })
     $('#submit_btn').attr('disabled', null)
@@ -228,10 +227,7 @@ async function submitForm () {
       name: imageFile.name,
       value: new Blob([imageBytes], { type: imageType })
     },
-    mp3: {
-      name: file.name,
-      value: new Blob([mp3tag.buffer], { type: file.type })
-    },
+    mp3: audioFile.name,
     title: $('#title').val() || 'No title',
     artist: $('#artist').val() || 'No artist',
     album: $('#album').val() || 'No album',
@@ -248,6 +244,12 @@ async function submitForm () {
     else formData.append(name, value)
   }
 
+  noty({
+    text: '<i class="fad fa-spinner-third fa-spin fa-lg"></i> Uploading file to server! Please wait for confirmation. Do not refresh browser.',
+    layout: 'topRight',
+    timeout: 16000
+  })
+
   $.ajax('/music_upload_Operation.php', {
     type: 'POST',
     data: formData,
@@ -260,7 +262,7 @@ async function submitForm () {
     },
     success: function (data) {
       noty({
-        text: 'Submission was successful!',
+        text: '<i class="far fa-check-circle fa-lg"></i> Submission was successful!',
         layout: 'topRight',
         type: 'success',
         timeout: 5000

@@ -1,5 +1,8 @@
 <?php
 
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
+
 $groupswithaccess = 'RADIONER,CEO,FOUNDER';
 
 require_once '/slpw/sitelokpw.php';
@@ -82,12 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $imgext = '';
 
       $folderpath = 'slbackups_mlicqx83sq/Music';
-      $mp3ext = pathinfo($_FILES['mp3']['name'], PATHINFO_EXTENSION);
+      $mp3ext = pathinfo($_POST['mp3'], PATHINFO_EXTENSION);
 
       if (isset($_FILES['artwork'])) {
         // Move uploaded artwork file if it was set
         $imginfo = pathinfo($_FILES['artwork']['name']);
-        $imgname = $_FILES['artwork']['name'];
         $imgext = $imginfo['extension'];
         $imgpath = "$folderpath/$rdon_id.$imgext";
         $imgmoved = move_uploaded_file($_FILES['artwork']['tmp_name'], $imgpath);
@@ -95,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       // Move uploaded mp3 file to slbackups_mlicqx83sq/Music and wait for votes
       $mp3path = "$folderpath/$rdon_id.$mp3ext";
-      $mp3moved = move_uploaded_file($_FILES['mp3']['tmp_name'], $mp3path);
+      $mp3moved = rename('uploads/' . $_POST['mp3'], $mp3path);
 
       // make sure MP3 and artwork was moved
       if ($mp3moved && $imgmoved) {
@@ -113,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           'year' => array($in_year),
           'track_number' => array($in_track),
           'genre' => array($in_genre),
-          'comment' => array($slcustom7),
+          'comment' => array($slcustom6),
           'publisher' => array('RADION'),
           'url_publisher' => array('https://www.radion.fm'),
           'copyright_message' => array("CC $copyright_upper"),

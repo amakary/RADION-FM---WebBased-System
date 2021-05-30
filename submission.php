@@ -473,23 +473,9 @@ date_default_timezone_set('US/Eastern');
                                                 <!-- UPLOAD ZONE ENDS -->
 
                                             <div class="col-md-6">
-
-
-											<div class="form-group">
-                                            <label class="col-md-12 control-label"></label>
-                                            <div class="col-md-12">
-                                                <input type="file" class="fileinput btn-success btn-block" name="filename1" id="filename1" title="UPLOAD YOUR MP3 HERE!" accept="audio/*" required>
-                                            </div>
-											</div>
-
-
-
-											<div class="form-group">
-                                            <label class="col-md-12 control-label"></label>
-                                            <div class="col-md-12" style="padding-bottom:20px;">
-                                            <input type="file" class="fileinput btn-default btn-block" name="filename2" id="filename2" title="ADD ALBUM COVER"/>
-                                            </div>
-											</div>
+                                              <div class="form-group">
+                                                <form action="/upload.php" id="dropzone" class="dropzone dropzone-mini"></form>
+                                              </div>
 
 											<div align="justify" style="color:#c0c0c0; padding-right:20px; padding-left:20px;"><small><strong>Note</strong>: If your data appears correctly after you upload your file, then; avoid these steps and go to License Features!</small></div>
 
@@ -1176,8 +1162,6 @@ date_default_timezone_set('US/Eastern');
   })
 
   const inputs = [
-    '#filename1',
-    '#filename2',
     '#title',
     '#artist',
     '#album',
