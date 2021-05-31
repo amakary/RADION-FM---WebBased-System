@@ -180,7 +180,9 @@ date_default_timezone_set('US/Eastern');
                       <a href="#" class="profile-control-left sidebar-toggle"><i class="far fa-comment-alt-lines"></i></a>
                       <a href="edit-profile.php" class="profile-control-right"><i class="fad fa-user-edit"></i></a>
                   </div>
-
+                  <div align="right" style="margin-top:10px;">
+                  <button onclick="introJs().start();" class="btn btn-info btn-xs">START TOUR</button>
+                </div>
               </div>
           </li>
               <li class="xn-openable">
@@ -192,7 +194,8 @@ date_default_timezone_set('US/Eastern');
   </lord-icon><span class="xn-text">&nbsp;&nbsp; MUSIC</span></a>
     <ul>
                   <li><a href="submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD MP3 TO STREAM</span></a></li>
-                  <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; MINT NFT MUSIC</span></a></li>
+                  <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; NFT FOR EXCLUSIVE RIGHTS</span></a></li>
+                  <li><a href="mint-2.php"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i> &nbsp;&nbsp; MINT NFT TO SELL YOUR MUSIC</span></a></li>
               </ul>
           </li>
 
@@ -205,7 +208,7 @@ date_default_timezone_set('US/Eastern');
   </lord-icon> <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span></a>
     <ul>
                   <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
-                  <li><a href="#"><span class="xn-text"><i class="fad fa-file-certificate fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE &nbsp;&nbsp;&nbsp;<label class="label label-success"> INCOMING</label></span></a></li>
+                  <li><a href="NFT-music-marketplace-tezos.php"><span class="xn-text"><i class="fas fa-album-collection fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE FOR MUSIC</span></a></li>
               </ul>
           </li>
 
@@ -451,8 +454,8 @@ date_default_timezone_set('US/Eastern');
 
 									<div class="col-md-12" style="margin-bottom:-30px;">
 									<div class="col-md-6">
-                                        <h3 style="padding-top:20px;"><i class="fad fa-upload"></i> UPLOAD ZONE</h3>
-                                        <p>Make sure you upload a <code>MP3</code> format.</p>
+                                        <h3 style="padding-top:20px;"><i class="fad fa-upload"></i> UPLOAD YOUR MUSIC</h3>
+                                        <p>Make sure you upload a <code>MP3</code> format and <code>JPG</code> or <code>PNG</code> for album cover. BTW, It helps if you encourage others to vote for your songs in social media. </p>
 										</div>
 
                                                         <div class="col-md-6" align="right" style="padding-right:30px;">
@@ -464,7 +467,7 @@ date_default_timezone_set('US/Eastern');
 
 
 
-                                        <div class="row">
+                                        <div class="row" data-step="1" data-intro="If you want to upload your music in our platform, you have to complete the form properly. Most of the entries are simple, however, some of them could be confusing and so we will elaborate a little bit more on those entries. " data-position="right">
                                                 <!-- UPLOAD ZONE -->
 
                                             <div class="panel-body">
@@ -474,12 +477,12 @@ date_default_timezone_set('US/Eastern');
 
                                             <div class="col-md-6">
                                               <div class="form-group">
-                                                <form action="/upload.php" id="dropzone" class="dropzone dropzone-mini"></form>
+                                                <form action="/upload.php" id="dropzone" class="dropzone dropzone-mini" data-step="2" data-intro="This dropzone is where you place you MP3 file and your album cover image. You have to add both in the same place to have a successful upload." data-position="right"></form>
                                               </div>
 
-											<div align="justify" style="color:#c0c0c0; padding-right:20px; padding-left:20px;"><small><strong>Note</strong>: If your data appears correctly after you upload your file, then; avoid these steps and go to License Features!</small></div>
+											<div align="justify" style="color:#c0c0c0; padding-right:15px; padding-left:15px;"><small><strong>Note</strong>: Make sure the inputs are populated with correct data. Upload music file and cover album 800x800 px max. </small></div>
 
-											<div class="col-md-12" style="padding-bottom:30px; padding-top:20px;">
+											<div class="col-md-12" style="padding-bottom:30px; padding-top:20px;" data-step="3" data-intro="These entries are kind of obvious, nevertheless; you have to populate inputs with corresponding data, including; the title of your song, the name of the artist, and the name of the album." data-position="right">
                                         <div class="form-group has-info">
                                             <label class="control-label">TITLE</label>
                                             <input id="title" type="text" class="form-control"/>
@@ -495,20 +498,21 @@ date_default_timezone_set('US/Eastern');
                                     </div>
 
 
-										<div class="col-md-3">
+										<div class="col-md-3" data-step="4" data-intro="Here is where you add the year that the song was created." data-position="right">
 										<div class="form-group has-info">
                                             <label class="control-label">YEAR</label>
                                             <input id="year" type="text" class="form-control"/>
                                         </div>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-3" class="col-md-3" data-step="5" data-intro="Here is where you add track number of the song. This apply if the song belongs to an entire album. If the the song is a cover/single, then you should add two digits (01). " data-position="right">
 										<div class="form-group has-info">
                                             <label class="control-label">TRACK</label>
                                             <input id="track" type="text" class="form-control"/>
                                         </div>
 										</div>
 
-										<div class="col-md-6">
+
+										<div class="col-md-6" data-step="6" data-intro="Select the genre of your song. If you don't see the genre of your song listed, please contact us. " data-position="right">
 										<div class="form-group has-info">
                       <label class="control-label">GENRE</label>
                       <select id="genre" class="form-control">
@@ -539,28 +543,28 @@ date_default_timezone_set('US/Eastern');
 										</div>
 
 										<div class="col-md-12" style="padding-top:20px;">
-										<div class="form-group has-info">
+										<div class="form-group has-info"  data-step="7" data-intro="Here its where you enter the name of your record label. If you don't have one leave it blank or type N/A. This will record labels know that your song is open for a potential business." data-position="right">
                                             <label class="control-label">RECORD LABEL</label>
                                             <input id="record-label" name="record-label" type="text" class="form-control"/>
                                         </div>
 										</div>
 										<div class="col-md-12" style="padding-top:20px;">
-										<div class="form-group has-info">
+										<div class="form-group has-info" data-step="8" data-intro="This entry is populated with the public key that you use when you created your account." data-position="right">
                                             <label class="control-label">PUBLIC WALLET KEY</label>
-                                            <input id="wallet-address" name="wallet-address" type="text" class="form-control" value="<?= $slcustom6 ?>" placeholder="<?php echo $slcustom6; ?>" readonly>
+                                            <input id="wallet-address" name="wallet-address" type="text" class="form-control" value="<?= $slcustom6 ?>" placeholder="<?php echo $slcustom6; ?>" readonly/>
                                         </div>
 										</div>
 
 										<div class="col-md-12" style="padding-top:20px; padding-bottom:30px;">
-										<div class="form-group has-info">
+										<div class="form-group has-info" data-step="9" data-intro="Publisher is by default RADION FM. We embed this information in ID3 tags, so if others find your music, they know where to download with crypto." data-position="right">
                                             <label class="control-label">PUBLISHER</label>
-                                            <input id="publisher" name="publisher" type="text" class="form-control" value="" placeholder="RADION - https://www.radion.fm" readonly />
+                                            <input id="publisher" name="publisher" type="text" class="form-control" value="" placeholder="RADION - https://www.radion.fm" readonly/>
                                         </div>
 										</div>
 
 
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6"  data-step="10" data-intro="Let's take a look at the license! Here is where you select the license that you want. However, this license apply strictly to users or music lovers that purchase your songs. We do recommend some specific attributes for your license in order to protect your asset and apply best practice for the distribution and promotion of your music. " data-position="right">
 													<h3><strong>MUSIC LICENSE</strong> </h3>
                                                     <div align="right" style="margin-top:-25px; margin-bottom:10px;"><img src="img/cc-logo-1.jpg"></div>
 													<p align="justify"><small>RADION allows artist/musicians to mark their audio content creation with a Creative Commons license to distribute over our Network. We use these licenses to protect musicians' work and allow them to retain their copyright. Other users can download these assets but they are restricted to the terms of the license.</small></p>
@@ -635,12 +639,12 @@ date_default_timezone_set('US/Eastern');
 													</small>
 													<hr>
 
-                                                    <div class="form-group" style="margin-top:0px;">
+                                                    <div class="form-group" style="margin-top:0px;" data-step="11" data-intro="This is your final step to upload your song, however, the (upload now) button will be disabed if any of the entries are not populated correctly or if you have not accept the terms and conditions. If everything is correct, you should be able to click in the button to start the upload." data-position="right">
                                                         <h5 style="color:#909497"><i class="fad fa-handshake fa-lg"></i><strong> Terms and Conditions</strong></h5>
-                                                        <p align="justify"><small>I acknowledge that my submission allows me expose my asset in RADION marketplace without guaranteeing online stream due to a preliminary vote system arbitrated by users.</small></p>
+                                                        <p align="justify"><small>I acknowledge that my submission allows me expose my asset in RADION vote room without guaranteeing online stream due to a preliminary vote system arbitrated by users.</small></p>
                                                         <label class="check" style="padding-right:50px;"><input type="checkbox" name="agree_disagree" /> <strong>Yes, I Accept.</strong></label>
 
-                                                        <button type="button" id="submit_btn" class="btn btn-success btn-lg mb-control" disabled><i class="fas fa-check-circle"></i> Submit Now</button>
+                                                        <button type="button" id="submit_btn" class="btn btn-success btn-lg mb-control" disabled><i class="fas fa-check-circle"></i> UPLOAD NOW</button>
 
                                                         <!-- Message with sound -->
                                                         <div class="message-box animated fadeIn" data-sound="alert" id="message-box-sound-1">
@@ -665,24 +669,23 @@ date_default_timezone_set('US/Eastern');
                                     </div>
                                 </div>
 
-								<div class="col-md-4">
+								<div class="col-md-4" data-step="12" data-intro="Once you upload has started, you will see a notification at the upper corner right of your screen saying upload was successful. Right after your song is successfully uploaded you will see the status of the asset here. Keep in mind that there is a 24Hrs period of time to count users vote. " data-position="left">
 								<div style="padding-bottom:20px; padding-top:20px;">
 								<h3><i class="fas fa-head-side-headphones fa-lg"></i> NETWORK REVIEW</h3>
 								<p>The result will determine whether or not your asset can be place in our live stream. You can vote for your own asset in marketplace!</p>
 								</div>
                                 <!-- SUBMISSION LIST STATUS -->
                                 <div class="panel panel-default">
-								<div class="form-group">
+								                <div class="form-group">
                                 <div class="panel-body list-group list-group-contacts" id="status_table"></div>
                                 </div>
                                 <!-- END SUBMISSION LIST STATUS -->
-								</div>
+								                      </div>
                                 </div>
-
                             </div>
                         </div>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-default" data-step="13" data-intro="In this table you will see all the songs that you have uploaded along with its information. New features will become available after the 24 hrs period of time. Some of them includes; NFT to sell or to create exclusive right record in blockchain. " data-position="top">
 <div class="panel-body">
 
                         <div class="col-md-12" style="padding-bottom:50px;">
@@ -874,6 +877,8 @@ date_default_timezone_set('US/Eastern');
   <!-- THIS PAGE PLUGINS -->
   <script src="/js/plugins/bootstrap/bootstrap-file-input.js"></script>
   <script src="/js/plugins/bootstrap/bootstrap-select.js"></script>
+  <script type="text/javascript" src="js/plugins/tour/bootstrap-tour-standalone.min.js"></script>
+  <script type="text/javascript" src="js/plugins/tour/intro.min.js"></script>
 
   <!-- END THIS PAGE PLUGINS -->
   <script src="/js/plugins/noty/jquery.noty.js"></script>
