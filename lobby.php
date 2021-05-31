@@ -8,7 +8,7 @@ require_once("/slpw/sitelokpw.php");
 <html lang="en">
     <head>
         <!-- META SECTION -->
-        <title>RADION - Lobby</title>
+        <title>RADION FM - Lobby</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -48,7 +48,7 @@ require_once("/slpw/sitelokpw.php");
         <a href="#" class="profile-mini">
             <img src="<?php siteloklink($slcustom2, 0); ?>" alt="" />
         </a>
-        <div class="profile">
+        <div class="profile" data-step="1" data-intro="This is the head of your sidebar main menu where you will be able to see your avatar or picture of your profile. There are two importat icons that we have to go over! The right icon is used to edit your profile, the other is to see your public profile." data-position="right">
             <div class="profile-image">
                 <img src="<?php siteloklink($slcustom2, 0); ?>" alt="" />
             </div>
@@ -57,13 +57,13 @@ require_once("/slpw/sitelokpw.php");
                 <div class="profile-data-title"><?php echo $slusergroups; ?></div>
             </div>
             <div class="profile-controls">
-                <a href="#" class="profile-control-left sidebar-toggle"><i class="far fa-comment-alt-lines"></i></a>
-                <a href="edit-profile.php" class="profile-control-right"><i class="fad fa-user-edit"></i></a>
+                <a href="#" class="profile-control-left sidebar-toggle" data-step="3" data-intro="Public Profile. This icon will take you to your public profile page. This page show you how others sees your profile." data-position="right"><i class="far fa-comment-alt-lines"></i></a>
+                <a href="edit-profile.php" class="profile-control-right" data-step="2" data-intro="Edit Profile. This icon will take you to the page where you can edit your profile." data-position="right"><i class="fad fa-user-edit"></i></a>
             </div>
 
         </div>
     </li>
-        <li class="xn-openable">
+        <li class="xn-openable" data-step="4" data-intro="As you can see there are different option in the the main menu, each one of these options will take you to a different page with features." data-position="right">
         <a href="#"><lord-icon
 src="https://cdn.lordicon.com//mmspidej.json"
 trigger="click" target="a"
@@ -104,7 +104,7 @@ style="width:45px;height:45px">
         </ul>
     </li>
 
-<li class="xn-openable">
+<li class="xn-openable" data-step="7" data-intro="This is the lab tab. Here you can see what we are doing and testing along with the status of it." data-position="left">
         <a href="submission.php"><lord-icon
 src="https://cdn.lordicon.com//zqxcrgvd.json"
 trigger="click" target="a"
@@ -129,13 +129,13 @@ style="width:45px;height:45px">
                  <!-- START X-NAVIGATION VERTICAL -->
             <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
                 <!-- TOGGLE NAVIGATION -->
-                <li class="xn-icon-button">
+                <li class="xn-icon-button" data-step="5" data-intro="This icon will hide the main menu." data-position="right">
                     <a href="#" class="x-navigation-minimize"><i class="fad fa-outdent fa-lg"></i></a>
                 </li>
                 <!-- END TOGGLE NAVIGATION -->
 
                 <!-- POWER OFF -->
-                <li class="xn-icon-button pull-right last">
+                <li class="xn-icon-button pull-right last" data-step="6" data-intro="This is where you can logout." data-position="left">
                     <a href="#"><i class="fad fa-sign-out-alt fa-lg"></i></a>
                     <ul class="xn-drop-left animated zoomIn">
 
@@ -145,7 +145,7 @@ style="width:45px;height:45px">
                 <!-- END POWER OFF -->
 
                 <!-- ALERT NOTIFICATIONS -->
-                <li class="xn-icon-button pull-right">
+                <li class="xn-icon-button pull-right" data-step="7" data-intro="This is where you can find notifications that RADION release." data-position="left">
                     <a href="#"><i class="fad fa-bell fa-lg"></i></a>
                     <div class="informer informer-danger"><?php if (function_exists('sl_showprivatemessagecount')) {
                                                                 sl_showprivatemessagecount();
@@ -207,18 +207,22 @@ style="width:45px;height:45px">
                         </div>
                     </div>
 
-
-
                     <div class="row">
 
                         <div class="col-md-12">
               <div class="panel panel-default">
                 <div class="panel-body">
                   <div class="row">
+
                     <div class="col-md-8">
 				<h3><i class="fas fa-door-open"></i> LOBBY! </h3>
 				<hr>
-
+        <div align="right" style="margin:15px;">
+        <button onclick="introJs().start();" class="btn btn-info btn-block">CLICK HERE FOR ORIENTATION!</button>
+      </div>
+      <!--
+data-step="1" data-intro="" data-position="right"
+-->
                       <div class="row">
 
                         <div class="col-md-12" style="paddin-bottom:200px;">
@@ -583,19 +587,21 @@ style="width:45px;height:45px">
         <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
         <script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
         <script type="text/javascript" src="js/plugins/scrolltotop/scrolltopcontrol.js"></script>
-		<script type="text/javascript" src="js/plugins/cropper/cropper.min.js"></script>
-		<script type="text/javascript" src="js/plugins/fileinput/fileinput.min.js"></script>
+		    <script type="text/javascript" src="js/plugins/cropper/cropper.min.js"></script>
+		    <script type="text/javascript" src="js/plugins/fileinput/fileinput.min.js"></script>
         <script type="text/javascript" src="js/plugins/rickshaw/d3.v3.js"></script>
         <script type="text/javascript" src="js/plugins/rickshaw/rickshaw.min.js"></script>
         <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
-		<script type="text/javascript" src="js/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="js/demo_file_handling.js"></script>
+	    	<script type="text/javascript" src="js/plugins/jstree/jstree.min.js"></script>
+		   <script type="text/javascript" src="js/demo_file_handling.js"></script>
         <!-- END THIS PAGE PLUGINS-->
 
         <!-- THIS PAGE PLUGINS -->
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap-file-input.js"></script>
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script>
+        <script type="text/javascript" src="js/plugins/tour/bootstrap-tour-standalone.min.js"></script>
+        <script type="text/javascript" src="js/plugins/tour/intro.min.js"></script>
 
         <!-- END THIS PAGE PLUGINS -->
 		<script type='text/javascript' src='js/plugins/noty/jquery.noty.js'></script>
