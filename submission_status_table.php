@@ -30,7 +30,7 @@ function formatDateAgo($value) {
   }
 }
 
-$song_query = "SELECT `SONG_ID` AS ID,`RDON_ID`,`SONG_NAME`,`SONG_SUBMIT_DATE`,`SONG_STATUS` FROM `song` WHERE `USER_NAME`='$slusername' AND TIMESTAMPDIFF(MINUTE,`SONG_SUBMIT_DATE`,UTC_TIMESTAMP()) < 4320 GROUP BY `SONG_ID` DESC";
+$song_query = "SELECT `SONG_ID` AS ID,`RDON_ID`,`SONG_NAME`,`SONG_SUBMIT_DATE`,`SONG_STATUS` FROM `song` WHERE `EDITION_ID`=-1 AND `USER_NAME`='$slusername' AND TIMESTAMPDIFF(MINUTE,`SONG_SUBMIT_DATE`,UTC_TIMESTAMP()) < 4320 GROUP BY `SONG_ID` DESC";
 $result = mysqli_query($con,$song_query);
 
 if ($result->num_rows > 0) {
