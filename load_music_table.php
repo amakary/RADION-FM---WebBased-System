@@ -55,7 +55,7 @@ foreach ($genres as $tab => $genre) {
       </thead>
       <tbody>
 <?php
-  $song_get_query = "SELECT `SONG_ID`,`RDON_ID`,`SONG_GENRE`,`ARTIST_NAME`,`ALBUM_NAME`,`USER_NAME`,`SONG_NAME`,`WANT_INVESTOR`,`INVEST_RADIO`,(SELECT COUNT(*) FROM `song_like` WHERE `SONG_ID`=`song`.`SONG_ID` AND `SONG_LIKE_STATUS`=1) as prevote,(SELECT COUNT(*) FROM `song_like` WHERE `SONG_ID`=`song`.`SONG_ID` AND `SONG_LIKE_STATUS`=0) as unlike, (SELECT COUNT(`invest_on_song`.`ID`) FROM `invest_on_song` WHERE `SONG_ID`=`song`.`SONG_ID`) AS INVEST,(SELECT COUNT(`SONG_LOVE_ID`) FROM `song_love` WHERE `SONG_ID`=`song`.`SONG_ID`) AS LOVE,(SELECT COUNT(*) FROM `song_share` WHERE `SONG_ID`= `song`.`SONG_ID`) AS SHARE,TIMESTAMPDIFF(MINUTE,`SONG_SUBMIT_DATE`,UTC_TIMESTAMP()) AS total_min FROM `song` WHERE `SONG_STATUS`=0 AND `SONG_GENRE`='$genre'";
+  $song_get_query = "SELECT `SONG_ID`,`RDON_ID`,`SONG_GENRE`,`ARTIST_NAME`,`ALBUM_NAME`,`USER_NAME`,`SONG_NAME`,`WANT_INVESTOR`,`INVEST_RADIO`,(SELECT COUNT(*) FROM `song_like` WHERE `SONG_ID`=`song`.`SONG_ID` AND `SONG_LIKE_STATUS`=1) as prevote,(SELECT COUNT(*) FROM `song_like` WHERE `SONG_ID`=`song`.`SONG_ID` AND `SONG_LIKE_STATUS`=0) as unlike, (SELECT COUNT(`invest_on_song`.`ID`) FROM `invest_on_song` WHERE `SONG_ID`=`song`.`SONG_ID`) AS INVEST,(SELECT COUNT(`SONG_LOVE_ID`) FROM `song_love` WHERE `SONG_ID`=`song`.`SONG_ID`) AS LOVE,(SELECT COUNT(*) FROM `song_share` WHERE `SONG_ID`= `song`.`SONG_ID`) AS SHARE,TIMESTAMPDIFF(MINUTE,`SONG_SUBMIT_DATE`,UTC_TIMESTAMP()) AS total_min FROM `song` WHERE `EDITION_ID`=-1 AND `SONG_STATUS`=0 AND `SONG_GENRE`='$genre'";
 
   $result = $con->query($song_get_query);
   if ($result->num_rows > 0) {
