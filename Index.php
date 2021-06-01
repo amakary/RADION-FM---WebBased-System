@@ -31,7 +31,7 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
 	<meta property="og:url" content="https://radion.fm">
   <meta property="og:type" content="website">
   <meta property="og:title" content="RADION&trade; FM">
-  <meta property="og:description" content="RADION FM - A WEB-Based system where you can discover and create #NFT Music on Tezos.">
+  <meta property="og:description" content="RADION FM is an decentralized app website built on Tezos Blockchain. Here you can discover music, create NFT for exclusive rights and/or sell your music as NFT limited editions. Musicians can also earn crypto for downloads they receive.">
   <meta property="og:image" content="https://radion.fm/img/facebook-img.png">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -442,7 +442,8 @@ if ($result->num_rows > 0) {
   <!-- PAGE TITLE -->
                 <div class="page-title">
                     <h2><lord-icon src="https://cdn.lordicon.com//mmspidej.json" trigger="loop" delay="11000" colors="primary:#1B1E24,secondary:#F39C12" style="width:60px;height:60px">
-                    </lord-icon> <strong>LATEST NFT MUSIC</strong></h2>
+                    </lord-icon> <strong>LATEST NFT &nbsp;</strong></h2><br>
+                    <div>Exclusive Rights</div>
                 </div>
                 <!-- END PAGE TITLE -->
 
@@ -465,6 +466,7 @@ if ($result->num_rows > 0) {
                         <div>Issuer:<br><span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
                         <div>STREAM: <span class="nft-id"></span></div>
                         <div>IPFS: WAV Format</div>
+                        <div>Genre: <span class="nft-genre"></span></div>
                       </div>
                       <div class="panel-footer text-muted" align="center">
 
@@ -504,7 +506,8 @@ if ($result->num_rows > 0) {
 
                 <div class="page-title">
                     <h2><lord-icon src="https://cdn.lordicon.com//hciqteio.json" trigger="loop" delay="19000" colors="primary:#1B1E24,secondary:#F39C12" style="width:60px;height:60px">
-                    </lord-icon> <strong>LATEST NFT LIMITED EDITIONS</strong></h2>
+                    </lord-icon> <strong>LATEST NFT &nbsp;</strong></h2><br>
+                    <div>Limited Editions</div>
                 </div>
                 <!-- END PAGE TITLE -->
 
@@ -1832,6 +1835,7 @@ if ($result->num_rows > 0) {
     userTemplate = $('#temp-user').prop('content')
 
     getTokens('KT1MR8e46WJBq4RcFSogiDbSg3ceDRi81hpE').then(tokens => {
+      if (tokens[0].token_id === 0) tokens = tokens.reverse()
       displayTokens(tokens)
     })
 
@@ -1960,6 +1964,7 @@ if ($result->num_rows > 0) {
       const songName = nft.extras.song_name || (nft.extras.asset && nft.extras.asset.song_name)
       const title = songName ? songName.substr(0, 27) : songName
       const artist = nft.extras.artist || (nft.extras.asset && nft.extras.asset.artist)
+      const genre = nft.extras.genre
       let metadata = null
       try { metadata = await getMetadata(id) } catch (error) { console.log(error) }
       console.log('Fetched metadata: ', metadata)
@@ -1970,6 +1975,7 @@ if ($result->num_rows > 0) {
       $(elem).find('.nft-title').text(title).removeClass('nft-title')
       $(elem).find('.nft-issuer-address').text(owner).removeClass('nft-issuer-address')
       $(elem).find('.nft-id').text(id).removeClass('nft-id')
+      $(elem).find('.nft-genre').text(genre).removeClass('nft-genre')
       $('#nfts').append(elem)
       counts++
     }
