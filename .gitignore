@@ -1,6 +1,8 @@
 music/
 php/ranking_cache.json
 slbackups_mlicqx83sq/
+stored/*
+!stored/index.php
 tezos/
 credentials.json
 web.config
