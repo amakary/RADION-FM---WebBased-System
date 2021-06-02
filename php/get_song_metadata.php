@@ -2,14 +2,11 @@
 
 session_start();
 
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
 require_once '../getID3/getid3/getid3.php';
 require_once './db.php';
 require_once './music_info_get.php';
 
-$id = isset($_GET['id']) ? $_GET['id'] : null;
+$id = !empty($_GET['id']) ? $_GET['id'] : null;
 if ($id === null) {
   http_response_code(400);
   header('Content-Type: text/plain');
