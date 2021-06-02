@@ -414,13 +414,26 @@ if ($result->num_rows > 0) {
               <!-- END MAIN TITTLE -->
 
               <!-- COMMING NEXT SONG -->
-              <div style="width:55%; margin-left:5%; border-radius:15px 50px; opacity: 0.7; margin-bottom:30px;">
+              <div style="width:55%; margin-left:5%; border-radius:15px 50px; opacity: 0.7;">
                 <div style="padding-bottom:20px; padding-left:8%; padding-right:10px; color:#aaa;">
                   <div style="margin-left:0px; margin-bottom:10px; padding-left:10px; padding-right:10px; border-radius:3px; font-weight: bold;text-align: center; background-color:#2b2b2b; height:20px; color:#fff; display:inline-block;">Coming Next:</div><br>
                   <span class="next_congcls"></span>
                 </div>
               </div>
               <!-- END COMING NEXT SONG -->
+
+              <!-- PREVIOUS SONGS -->
+              <div style="width:55%; margin-left:5%; border-radius:15px 50px; opacity: 0.7; margin-bottom:30px;">
+                <div style="padding-bottom:20px; padding-left:8%; padding-right:10px; color:#aaa;">
+                  <div style="margin-left:0px; margin-bottom:10px; padding-left:10px; padding-right:10px; border-radius:3px; font-weight: bold;text-align: center; background-color:#2b2b2b; height:20px; color:#fff; display:inline-block;">Previous Songs:</div><br>
+                  <div class="prev-song-1"></div>
+                  <div class="prev-song-2"></div>
+                  <div class="prev-song-3"></div>
+                  <div class="prev-song-4"></div>
+                  <div class="prev-song-5"></div>
+                </div>
+              </div>
+              <!-- END PREVIOUS SONGS -->
             </div>
           </div>
 
@@ -1269,6 +1282,28 @@ if ($result->num_rows > 0) {
     }
   }
 
+  async function updatePrevious () {
+    $.ajax('/php/previous_songs.php', {
+      type: 'GET',
+      dataType: 'json',
+      cache: false,
+      success: function (data, status, xhr) {
+        for (let i = 0; i < 5; i++) {
+          const title = data[i].title
+          $('.prev-song-' + (i + 1).toString()).text(title)
+        }
+      },
+      error: function (xhr, status, error) {
+        noty({
+          text: error,
+          layout: 'topRight',
+          type: 'error',
+          timeout: 5000
+        })
+      }
+    })
+  }
+
   // Loop for checking marketplace submissions
   async function updateSubmission () {
     return new Promise((resolve, reject) => {
@@ -1296,10 +1331,12 @@ if ($result->num_rows > 0) {
 
   updateHistory()
   updateSong()
+  updatePrevious()
   updateSubmission()
 
   setInterval(updateHistory, 4000)
   setInterval(updateSong, 4000)
+  setInterval(updatePrevious, 4000)
   setInterval(updateSubmission, 10000)
   </script>
 
