@@ -497,7 +497,7 @@ if ($result->num_rows > 0) {
                 <div class="row" id="nfts"></div>
                 <template id="temp-nft">
                   <div class="col-md-2">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default nft-wrapper" style="cursor: pointer;">
                       <div class="panel-body panel-body-image">
                         <img class="nft-artwork" src="/img/NFT.jpg" width="205" height="205">
                         <a href="#" class="panel-body-inform">
@@ -2083,6 +2083,7 @@ if ($result->num_rows > 0) {
       const owner = await getCurrentOwner(nft.token_id)
       const id = nft.name !== 'Unknown' ? nft.name : nft.extras.asset_id
       console.log('Detected RADION ID: ' + id)
+      const hash = await getHash(id)
       const songName = nft.extras.song_name || (nft.extras.asset && nft.extras.asset.song_name)
       const title = songName ? songName.substr(0, 27) : songName
       const artist = nft.extras.artist || (nft.extras.asset && nft.extras.asset.artist)
@@ -2092,6 +2093,9 @@ if ($result->num_rows > 0) {
       console.log('Fetched metadata: ', metadata)
 
       if (metadata === null) continue
+      $(elem).find('.nft-wrapper').click(function () {
+        window.location = '/song-player.php?id=' + id + '&hash=' + hash
+      }).removeClass('nft-wrapper')
       $(elem).find('.nft-artwork').attr('src', metadata.artwork).removeClass('nft-artwork')
       $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
       $(elem).find('.nft-title').text(title).removeClass('nft-title')
