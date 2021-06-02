@@ -65,6 +65,16 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
   .linko:hover { color: #F39C12; }
   .fa-github: { color: #FFF; }
   .fa-github:hover { color:#F39C12; }
+
+  .xn-dropdown-menu {
+    display: none;
+    max-height: 300px;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+  }
+
+  .xn-dropdown-menu li a { color: #000; }
+  .xn-dropdown-menu li a:hover { color: #fff; }
   </style>
 </head>
 
@@ -211,6 +221,28 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
           </ul>
         </li>
         <!-- END MARKETPLACE MENU -->
+        <!-- SEARCH -->
+        <li class="xn-search">
+          <form id="search-form" action="/php/search.php" method="post" role="form" class="dropdown">
+            <input type="text" id="search-q" name="search-q" placeholder="Search...">
+            <button type="submit" style="display:none;"></button>
+            <div class="dropdown">
+              <button type="button" id="search-dropdown-toggle" style="display:none;"></button>
+              <ul id="search-results" class="dropdown-menu xn-dropdown-menu" aria-labelledby="search-dropdown-toggle">
+              </ul>
+            </div>
+          </form>
+        </li>
+
+        <template id="temp-result">
+          <li>
+            <a href="" class="result-link">
+              <div class="result-name"></div>
+              <small class="result-type"></small>
+            </a>
+          </li>
+        </template>
+        <!-- END SEARCH -->
 
         <li class="xn-icon-button pull-right" style="margin-right:0px;">
           <a href="#" class="sidebar-toggle"><i class="far fa-ellipsis-v-alt fa-lg"></i></a>
@@ -287,6 +319,7 @@ if ($result->num_rows > 0) {
 
 ?>
       <!-- END AD FEATURE / REQUIRE BACK-END -->
+<div align="right" style="background-color:#101215; padding:10px; color:#fff;">LOGIN | REGISTER FOR FREE</div>
       <!-- FRONT-END MODULE -->
       <div class="page-content-wrap">
         <div class="row backg" style="background-color:#101215; overflow:hidden; height:700px; background-image:<?= $student_img ?>;" >
@@ -1845,6 +1878,33 @@ if ($result->num_rows > 0) {
 
     getEditions()
 
+    $('#search-form').submit(function (event) {
+      event.preventDefault()
+
+      const q = $('#search-q').val()
+      $.ajax('/php/search.php', {
+        type: 'GET',
+        dataType: 'json',
+        data: { q: q },
+        cache: false,
+        success: function (data, status, xhr) {
+          displayResults(data.result)
+        },
+        error: function (xhr, status, error) {
+          noty({
+            text: error,
+            layout: 'topRight',
+            type: 'error',
+            timeout: 5000
+          })
+        }
+      })
+    })
+
+    $(':not(#search-form)').click(function () {
+      $('#search-results').hide()
+    })
+
     const xhr = new XMLHttpRequest()
     xhr.onload = function () {
       const data = JSON.parse(this.responseText)
@@ -1912,6 +1972,31 @@ if ($result->num_rows > 0) {
       resize()
     }
   })
+
+  async function displayResults (data) {
+    const template = $('#temp-result').prop('content')
+    $('#search-results').empty()
+
+    for (let i = 0; i < data.length; i++) {
+      const result = data[i]
+      const elem = $(template).clone(true, true)
+      const name = result.name
+      const id = result.id
+      const hash = result.hash
+      const type = result.type
+      let url = ''
+
+      if (type === 'user') url = '/user-profile.php?uid=' + id + '&hash=' + hash
+      else if (type === 'song') url = '/song-player.php?id=' + id + '&hash=' + hash
+
+      $(elem).find('.result-link').attr('href', url).removeClass('result-link')
+      $(elem).find('.result-name').text(name).removeClass('result-name')
+      $(elem).find('.result-type').text(type).removeClass('result-type')
+      $('#search-results').append(elem)
+    }
+
+    $('#search-results').show()
+  }
 
   async function displayUsers (data) {
     for (let i = 0; i < data.length; i++) {
