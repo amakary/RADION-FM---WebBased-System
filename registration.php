@@ -29,19 +29,6 @@ require_once 'slpw/slregisterform.php';
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <!-- END META SECTION -->
-
-  <!-- CSS INCLUDE -->
-  <link rel="stylesheet" type="text/css" id="theme" href="css/theme-dark.css">
-  <link rel="stylesheet" href="/radionwallet/radionwallet.css">
-
-  <!-- JS INCLUDE -->
-  <script src="/js/all.js" defer></script>
-  <script src="/js/plugins/jquery/jquery.min.js"></script>
-  <script src="/radionwallet/radionwallet.min.js"></script>
-  <!-- EOF CSS INCLUDE -->
-
   <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
@@ -51,6 +38,7 @@ require_once 'slpw/slregisterform.php';
   <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
   <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
   <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
@@ -59,6 +47,15 @@ require_once 'slpw/slregisterform.php';
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
+
+  <!-- CSS INCLUDE -->
+  <link rel="stylesheet" type="text/css" id="theme" href="css/theme-dark.css">
+
+  <!-- JS INCLUDE -->
+  <script src="/js/all.js" defer></script>
+  <script src="/js/plugins/jquery/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/cryptonomic/conseiljs/dist-web/conseiljs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/cryptonomic/conseiljs-softsigner/dist-web/conseiljs-softsigner.min.js"></script>
 </head>
 
 <body>
@@ -138,7 +135,7 @@ require_once 'slpw/slregisterform.php';
                 </div><br>
 
                 <div id="slfielddiv_1_6" class="sltextfield_1">
-                  <input type="text" class="form-control rw-create-key-mnemonic-pkh" name="custom6" id="slfieldinput_1_6" placeholder="tz1" maxlength="255" value="<?php echo $custom6; ?>" readonly>
+                  <input type="text" class="form-control" name="custom6" id="slfieldinput_1_6" placeholder="tz1" maxlength="255" value="<?php echo $custom6; ?>" readonly>
                   <div id="slmsg_1_6" class ="slmsg_1" aria-live="polite" style="color:#C0392B;"></div>
                 </div><br>
 
@@ -165,13 +162,13 @@ require_once 'slpw/slregisterform.php';
 
 				<p align="justify" class="registration-subtitle">Now, if you are confused or not sure about this and you need to put things in perspective, (no problem) we recommend you to watch this video! <a href="https://www.youtube.com/watch?v=9rMDgFsA7wo" target='blank' rel='nofollow'>Click Here</a>.</p>
 				<br>
-				<button type="button" class="rw-create-key-btn btn btn-deafult btn-block"><i class="fad fa-wallet fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE WALLET</button>
+				<button type="button" class="create-wallet btn btn-deafult btn-block"><i class="fad fa-wallet fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE WALLET</button>
                 <button type="button" class="import-wallet btn btn-primary btn-block"><i class="far fa-wallet fa-lg"></i>&nbsp;&nbsp;CONNECT WALLET</button><br>
                 <p align="justify" class="registration-subtitle"><strong>Note</strong>: We use a third party SDK to interact with Tezos blockchain!</p>
               </div>
 
-              <form id="rw-create-key" action="#" method="get">
-                <div class="rw-hidden rw-create-key-mnemonic">
+              <form id="create-wallet-form" action="#" method="get">
+                <div class="create-wallet-form-words" style="display:none;">
                   <h4>Great, let's create your wallet!</h4>
                   <div align="right" style="padding-bottom:15px; margin-top:-25px;"><a href="#" style="color:#F39C12; text-decoration: none;">Help <i class="far fa-info-circle"></i></a></div>
                   <p class="registration-subtitle" align="justify">If you are new in crypto space, it is more than likely that you are not familiar with some terms, for instance; "Seed Words". Seed words are the master key of your wallet. Make sure you write this down, and keep it in a safe place. You will need it to have access and manage your wallet.</p>
@@ -179,40 +176,26 @@ require_once 'slpw/slregisterform.php';
                     <h4>--- YOUR SEED WORDS ---</h4>
                   </div>
 
-                  <span class="rw-create-key-mnemonic-words" style="color:#2E86C1;"></span><hr>
-                  <button type="button" class="rw-create-key-proceed button btn btn-default"><i class="fad fa-arrow-alt-to-right"></i> Next</button>
+                  <span class="create-wallet-words" style="color:#2E86C1;"></span><hr>
+                  <button type="button" class="create-wallet-words-proceed button btn btn-default"><i class="fad fa-arrow-alt-to-right"></i> Next</button>
                 </div>
 
-                <div class="rw-hidden rw-mnemonic-verify">
+                <div class="create-wallet-verify" style="display:none;">
                   <h4>Let's verify your seed words!</h4>
-                  <p class="registration-subtitle" align="justify">Keep in mind that is not just about having the seed words, but also you have to keep the order in which they were given to you. Fill in the word to verify your seed backup!<br><br>Type the missing word! <span style="padding-left:10px; padding-right:10px;">-</span> <span class="rw-mnemonic-verify-steps" style="color:#F39C12;">0/6</span></p>
-                  <span class="rw-mnemonic-before col-md-3" style="color:#2E86C1; margin-top:10px;"></span>
-                  <span class="col-md-6"><input type="text" class="rw-mnemonic-between form-control"></span>
-                  <span class="rw-mnemonic-after col-md-3" style="color:#2E86C1; margin-top:10px;"></span>
+                  <p class="registration-subtitle" align="justify">Keep in mind that is not just about having the seed words, but also you have to keep the order in which they were given to you. Fill in the word to verify your seed backup!<br><br>Type the missing word! <span style="padding-left:10px; padding-right:10px;">-</span> <span class="create-wallet-verify-steps" style="color:#F39C12;">0/6</span></p>
+                  <span class="create-wallet-verify-before col-md-3" style="color:#2E86C1; margin-top:10px;"></span>
+                  <span class="col-md-6"><input type="text" class="create-wallet-verify-between form-control"></span>
+                  <span class="create-wallet-verify-after col-md-3" style="color:#2E86C1; margin-top:10px;"></span>
                 </div><br><br>
 
-                <div class="rw-hidden rw-mnemonic-password">
-                  <h4>Well done. Now, an extra security feature!</h4>
-                  <p class="registration-subtitle" align="justify">This password MUST be different than your personal information password. This password will help you to create an encrypted file and open your wallet in a future.<br><br>We recommend a strong password with more than 12 characters, ideally with capital letters, numbers, and special characters.</p>
-                  <input type="password" id="rw-mnemonic-password-input" class="form-control" placeholder="Password"><br>
-                  <input type="password" id="rw-mnemonic-password-input-verify" class="form-control" placeholder="Verify Password">
-
-                  <p class="rw-hidden rw-mnemonic-password-output" style="color:#CD6155"></p><br>
-                  <button type="button" class="rw-mnemonic-password-submit button btn btn-default"><i class="fad fa-arrow-alt-to-right"></i> Next</button>
-                </div>
-
-                <div class="rw-hidden rw-create-download">
-                  <div id="slfielddiv_1_7" class="slcaptchafield_1" align="center">
-                    <br>
+                <div class="create-wallet-complete" style="display:none;">
+                  <div align="center"><br>
                     <div style="color:#fff;" align="left">Are you a Human?</div><br>
                     <div class="g-recaptcha" data-callback="recaptcha" data-sitekey="6Lc_iEwUAAAAAIdL2wIXu9hZxvfpJjQiJ_OnUL90" data-theme="dark" data-size="normal"></div>
-                    <script>if (null!==document.getElementById("slfieldinput_1_7")) { var captchah=document.getElementById("slfieldinput_1_7").offsetHeight; if((typeof(captchah)!='undefined') && (captchah>2)) document.getElementById("slturingimg_1_7").style.height=captchah+'px'; }</script>
-                    <div id="slmsg_1_7" class ="slmsg_1" aria-live="polite"></div>
                   </div><br>
 
                   <div align="center">
-                    <a href="#" class="rw-key-download btn btn-primary btn-block" style="text-decoration:none; color:#fff;"><i class="fad fa-download"></i> Download File</a><br>
-                    <button id="myButton_1" class="button btn btn-success btn-block" name="register_submit_1" type="button" disabled><i class="fad fa-check-circle"></i> Sign Up</button><div id="slspinner_1"></div>
+                    <button id="myButton_1" class="button btn btn-success btn-block" type="button"><i class="fad fa-check-circle"></i> Sign Up</button>
                   </div>
                 </div>
               </form>
@@ -266,20 +249,24 @@ require_once 'slpw/slregisterform.php';
 
   <script src="/js/walletbeacon.min.js"></script>
   <script>
-  /* eslint-env browser,jquery */
+  const { DAppClient } = beacon
+  const { KeyStoreUtils } = conseiljssoftsigner
+
   function recaptcha (token) {
     $('input[name="g-recaptcha-response"]').val(token)
   }
 
-  const client = new beacon.DAppClient({
+  const client = new DAppClient({
     name: 'RADION FM',
     iconUrl: 'https://www.radion.fm/favicon/apple-icon-60x60.png',
     appUrl: 'https://www.radion.fm'
   })
 
   $(document).ready(function () {
-    // hover effect
     let activated = false
+    let mnemonic = null
+    let pkh = null
+
     $('#wallet-btn').hover(function () {
       $('.wallet-side > .registration-title, .wallet-side > .registration-subtitle').css('color', '#ddd')
     }, function () {
@@ -319,8 +306,8 @@ require_once 'slpw/slregisterform.php';
     })
 
     $('[name="custom1"]').on('input', function () {
-        const value = $(this).val()
-        $(this).val(value.toUpperCase())
+      const value = $(this).val()
+      $(this).val(value.toUpperCase())
     })
 
     $('#form-register').submit(function (event) {
@@ -329,37 +316,63 @@ require_once 'slpw/slregisterform.php';
       if (!result) event.preventDefault()
     })
 
-    $('.rw-create-key-btn').click(function () {
+    $('.create-wallet').click(async function () {
       $('.user-wallet,.import-wallet').hide()
+      mnemonic = KeyStoreUtils.generateMnemonic().split(' ')
+      const keystore = await KeyStoreUtils.restoreIdentityFromMnemonic(mnemonic.join(' '), '')
+      pkh = keystore.publicKeyHash
+      $('.create-wallet-form-words').show()
+      $('.create-wallet-words').text(mnemonic.join(' '))
+    })
+
+    $('.create-wallet-words-proceed').click(function () {
+      $('.create-wallet-form-words').hide()
+      $('.create-wallet-verify').show()
+      nextStep()
+    })
+
+    const totalSteps = 6
+    let currentStep = 0
+    let word = null
+
+    function nextStep () {
+      if (currentStep < totalSteps) {
+        const random = Math.floor(Math.random() * mnemonic.length)
+        const before = mnemonic[random - 1] || ''
+        const after = mnemonic[random + 1] || ''
+        word = mnemonic[random]
+
+        $('.create-wallet-verify-before').text(before)
+        $('.create-wallet-verify-after').text(after)
+      }
+    }
+
+    $('.create-wallet-verify-between').on('input', function () {
+      const value = $(this).val()
+      if (value === word) {
+        currentStep++
+        $(this).val('')
+        $('.create-wallet-verify-steps').text(currentStep + '/' + totalSteps)
+
+        if (currentStep === totalSteps) {
+          $('.create-wallet-verify').hide()
+          $('.create-wallet-complete').show()
+          $('#slfieldinput_1_6').val(pkh)
+        } else nextStep()
+      }
     })
 
     $('.import-wallet').click(async function () {
       await client.requestPermissions()
       const account = await client.getActiveAccount()
       $('#slfieldinput_1_6').val(account.address)
-      $('.rw-create-download').show()
-      $('.rw-key-download').hide()
+      $('.create-wallet-complete').show()
       $('#myButton_1').attr('disabled', null)
       $('.user-wallet,.import-wallet').hide()
     })
 
     $('#myButton_1').click(function () {
       $('#form-register').submit()
-    })
-
-    $('.rw-mnemonic-password-submit').click(function () {
-      const pass = $('#rw-mnemonic-password-input').val()
-      const verify = $('#rw-mnemonic-password-input-verify').val()
-
-      if (pass === verify) {
-        const address = $('.rw-create-key-mnemonic-pkh').text()
-        $('#slfieldinput_1_6').val(address)
-      }
-    })
-
-    radionWallet.events.on('key-download', function (key) {
-      $('#myButton_1').attr('disabled', null)
-      $('#slfieldinput_1_6').val(key.address)
     })
   })
   </script>
@@ -501,12 +514,12 @@ function slvalidateform_1(form)
 
 
   // Clear captcha message
-  var obj=document.getElementById('slmsg_1_7');
-  if (obj!==null)
-    obj.innerHTML='';
-  obj=document.getElementById('slmsg_1_7');
-  if (obj!==null)
-    obj.style['display']="none";
+  // var obj=document.getElementById('slmsg_1_7');
+  // if (obj!==null)
+  //   obj.innerHTML='';
+  // obj=document.getElementById('slmsg_1_7');
+  // if (obj!==null)
+  //   obj.style['display']="none";
 
   if (errorfound)
   {
@@ -540,7 +553,7 @@ function slvalidateform_1(form)
       {
         // Handle callback
         document.getElementById('myButton_1').disabled=false;
-        document.getElementById('slspinner_1').style['display']="none";
+        // document.getElementById('slspinner_1').style['display']="none";
         var data = JSON.parse(xhr.responseText);
         if (data.success)
         {
@@ -571,7 +584,7 @@ function slvalidateform_1(form)
       var formData=sl_serialize(form);
     var slfrmact=window.location.href;
     document.getElementById('myButton_1').disabled=true;
-    document.getElementById('slspinner_1').style['display']="block";
+    // document.getElementById('slspinner_1').style['display']="block";
     xhr.open("POST", slfrmact, true);
     if (!slformdataavailable)
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
