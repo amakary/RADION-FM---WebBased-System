@@ -1,106 +1,128 @@
 
-const { TezosToolkit, MichelsonMap } = taquito
-const { BeaconWallet } = taquitoBeaconWallet
-const { NetworkType } = beacon
+const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
+const fixedPrice = 'KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6'
 
-const rpc = 'https://mainnet-tezos.giganode.io'
-const tezos = new TezosToolkit(rpc)
-const wallet = new BeaconWallet({
-  name: 'RADION FM',
-  iconUrl: 'https://www.radion.fm/favicon/apple-icon-60x60.png',
-  appUrl: 'https://www.radion.fm'
-})
+let terms = null
 
-tezos.setWalletProvider(wallet)
+async function submit (formData) {
+  noty({
+    text: '<i class="fad fa-spinner-third fa-spin fa-lg"></i> Uploading file to server! Please wait for confirmation. Do not refresh browser.',
+    layout: 'topRight',
+    timeout: 16000
+  })
 
-function readFile (file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = function () {
-      resolve(this.result)
-    }
-
-    reader.readAsArrayBuffer(file)
+    $.ajax('/mint_upload_Operation.php', {
+      type: 'POST',
+      data: formData,
+      dataType: 'json',
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        noty({
+          text: '<i class="far fa-check-circle fa-lg"></i> Submission was successful!',
+          layout: 'topRight',
+          type: 'success',
+          timeout: 5000
+        })
+        resolve(data)
+      },
+      error: function (xhr, status, error) {
+        console.error(status, xhr, error)
+        noty({
+          text: 'Something went wrong. Error: ' + xhr.responseText,
+          layout: 'topRight',
+          type: 'error'
+        })
+        reject(error)
+      }
+    })
   })
 }
 
-function strToHex (string) {
-  let result = ''
-  string = string.toString()
+$('#mint-submit').click(async function (event) {
+  event.preventDefault()
 
-  for (let i = 0; i < string.length; i++) {
-    const hex = string.charCodeAt(i).toString(16)
-    result += hex
+  const files = $('#upload-dropzone').prop('dropzone').files
+  let audioFile = null
+  let audioType = null
+  let imageBytes = null
+  let imageFile = null
+  let imageType = null
+
+  for (let i = 0; i < files.length; i++) {
+    if (audioFile !== null && imageFile !== null) break
+
+    const file = files[i]
+    if (file.type.startsWith('audio')) {
+      audioFile = file
+      audioType = file.type
+    } else if (file.type.startsWith('image')) {
+      imageFile = file
+      imageType = file.type
+    }
   }
 
-  return result
-}
-
-async function mint () {
-  $('#submit_btn').attr('disabled', true)
-  const files = $('#filename1').prop('files')
-  if (files.length === 0) {
+  if (audioType !== 'audio/mpeg' && audioType !== 'audio/wav') {
     noty({
-      text: 'WAV/MP3 upload is required',
+      text: 'Audio file is neither MP3 nor WAV',
       layout: 'topRight',
       type: 'error',
       timeout: 5000
     })
-    $('#submit_btn').attr('disabled', null)
     return
   }
 
-  const audioFile = files[0]
-  const audioExt = audioFile.name.split('.').pop()
-  if (audioExt.match(/^(wav|mp3)$/i) === null) {
+  const audioData = await readFile(audioFile)
+  let artworkData = null
+
+  if (imageFile === null) {
+    const mp3tag = new MP3Tag(audioData)
+    mp3tag.read()
+
+    if (mp3tag.tags.v2 && mp3tag.tags.v2.APIC) {
+      const artwork = mp3tag.tags.v2.APIC[0]
+      artworkData = artwork.data
+      imageType = artwork.format
+    } else {
+      noty({
+        text: 'No artwork found, please upload',
+        layout: 'topRight',
+        type: 'error'
+      })
+      return
+    }
+  } else artworkData = await readFile(imageFile)
+  imageBytes = new Uint8Array(artworkData)
+
+  if (terms !== 'essential' && terms !== 'premium' && terms !== 'commercial') {
     noty({
-      text: 'Uploaded file is not a WAV/MP3 file',
+      text: 'No terms and license selected',
       layout: 'topRight',
       type: 'error',
       timeout: 5000
     })
-    $('#submit_btn').attr('disabled', null)
     return
   }
 
   const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
   await wallet.requestPermissions({ network })
-
-  const audioData = await readFile(audioFile)
-  const ipfsNode = await Ipfs.create({ repo: 'ipfs.io' })
-  noty({
-    text: 'Uploading asset to IPFS',
-    layout: 'topRight',
-    timeout: 10000
-  })
-
-  const { cid } = await ipfsNode.add(audioData)
+  const pkh = await wallet.getPKH()
   const thumbnailCid = 'QmPRSm43Wcpoch3qdaENqV3aGqpBv37wdPEBR9j7wMRoxV'
 
-  const contract = await tezos.contract.at('KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj')
-  const sellContract = await tezos.contract.at('KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6')
+  const contract = await tezos.contract.at(fa2)
+  const sellContract = await tezos.contract.at(fixedPrice)
   const storage = await contract.storage()
   const editionId = storage.next_edition_id.c[0]
   const maxPerRun = storage.max_editions_per_run.c[0]
-  const pkh = await wallet.getPKH()
   const map = new MichelsonMap()
   const date = new Date()
 
-  const description = $('#description').val()
-  const id = $('#id').val()
-  const title = $('#title').val()
-  const artist = $('#artist').val()
-  const album = $('#album').val()
-  const genre = $('#genre').val()
-  const track = $('#track').val()
-  const year = $('#year').val()
-  const license = $('#license').val()
-  const record = $('#record-label').val()
-  const filesize = $('#filesize').val()
-  const isrc = $('#isrc').val()
-  const idbml = $('#idbml').val()
-  const editionsCount = parseInt($('#editions-count').val())
-  let type = $('[name="license-class"]').val()
+  const artist = $('#mint-artist').val()
+  const title = $('#mint-title').val()
+  const genre = $('#mint-genre').val()
+  const editionsCount = parseInt($('#mint-editions').val() || '0')
   let termsURL = ''
   let sellPrice = 0
 
@@ -114,7 +136,7 @@ async function mint () {
     return
   }
 
-  switch (type) {
+  switch (terms) {
     case 'essential':
       termsURL = 'https://radion.fm/essential-terms-contract.html'
       break
@@ -128,57 +150,60 @@ async function mint () {
       break
   }
 
+  const formData = new FormData()
+  const data = {
+    artwork: {
+      name: imageFile.name,
+      value: new Blob([imageBytes], { type: imageType })
+    },
+    mp3: audioFile.name,
+    title: title,
+    artist: artist,
+    genre: genre,
+    copyright: terms,
+    edition_id: editionId
+  }
+
+  for (const name in data) {
+    const value = data[name]
+    if (typeof value === 'object') formData.append(name, value.value, value.name)
+    else formData.append(name, value)
+  }
+
+  const response = await submit(formData)
+  const ipfsNode = await ipfsNodeAsync
+  const id = response.id
   const bytes = JSON.stringify({
-    name: id,
+    name: title,
     symbol: 'RADION',
-    description: description,
     decimals: 0,
     tags: [],
-    artifactUri: 'ipfs://' + cid.toString(),
     thumbnailUri: 'ipfs://' + thumbnailCid,
-    formats: [{
-      uri: 'ipfs://' + cid.toString(),
-      mimeType: audioExt === 'wav' ? 'audio/wav' : 'audio/mpeg'
-    }],
+    formats: [],
     date: date.toISOString(),
     // assets
-    asset_id: id,
     song_name: title,
     artist: artist,
-    album: album,
     genre: genre,
-    track: track,
     copyright_holder: 'Yes',
     publisher: 'RADION FM',
-    year_created: year,
-    record_label: record,
-    asset_sizes: filesize + ' kb',
-    isrc: isrc,
-    idbml: idbml,
     licensing_terms: termsURL,
-    legal_contract_type: type
+    legal_contract_type: terms
   })
 
   const { cid: bytesCid } = await ipfsNode.add(bytes)
+  await ipfsNode.pin.add(bytesCid.toString())
   map.set('', strToHex('ipfs://' + bytesCid.toString()))
-  map.set('description', strToHex(description))
-  map.set('asset_id', strToHex(id))
   map.set('date', strToHex(date.toISOString()))
   map.set('song_name', strToHex(title))
   map.set('artist', strToHex(artist))
-  map.set('album', strToHex(album))
   map.set('genre', strToHex(genre))
-  map.set('track', strToHex(track))
   map.set('copyright_holder', strToHex('Yes'))
   map.set('publisher', strToHex('RADION FM'))
-  map.set('year_created', strToHex(year))
-  map.set('record_label', strToHex(record))
-  map.set('asset_format', strToHex('WAV'))
-  map.set('asset_sizes', strToHex(filesize + ' kb'))
-  map.set('isrc', strToHex(isrc))
-  map.set('idbml', strToHex(idbml))
+  map.set('asset_id', strToHex(id))
+  map.set('asset_format', strToHex(audioType === 'audio/mpeg' ? 'MP3' : 'WAV'))
   map.set('licensing_terms', strToHex(termsURL))
-  map.set('legal_contract_type', strToHex(type))
+  map.set('legal_contract_type', strToHex(terms))
 
   const batch = tezos.batch()
   const receivers = []
@@ -194,8 +219,8 @@ async function mint () {
     receivers: receivers
   }]))
 
-  if ($('#sell-allow').is(':checked')) {
-    const sellUSD = $('#sell-price').val()
+  if ($('#mint-sell').is(':checked')) {
+    const sellUSD = $('#mint-price').val()
     if (parseFloat(sellUSD) < 0) {
       noty({
         text: 'Price should not be negative',
@@ -236,39 +261,17 @@ async function mint () {
   try {
     const op = await tezos.wallet.batch(batch.operations).send()
     const n = noty({
-      text: 'Waiting for confirmation',
+      text: 'Please wait for confirmation!',
       layout: 'topRight',
+      type: 'info'
     })
 
-    const confirmed = await op.confirmation()
+    const confirmed = await op.confirmation(1)
     if (confirmed) {
-      $.ajax('/php/mint.php', {
-        type: 'POST',
-        data: {
-          id: id,
-          cid: cid.toString(),
-          edition_id: editionId,
-          editions_count: editionsCount,
-          price: sellPrice,
-          terms: type
-        },
-        complete: function () {
-          n.close()
-        },
-        success: function (data, status, xhr) {
-          noty({
-            text: 'Submission was successful!',
-            layout: 'topRight',
-            type: 'success'
-          })
-        },
-        error: function () {
-          noty({
-            text: 'Something went wrong',
-            layout: 'topRight',
-            type: 'error'
-          })
-        }
+      noty({
+        text: 'Operation was successful',
+        layout: 'topRight',
+        type: 'success'
       })
     } else {
       noty({
@@ -278,54 +281,42 @@ async function mint () {
       })
     }
   } catch (error) {}
+})
 
-  $('#submit_btn').attr('disabled', null)
-}
+$('#mint-sell').change(function () {
+  const checked = $(this).is(':checked')
+  if (checked) $('#mint-editions, #mint-price').attr('disabled', null)
+  else $('#mint-editions, #mint-price').attr('disabled', true)
+})
 
-$(document).ready(function () {
-  $('#connect-wallet').click(async function (event) {
-    event.preventDefault()
-    await wallet.requestPermissions()
-
-    const address = await wallet.getPKH()
-    const mutez = await tezos.tz.getBalance(address)
-    const balance = mutez / 1000000
-    const usdRate = $('.tezos-price-usd').text()
-    const usdBalance = parseFloat(balance * usdRate).toFixed(2)
-
-    new QRCode($('#qraddress')[0], address)
-    $('#get_source').text(address)
-    $('#wallet_address').text(address)
-    $('#modal_basic').modal('hide')
-    $('#address').text(balance + ' ꜩ')
-    $('#usd_balance').text(usdBalance)
-  })
-
-  $('#submit_btn').click(function (event) {
-    event.preventDefault()
-    const termsAccepted = $('input[name="agree_disagree"]').is(':checked')
-    if (termsAccepted) mint()
-    else noty({
-      text: 'Terms and Conditions are not accepted',
-      layout: 'topRight',
-      type: 'error',
-      timeout: 5000
+$('#mint-license').change(function () {
+  const checked = $(this).is(':checked')
+  if (checked) {
+    $('#mint-terms-dropdown').attr({
+      'data-toggle': 'dropdown',
+      disabled: null
     })
-  })
-
-  $('#sell-allow').on('change', function () {
-    const checked = $(this).is(':checked')
-    $('#sell-price').attr('disabled', checked ? null : true)
-  })
-
-  $('#sell-price').on('input', updateConversion)
-  $('#sell-price').on('change', updateConversion)
-
-  async function updateConversion (event) {
-    const sellUSD = $('#sell-price').val()
-    if (!sellUSD) $('#sell-price-xtz').html('0 &#42793;')
-
-    const sellXTZ = (parseFloat(sellUSD) / parseFloat(priceUsd)).toFixed(6)
-    $('#sell-price-xtz').html(sellXTZ + ' &#42793;')
+  } else {
+    terms = null
+    $('#mint-terms').text('Select Terms & License')
+    $('#mint-terms-dropdown').attr({
+      'data-toggle': null,
+      disabled: true
+    })
   }
+})
+
+$('#mint-essential').click(function (event) {
+  terms = 'essential'
+  $('#mint-terms').text('Essential')
+})
+
+$('#mint-premium').click(function (event) {
+  terms = 'premium'
+  $('#mint-terms').text('Premium')
+})
+
+$('#mint-commercial').click(function (event) {
+  terms = 'commercial'
+  $('#mint-terms').text('Commercial')
 })

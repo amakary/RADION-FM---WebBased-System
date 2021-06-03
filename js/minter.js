@@ -63,28 +63,6 @@ async function mint () {
     return
   }
 
-  const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
-  await wallet.requestPermissions({ network })
-
-  const wavData = await readFile(wav)
-  const ipfsNode = await Ipfs.create({ repo: 'ipfs.io' })
-  noty({
-    text: 'Uploading asset to IPFS',
-    layout: 'topRight',
-    timeout: 10000
-  })
-
-  const { cid } = await ipfsNode.add(wavData)
-  const thumbnailCid = 'QmPRSm43Wcpoch3qdaENqV3aGqpBv37wdPEBR9j7wMRoxV'
-
-  const contract = await tezos.contract.at('KT1MR8e46WJBq4RcFSogiDbSg3ceDRi81hpE')
-  const sellContract = await tezos.contract.at('KT1BPDJPbu414RWUZ4jdr4e2RBAsR8rAXkFH')
-  const storage = await contract.storage()
-  const tokenId = storage.assets.next_token_id.c[0]
-  const pkh = await wallet.getPKH()
-  const map = new MichelsonMap()
-  const date = new Date()
-
   const description = $('#description').val()
   const id = $('#id').val()
   const title = $('#title').val()
@@ -98,6 +76,38 @@ async function mint () {
   const filesize = $('#filesize').val()
   const isrc = $('#isrc').val()
   const idbml = $('#idbml').val()
+  if (!id) {
+    noty({
+      text: 'Empty ID',
+      layout: 'topRight',
+      type: 'error',
+      timeout: 5000
+    })
+    return
+  }
+
+  const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
+  await wallet.requestPermissions({ network })
+
+  const wavData = await readFile(wav)
+  const ipfsNode = await Ipfs.create({ repo: 'ipfs.io' })
+  noty({
+    text: 'Uploading asset to IPFS',
+    layout: 'topRight',
+    timeout: 10000
+  })
+
+  const { cid } = await ipfsNode.add(wavData)
+  await ipfsNode.pin.add(cid.toString())
+  const thumbnailCid = 'QmPRSm43Wcpoch3qdaENqV3aGqpBv37wdPEBR9j7wMRoxV'
+
+  const contract = await tezos.contract.at('KT1MR8e46WJBq4RcFSogiDbSg3ceDRi81hpE')
+  const sellContract = await tezos.contract.at('KT1BPDJPbu414RWUZ4jdr4e2RBAsR8rAXkFH')
+  const storage = await contract.storage()
+  const tokenId = storage.assets.next_token_id.c[0]
+  const pkh = await wallet.getPKH()
+  const map = new MichelsonMap()
+  const date = new Date()
 
   const bytes = JSON.stringify({
     name: id,
@@ -114,6 +124,7 @@ async function mint () {
   })
 
   const { cid: bytesCid } = await ipfsNode.add(bytes)
+  await ipfsNode.pin.add(bytesCid.toString())
   map.set('', strToHex('ipfs://' + bytesCid.toString()))
   map.set('description', strToHex(description))
   map.set('asset_id', strToHex(id))
