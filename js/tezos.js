@@ -16,7 +16,7 @@ $(document).ready(function () {
           const vwap24Hr = data.vwap.toFixed(2)
 
           window.priceUsd = priceUsd
-          window.price = parseFloat((0.50 / window.priceUsd).toFixed(6))
+          window.price = parseFloat((1.00 / window.priceUsd).toFixed(6))
           $('.tezos-name').text('Tezos')
           $('.tezos-symbol').text(data.base)
           // $('.tezos-rank').text(data.data.rank)
@@ -44,3 +44,48 @@ $(document).ready(function () {
   updatePrice()
   setInterval(updatePrice, 10000)
 })
+
+async function getBalances (address, contract) {
+  const balances = []
+  let total = -1
+
+  while (total === -1 || balances.length !== total) {
+    const url = 'https://api.better-call.dev/v1/account/mainnet/' + address + '/token_balances'
+    const response = await $.get(url, {
+      contract: contract,
+      size: 10,
+      offset:  balances.length
+    }, 'json')
+
+    balances.push(...response.balances)
+    total = response.total
+  }
+
+  return balances
+}
+
+async function getTokens (contract) {
+  const tokens = []
+  const total = await getTokensCount(contract)
+
+  while (tokens.length !== total) {
+    const url = 'https://api.better-call.dev/v1/contract/mainnet/' + contract + '/tokens'
+    const response = await $.get(url, {
+      size: 10,
+      offset: tokens.length
+    }, 'json')
+
+    tokens.push(...response)
+  }
+
+  return tokens
+}
+
+async function getTokensCount (contract) {
+  return new Promise((resolve, reject) => {
+    const url = 'https://api.better-call.dev/v1/contract/mainnet/' + contract + '/tokens/count'
+    $.getJSON(url, (data) => {
+      resolve(data.count)
+    })
+  })
+}
