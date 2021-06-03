@@ -68,13 +68,17 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
 
   .xn-dropdown-menu {
     display: none;
+    width: 400px !important;
     max-height: 300px;
+    background-color: #14171b;
+    border: 1px solid #101215;
     overflow-y: scroll !important;
     overflow-x: hidden !important;
   }
 
-  .xn-dropdown-menu li a { color: #000; }
-  .xn-dropdown-menu li a:hover { color: #fff; }
+  .xn-dropdown-menu::-webkit-scrollbar { display: none; }
+  .xn-dropdown-menu > li > a { color: #aaa; border-bottom: 1px solid #14171b; }
+  .xn-dropdown-menu > li > a:hover { color: #fff; }
   </style>
 </head>
 
@@ -237,8 +241,7 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
         <template id="temp-result">
           <li>
             <a href="" class="result-link">
-              <div class="result-name"></div>
-              <small class="result-type"></small>
+              <span class="result-name"></span> <small class="result-type" style="position:absolute; right:0; padding-right:20px;">- </small>
             </a>
           </li>
         </template>
@@ -261,7 +264,7 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
         <!-- PROFILE MENU UPPER CORNER RIGHT -->
         <li class="x-features-profile pull-right">
           <a href="#" style="background-color:inherit">
-            <img src="<?php siteloklink($slcustom2, 0); ?>" style="display:inline-block; border-radius:50%; width:28px; height:28px; margin-top:-4px; margin-bottom:-7px; background-color:#1D2127;" alt="">
+            <img src="<?= isset($_SESSION) && isset($_SESSION["ses_sluserid"]) ? siteloklink($slcustom2, 0) : '/img/no-image.jpg' ?>" style="display:inline-block; border-radius:50%; width:28px; height:28px; margin-top:-4px; margin-bottom:-7px; background-color:#1D2127;" alt="">
             <span class="fas fa-angle-down fa-lg"></span>
           </a>
 
@@ -319,7 +322,7 @@ if ($result->num_rows > 0) {
 
 ?>
       <!-- END AD FEATURE / REQUIRE BACK-END -->
-<div align="right" style="background-color:#101215; padding:10px; color:#fff;">LOGIN | REGISTER FOR FREE</div>
+
       <!-- FRONT-END MODULE -->
       <div class="page-content-wrap">
         <div class="row backg" style="background-color:#101215; overflow:hidden; height:700px; background-image:<?= $student_img ?>;" >
@@ -414,7 +417,7 @@ if ($result->num_rows > 0) {
               <!-- END MAIN TITTLE -->
 
               <!-- COMMING NEXT SONG -->
-              <div style="width:55%; margin-left:5%; border-radius:15px 50px; opacity: 0.7;">
+              <div style="width:55%; margin-left:3%; border-radius:15px 50px; opacity: 0.7;">
                 <div style="padding-bottom:20px; padding-left:8%; padding-right:10px; color:#aaa;">
                   <div style="margin-left:0px; margin-bottom:10px; padding-left:10px; padding-right:10px; border-radius:3px; font-weight: bold;text-align: center; background-color:#2b2b2b; height:20px; color:#fff; display:inline-block;">Coming Next:</div><br>
                   <span class="next_congcls"></span>
@@ -423,9 +426,9 @@ if ($result->num_rows > 0) {
               <!-- END COMING NEXT SONG -->
 
               <!-- PREVIOUS SONGS -->
-              <div style="width:55%; margin-left:5%; border-radius:15px 50px; opacity: 0.7; margin-bottom:30px;">
+              <div style="width:55%; margin-left:55%; margin-top:-90px; border-radius:15px 50px; opacity: 0.7; margin-bottom:30px;">
                 <div style="padding-bottom:20px; padding-left:8%; padding-right:10px; color:#aaa;">
-                  <div style="margin-left:0px; margin-bottom:10px; padding-left:10px; padding-right:10px; border-radius:3px; font-weight: bold;text-align: center; background-color:#2b2b2b; height:20px; color:#fff; display:inline-block;">Previous Songs:</div><br>
+                  <div style="margin-left:0px; margin-bottom:10px; padding-left:10px; padding-right:10px; border-radius:3px; font-weight: bold;text-align: center; background-color:#f2c945; height:20px; color:#333; display:inline-block;">Previous Songs:</div><br>
                   <div class="prev-song-1"></div>
                   <div class="prev-song-2"></div>
                   <div class="prev-song-3"></div>
@@ -501,7 +504,7 @@ if ($result->num_rows > 0) {
                       <div class="panel-body panel-body-image">
                         <img class="nft-artwork" src="/img/NFT.jpg" width="205" height="205">
                         <a href="#" class="panel-body-inform">
-                          <lord-icon src="https://cdn.lordicon.com//vnxmkidq.json" trigger="hover" colors="primary:#ffffff,secondary:#ffffff" stroke="100" style="width:25px;height:25px;margin-top:-5px;margin-left:-3px;"> </lord-icon>
+                          <lord-icon src="https://cdn.lordicon.com//zczmziog.json" trigger="hover" colors="primary:#ffffff,secondary:#ffffff" stroke="100" style="width:25px;height:25px;margin-top:-5px;margin-left:-3px;"> </lord-icon>
 
                         </a>
                       </div>
