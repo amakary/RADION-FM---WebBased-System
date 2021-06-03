@@ -436,7 +436,7 @@ require_once 'php/music_info_get.php';
                                 <div class="panel-body profile bg-primary">
 
                                     <div class="profile-image">
-                                        <img id="ad_work" src="<?php echo $img_link;?> assets/images/users/pre-radion.jpg" alt="" width="95px" height="95px">
+                                        <img id="ad_work" src="/img/offline.jpg" alt="" width="95px" height="95px">
                                     </div>
                                     <div class="profile-data">
                                         <h5 style="color:#D25607;"><strong id="user_name"><?php echo $USER_NAME;?></strong></h5>
