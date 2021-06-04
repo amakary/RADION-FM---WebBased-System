@@ -203,7 +203,8 @@ require_once 'slpw/sitelokpw.php';
                           <a href="#" class="profile-control-left sidebar-toggle"><i class="far fa-comment-alt-lines"></i></a>
                           <a href="edit-profile.php" class="profile-control-right"><i class="fad fa-user-edit"></i></a>
                       </div>
-
+                      <div align="right" style="margin-top:10px;">
+                      <button id="start-tour" class="btn btn-info btn-xs">START TOUR</button>
                   </div>
               </li>
                   <li class="xn-openable">
@@ -215,7 +216,8 @@ require_once 'slpw/sitelokpw.php';
       </lord-icon><span class="xn-text">&nbsp;&nbsp; MUSIC</span></a>
         <ul>
                       <li><a href="submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD MP3 TO STREAM</span></a></li>
-                      <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; MINT NFT MUSIC</span></a></li>
+                      <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; NFT FOR EXCLUSIVE RIGHTS</span></a></li>
+                      <li><a href="mint-2.php"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i> &nbsp;&nbsp; MINT NFT TO SELL YOUR MUSIC</span></a></li>
                   </ul>
               </li>
 
@@ -228,7 +230,7 @@ require_once 'slpw/sitelokpw.php';
       </lord-icon> <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span></a>
         <ul>
                       <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
-                      <li><a href="#"><span class="xn-text"><i class="fad fa-file-certificate fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE &nbsp;&nbsp;&nbsp;<label class="label label-success"> INCOMING</label></span></a></li>
+                      <li><a href="NFT-music-marketplace-tezos.php"><span class="xn-text"><i class="fas fa-album-collection fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE FOR MUSIC</span></a></li>
                   </ul>
               </li>
 
@@ -508,20 +510,20 @@ require_once 'slpw/sitelokpw.php';
                         </li>
                       </ul>
 
-                      <div id="step-1">
-                        <div class="form-group">
+                      <div id="step-1" class="wizard-step">
+                        <div class="form-group" data-step="1" data-intro="Your Ad's title to be displayed" data-position="bottom">
                           <label class="col-md-2 control-label">Title</label>
                           <div class="col-md-10">
                             <input type="text" name="express_ads_title" id="express-ads-title" class="form-control" placeholder="">
                           </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" data-step="2" data-intro="Your Ad's URL/link if you have one" data-position="bottom">
                           <label class="col-md-2 control-label">URL or Link</label>
                           <div class="col-md-10">
                             <input type="text" name="express_ads_website" id="express-ads-website" class="form-control" placeholder="Example: http://website.com/page">
                           </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" data-step="3" data-intro="Your Ad's main message" data-position="bottom">
                           <label class="col-md-2 control-label">Message</label>
                           <div class="col-md-10">
                             <textarea name="express_ads_message" id="express-ads-message" class="form-control" rows="5"></textarea>
@@ -547,10 +549,10 @@ require_once 'slpw/sitelokpw.php';
                         </div>
                       </div>
 
-                      <div id="step-2">
+                      <div id="step-2" class="wizard-step">
                         <!-- START CHECKBOXES RADIO AND SELECT -->
                         <div class="col-md-6">
-                          <div class="panel-body">
+                          <div class="panel-body" data-step="4" data-intro="Here, you can select to where you want to display the ad on the website." data-position="right">
                             <h5><i class="fad fa-clipboard-list-check fa-lg"></i> SELECT AD CLASS!</h5>
                             <form role="form" class="form-horizontal">
                               <div class="form-group">
@@ -584,7 +586,7 @@ require_once 'slpw/sitelokpw.php';
                         </div>
                         <!-- END OF CHECKBOXES RADIO AND SELECT -->
 
-                        <div class="col-md-6">
+                        <div class="col-md-6" data-step="5" data-intro="Your advertisement should be displayed here as a preview" data-position="left">
                           <h5><i class="fad fa-flask-potion fa-lg"></i> SAMPLES</h5>
                           <div class="panel-body">
                             <div class="col-md-12" style="padding-bottom: 50px;">
@@ -618,8 +620,8 @@ require_once 'slpw/sitelokpw.php';
                         </div>
                       </div>
 
-                      <div id="step-3">
-                        <div class="col-md-6">
+                      <div id="step-3" class="wizard-step">
+                        <div class="col-md-6" data-step="6" data-intro="In this form, you can enter how much impressions you wanted to have" data-position="right">
                           <div class="panel-body" style="padding-bottom:50px; padding-top:30px;">
                             <div class="form-group">
                               <label class="col-md-3 control-label" style="color:#E0401D;">Impressions</label>
@@ -686,9 +688,9 @@ require_once 'slpw/sitelokpw.php';
                         </div>
                       </div>
 
-  										<div id="step-4">
+  										<div id="step-4" class="wizard-step">
                         <!-- INVOICE -->
-                        <div class="invoice">
+                        <div class="invoice" data-step="7" data-intro="This is the invoice and confirmation tab" data-position="top">
                           <div class="table-invoice">
                             <table class="table">
                               <tr>
@@ -715,7 +717,7 @@ require_once 'slpw/sitelokpw.php';
                               <div class="paymant-table">
                                 <a href="#">
                                   <small>&#42793; TEZOS</small>
-                                  <p>TEZZIES (XTZ) ARE DIGITAL TOKENS.</p>
+                                  <p>TEZ (XTZ) ARE DIGITAL TOKENS.</p>
                                 </a>
                               </div>
                             </div>
@@ -766,41 +768,7 @@ require_once 'slpw/sitelokpw.php';
 
                 <div class="sidebar-tab-content active" id="sidebar_1">
                     <div style="padding-left:10px; padding-right:10px; height:730px;">
-<?php if (function_exists('sl_combichatbox')) { sl_combichatbox(array(
-  'width'=>'100%',
-  'maxwidth'=>'400px',
-  'height'=>'720px',
-  'sendheight'=>'110px',
-  'showframe'=>true,
-  'starttab'=>'receivedprivate',
-  'showimage'=>true,
-  'messagelinks'=>true,
-  'userlistlinks'=>true,
-  'publicenabled'=>true,
-  'allmsgtype'=>'',
-  'about'=>'',
-  'datetoday'=>'!A! ago',
-  'dateearlier'=>'!D!/!M!/!Y! !H!:!I!',
-  'userpage'=>'user-profile.php',
-  'displayfields'=>'nickname',
-  'showonline'=>true,
-  'usersortby'=>'nickname',
-  'usersortdir'=>'ASC',
-  'userlistgroups'=>'',
-  'userlistfilter'=>'',
-  'searchfields'=>'nickname',
-  'maxlength'=>'300',
-  'number'=>7,
-  'usernumber'=>11,
-  'refresh'=>5,
-  'sendpublicfiles'=>true,
-  'sendprivatefiles'=>true,
-  'allowedfiles'=>'.jpg,.jpeg,.png,.gif',
-  'maxfilesize'=>'2000000',
-  'showfileimages'=>true,
-  'userlisthtml'=>'',
-  'recentuserhtml'=>''
-)); } ?>
+
                   </div>
                 </div>
 
@@ -859,7 +827,6 @@ require_once 'slpw/sitelokpw.php';
 	<script src="/js/plugins/dropzone/dropzone.min.js"></script>
 	<script src="/js/plugins/bootstrap/bootstrap-datepicker.js"></script>
   <script src="/js/plugins/bootstrap/bootstrap-timepicker.min.js"></script>
-	<script src="/js/all.min.js"></script>
 
   <script src="/js/plugins/morris/raphael-min.js"></script>
   <script src="/js/plugins/morris/morris.min.js"></script>
@@ -875,9 +842,11 @@ require_once 'slpw/sitelokpw.php';
 	<script src="/js/plugins/smartwizard/jquery.smartWizard-2.0.min.js"></script>
   <script src="/js/plugins/jquery-validation/jquery.validate.js"></script>
   <!-- END THIS PAGE PLUGINS-->
-	<script src='/js/plugins/noty/jquery.noty.js'></script>
-  <script src='/js/plugins/noty/layouts/topRight.js'></script>
-  <script src='/js/plugins/noty/themes/default.js'></script>
+	<script src="/js/plugins/noty/jquery.noty.js"></script>
+  <script src="/js/plugins/noty/layouts/topRight.js"></script>
+  <script src="/js/plugins/noty/themes/default.js"></script>
+  <script src="/js/plugins/tour/bootstrap-tour-standalone.min.js"></script>
+  <script src="/js/plugins/tour/intro.min.js"></script>
   <!-- START TEMPLATE -->
 
   <script src="/js/plugins.js"></script>
@@ -965,6 +934,22 @@ require_once 'slpw/sitelokpw.php';
       $('#message_visual').text(message)
       await updateInvoice()
       await totalImpressionCosting()
+    })
+
+    const complete = function () {
+      $('#step-2,#step-3,#step-4').hide()
+      $('#step-1').show()
+    }
+
+    const intros = introJs().onchange(function (target) {
+      const parent = $(target).parents('.wizard-step')
+      const parentId = $(parent).attr('id')
+      $('#step-1,#step-2,#step-3,#step-4').hide()
+      $('#' + parentId).show()
+    }).onexit(complete).oncomplete(complete)
+
+    $('#start-tour').click(function (event) {
+      intros.start()
     })
   })
 

@@ -151,7 +151,8 @@ require_once 'php/music_info_get.php';
 </lord-icon><span class="xn-text">&nbsp;&nbsp; MUSIC</span></a>
   <ul>
                 <li><a href="submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD MP3 TO STREAM</span></a></li>
-                <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; MINT NFT MUSIC</span></a></li>
+                <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; NFT FOR EXCLUSIVE RIGHTS</span></a></li>
+                  <li><a href="mint-2.php"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i> &nbsp;&nbsp; MINT NFT TO SELL YOUR MUSIC</span></a></li>
             </ul>
         </li>
 
@@ -164,7 +165,7 @@ require_once 'php/music_info_get.php';
 </lord-icon> <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span></a>
   <ul>
                 <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
-                <li><a href="#"><span class="xn-text"><i class="fad fa-file-certificate fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE &nbsp;&nbsp;&nbsp;<label class="label label-success"> INCOMING</label></span></a></li>
+                <li><a href="NFT-music-marketplace-tezos.php"><span class="xn-text"><i class="fas fa-album-collection fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE FOR MUSIC</span></a></li>
             </ul>
         </li>
 

@@ -9,6 +9,27 @@ require_once 'getID3/getid3/getid3.php';
 require_once 'php/music_info_get.php';
 
 date_default_timezone_set('US/Eastern');
+function formatDateAgo ($value) {
+  $time = strtotime($value);
+  $d = new \DateTime($value);
+
+  $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  $months = ['January', 'February', 'March', 'April', ' May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  if ($time > strtotime('-2 minutes')) {
+    return 'few second ago';
+  } elseif ($time > strtotime('-30 minutes')) {
+    return  floor((strtotime('now') - $time) / 60) . ' min, ' . 'Today ';
+  } elseif ($time > strtotime('today')) {
+    return $d->format('G:i');
+  } elseif ($time > strtotime('yesterday')) {
+    return $d->format('G:i') . ', Yesterday';
+  } elseif ($time > strtotime('this week')) {
+    return  $d->format('G:i') . ', ' . $weekDays[$d->format('N') - 1];
+  } else {
+    return  $d->format('G:i') . ', ' . $d->format('j') . ' ' . $months[$d->format('n') - 1];
+  }
+}
 
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 if ($id !== null) {
@@ -207,7 +228,7 @@ if ($id !== null) {
   <ul>
                 <li><a href="submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD MP3 TO STREAM</span></a></li>
                 <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; NFT FOR EXCLUSIVE RIGHTS</span></a></li>
-                <li><a href="mint-2.php"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i> &nbsp;&nbsp; MINT NFT TO SELL YOUR MUSIC</span></a></li>
+                  <li><a href="mint-2.php"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i> &nbsp;&nbsp; MINT NFT TO SELL YOUR MUSIC</span></a></li>
             </ul>
         </li>
 
@@ -429,6 +450,8 @@ if ($id !== null) {
                             <!-- <span><a href="#modal_basic" class="widget-control-right linko" data-toggle="modal" style="font-size:13px; text-decoration:none;"><i class="fad fa-wallet"></i> Connect Wallet</a></span> -->
                             <span><a href="#" id="connect-wallet" class="widget-control-right" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-wallet"></i> Connect Wallet</a></span>
                             <span style="padding-right:3px; padding-left:3px;">|</span>
+                            <span><a href="#" class="sidebar-toggle" style="font-size:13px; text-decoration:none; color:#F39C12;">Mint Editions</a></span>
+                            <span style="padding-right:3px; padding-left:3px;">|</span>
                             <span><a href="#modal_small" data-toggle="modal" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-qrcode"></i> Receive</a></span>
                             <span style="padding-right:3px; padding-left:3px;">|</span>
                             <span><a href="#" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-paper-plane"></i> Send</a></span>
@@ -482,8 +505,8 @@ if ($id !== null) {
                             <div>This asset was already minted</div>
                             <?php } ?>
 
-                            <input type="hidden" id="license" value="<?= $license ?>">
-                            <input type="hidden" id="filesize" value="<?= $filesize ?>">
+                            <input type="hidden" id="license" value="CC BY-NC-ND">
+                            <input type="hidden" id="filesize" value="10">
                             <div class="form-group has-info">
                               <label class="control-label">RADION ID</label>
                               <input id="id" type="text" value="<?= $id ?>" class="form-control" readonly>
@@ -532,25 +555,26 @@ if ($id !== null) {
                               <textarea id="description" name="description" class="form-control"></textarea>
                             </div>
                           </div>
+
+                          <div class="col-md-12" style="padding-top:0px;">
+                                          <div class="form-group has-info">
+                                            <label class="control-label">ISRC</label>
+                                            <input id="isrc" type="text" value="" class="form-control">
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-12" style="padding-top:20px;">
+                                          <div class="form-group has-info">
+                                            <label class="control-label">IDBML</label>
+                                            <input id="idbml" type="text" value="" class="form-control">
+                                          </div>
+                                        </div>
+
                         </div>
 
                         <div class="col-md-6">
 
-						<div class="col-md-12" style="padding-top:0px;">
-                            <div class="form-group has-info">
-                              <label class="control-label">ISRC</label>
-                              <input id="isrc" type="text" value="" class="form-control">
-                            </div>
-                          </div>
-
-                          <div class="col-md-12" style="padding-top:20px;">
-                            <div class="form-group has-info">
-                              <label class="control-label">IDBML</label>
-                              <input id="idbml" type="text" value="" class="form-control">
-                            </div>
-                          </div>
-
-                          <div class="col-md-12" style="padding-top:20px;">
+                          <div class="col-md-12" style="padding-top:0px;">
                             <div class="form-group has-info">
                               <label class="control-label">RECORD LABEL</label>
                               <input id="record-label" type="text" value="<?= $record ?>" class="form-control" readonly>
@@ -570,25 +594,69 @@ if ($id !== null) {
                               <input id="publisher" name="publisher" type="text" class="form-control" value="" placeholder="RADION - https://www.radion.fm" readonly>
                             </div>
                           </div>
-<!--
+
+                          <h3>LIMITED EDITIONS</h3>
+
+                          <div class="col-md-12" style="margin-top:-28px;" align="right">
+                            <div class="form-group has-info">
+                              <label class="control-label">ALLOW SELL: </label>
+                              <input style="margin-top:-3px;" class="iradio_minimal-grey" id="sell-allow" name="sell-allow" type="checkbox">
+                            </div>
+                          </div>
+
                           <div class="col-md-6" style="padding-top:20px;">
                             <div class="form-group has-info">
-                              <label class="control-label">Allow for Sell:</label>
-                              <input id="sell-allow" name="sell-allow" type="checkbox">
+                              <label class="control-label">Limited Editions:</label>
+                              <input id="editions-count" name="editions-count" type="number" class="form-control" value="">
                             </div>
                           </div>
 
                           <div class="col-md-6" style="padding-top:20px; padding-bottom:30px;">
                             <div class="form-group has-info">
-                              <label class="control-label">Price in USD ($): <span id="sell-price-xtz">0 &#42793;</span></label>
+                              <label class="control-label">Price per unit:</label>
                               <input id="sell-price" name="sell-price" type="number" class="form-control" value="" disabled>
                             </div>
-                          </div>
-                        -->
+                        </div>
 
-                          <div class="form-group" style="margin-top:0px;">
+                          <h5 style="padding-top:20px;">Select Licensing Terms</h5>
+
+                          <div class="radio" style="padding-top:5px;">
+                          <label>
+                          <input type="radio" name="license-class" id="license-class-essential" value="essential" checked/>
+                          Essential Class
+                          </label>
+                          </div>
+
+                          <div class="radio">
+                          <label>
+                          <input type="radio" name="license-class" id="license-class-premiums" value="premiums"/>
+                          Premiums Class
+                          </label>
+                          </div>
+
+                          <div class="radio">
+                          <label>
+                          <input type="radio" name="license-class" id="license-class-commercial" value="commercial"/>
+                          Commercial Class
+                          </label>
+                          </div>
+                          <p>Licensing Terms</p>
+                          <li>MP3: <span id="nft-license-mp3">Yes</span></li>
+                          <li>WAV: <span id="nft-license-wav">Yes</span></li>
+                          <li>Trackout: <span id="nft-license-trackout"></span></li>
+                          <li>Free Downloads: <span id="nft-license-free-downloads">No</span></li>
+                          <li>Distribution Copies: <span id="nft-license-distribution-copies">5000</span></li>
+                          <li>Performances (No-Profit): <span id="nft-license-performances">None</span></li>
+                          <li>Paid Performances: <span id="nft-license-paid-performances">100</span></li>
+                          <li>Music Videos or (YouTube video): <span id="nft-license-music-videos">1</span></li>
+                          <li>Audio Streams: <span id="nft-license-audio-streams">Unlimited</span></li>
+                          <li>Video Streams: <span id="nft-license-video-streams">No</span></li>
+                          <li>Broadcasting Rights: <span id="nft-license-broadcasting-rights">Yes</span></li>
+                          <li>Number of radio stations: <span id="nft-license-radio-stations">Unlimited</span></li>
+
+                          <div class="form-group" style="margin-top:30px;">
                             <h5 style="color:#909497"><i class="fad fa-handshake fa-lg"></i><strong> Terms and Conditions</strong></h5>
-                            <p align="justify"><small>I acknowledge that if I mint my NFT music, my file will be stored permanently with a unique cryptographic hash id (IPFS protocol). RADION system will extract some information from my personal profile and embed it to the file in order to ensure authenticity and trust for the rights holder and the music industry.</small></p>
+
                             <label class="check" style="padding-right:50px;"><input type="checkbox" name="agree_disagree"> <strong>Yes, I Accept.</strong></label>
                             <button type="button" id="submit_btn" class="btn btn-info btn-lg mb-control" disabled><i class="fas fa-check-circle"></i> Mint Now!</button>
 
@@ -639,7 +707,7 @@ if ($id !== null) {
                     <div class="panel panel-default tabs">
                       <ul class="nav nav-tabs" role="tablist" style="padding-bottom:20px;">
                         <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">CURRENT ASSETS</a></li>
-                        <li><a href="#tab-second" role="tab" data-toggle="tab">COMMUNITY GUIDELINES STATUS</a></li>
+                        <li><a href="#tab-second" role="tab" data-toggle="tab">SELL NFT LIMITED EDITIONS</a></li>
                         <li><a href="#tab-third" role="tab" data-toggle="tab">COPYRIGHT STATUS</a></li>
                       </ul>
 
@@ -649,12 +717,12 @@ if ($id !== null) {
                             <thead>
                               <tr style="border-bottom: 2px solid #dddddd;" align="center">
                                 <th style="width:15%; padding-bottom:10px;"># ID</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">CATEGORY</th>
+                                <th align="center" style="width:10%; padding-bottom:10px;">POTENTIAL PAYOUT</th>
                                 <th align="center" style="width:20%; padding-bottom:10px;">NAME</th>
                                 <th align="center" style="width:10%; padding-bottom:10px;">GENRE</th>
                                 <th align="center" style="width:10%; padding-bottom:10px;">NFT</th>
-                                <th align="center" style="width:15%; padding-bottom:10px;">STREAMED</th>
-                                <th align="center" style="width:20%; padding-bottom:10px;">DOWNLOADS</th>
+                                <th align="center" style="width:15%; padding-bottom:10px;">LIMITED EDITION QUANTITY</th>
+                                <th align="center" style="width:20%; padding-bottom:10px;">LICENSE TYPE</th>
                               </tr>
                             </thead>
                             <tbody id="current_asset_table"></tbody>
@@ -665,39 +733,19 @@ if ($id !== null) {
                           <table style="width:100%;">
                             <thead>
                               <tr style="border-bottom: 2px solid #dddddd;" align="center">
-                                <th style="width:15%; padding-bottom:10px;"></th>
+                                <th style="width:15%; padding-bottom:10px;"># ID</th>
                                 <th align="center" style="width:10%; padding-bottom:10px;">CATEGORY</th>
                                 <th align="center" style="width:20%; padding-bottom:10px;">NAME</th>
                                 <th align="center" style="width:10%; padding-bottom:10px;">GENRE</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">ASSET</th>
-                                <th align="center" style="width:15%; padding-bottom:10px;">STREAMED</th>
-                                <th align="center" style="width:20%; padding-bottom:10px;">DOWNLOADS</th>
+                                <th align="center" style="width:10%; padding-bottom:10px;">PRICE PER EDITION</th>
+                                <th align="center" style="width:15%; padding-bottom:10px;">LIMITED EDITIONS</th>
+                                <th align="center" style="width:20%; padding-bottom:10px;">LICENSING TERMS</th>
                               </tr>
                             </thead>
 
                             <tbody>
                               <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"><span class="fas fa-smile"></span></td>
                                 <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                              </tr>
-
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"><span class="fas fa-smile"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                              </tr>
-
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"><span class="fas fa-smile"></span></td>
                                 <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
                                 <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
                                 <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
@@ -707,17 +755,7 @@ if ($id !== null) {
                               </tr>
 
                               <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"><span class="fas fa-smile"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                              </tr>
-
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"><span class="fas fa-smile"></span></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
                                 <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
                                 <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
                                 <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
@@ -727,13 +765,23 @@ if ($id !== null) {
                               </tr>
 
                               <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"><span class="fas fa-smile"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                              </tr>
+
+                              <tr>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
+                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
                               </tr>
                             </tbody>
                           </table>
@@ -829,70 +877,6 @@ if ($id !== null) {
     </div>
     <!-- END PAGE CONTAINER -->
 
-    <!-- START SIDEBAR -->
-    <div class="sidebar">
-      <div class="sidebar-wrapper scroll">
-        <div class="sidebar-tabs">
-          <a href="#sidebar_1" class="sidebar-tab"><i class="fad fa-comments fa-lg"></i> CHAT</a>
-          <a href="#sidebar_2" class="sidebar-tab"><i class="fal fa-newspaper fa-lg"></i> NEWS</a>
-        </div>
-
-        <div class="sidebar-tab-content active" id="sidebar_1">
-          <div style="padding-left:10px; padding-right:10px; height:730px;">
-
-<?php
-
-if (function_exists('sl_combichatbox')) {
-  sl_combichatbox(array(
-    'width' => '100%',
-    'maxwidth' => '400px',
-    'height' => '720px',
-    'sendheight' => '110px',
-    'showframe' => true,
-    'starttab' => 'receivedprivate',
-    'showimage' => true,
-    'messagelinks' => true,
-    'userlistlinks' => true,
-    'publicenabled' => true,
-    'allmsgtype' => '',
-    'about' => '',
-    'datetoday' => '!A! ago',
-    'dateearlier' => '!D!/!M!/!Y! !H!:!I!',
-    'userpage' => 'user-profile.php',
-    'displayfields' => 'nickname',
-    'showonline' => true,
-    'usersortby' => 'nickname',
-    'usersortdir' => 'ASC',
-    'userlistgroups' => '',
-    'userlistfilter' => '',
-    'searchfields' => 'nickname',
-    'maxlength' => '300',
-    'number' => 7,
-    'usernumber' => 11,
-    'refresh' => 5,
-    'sendpublicfiles' => true,
-    'sendprivatefiles' => true,
-    'allowedfiles' => '.jpg,.jpeg,.png,.gif',
-    'maxfilesize' => '2000000',
-    'showfileimages' => true,
-    'userlisthtml' => '',
-    'recentuserhtml' => ''
-  ));
-} ?>
-          </div>
-        </div>
-
-        <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
-          <div style="padding-left:30px; padding-right:30px; height:1150px;">
-            <small>
-              <p></p>
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END SIDEBAR -->
-
     <!-- MESSAGE BOX-->
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
       <div class="mb-container">
@@ -912,6 +896,138 @@ if (function_exists('sl_combichatbox')) {
       </div>
     </div>
     <!-- END MESSAGE BOX-->
+  </div>
+
+  <!-- START SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-wrapper scroll">
+      <div class="sidebar-tabs">
+        <a href="#sidebar_1" class="sidebar-tab active"><span class="fa fa-comments"></span> NFT MUSIC</a>
+        <a href="#sidebar_2" class="sidebar-tab"><span class="fa fa-cog"></span> TERMS AND LICENSING</a>
+      </div>
+
+      <div class="sidebar-tab-content active" id="sidebar_1">
+        <p style="padding-right:20px; padding-left:20px;" align="justify"><small>Important:<br><br><span style="color:#B3B6B7;">This simple form allow you to mint NFT music and sell them in our marketplace with the proper rights, however; this form is open to the public and it doesn't require a RADION account to use it. Be aware that potential buyers could pay attention to these details to make sure that if they buy a NFT, they are buying something legal and legit.<br><br> If you want to prove that you are the right holder of the song and be recognized by your talent and as an artist, we recommend you mint your NFT in our dashboard for more details.</small></span></p>
+
+        <div class="content-frame-right">
+          <div class="block push-up-10">
+            <form action="upload.php" class="dropzone dropzone-mini" id="upload-dropzone"></form>
+          </div>
+          <p style="padding-left:20px; padding-right:20px;"><small><span style="color:#F39C12;">Note</span>: Make sure you drop your mp3 or wav file and your artwork img to mint your NFT.</small></p>
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <div class="col-md-12">
+                <input type="text" placeholder="Artist Name" id="mint-artist" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-8">
+                <input type="text" placeholder="Song Name" id="mint-title" class="form-control">
+              </div>
+              <div class="col-md-4">
+                <input type="text" placeholder="Genre" id="mint-genre" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label">Sell</label>
+              <div class="col-md-2">
+                <label class="switch switch-small">
+                  <input type="checkbox" id="mint-sell" value="0">
+                  <span></span>
+                </label>
+              </div>
+
+              <div class="col-md-4">
+                <input type="text" placeholder="Editions" id="mint-editions" class="form-control" disabled>
+              </div>
+
+              <div class="col-md-4">
+                <input type="text" placeholder="Price in USD" id="mint-price" class="form-control" disabled>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label">License</label>
+              <div class="col-md-2">
+                <label class="switch switch-small">
+                  <input type="checkbox" id="mint-license" value="0">
+                  <span></span>
+                </label>
+              </div>
+
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <div class="col-md-8">
+                    <div class="btn-group">
+                      <a href="javascript:void(0)" class="btn btn-default dropdown-toggle" id="mint-terms-dropdown" disabled><span id="mint-terms">Select Terms & Licensing</span> <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="javascript:void(0)" id="mint-essential">Essential</a></li>
+                        <li><a href="javascript:void(0)" id="mint-premium">Premium</a></li>
+                        <li><a href="javascript:void(0)" id="mint-commercial">Commercial</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </form>
+        </div>
+
+        <div style="padding:15px;">
+          <button class="btn btn-warning btn-block" id="mint-submit">MINT NOW</button>
+        </div>
+
+        <p align="center" style="color:#F39C12; padding-bottom:50px;"><small>3.69% commission fee per sell</small></p>
+      </div>
+
+      <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
+        <p style="padding:25px; color:#B3B6B7;" align="justify"><small>RADION attach a digital legal contract to each NFT. This contract detailed the terms and licensing that your NFT is subject to and how buyers can use your asset without infringements. Currently, RADION allows you to work with 3 different terms and licensing! These license apply for those who purchase the NFT. <br><br>
+        <span style="color:#fff;"><strong>Essential</strong></span> - Price per Unit suggested $20 USD<br><br>
+MP3: Yes<br>
+WAV: No<br>
+Trackout: No<br>
+Free Downloads: No<br>
+Distribution Copies: 5000<br>
+Performances (No-Profit): None<br>
+Paid Performances: 100<br>
+Music Videos or (YouTube video): 1<br>
+Audio Streams: Unlimited<br>
+Video Streams: No<br>
+Broadcasting Rights: Yes<br>
+Number of radio stations: Unlimited<br>
+Exclusive Rights: No<br><br>
+<span style="color:#fff;"><strong>Premium</strong></span>- Price per Unit suggested $50 USD<br><br>
+MP3: Yes<br>
+WAV: No<br>
+Trackout: No<br>
+Free Downloads: No<br>
+Distribution Copies: 8000<br>
+Performances (No-Profit): None<br>
+Paid Performances: 200<br>
+Music Videos or (YouTube video): 2<br>
+Audio Streams: Unlimited<br>
+Video Streams: No<br>
+Broadcasting Rights: Yes<br>
+Number of radio stations: Unlimited<br>
+Exclusive Rights: No<br><br>
+<span style="color:#fff;"><strong>Commercial</strong></span> - Price per Unit suggested $300 USD<br><br>
+MP3: Yes<br>
+WAV: Yes<br>
+Trackout: Yes<br>
+Free Downloads: No<br>
+Distribution Copies: 10000<br>
+Performances (No-Profit): None<br>
+Paid Performances: Unlimited<br>
+Music Videos or (YouTube video): Unlimited<br>
+Audio Streams: Unlimited<br>
+Video Streams: No<br>
+Broadcasting Rights: Yes<br>
+Number of radio stations: Unlimited<br>
+Exclusive Rights: No<br></small></p>
+      </div>
+    </div>
   </div>
 
   <!-- START PRELOADS -->
@@ -962,8 +1078,11 @@ if (function_exists('sl_combichatbox')) {
   <!-- END TEMPLATE -->
 
   <script src="https://unpkg.com/ipfs@0.54.4/dist/index.min.js"></script>
-  <script src="/js/minter.js"></script>
+  <script src="/js/minter-2.js"></script>
+  <script src="/js/minter-editions.js"></script>
   <script src="/js/tezos.js"></script>
+  <script src="/js/helpers.js"></script>
+  <script src="/js/ipfs.js"></script>
   <script>
   $(document).ready(function() {
     express_view()
@@ -990,7 +1109,7 @@ if (function_exists('sl_combichatbox')) {
 
   function currents_asset_table () {
     $.ajax({
-      url: 'php/current_asset_table_minter.php',
+      url: 'php/current_asset_table_editions.php',
       type: 'POST',
       success: function(data, textStatus, jqXHR) {
         $('#current_asset_table').html(data)
@@ -1134,6 +1253,35 @@ if (function_exists('sl_combichatbox')) {
 
     $('#submit_btn').attr('disabled', null)
   }
+
+  $('[name="license-class"]').on('change', function () {
+    const licenseClass = $(this).val()
+    switch (licenseClass) {
+      case 'essential':
+        $('#nft-license-music-videos').text('1')
+        $('#nft-license-paid-performances').text('100')
+        $('#nft-license-trackout').text('No')
+        $('#nft-license-distribution-copies').text('5000')
+        $('#sell-price').val('20')
+        break
+
+      case 'premiums':
+        $('#nft-license-music-videos').text('2')
+        $('#nft-license-paid-performances').text('200')
+        $('#nft-license-trackout').text('No')
+        $('#nft-license-distribution-copies').text('8000')
+        $('#sell-price').val('50')
+        break
+
+      case 'commercial':
+        $('#nft-license-music-videos').text('Unlimited')
+        $('#nft-license-paid-performances').text('Unlimited')
+        $('#nft-license-trackout').text('Yes')
+        $('#nft-license-distribution-copies').text('10000')
+        $('#sell-price').val('100')
+        break
+    }
+  })
   </script>
 </body>
 </html>
