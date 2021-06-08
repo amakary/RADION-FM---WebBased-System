@@ -8,6 +8,9 @@ $(document).ready(function () {
         method: 'GET',
         dataType: 'json',
         success: function (data, status, xhr) {
+          data.supply = data.supply || 0
+          data.circulating_supply = data.circulating_supply || 0
+
           const supply = data.supply.toFixed(2)
           const marketCapUsd = (data.circulating_supply * data.last).toFixed(2)
           const volumeUsd24Hr = data.volume_quote.toFixed(2)
