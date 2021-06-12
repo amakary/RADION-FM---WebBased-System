@@ -31,7 +31,7 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
 	<meta property="og:url" content="https://radion.fm">
   <meta property="og:type" content="website">
   <meta property="og:title" content="RADION&trade; FM">
-  <meta property="og:description" content="RADION FM is an decentralized app website built on Tezos Blockchain. Here you can discover music, create NFT for exclusive rights and/or sell your music as NFT limited editions. Musicians can also earn crypto for downloads they receive.">
+  <meta property="og:description" content="RADION FM is an decentralized music platform built on Tezos Blockchain. We welcome music producers who want to sell their music with crypto.">
   <meta property="og:image" content="https://radion.fm/img/facebook-img.png">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -509,7 +509,6 @@ if ($result->num_rows > 0) {
                         </a>
                       </div>
                       <div class="panel-body">
-
                         <h3 align="center" class="nft-artist"></h3>
                         <p align="center" class="nft-title"></p>
                         <div>Issuer:<br><span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
@@ -574,14 +573,17 @@ if ($result->num_rows > 0) {
                       </div>
 
                       <div class="panel-body">
+                        <div align="right" style="margin-top:-20px;"><label class="label label-default label-sm nft-format"></label></div>
+                        <div class="fas fa-shield-check fa-lg nft-shield" style="display:none; color:#229954; position:absolute; right:1;"></div>
                         <h3 align="center" class="nft-artist"></h3>
-                        <p align="center"><span class="nft-title"></span> <i class="fas fa-shield-check nft-shield" style="display:none; color:#229954;"></i></p>
-                        <div>Issuer:<br><span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
-                        <div>STREAM: <span class="nft-id"></span></div>
-                        <div>IPFS: WAV Format</div>
-                        <div>Price: <span class="nft-price"></span> <span>tz</span></div>
-                        <div>Editions Available: <span class="nft-editions-avail"></span></div>
-                      </div>
+                        <p align="center" style="margin-top:-10px;"><span class="nft-title"></span></p>
+                        <div>Issuer: <span class="nft-issuer-address" style="font-size:11px; color:#979A9A;"></span></div>
+                        <div>Hosting: <span class="nft-host"></span></div>
+                        <div>Price: <span class="nft-price" style="color:#2980B9;"></span> <span style="color:#2980B9;">tz</span><span> / </span><strong>$<span class="nft-price-usd"></span></strong></div>
+                        <div>Editions Available: <strong><span class="nft-editions-avail" style="color:#F39C12;"></span></strong></div>
+                        <div>Genre: <span class="nft-genre"></span></div>
+                        <div>Legal Contract: <strong><span class="nft-terms"></span></strong></div>
+                        </div>
 
                       <div class="panel-footer text-muted" align="center">
                         <button class="btn btn-primary btn-block btn-sm nft-buy">BUY</button>
@@ -749,7 +751,7 @@ if ($result->num_rows > 0) {
     <div class="sidebar-wrapper scroll">
       <div class="sidebar-tabs">
         <a href="#sidebar_1" class="sidebar-tab"><i class="fas fa-newspaper"></i>&nbsp;&nbsp;NEWS</a>
-        <a href="#sidebar_2" class="sidebar-tab"><i class="fad fa-user-headset"></i>&nbsp;&nbsp;&nbsp;ROAD MAP</a>
+        <a href="#sidebar_2" class="sidebar-tab"><i class="far fa-exclamation-circle"></i>&nbsp;&nbsp;&nbsp;LEGAL CONTRACTS</a>
       </div>
 
       <div class="sidebar-tab-content form-horizontal active" id="sidebar_1">
@@ -820,11 +822,88 @@ if ($result->num_rows > 0) {
         </div>
       </div>
 
-      <div class="sidebar-tab-content" id="sidebar_2">
-        <!-- COMMENTS MODULAR -->
-        <div style="padding-left:30px; padding-right:30px; height:1150px;">
-        </div>
-        <!-- END COMMENTS MODULAR -->
+      <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
+        <p style="padding:10px 30px 0px 30px; color:#B3B6B7;" align="justify"><small style="color:#fff;">RADION FM respects the intellectual property rights of others, and we expect our users to do the same. We use legal contracts to detail the terms that the asset is subject to, along with its licensing. Buyers must respect the terms of the contract in order to avoid copyright infringements and prevent potential penalties.</small><br><br>
+</small></p>
+<div style="border-bottom: 1px dashed #7B7D7D; padding: 0px 30px 0px 30px; "></div>
+<p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify">
+<small><span style="color:#fff;"><strong>Basic Lease</strong></span> - 1 Year Contract / PPU Suggested <span style="color:#f2c945;">$20</span> USD<br><br>
+MP3: Yes<br>
+WAV: No<br>
+Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
+Trackout: No<br>
+Free Downloads: No<br>
+Distribution Copies: 3000<br>
+Performances (No-Profit): Unlimited<br>
+Paid Performances: None<br>
+Music Videos or (YouTube video): 1<br>
+Audio Streams: Unlimited<br>
+Video Streams: No<br>
+Broadcasting Rights: No<br>
+Number of radio stations: None<br>
+Exclusive Rights: No<br><br>
+This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+
+<div style="border-bottom: 1px dashed #7B7D7D; padding-right:30px; padding-left:30px;"></div>
+
+<p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
+<span style="color:#fff;"><strong>Trackout Lease</strong></span>- 1 Year Contract / PPU Suggested <span style="color:#f2c945;">$100</span> USD<br><br>
+MP3: Yes<br>
+WAV: No<br>
+Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
+Trackout: No<br>
+Free Downloads: No<br>
+Distribution Copies: 8000<br>
+Performances (No-Profit): None<br>
+Paid Performances: 200<br>
+Music Videos or (YouTube video): 2<br>
+Audio Streams: Unlimited<br>
+Video Streams: No<br>
+Broadcasting Rights: Yes<br>
+Number of radio stations: Unlimited<br>
+Exclusive Rights: No<br><br>
+This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+
+<div style="border-bottom: 1px dashed #7B7D7D; padding:10px;"></div>
+
+<p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
+<span style="color:#fff;"><strong>Lease Premium</strong></span> - 1 Year Contract / Price Suggested <span style="color:#f2c945;">$300</span> USD<br><br>
+MP3: Yes<br>
+WAV: No<br>
+Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
+Trackout: Yes<br>
+Free Downloads: No<br>
+Distribution Copies: 10000<br>
+Performances (No-Profit): None<br>
+Paid Performances: Unlimited<br>
+Music Videos or (YouTube video): Unlimited<br>
+Audio Streams: Unlimited<br>
+Video Streams: No<br>
+Broadcasting Rights: Yes<br>
+Number of radio stations: Unlimited<br>
+Exclusive Rights: No<br><br>
+This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+
+<div style="border-bottom: 1px dashed #7B7D7D; padding:10px;"></div>
+
+<p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
+<span style="color:#fff;"><strong>Exclusive Rights</strong></span> - Permanent / Price Suggested <span style="color:#f2c945;">$2000</span> USD<br><br>
+MP3: No<br>
+WAV: Yes<br>
+Licensing: N/A<br>
+Trackout: Yes<br>
+Free Downloads: Unlimited<br>
+Distribution Copies: Unlimited<br>
+Performances (No-Profit): Unlimited<br>
+Paid Performances: Unlimited<br>
+Music Videos or (YouTube video): Unlimited<br>
+Audio Streams: Unlimited<br>
+Video Streams: Unlimited<br>
+Broadcasting Rights: Yes<br>
+Number of radio stations: Unlimited<br>
+Exclusive Rights: Yes<br><br>
+Any NFT that carry this contract, allow you to become legally the new owner and/or right holder of the asset.<br><br>
+</small></p>
       </div>
     </div>
   </div>
@@ -913,6 +992,8 @@ if ($result->num_rows > 0) {
 
     <div class="x-content-footer" align="center" style="padding-left:2%; padding-right:2%; background-color:#33414E; margin-top:200px;">
       <a style="text-decoration: none;" href="our-mission.php" target="blank" class="linko"> Our Mission</a>
+      <span style="color: #85929E;">|</span>
+      <a style="text-decoration: none;" href="intellectual-property-policy.php" class="linko"> Intellectual Property Policy</a>
       <span style="color: #85929E;">|</span>
       <a style="text-decoration: none;" href="NFT-music-marketplace-tezos.php" class="linko"> NFT Music Marketplace</a>
       <span style="color: #85929E;">|</span>
@@ -1350,11 +1431,25 @@ if ($result->num_rows > 0) {
   $(document).on('click', '[data-hash]', async function (event) {
     event.preventDefault()
 
-    if (player.paused) {
-      player.src = $(this).attr('href')
+    const lottie = $(this).prop('lottie')
+    const source = $(this).attr('href')
+
+    if (player.paused || player.src !== source) {
+      $('[data-hash]').each(function (i, elem) {
+        let eLottie = $(this).prop('lottie')
+        eLottie.stop()
+        eLottie.currentFrame = 0
+        eLottie.renderFrame()
+      })
+
+      player.src = source
+      lottie.play()
       player.play()
     } else {
       player.pause()
+      lottie.stop()
+      lottie.currentFrame = 0
+      lottie.renderFrame()
     }
   })
 
@@ -1749,48 +1844,92 @@ if ($result->num_rows > 0) {
     const songName = parseBytes(values.get('"song_name"'))
     const artist = parseBytes(values.get('"artist"'))
     const format = parseBytes(values.get('"asset_format"'))
+    const genre = parseBytes(values.get('"genre"'))
+    const contractType = parseBytes(values.get('"legal_contract_type"'))
     const title = songName ? songName.substr(0, 27) : songName
     console.log('Getting edition\'s market sales...')
     const sales = await getSales(eid, edition)
     console.log(sales)
     const price = sales.price / 1000000
-    let audioCID = null
+    const priceInUsd = (price * parseFloat(window.priceUsd)).toFixed(2)
+    let termsContract = ''
+    let audioUrl = 'https://radion.fm:8002/stream/1'
+    let artworkUrl = 'https://radion.fm/img/bg-capa.jpg'
     let audioType = null
-    let artworkCID = null
     let artworkType = null
 
     let metadata = null
     try {
       metadata = await getMetadata(id)
+      artworkUrl = metadata.artwork ? 'https://radion.fm' + metadata.artwork : audioUrl
       $(elem).find('.nft-shield').show()
     } catch (error) {}
 
     editionData.formats.forEach(format => {
       if (format.mimeType.startsWith('audio')) {
-        audioCID = format.uri.split('ipfs://')[1]
+        audioUrl = format.uri
         audioType = format.mimeType
       } else if (format.mimeType.startsWith('image')) {
-        artworkCID = format.uri.split('ipfs://')[1]
+        artworkUrl = format.uri
         artworkType = format.mimeType
       }
     })
 
+    switch (contractType) {
+      case 'essential':
+        termsContract = 'Basic Lease'
+        break
+
+      case 'commercial':
+        termsContract = 'Basic Lease'
+        break
+
+      case 'basic':
+        termsContract = 'Basic Lease'
+        break
+
+      case 'trackout':
+        termsContract = 'Trackout Lease'
+        break
+
+      case 'premium':
+        termsContract = 'Premium Lease'
+        break
+
+      case 'exclusive':
+        termsContract = 'Exclusive Rights'
+        break
+
+      case 'cc-by-nc-nd':
+        termsContract = 'CC-BY-NC-ND'
+        break
+
+      default:
+        termsContract = contractType
+    }
+
     // const audioDataUrl = await getIPFS(audioCID, audioType)
-    const audioDataUrl = 'https://gateway.ipfs.io/ipfs/' + audioCID
-    console.log('Getting artwork data from IPFS (CID: ' + artworkCID + ')...')
-    const artworkDataUrl = artworkCID !== null ? await getIPFS(artworkCID, artworkType) : (metadata !== null ? metadata.artwork : '/img/bg-capa.jpg')
+    const host = audioUrl.startsWith('https://') ? 'RADION Server' : 'IPFS'
+    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://ipfs.io/ipfs/' + audioUrl.split('ipfs://')[1]
+    console.log('Getting artwork data from ' + artworkUrl + '...')
+    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : await getIPFS(artworkUrl.split('ipfs://')[1], artworkType)
+    const issuer = edition.creator.substr(0, edition.creator.length - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
     $(elem).find('.nft-title').text(title).removeClass('nft-title')
     $(elem).find('.nft-shield').removeClass('nft-shield')
-    $(elem).find('.nft-issuer-address').text(edition.creator).removeClass('nft-issuer-address')
+    $(elem).find('.nft-issuer-address').text(issuer).removeClass('nft-issuer-address')
+    $(elem).find('.nft-host').text(host).removeClass('nft-host')
     $(elem).find('.nft-format').text(format).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
+    $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
     $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions).removeClass('nft-editions-avail')
+    $(elem).find('.nft-terms').text(termsContract).removeClass('nft-terms')
+    $(elem).find('.nft-genre').text(genre).removeClass('nft-genre')
     $(elem).find('.nft-buy').attr('data-buy', eid).removeClass('nft-buy').click(buyEdition)
     $(elem).find('.nft-play').attr({
       href: audioDataUrl,
-      'data-hash': audioCID
+      'data-hash': audioDataUrl
     }).removeClass('nft-play')
     $('#nft-editions').append(elem)
   }
@@ -1823,11 +1962,25 @@ if ($result->num_rows > 0) {
   }
 
   async function buyEdition (event) {
-    const eid = parseInt($(this).attr('data-buy'))
-    const edition = editions[eid]
-    const numberOfEditions = edition.number_of_editions.c[0]
     const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
     await wallet.requestPermissions({ network })
+
+    const eid = parseInt($(this).attr('data-buy'))
+    const edition = editions[eid]
+    const values = edition.edition_info.valueMap
+    const numberOfEditions = edition.number_of_editions.c[0]
+    const cid = parseBytes(values.get('""')).split('ipfs://')[1]
+    const editionDataLink = await getIPFS(cid, 'application/json')
+    const editionData = parseDataURL(editionDataLink)
+    let audioUrl = null
+    let audioType = null
+
+    editionData.formats.forEach(format => {
+      if (format.mimeType.startsWith('audio')) {
+        audioUrl = format.uri
+        audioType = format.mimeType
+      }
+    })
 
     const contract = await tezos.wallet.at(fixedPrice)
     const storage = await contract.storage()
@@ -1854,7 +2007,6 @@ if ($result->num_rows > 0) {
 
     if (sale !== null) {
       const tokenId = sale.sale_token.token_for_sale_token_id
-      const id = parseBytes(edition.edition_info.get('asset_id'))
       const operation = await contract.methods.buy(sale.seller, fa2, tokenId).send({
         amount: salePrice
       })
@@ -1862,19 +2014,26 @@ if ($result->num_rows > 0) {
       noty({
         text: 'Waiting for confirmation',
         layout: 'topRight',
-        timeout: 5000
+        timeout: 20000
       })
 
       const hash = operation.opHash
       await operation.confirmation(1)
-      const search = new URLSearchParams()
-      search.append('op', hash)
-      search.append('id', id)
-      search.append('xtz', salePrice)
-      search.append('usd', parseFloat(window.priceUsd) * salePrice)
 
-      const download = 'php/download_song_script.php?' + search.toString()
-      window.open(download, 'download-iframe')
+      noty({
+        text: 'Downloading from server...',
+        layout: 'topRight',
+        timeout: 5000
+      })
+
+      let filename = editionData.name
+      if (audioType === 'audio/mpeg') filename += '.mp3'
+      else if (audioType === 'audio/wav') filename += '.wav'
+      if (audioUrl.startsWith('ipfs://')) {
+        const audioCID = audioUrl.split('ipfs://')[1]
+        const downloadLink = await getIPFS(audioCID, audioType)
+        downloadURL(downloadLink, filename)
+      } else downloadURL(audioUrl, filename)
 
       // Display SUCCESS
       const sweetAlert = await Swal.fire({
