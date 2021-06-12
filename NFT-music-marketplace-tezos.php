@@ -645,7 +645,8 @@ Exclusive Rights: No<br></small></p>
       })
 
       noty({
-        text: 'Waiting for confirmation',
+        text: '<i class="fas fa-compact-disc fa-lg fa-spin"></i> Transaction Request Sent. Confirming...<br>Please wait for confirmation! Do not refresh browser...',
+        type: 'information',
         layout: 'topRight',
         timeout: 20000
       })
@@ -654,7 +655,8 @@ Exclusive Rights: No<br></small></p>
       await operation.confirmation(1)
 
       noty({
-        text: 'Downloading from server...',
+        text: 'Please wait for download. Do not refresh browser! This may take a while...',
+        type: 'information',
         layout: 'topRight',
         timeout: 5000
       })
@@ -666,7 +668,7 @@ Exclusive Rights: No<br></small></p>
         const audioCID = audioUrl.split('ipfs://')[1]
         const downloadLink = await getIPFS(audioCID, audioType)
         downloadURL(downloadLink, filename)
-      } else downloadURL(audioUrl, filename)
+      } else downloadURL(audioUrl + '&hash=' + hash, filename)
 
       // Display SUCCESS
       const sweetAlert = await Swal.fire({
