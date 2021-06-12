@@ -180,16 +180,20 @@
                 <lord-icon src="https://cdn.lordicon.com//iiegcyhs.json" class="nft-play" trigger="click" target="a" stroke="70" colors="primary:#ffffff,secondary:#ffffff" style="width:42px;height:42px; margin-top:-7px; margin-left:-7px;"></lord-icon>
                 <!-- <i class="fas fa-play nft-play"></i> -->
               </a>
+
             </div>
 
             <div class="panel-body">
+              <div align="right" style="margin-top:-20px;"><label class="label label-default label-sm nft-format"></label></div>
               <div class="fas fa-shield-check fa-lg nft-shield" style="display:none; color:#229954; position:absolute; right:1;"></div>
               <h3 align="center" class="nft-artist"></h3>
               <p align="center"><span class="nft-title"></span></p>
-              <div>Issuer:<br><span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
-              <div>IPFS: <span class="nft-format"></span> Format</div>
-              <div>Price: <span class="nft-price"></span> <span>tz</span></div>
-              <div>Editions Available: <span class="nft-editions-avail"></span></div>
+              <div>Issuer: <span class="nft-issuer-address" style="font-size:11px; color:#979A9A;"></span></div>
+                        <div>Hosting: <span class="nft-host"></span></div>
+                        <div>Price: <span class="nft-price" style="color:#2980B9;"></span> <span style="color:#2980B9;">tz</span><span> / </span><strong>$<span class="nft-price-usd"></span></strong></div>
+                        <div>Editions Available: <strong><span class="nft-editions-avail" style="color:#F39C12;"></span></strong></div>
+                        <div>Genre: <span class="nft-genre"></span></div>
+                        <div>Legal Contract: <strong><span class="nft-terms"></span></strong></div>
             </div>
 
             <div class="panel-footer text-muted" align="center">
@@ -267,9 +271,10 @@
                   <div class="btn-group">
                     <a href="javascript:void(0)" class="btn btn-default dropdown-toggle" id="mint-terms-dropdown" disabled><span id="mint-terms">Select Terms & Licensing</span> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="javascript:void(0)" id="mint-essential">Essential</a></li>
-                      <li><a href="javascript:void(0)" id="mint-premium">Premium</a></li>
-                      <li><a href="javascript:void(0)" id="mint-commercial">Commercial</a></li>
+                      <li><a href="javascript:void(0)" id="mint-basic">Basic Lease</a></li>
+                      <li><a href="javascript:void(0)" id="mint-trackout">Trackout Lease</a></li>
+                      <li><a href="javascript:void(0)" id="mint-premium">Premium Lease</a></li>
+                      <li><a href="javascript:void(0)" id="mint-exclusive">Exclusive Rights</a></li>
                     </ul>
                   </div>
                 </div>
@@ -473,11 +478,15 @@ Exclusive Rights: No<br></small></p>
     const songName = parseBytes(values.get('"song_name"'))
     const artist = parseBytes(values.get('"artist"'))
     const format = parseBytes(values.get('"asset_format"'))
+    const genre = parseBytes(values.get('"genre"'))
+    const contractType = parseBytes(values.get('"legal_contract_type"'))
     const title = songName ? songName.substr(0, 27) : songName
     console.log('Getting edition\'s market sales...')
     const sales = await getSales(eid, edition)
     console.log(sales)
     const price = sales.price / 1000000
+    const priceInUsd = (price * parseFloat(window.priceUsd)).toFixed(2)
+    let termsContract = ''
     let audioUrl = 'https://radion.fm:8002/stream/1'
     let artworkUrl = 'https://radion.fm/img/bg-capa.jpg'
     let audioType = null
@@ -500,18 +509,57 @@ Exclusive Rights: No<br></small></p>
       }
     })
 
+    switch (contractType) {
+      case 'essential':
+        termsContract = 'Essential'
+        break
+
+      case 'commercial':
+        termsContract = 'Commercial'
+        break
+
+      case 'basic':
+        termsContract = 'Basic Lease'
+        break
+
+      case 'trackout':
+        termsContract = 'Trackout Lease'
+        break
+
+      case 'premium':
+        termsContract = 'Premium Lease'
+        break
+
+      case 'exclusive':
+        termsContract = 'Exclusive Rights'
+        break
+
+      case 'cc-by-nc-nd':
+        termsContract = 'CC-BY-NC-ND'
+        break
+
+      default:
+        termsContract = contractType
+    }
+
     // const audioDataUrl = await getIPFS(audioCID, audioType)
+    const host = audioUrl.startsWith('https://') ? 'RADION Server' : 'IPFS'
     const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://ipfs.io/ipfs/' + audioUrl.split('ipfs://')[1]
     console.log('Getting artwork data from ' + artworkUrl + '...')
     const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : await getIPFS(artworkUrl.split('ipfs://')[1], artworkType)
+    const issuer = edition.creator.substr(0, edition.creator.length - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
     $(elem).find('.nft-title').text(title).removeClass('nft-title')
     $(elem).find('.nft-shield').removeClass('nft-shield')
-    $(elem).find('.nft-issuer-address').text(edition.creator).removeClass('nft-issuer-address')
+    $(elem).find('.nft-issuer-address').text(issuer).removeClass('nft-issuer-address')
+    $(elem).find('.nft-host').text(host).removeClass('nft-host')
     $(elem).find('.nft-format').text(format).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
+    $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
     $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions).removeClass('nft-editions-avail')
+    $(elem).find('.nft-terms').text(termsContract).removeClass('nft-terms')
+    $(elem).find('.nft-genre').text(genre).removeClass('nft-genre')
     $(elem).find('.nft-buy').attr('data-buy', eid).removeClass('nft-buy').click(buyEdition)
     $(elem).find('.nft-play').attr({
       href: audioDataUrl,
@@ -557,12 +605,12 @@ Exclusive Rights: No<br></small></p>
     const cid = parseBytes(values.get('""')).split('ipfs://')[1]
     const editionDataLink = await getIPFS(cid, 'application/json')
     const editionData = parseDataURL(editionDataLink)
-    let audioCID = null
+    let audioUrl = null
     let audioType = null
 
     editionData.formats.forEach(format => {
       if (format.mimeType.startsWith('audio')) {
-        audioCID = format.uri.split('ipfs://')[1]
+        audioUrl = format.uri
         audioType = format.mimeType
       }
     })
@@ -599,14 +647,14 @@ Exclusive Rights: No<br></small></p>
       noty({
         text: 'Waiting for confirmation',
         layout: 'topRight',
-        timeout: 5000
+        timeout: 20000
       })
 
       const hash = operation.opHash
       await operation.confirmation(1)
 
       noty({
-        text: 'Downloading from IPFS',
+        text: 'Downloading from server...',
         layout: 'topRight',
         timeout: 5000
       })
@@ -614,8 +662,11 @@ Exclusive Rights: No<br></small></p>
       let filename = editionData.name
       if (audioType === 'audio/mpeg') filename += '.mp3'
       else if (audioType === 'audio/wav') filename += '.wav'
-      const downloadLink = await getIPFS(audioCID, audioType)
-      downloadURL(downloadLink, filename)
+      if (audioUrl.startsWith('ipfs://')) {
+        const audioCID = audioUrl.split('ipfs://')[1]
+        const downloadLink = await getIPFS(audioCID, audioType)
+        downloadURL(downloadLink, filename)
+      } else downloadURL(audioUrl, filename)
 
       // Display SUCCESS
       const sweetAlert = await Swal.fire({
@@ -644,8 +695,17 @@ Exclusive Rights: No<br></small></p>
     event.preventDefault()
 
     const lottie = $(this).prop('lottie')
-    if (player.paused) {
-      player.src = $(this).attr('href')
+    const source = $(this).attr('href')
+
+    if (player.paused || player.src !== source) {
+      $('[data-hash]').each(function (i, elem) {
+        let eLottie = $(this).prop('lottie')
+        eLottie.stop()
+        eLottie.currentFrame = 0
+        eLottie.renderFrame()
+      })
+
+      player.src = source
       lottie.play()
       player.play()
     } else {
@@ -741,7 +801,8 @@ Exclusive Rights: No<br></small></p>
       }
     } else artworkData = await readFile(imageFile)
 
-    if (terms !== 'essential' && terms !== 'premium' && terms !== 'commercial') {
+    const validTerms = ['basic', 'trackout', 'premium', 'exclusive']
+    if (!validTerms.includes(terms)) {
       noty({
         text: 'No terms and license selected',
         layout: 'topRight',
@@ -754,7 +815,7 @@ Exclusive Rights: No<br></small></p>
     const assetStore = $('#asset-store').val()
     if (!assetStore) {
       noty({
-        text: 'Please select where to store the asset',
+        text: 'Please select where to store your asset',
         layout: 'topRight',
         type: 'error',
         timeout: 5000
@@ -818,16 +879,20 @@ Exclusive Rights: No<br></small></p>
     }
 
     switch (terms) {
-      case 'essential':
-        termsURL = 'https://radion.fm/essential-terms-contract.html'
+      case 'basic':
+        termsURL = 'https://radion.fm/terms/basic.html'
         break
 
-      case 'premiums':
-        termsURL = 'https://radion.fm/premium-terms-contract.html'
+      case 'trackout':
+        termsURL = 'https://radion.fm/terms/trackout.html'
         break
 
-      case 'commercial':
-        termsURL = 'https://radion.fm/commercial-terms-contract.html'
+      case 'premium':
+        termsURL = 'https://radion.fm/terms/premium.html'
+        break
+
+      case 'exclusive':
+        termsURL = 'https://radion.fm/terms/exclusive.html'
         break
     }
 
@@ -852,7 +917,7 @@ Exclusive Rights: No<br></small></p>
       genre: genre,
       copyright_holder: 'Yes',
       publisher: 'RADION FM',
-      licensing_terms: termsURL,
+      legal_terms: termsURL,
       legal_contract_type: terms
     })
 
@@ -866,28 +931,43 @@ Exclusive Rights: No<br></small></p>
     map.set('copyright_holder', strToHex('Yes'))
     map.set('publisher', strToHex('RADION FM'))
     map.set('asset_format', strToHex(audioType === 'audio/mpeg' ? 'MP3' : 'WAV'))
-    map.set('licensing_terms', strToHex(termsURL))
+    map.set('legal_terms', strToHex(termsURL))
     map.set('legal_contract_type', strToHex(terms))
 
     const batch = tezos.batch()
     const receivers = []
-    for (let i = 0; i < editionsCount; i++) receivers.push(pkh)
+    let limitIndex = 0
+    let limitCount = 0
+    for (let i = 0; i < editionsCount; i++) {
+      if (Array.isArray(receivers[limitIndex])) receivers[limitIndex].push(pkh)
+      else receivers[limitIndex] = [pkh]
+
+      limitCount++
+      if (limitCount === 10) {
+        limitCount = 0
+        limitIndex++
+      }
+    }
 
     batch.withContractCall(contract.methods.mint_editions([{
       edition_info: map,
       number_of_editions: editionsCount
     }]))
 
-    batch.withContractCall(contract.methods.distribute_editions([{
-      edition_id: editionId,
-      receivers: receivers
-    }]))
+    for (let i = 0; i < receivers.length; i++) {
+      const receiver = receivers[i]
+      batch.withContractCall(contract.methods.distribute_editions([{
+        edition_id: editionId,
+        receivers: receiver
+      }]))
+    }
 
-    if ($('#mint-sell').is(':checked')) {
+    const toSell = $('#mint-sell').is(':checked')
+    if (toSell) {
       const sellUSD = $('#mint-price').val()
       if (parseFloat(sellUSD) < 0) {
         noty({
-          text: 'Price should not be negative',
+          text: 'Price cannot be negative',
           layout: 'topRight',
           type: 'error',
           timeout: 5000
@@ -899,27 +979,48 @@ Exclusive Rights: No<br></small></p>
       sellPrice = parseFloat(sellXTZ) * 1000000
       const operators = []
       const sales = []
+      let limitIndex = 0
+      let limitCount = 0
 
       for (let i = 0; i < editionsCount; i++) {
-        operators.push({
+        const operator = {
           add_operator: {
             owner: pkh,
             operator: sellContract.address,
             token_id: maxPerRun * editionId + i
           }
-        })
+        }
 
-        sales.push({
+        const sale = {
           sale_price: sellPrice,
           sale_token_param_tez: {
             token_for_sale_address: contract.address,
             token_for_sale_token_id: maxPerRun * editionId + i
           }
-        })
+        }
+
+        if (Array.isArray(operators[limitIndex])) operators[limitIndex].push(operator)
+        else operators[limitIndex] = [operator]
+
+        if (Array.isArray(sales[limitIndex])) sales[limitIndex].push(sale)
+        else sales[limitIndex] = [sale]
+
+        limitCount++
+        if (limitCount === 10) {
+          limitCount = 0
+          limitIndex++
+        }
       }
 
-      batch.withContractCall(contract.methods.update_operators(operators))
-      batch.withContractCall(sellContract.methods.sell(sales))
+      for (let i = 0; i < operators.length; i++) {
+        const operator = operators[i]
+        batch.withContractCall(contract.methods.update_operators(operator))
+      }
+
+      for (let i = 0; i < sales.length; i++) {
+        const sale = sales[i]
+        batch.withContractCall(sellContract.methods.sell(sale))
+      }
     }
 
     try {
@@ -931,12 +1032,25 @@ Exclusive Rights: No<br></small></p>
       })
 
       const confirmed = await op.confirmation(1)
+      const hash = op.opHash
       if (confirmed) {
         noty({
           text: 'Operation was successful',
           layout: 'topRight',
           type: 'success'
         })
+
+        const sweetAlert = await Swal.fire({
+          icon: 'success',
+          title: 'SUCCESS',
+          width: 450,
+          html: '<br><p align="left" style="padding-left:10px;">WE HAVE CONFIRMATION!</p><hr><p align="left" style="padding-left:10px;"><strong>Transaction ID/Hash:</strong></p><p align="left" style="font-size:13px;padding-left:10px;">' + hash + '</p>',
+          confirmButtonText: '<i class="fas fa-external-link-alt"></i> View in TzStats',
+          showCancelButton: true,
+          cancelButtonText: "<i class='fas fa-thumbs-up'></i> Got It"
+        })
+
+        if (sweetAlert.value) window.open('https://tzstats.com/' + hash)
       } else {
         noty({
           text: 'Unable to confirm the operation',
@@ -970,19 +1084,24 @@ Exclusive Rights: No<br></small></p>
     }
   })
 
-  $('#mint-essential').click(function (event) {
-    terms = 'essential'
-    $('#mint-terms').text('Essential')
+  $('#mint-basic').click(function (event) {
+    terms = 'basic'
+    $('#mint-terms').text('Basic Lease')
+  })
+
+  $('#mint-trackout').click(function (event) {
+    terms = 'trackout'
+    $('#mint-terms').text('Trackout Lease')
   })
 
   $('#mint-premium').click(function (event) {
     terms = 'premium'
-    $('#mint-terms').text('Premium')
+    $('#mint-terms').text('Premium Lease')
   })
 
-  $('#mint-commercial').click(function (event) {
-    terms = 'commercial'
-    $('#mint-terms').text('Commercial')
+  $('#mint-exclusive').click(function (event) {
+    terms = 'exclusive'
+    $('#mint-terms').text('Exclusive Rights')
   })
 
   async function saveAsset (data, type) {
