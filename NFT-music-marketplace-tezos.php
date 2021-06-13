@@ -281,11 +281,12 @@
               </div>
 
               <div class="form-group">
-                <label class="col-md-4 control-label">Asset stored</label>
+                <label class="col-md-4 control-label">Asset Stored</label>
                 <div class="col-md-8">
                   <select name="asset-store" id="asset-store" class="form-control">
-                    <option value="ipfs" selected>IPFS</option>
-                    <option value="radion">RADION Server</option>
+                    <option value="radion" selected>RADION Server</option>
+                    <option value="ipfs">IPFS</option>
+
                   </select>
                 </div>
               </div>
@@ -668,7 +669,11 @@ Exclusive Rights: No<br></small></p>
         const audioCID = audioUrl.split('ipfs://')[1]
         const downloadLink = await getIPFS(audioCID, audioType)
         downloadURL(downloadLink, filename)
-      } else downloadURL(audioUrl + '&hash=' + hash, filename)
+      } else {
+        const splitted = audioUrl.split('https://www.radion.fm')
+        const downloadLink = splitted.length > 1 ? splitted[1] : audioUrl
+        downloadURL(downloadLink + '&hash=' + hash, filename)
+      }
 
       // Display SUCCESS
       const sweetAlert = await Swal.fire({

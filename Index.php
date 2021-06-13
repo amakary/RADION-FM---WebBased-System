@@ -1922,8 +1922,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $(elem).find('.nft-host').text(host).removeClass('nft-host')
     $(elem).find('.nft-format').text(format).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
-    $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
-    $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions).removeClass('nft-editions-avail')
+    if (sales.count !== 0) $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
+    if (sales.count === 0) $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out')
+    else $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions)
+    $(elem).find('.nft-editions-avail').removeClass('nft-editions-avail')
     $(elem).find('.nft-terms').text(termsContract).removeClass('nft-terms')
     $(elem).find('.nft-genre').text(genre).removeClass('nft-genre')
     $(elem).find('.nft-buy').attr('data-buy', eid).removeClass('nft-buy').click(buyEdition)
@@ -1935,12 +1937,14 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   }
 
   async function getSales (eid, edition) {
+    const tokenIds = []
     const keys = []
     let count = 0
     let price = 0
 
     for (let i = 0; i < edition.number_of_editions.c[0]; i++) {
       const tokenId = eid * maxEditionsPerRun + i
+      tokenIds.push(tokenId)
       keys.push({
         seller: edition.creator,
         sale_token: {
@@ -1957,6 +1961,22 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         count++
       }
     })
+
+    if (price === 0) {
+      const response = await $.getJSON('https://api.better-call.dev/v1/contract/mainnet/' + fixedPrice + '/operations?entrypoints=buy')
+      const operations = response.operations
+      for (let i = 0; i < operations.length; i++) {
+        const operation = operations[i]
+        if (operation.internal) continue
+
+        const parameters = parseMichelsonMap(operation.parameters)
+        const tokenId = parameters[0].buy.sale_token.sale_token.token_for_sale_token_id
+        if (tokenIds.includes(tokenId)) {
+          price = operation.amount
+          break
+        }
+      }
+    }
 
     return { count, price }
   }
@@ -2035,7 +2055,11 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         const audioCID = audioUrl.split('ipfs://')[1]
         const downloadLink = await getIPFS(audioCID, audioType)
         downloadURL(downloadLink, filename)
-      } else downloadURL(audioUrl + '&hash=' + hash, filename)
+      } else {
+        const splitted = audioUrl.split('https://www.radion.fm')
+        const downloadLink = splitted.length > 1 ? splitted[1] : audioUrl
+        downloadURL(downloadLink + '&hash=' + hash, filename)
+      }
 
       // Display SUCCESS
       const sweetAlert = await Swal.fire({
