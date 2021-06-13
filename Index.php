@@ -579,7 +579,7 @@ if ($result->num_rows > 0) {
                         <p align="center" style="margin-top:-10px;"><span class="nft-title"></span></p>
                         <div>Issuer: <span class="nft-issuer-address" style="font-size:11px; color:#979A9A;"></span></div>
                         <div>Hosting: <span class="nft-host"></span></div>
-                        <div>Price: <span class="nft-price" style="color:#2980B9;"></span> <span style="color:#2980B9;">tz</span><span> / </span><strong>$<span class="nft-price-usd"></span></strong></div>
+                        <div>Price: <span class="nft-price" style="color:#2980B9;"></span> <span style="color:#2980B9;">tz</span><span class="nft-sold-out"> / </span><strong class="nft-sold-out">$<span class="nft-price-usd"></span></strong></div>
                         <div>Editions Available: <strong><span class="nft-editions-avail" style="color:#F39C12;"></span></strong></div>
                         <div>Genre: <span class="nft-genre"></span></div>
                         <div>Legal Contract: <strong><span class="nft-terms"></span></strong></div>
@@ -1922,8 +1922,11 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $(elem).find('.nft-host').text(host).removeClass('nft-host')
     $(elem).find('.nft-format').text(format).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
-    if (sales.count !== 0) $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
-    if (sales.count === 0) $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out')
+    $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
+    if (sales.count === 0) {
+      $(elem).find('.nft-sold-out').hide().removeClass('nft-sold-out')
+      $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out')
+    }
     else $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions)
     $(elem).find('.nft-editions-avail').removeClass('nft-editions-avail')
     $(elem).find('.nft-terms').text(termsContract).removeClass('nft-terms')
