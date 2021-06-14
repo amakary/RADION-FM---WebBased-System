@@ -509,12 +509,15 @@ if ($result->num_rows > 0) {
                         </a>
                       </div>
                       <div class="panel-body">
+                        <div align="right" style="margin-top:-20px; padding-bottom:10px;"><label class="label label-default label-sm">WAV</label> | <label class="label label-primary label-sm">MP3</label></div>
                         <h3 align="center" class="nft-artist"></h3>
-                        <p align="center" class="nft-title"></p>
+                        <p align="center" class="nft-title" style="margin-top:-10px;"></p>
                         <div>Issuer:<br><span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
-                        <div>STREAM: <span class="nft-id"></span></div>
-                        <div>IPFS: WAV Format</div>
-                        <div>Genre: <span class="nft-genre"></span></div>
+                        <div>Asset: <strong><span class="nft-id"></span></strong></div>
+                        <div>Genre: <strong><span class="nft-genre"></span></strong></div>
+                        <div>Hosting: <strong>IPFS</strong></div>
+                        <div>Legal Contract: <strong>Rights Holder</strong></div>
+                        <div>Terms: <strong style="color:#2980B9;">Permanent</strong></div>
                       </div>
                       <div class="panel-footer text-muted" align="center">
 
