@@ -2277,6 +2277,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       console.log('Detected RADION ID: ' + id)
       const hash = await getHash(id)
       const songName = nft.extras.song_name || (nft.extras.asset && nft.extras.asset.song_name)
+      const issuer = owner ? owner.substr(0, owner.length - 15) + '...' : owner
       const title = songName ? songName.substr(0, 27) : songName
       const artist = nft.extras.artist || (nft.extras.asset && nft.extras.asset.artist)
       const genre = nft.extras.genre
@@ -2291,7 +2292,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       $(elem).find('.nft-artwork').attr('src', metadata.artwork).removeClass('nft-artwork')
       $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
       $(elem).find('.nft-title').text(title).removeClass('nft-title')
-      $(elem).find('.nft-issuer-address').text(owner).removeClass('nft-issuer-address')
+      $(elem).find('.nft-issuer-address').text(issuer).removeClass('nft-issuer-address')
       $(elem).find('.nft-id').text(id).removeClass('nft-id')
       $(elem).find('.nft-genre').text(genre).removeClass('nft-genre')
       $('#nfts').append(elem)
