@@ -2040,8 +2040,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       noty({
         text: '<i class="fas fa-compact-disc fa-lg fa-spin"></i> Transaction Request Sent. Confirming...<br>Please wait for confirmation! Do not refresh browser...',
         type: 'information',
-        layout: 'topRight',
-        timeout: 20000
+        layout: 'topRight'
       })
 
       const hash = operation.opHash
@@ -2050,8 +2049,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       noty({
         text: 'Please wait for download. Do not refresh browser! This may take a while...',
         type: 'information',
-        layout: 'topRight',
-        timeout: 5000
+        layout: 'topRight'
       })
 
       let filename = editionData.name
