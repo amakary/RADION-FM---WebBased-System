@@ -189,11 +189,11 @@
               <h3 align="center" class="nft-artist"></h3>
               <p align="center"><span class="nft-title"></span></p>
               <div>Issuer: <span class="nft-issuer-address" style="font-size:11px; color:#979A9A;"></span></div>
-                        <div>Hosting: <span class="nft-host"></span></div>
-                        <div>Price: <span class="nft-price" style="color:#2980B9;"></span> <span style="color:#2980B9;">tz</span><span> / </span><strong>$<span class="nft-price-usd"></span></strong></div>
-                        <div>Editions Available: <strong><span class="nft-editions-avail" style="color:#F39C12;"></span></strong></div>
-                        <div>Genre: <span class="nft-genre"></span></div>
-                        <div>Legal Contract: <strong><span class="nft-terms"></span></strong></div>
+              <div>Hosting: <span class="nft-host"></span></div>
+              <div>Price: <span class="nft-price" style="color:#2980B9;"></span> <span style="color:#2980B9;">tz</span><span class="nft-sold-out"> / </span><strong class="nft-sold-out">$<span class="nft-price-usd"></span></strong></div>
+              <div>Editions Available: <strong><span class="nft-editions-avail" style="color:#F39C12;"></span></strong></div>
+              <div>Genre: <span class="nft-genre"></span></div>
+              <div>Legal Contract: <strong><span class="nft-terms"></span></strong></div>
             </div>
 
             <div class="panel-footer text-muted" align="center">
@@ -302,24 +302,34 @@
       </div>
 
       <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
-        <p style="padding:25px; color:#B3B6B7;" align="justify"><small>RADION attach a digital legal contract to each NFT. This contract detailed the terms and licensing that your NFT is subject to and how buyers can use your asset without infringements. Currently, RADION allows you to work with 3 different terms and licensing! These license apply for those who purchase the NFT. <br><br>
-        <span style="color:#fff;"><strong>Essential</strong></span> - Price per Unit suggested $20 USD<br><br>
+        <p style="padding:10px 30px 0px 30px; color:#B3B6B7;" align="justify"><small style="color:#fff;">RADION FM respects the intellectual property rights of others, and we expect our users to do the same. We use legal contracts to detail the terms that the asset is subject to, along with its licensing. Buyers must respect the terms of the contract in order to avoid copyright infringements and prevent potential penalties.</small><br><br>
+</small></p>
+<div style="border-bottom: 1px dashed #7B7D7D; padding: 0px 30px 0px 30px; "></div>
+<p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify">
+<small><span style="color:#fff;"><strong>Basic Lease</strong></span> - 1 Year Contract / PPU Suggested <span style="color:#f2c945;">$20</span> USD<br><br>
 MP3: Yes<br>
 WAV: No<br>
+Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
 Trackout: No<br>
 Free Downloads: No<br>
-Distribution Copies: 5000<br>
-Performances (No-Profit): None<br>
-Paid Performances: 100<br>
+Distribution Copies: 3000<br>
+Performances (No-Profit): Unlimited<br>
+Paid Performances: None<br>
 Music Videos or (YouTube video): 1<br>
 Audio Streams: Unlimited<br>
 Video Streams: No<br>
-Broadcasting Rights: Yes<br>
-Number of radio stations: Unlimited<br>
+Broadcasting Rights: No<br>
+Number of radio stations: None<br>
 Exclusive Rights: No<br><br>
-<span style="color:#fff;"><strong>Premium</strong></span>- Price per Unit suggested $50 USD<br><br>
+This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+
+<div style="border-bottom: 1px dashed #7B7D7D; padding-right:30px; padding-left:30px;"></div>
+
+<p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
+<span style="color:#fff;"><strong>Trackout Lease</strong></span>- 1 Year Contract / PPU Suggested <span style="color:#f2c945;">$100</span> USD<br><br>
 MP3: Yes<br>
 WAV: No<br>
+Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
 Trackout: No<br>
 Free Downloads: No<br>
 Distribution Copies: 8000<br>
@@ -331,9 +341,15 @@ Video Streams: No<br>
 Broadcasting Rights: Yes<br>
 Number of radio stations: Unlimited<br>
 Exclusive Rights: No<br><br>
-<span style="color:#fff;"><strong>Commercial</strong></span> - Price per Unit suggested $300 USD<br><br>
+This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+
+<div style="border-bottom: 1px dashed #7B7D7D; padding:10px;"></div>
+
+<p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
+<span style="color:#fff;"><strong>Lease Premium</strong></span> - 1 Year Contract / Price Suggested <span style="color:#f2c945;">$300</span> USD<br><br>
 MP3: Yes<br>
-WAV: Yes<br>
+WAV: No<br>
+Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
 Trackout: Yes<br>
 Free Downloads: No<br>
 Distribution Copies: 10000<br>
@@ -344,7 +360,29 @@ Audio Streams: Unlimited<br>
 Video Streams: No<br>
 Broadcasting Rights: Yes<br>
 Number of radio stations: Unlimited<br>
-Exclusive Rights: No<br></small></p>
+Exclusive Rights: No<br><br>
+This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+
+<div style="border-bottom: 1px dashed #7B7D7D; padding:10px;"></div>
+
+<p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
+<span style="color:#fff;"><strong>Exclusive Rights</strong></span> - Permanent / Price Suggested <span style="color:#f2c945;">$2000</span> USD<br><br>
+MP3: No<br>
+WAV: Yes<br>
+Licensing: N/A<br>
+Trackout: Yes<br>
+Free Downloads: Unlimited<br>
+Distribution Copies: Unlimited<br>
+Performances (No-Profit): Unlimited<br>
+Paid Performances: Unlimited<br>
+Music Videos or (YouTube video): Unlimited<br>
+Audio Streams: Unlimited<br>
+Video Streams: Unlimited<br>
+Broadcasting Rights: Yes<br>
+Number of radio stations: Unlimited<br>
+Exclusive Rights: Yes<br><br>
+Any NFT that carry this contract, allow you to become legally the new owner and/or right holder of the asset.<br><br>
+</small></p>
       </div>
     </div>
   </div>
@@ -477,11 +515,11 @@ Exclusive Rights: No<br></small></p>
     console.log('IPFS Metadata', editionData)
     const id = parseBytes(values.get('"asset_id"') || '')
     const songName = parseBytes(values.get('"song_name"'))
-    const artist = parseBytes(values.get('"artist"'))
+    const artist = parseBytes(values.get('"artist"')) || 'Artist Unknown'
     const format = parseBytes(values.get('"asset_format"'))
-    const genre = parseBytes(values.get('"genre"'))
+    const genre = parseBytes(values.get('"genre"')) || 'None'
     const contractType = parseBytes(values.get('"legal_contract_type"'))
-    const title = songName ? songName.substr(0, 27) : songName
+    const title = (songName ? songName.substr(0, 27) : songName) || 'No title'
     console.log('Getting edition\'s market sales...')
     const sales = await getSales(eid, edition)
     console.log(sales)
@@ -512,11 +550,11 @@ Exclusive Rights: No<br></small></p>
 
     switch (contractType) {
       case 'essential':
-        termsContract = 'Essential'
+        termsContract = 'Basic Lease'
         break
 
       case 'commercial':
-        termsContract = 'Commercial'
+        termsContract = 'Trackout Lease'
         break
 
       case 'basic':
@@ -558,7 +596,12 @@ Exclusive Rights: No<br></small></p>
     $(elem).find('.nft-format').text(format).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
     $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
-    $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions).removeClass('nft-editions-avail')
+    if (sales.count === 0) {
+      $(elem).find('.nft-sold-out').hide().removeClass('nft-sold-out')
+      $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out')
+    }
+    else $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions)
+    $(elem).find('.nft-editions-avail').removeClass('nft-editions-avail')
     $(elem).find('.nft-terms').text(termsContract).removeClass('nft-terms')
     $(elem).find('.nft-genre').text(genre).removeClass('nft-genre')
     $(elem).find('.nft-buy').attr('data-buy', eid).removeClass('nft-buy').click(buyEdition)
@@ -570,12 +613,14 @@ Exclusive Rights: No<br></small></p>
   }
 
   async function getSales (eid, edition) {
+    const tokenIds = []
     const keys = []
     let count = 0
     let price = 0
 
     for (let i = 0; i < edition.number_of_editions.c[0]; i++) {
       const tokenId = eid * maxEditionsPerRun + i
+      tokenIds.push(tokenId)
       keys.push({
         seller: edition.creator,
         sale_token: {
@@ -592,6 +637,22 @@ Exclusive Rights: No<br></small></p>
         count++
       }
     })
+
+    if (price === 0) {
+      const response = await $.getJSON('https://api.better-call.dev/v1/contract/mainnet/' + fixedPrice + '/operations?entrypoints=buy')
+      const operations = response.operations
+      for (let i = 0; i < operations.length; i++) {
+        const operation = operations[i]
+        if (operation.internal) continue
+
+        const parameters = parseMichelsonMap(operation.parameters)
+        const tokenId = parameters[0].buy.sale_token.sale_token.token_for_sale_token_id
+        if (tokenIds.includes(tokenId)) {
+          price = operation.amount
+          break
+        }
+      }
+    }
 
     return { count, price }
   }
@@ -758,6 +819,10 @@ Exclusive Rights: No<br></small></p>
   $('#mint-submit').click(async function (event) {
     event.preventDefault()
 
+    const artist = $('#mint-artist').val()
+    const title = $('#mint-title').val()
+    const genre = $('#mint-genre').val()
+    const editionsCount = parseInt($('#mint-editions').val() || '0')
     const files = $('#upload-dropzone').prop('dropzone').files
     let audioFile = null
     let audioType = null
@@ -775,6 +840,36 @@ Exclusive Rights: No<br></small></p>
         imageFile = file
         imageType = file.type
       }
+    }
+
+    if (!artist) {
+      noty({
+        text: 'Artist should not be empty',
+        layout: 'topRight',
+        type: 'error',
+        timeout: 5000
+      })
+      return
+    }
+
+    if (!title) {
+      noty({
+        text: 'Title should not be empty',
+        layout: 'topRight',
+        type: 'error',
+        timeout: 5000
+      })
+      return
+    }
+
+    if (!genre) {
+      noty({
+        text: 'Genre should not be empty',
+        layout: 'topRight',
+        type: 'error',
+        timeout: 5000
+      })
+      return
     }
 
     if (audioType !== 'audio/mpeg' && audioType !== 'audio/wav') {
@@ -867,11 +962,6 @@ Exclusive Rights: No<br></small></p>
     const maxPerRun = storage.max_editions_per_run.c[0]
     const map = new MichelsonMap()
     const date = new Date()
-
-    const artist = $('#mint-artist').val()
-    const title = $('#mint-title').val()
-    const genre = $('#mint-genre').val()
-    const editionsCount = parseInt($('#mint-editions').val() || '0')
     let termsURL = ''
     let sellPrice = 0
 
