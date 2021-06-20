@@ -1,5 +1,5 @@
 
-const ipfsNodeAsync = Ipfs.create({ repo: 'ipfs.io' })
+const ipfsNodeAsync = Ipfs.create()
 
 /**
  *  Reads a file content from IPFS
