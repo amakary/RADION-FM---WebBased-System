@@ -962,6 +962,8 @@ if (function_exists('sl_combichatbox')) {
   <!-- END TEMPLATE -->
 
   <script src="https://unpkg.com/ipfs@0.54.4/dist/index.min.js"></script>
+  <script src="/js/helpers.js"></script>
+  <script src="/js/ipfs.js"></script>
   <script src="/js/minter.js"></script>
   <script src="/js/tezos.js"></script>
   <script>

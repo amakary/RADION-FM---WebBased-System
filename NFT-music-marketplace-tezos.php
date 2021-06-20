@@ -510,8 +510,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const numberOfEditions = edition.number_of_editions.c[0]
     const cid = parseBytes(values.get('""')).split('ipfs://')[1]
     console.log('Getting edition\'s (ID: ' + eid + ') additional data from IFPS')
-    const editionDataLink = await getIPFS(cid, 'application/json')
-    const editionData = parseDataURL(editionDataLink)
+    const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     console.log('IPFS Metadata', editionData)
     const id = parseBytes(values.get('"asset_id"') || '')
     const songName = parseBytes(values.get('"song_name"'))
@@ -581,11 +580,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         termsContract = contractType
     }
 
-    // const audioDataUrl = await getIPFS(audioCID, audioType)
     const host = audioUrl.startsWith('https://') ? 'RADION Server' : 'IPFS'
-    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://ipfs.io/ipfs/' + audioUrl.split('ipfs://')[1]
+    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.split('ipfs://')[1]
     console.log('Getting artwork data from ' + artworkUrl + '...')
-    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : await getIPFS(artworkUrl.split('ipfs://')[1], artworkType)
+    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.split('ipfs://')[1]
     const issuer = edition.creator.substr(0, edition.creator.length - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
@@ -665,8 +663,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const values = edition.edition_info.valueMap
     const numberOfEditions = edition.number_of_editions.c[0]
     const cid = parseBytes(values.get('""')).split('ipfs://')[1]
-    const editionDataLink = await getIPFS(cid, 'application/json')
-    const editionData = parseDataURL(editionDataLink)
+    const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     let audioUrl = null
     let audioType = null
 
@@ -728,7 +725,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       else if (audioType === 'audio/wav') filename += '.wav'
       if (audioUrl.startsWith('ipfs://')) {
         const audioCID = audioUrl.split('ipfs://')[1]
-        const downloadLink = await getIPFS(audioCID, audioType)
+        const downloadLink = '/ipfs/cat.php?cid=' + audioCID
         downloadURL(downloadLink, filename)
       } else {
         const splitted = audioUrl.split('https://www.radion.fm')
@@ -932,7 +929,6 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const tezBalance = (balance.c[0] / 1000000).toFixed(6)
     $('#wallet-balance').text(tezBalance + ' tz')
 
-    const ipfsNode = await ipfsNodeAsync
     const thumbnailUrl = 'ipfs://QmVPq2eaWdvAaKy7ii1WyHmp4EC6hWcN9FYi9KzKMurq7R'
     let audioUrl = null
     let artworkUrl = null
@@ -944,10 +940,8 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         timeout: 10000
       })
 
-      const { cid } = await ipfsNode.add(audioData)
-      const { cid: artworkCID } = await ipfsNode.add(artworkData)
-      await ipfsNode.pin.add(cid.toString())
-      await ipfsNode.pin.add(artworkCID.toString())
+      const { cid } = await ipfsAdd(audioData)
+      const { cid: artworkCID } = await ipfsAdd(artworkData)
       audioUrl = 'ipfs://' + cid
       artworkUrl = 'ipfs://' + artworkCID
     } else {
@@ -1018,8 +1012,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       legal_contract_type: terms
     })
 
-    const { cid: bytesCid } = await ipfsNode.add(bytes)
-    await ipfsNode.pin.add(bytesCid.toString())
+    const { cid: bytesCid } = await ipfsAdd(bytes)
     map.set('', strToHex('ipfs://' + bytesCid.toString()))
     map.set('date', strToHex(date.toISOString()))
     map.set('song_name', strToHex(title))

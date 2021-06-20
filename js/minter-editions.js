@@ -170,7 +170,6 @@ $('#mint-submit').click(async function (event) {
   }
 
   const response = await submit(formData)
-  const ipfsNode = await ipfsNodeAsync
   const id = response.id
   const bytes = JSON.stringify({
     name: title,

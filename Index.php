@@ -1994,8 +1994,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const values = edition.edition_info.valueMap
     const numberOfEditions = edition.number_of_editions.c[0]
     const cid = parseBytes(values.get('""')).split('ipfs://')[1]
-    const editionDataLink = await getIPFS(cid, 'application/json')
-    const editionData = parseDataURL(editionDataLink)
+    const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     let audioUrl = null
     let audioType = null
 

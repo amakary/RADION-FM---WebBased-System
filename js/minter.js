@@ -119,7 +119,6 @@ async function mint () {
   await wallet.requestPermissions({ network })
 
   const wavData = await readFile(wav)
-  const ipfsNode = await Ipfs.create({ repo: 'ipfs.io' })
   noty({
     text: 'Uploading asset to IPFS',
     layout: 'topRight',

@@ -1078,11 +1078,11 @@ Exclusive Rights: No<br></small></p>
   <!-- END TEMPLATE -->
 
   <script src="https://unpkg.com/ipfs@0.54.4/dist/index.min.js"></script>
+  <script src="/js/helpers.js"></script>
+  <script src="/js/ipfs.js"></script>
   <script src="/js/minter-2.js"></script>
   <script src="/js/minter-editions.js"></script>
   <script src="/js/tezos.js"></script>
-  <script src="/js/helpers.js"></script>
-  <script src="/js/ipfs.js"></script>
   <script>
   $(document).ready(function() {
     express_view()
