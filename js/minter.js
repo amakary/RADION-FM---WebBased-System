@@ -1,4 +1,3 @@
-
 const { TezosToolkit, MichelsonMap } = taquito
 const { BeaconWallet } = taquitoBeaconWallet
 const { NetworkType } = beacon
@@ -86,6 +85,36 @@ async function mint () {
     return
   }
 
+  if (!artist) {
+    noty({
+      text: 'Artist should not be empty',
+      layout: 'topRight',
+      type: 'error',
+      timeout: 5000
+    })
+    return
+  }
+
+  if (!title) {
+    noty({
+      text: 'Title should not be empty',
+      layout: 'topRight',
+      type: 'error',
+      timeout: 5000
+    })
+    return
+  }
+
+  if (!genre) {
+    noty({
+      text: 'Genre should not be empty',
+      layout: 'topRight',
+      type: 'error',
+      timeout: 5000
+    })
+    return
+  }
+
   const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
   await wallet.requestPermissions({ network })
 
@@ -97,8 +126,7 @@ async function mint () {
     timeout: 10000
   })
 
-  const { cid } = await ipfsNode.add(wavData)
-  await ipfsNode.pin.add(cid.toString())
+  const { cid } = await ipfsAdd(wavData)
   const thumbnailCid = 'QmPRSm43Wcpoch3qdaENqV3aGqpBv37wdPEBR9j7wMRoxV'
 
   const contract = await tezos.contract.at('KT1MR8e46WJBq4RcFSogiDbSg3ceDRi81hpE')
@@ -123,8 +151,7 @@ async function mint () {
     date: date.toISOString()
   })
 
-  const { cid: bytesCid } = await ipfsNode.add(bytes)
-  await ipfsNode.pin.add(bytesCid.toString())
+  const { cid: bytesCid } = await ipfsAdd(bytes)
   map.set('', strToHex('ipfs://' + bytesCid.toString()))
   map.set('description', strToHex(description))
   map.set('asset_id', strToHex(id))

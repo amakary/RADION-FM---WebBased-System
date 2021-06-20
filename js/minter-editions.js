@@ -1,4 +1,3 @@
-
 const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
 const fixedPrice = 'KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6'
 
@@ -191,8 +190,7 @@ $('#mint-submit').click(async function (event) {
     legal_contract_type: terms
   })
 
-  const { cid: bytesCid } = await ipfsNode.add(bytes)
-  await ipfsNode.pin.add(bytesCid.toString())
+  const { cid: bytesCid } = await ipfsAdd(bytes)
   map.set('', strToHex('ipfs://' + bytesCid.toString()))
   map.set('date', strToHex(date.toISOString()))
   map.set('song_name', strToHex(title))

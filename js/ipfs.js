@@ -35,3 +35,27 @@ async function getIPFS (cid, type = null) {
     })
   } else return buffer
 }
+
+async function ipfsAdd (data) {
+  const formData = new FormData()
+  formData.append(typeof data === 'string' ? 'text' : 'file', data)
+  return new Promise((resolve, reject) => {
+    $.ajax('/ipfs/add.php', {
+      type: 'POST',
+      data: formData,
+      cache: false,
+      dataType: 'json',
+      processData: false,
+      contentType: false,
+      success: function (data, status, xhr) {
+        if (data.success) {
+          const response = { cid: data.message }
+          resolve(response)
+        } else reject(data.message)
+      },
+      error: function (xhr, status, error) {
+        reject(error)
+      }
+    })
+  })
+}
