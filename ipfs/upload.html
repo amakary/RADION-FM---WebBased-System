@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, width=device-width">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <title>RADION FM || IPFS Upload</title>
+</head>
+
+<body>
+  <form class="form-upload" action="https://www.radion.fm/ipfs/add.php" method="post">
+    <div>
+      <label for="file">File:</label>
+      <input type="file" id="file" name="file">
+    </div>
+
+    <button type="submit">Submit</button>
+  </form><hr>
+
+  <form class="form-upload" action="https://www.radion.fm/ipfs/add.php" method="post">
+    <div>
+      <label for="text">Text:</label>
+      <textarea rows="3" id="text" name="text"></textarea>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div>Output CID: <output id="cid">null</output></div>
+
+  <script>
+  $(document).ready(function () {
+    $('.form-upload').submit(function (event) {
+      event.preventDefault()
+
+      const data = new FormData(this)
+      const action = $(this).attr('action')
+      const method = $(this).attr('method')
+
+      $.ajax(action, {
+        method: method,
+        dataType: 'json',
+        data: data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data, status, xhr) {
+          $('#cid').text(data.message)
+        },
+        error: function (xhr, status, error) {
+          alert('An error has occured!')
+          console.error(xhr)
+        }
+      })
+    })
+  })
+  </script>
+
+  <style>
+  .form-upload { margin: 18px 24px; }
+  </style>
+</body>
+</html>
