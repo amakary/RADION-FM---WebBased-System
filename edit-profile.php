@@ -692,16 +692,17 @@ function slseeifchecked_4(name,idprefix)
       <div class="modal-content" style="padding:48px;">
         <div id="radionwallet">
           <div class="rw-unlock">
-            <h2>Unlock Key</h2>
+            <div align="center" style="padding:0px 0px 30px 0px;"><img src="img/logo-dark.png" style="width:120px; height:40px;"></div>
+            <h2>Unlock Wallet</h2>
             <form action="#" method="get" id="rw-unlock-key">
-              <div>Public Key: <span class="rw-unlock-pkh"></span></div>
+              <div><strong>Public Key:</strong> <span class="rw-unlock-pkh" style="color:#2980B9;"></span></div>
               <div class="form-group rw-hidden rw-unlock-key-input">
-                <label for="rw-unlock-key-input">Passphrase</label>
+                <label for="rw-unlock-key-input">Passphrase (If any)</label>
                 <input type="password" id="rw-unlock-key-input" class="form-control">
               </div>
 
               <div class="rw-hidden rw-unlock-error"></div>
-              <button type="submit" class="btn btn-default">Unlock</button>
+              <button type="submit" class="btn btn-primary">Connect</button>
               <button type="button" class="btn btn-danger rw-unlock-remove">Disconnect</button>
             </form>
           </div>
@@ -722,17 +723,17 @@ function slseeifchecked_4(name,idprefix)
             <h1>Connect Key</h1>
             <form action="#" method="get" id="rw-connect-secret">
               <div class="form-group rw-connect-secret-input">
-                <label for="rw-connect-secret-input">Secret Key / Encrypted Key / Words</label>
+                <label for="rw-connect-secret-input">Secret Key / Encrypted Key / Seed Words</label>
                 <input type="text" id="rw-connect-secret-input" class="form-control">
               </div>
 
               <div class="form-group rw-hidden rw-connect-secret-pass-input">
-                <label for="rw-connect-secret-pass-input">Passphrase (if any)</label>
+                <label for="rw-connect-secret-pass-input">Passphrase (If any)</label>
                 <input type="password" id="rw-connect-secret-pass-input" class="form-control">
               </div>
 
               <div class="form-group rw-hidden rw-connect-secret-email-input">
-                <label for="rw-connect-secret-email-input">Email (if any)</label>
+                <label for="rw-connect-secret-email-input">Email (If any)</label>
                 <input type="email" id="rw-connect-secret-email-input" class="form-control">
               </div>
 
@@ -765,10 +766,14 @@ function slseeifchecked_4(name,idprefix)
   </template>
 
   <div class="modal" id="modal_small" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" style="width:480px;">
-      <div class="modal-content" style="padding:48px;">
-        <div class="address-qrcode"></div>
-        <div>Address: <span class="source-address"></span></div>
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body">
+        <div align="center" style="padding:20px 0px 20px 0px;"><img src="img/logo-dark.png" style="width:90px; height:30px;"></div>
+        <div class="address-qrcode" align="center"></div>
+        <br>
+        <div style="padding-bottom:20px;"><strong><i class="fas fa-wallet"></i> Wallet:</strong><br><span class="source-address" style="font-size:11px; color:#2980B9;"></span></div>
+      </div>
       </div>
     </div>
   </div>
