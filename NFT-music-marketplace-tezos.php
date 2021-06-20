@@ -279,17 +279,6 @@
                   </div>
                 </div>
               </div>
-
-              <div class="form-group">
-                <label class="col-md-4 control-label">Asset Stored</label>
-                <div class="col-md-8">
-                  <select name="asset-store" id="asset-store" class="form-control">
-                    <option value="radion" selected>RADION Server</option>
-                    <option value="ipfs">IPFS</option>
-
-                  </select>
-                </div>
-              </div>
             </div>
           </form>
         </div>
@@ -911,17 +900,6 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       return
     }
 
-    const assetStore = $('#asset-store').val()
-    if (!assetStore) {
-      noty({
-        text: 'Please select where to store your asset',
-        layout: 'topRight',
-        type: 'error',
-        timeout: 5000
-      })
-      return
-    }
-
     const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
     await wallet.requestPermissions({ network })
     const pkh = await wallet.getPKH()
@@ -929,25 +907,17 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const tezBalance = (balance.c[0] / 1000000).toFixed(6)
     $('#wallet-balance').text(tezBalance + ' tz')
 
+    noty({
+      text: 'Uploading asset to IPFS',
+      layout: 'topRight',
+      timeout: 10000
+    })
+
+    const { cid } = await ipfsAdd(audioData)
+    const { cid: artworkCID } = await ipfsAdd(artworkData)
     const thumbnailUrl = 'ipfs://QmVPq2eaWdvAaKy7ii1WyHmp4EC6hWcN9FYi9KzKMurq7R'
-    let audioUrl = null
-    let artworkUrl = null
-
-    if (assetStore === 'ipfs') {
-      noty({
-        text: 'Uploading asset to IPFS',
-        layout: 'topRight',
-        timeout: 10000
-      })
-
-      const { cid } = await ipfsAdd(audioData)
-      const { cid: artworkCID } = await ipfsAdd(artworkData)
-      audioUrl = 'ipfs://' + cid
-      artworkUrl = 'ipfs://' + artworkCID
-    } else {
-      audioUrl = await saveAsset(audioFile.name, audioType)
-      artworkUrl = await saveAsset(imageFile ? imageFile.name : artworkData, imageType)
-    }
+    const audioUrl = 'ipfs://' + cid
+    const artworkUrl = 'ipfs://' + artworkCID
 
     const contract = await tezos.contract.at(fa2)
     const sellContract = await tezos.contract.at(fixedPrice)
