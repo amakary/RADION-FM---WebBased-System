@@ -512,7 +512,7 @@ if ($result->num_rows > 0) {
                         <div align="right" style="margin-top:-20px; padding-bottom:10px;"><label class="label label-default label-sm">WAV</label> | <label class="label label-primary label-sm">MP3</label></div>
                         <h3 align="center" class="nft-artist"></h3>
                         <p align="center" class="nft-title" style="margin-top:-10px;"></p>
-                        <div>Issuer:<br><span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
+                        <div>Issuer: <span class="nft-issuer-address" style="font-size:10px; color:#979A9A;"></span></div>
                         <div>Asset: <strong><span class="nft-id"></span></strong></div>
                         <div>Genre: <strong><span class="nft-genre"></span></strong></div>
                         <div>Hosting: <strong>IPFS</strong></div>
@@ -1840,16 +1840,15 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const numberOfEditions = edition.number_of_editions.c[0]
     const cid = parseBytes(values.get('""')).split('ipfs://')[1]
     console.log('Getting edition\'s (ID: ' + eid + ') additional data from IFPS')
-    const editionDataLink = await getIPFS(cid, 'application/json')
-    const editionData = parseDataURL(editionDataLink)
+    const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     console.log('IPFS Metadata', editionData)
     const id = parseBytes(values.get('"asset_id"') || '')
     const songName = parseBytes(values.get('"song_name"'))
-    const artist = parseBytes(values.get('"artist"'))
+    const artist = parseBytes(values.get('"artist"')) || 'Artist Unknown'
     const format = parseBytes(values.get('"asset_format"'))
-    const genre = parseBytes(values.get('"genre"'))
+    const genre = parseBytes(values.get('"genre"')) || 'None'
     const contractType = parseBytes(values.get('"legal_contract_type"'))
-    const title = songName ? songName.substr(0, 27) : songName
+    const title = (songName ? songName.substr(0, 27) : songName) || 'No title'
     console.log('Getting edition\'s market sales...')
     const sales = await getSales(eid, edition)
     console.log(sales)
@@ -1911,11 +1910,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         termsContract = contractType
     }
 
-    // const audioDataUrl = await getIPFS(audioCID, audioType)
     const host = audioUrl.startsWith('https://') ? 'RADION Server' : 'IPFS'
-    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://ipfs.io/ipfs/' + audioUrl.split('ipfs://')[1]
+    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.split('ipfs://')[1]
     console.log('Getting artwork data from ' + artworkUrl + '...')
-    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : await getIPFS(artworkUrl.split('ipfs://')[1], artworkType)
+    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.split('ipfs://')[1]
     const issuer = edition.creator.substr(0, edition.creator.length - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
@@ -2057,7 +2055,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       else if (audioType === 'audio/wav') filename += '.wav'
       if (audioUrl.startsWith('ipfs://')) {
         const audioCID = audioUrl.split('ipfs://')[1]
-        const downloadLink = await getIPFS(audioCID, audioType)
+        const downloadLink = '/ipfs/cat.php?cid=' + audioCID
         downloadURL(downloadLink, filename)
       } else {
         const splitted = audioUrl.split('https://www.radion.fm')
