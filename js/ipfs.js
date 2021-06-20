@@ -38,7 +38,12 @@ async function getIPFS (cid, type = null) {
 
 async function ipfsAdd (data) {
   const formData = new FormData()
-  formData.append(typeof data === 'string' ? 'text' : 'file', data)
+  if (typeof data === 'string') formData.append('text', data)
+  else if (data instanceof ArrayBuffer) {
+    data = new Blob([data])
+    formData.append('file', data)
+  } else formData.append('file', data)
+
   return new Promise((resolve, reject) => {
     $.ajax('/ipfs/add.php', {
       type: 'POST',
