@@ -162,8 +162,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="row" id="nft-editions"></div>
+              <div class="panel-body" id="nft-editions">
               </div>
             </div>
           </div>
@@ -447,6 +446,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
   const fixedPrice = 'KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6'
   const editions = []
+  const editionsSales = []
   let editionsStorage = null
   let marketStorage = null
   let maxEditionsPerRun = 0
@@ -483,13 +483,21 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     marketStorage = await tezos.contract.getStorage(fixedPrice)
     maxEditionsPerRun = editionsStorage.max_editions_per_run.c[0]
 
-    for (let i = size - 1; i >= 0 && counts < 6; i--) {
+    for (let i = size - 1; i >= 0; i--) {
       console.log('Getting edition\'s (ID: ' + i + ') metadata...')
       const edition = await editionsStorage.editions_metadata.get(i)
-      console.log(edition)
-      await displayEdition(i, edition)
       editions[i] = edition
-      counts++
+      console.log(edition)
+
+      if (counts < 12) {
+        if ((12 - counts) % 6 === 0) {
+          const row = $('<div class="row">')
+          $('#nft-editions').append(row)
+        }
+
+        await displayEdition(i, edition)
+        counts++
+      }
     }
   }
 
@@ -510,6 +518,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const title = (songName ? songName.substr(0, 27) : songName) || 'No title'
     console.log('Getting edition\'s market sales...')
     const sales = await getSales(eid, edition)
+    editionsSales[eid] = sales
     console.log(sales)
     const price = sales.price / 1000000
     const priceInUsd = (price * parseFloat(window.priceUsd)).toFixed(2)
@@ -596,7 +605,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       href: audioDataUrl,
       'data-hash': audioDataUrl.split('/')[1]
     }).removeClass('nft-play')
-    $('#nft-editions').append(elem)
+    $('#nft-editions .row:last-child').append(elem)
   }
 
   async function getSales (eid, edition) {
