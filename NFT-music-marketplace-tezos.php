@@ -179,7 +179,6 @@
                 <lord-icon src="https://cdn.lordicon.com//iiegcyhs.json" class="nft-play" trigger="click" target="a" stroke="70" colors="primary:#ffffff,secondary:#ffffff" style="width:42px;height:42px; margin-top:-7px; margin-left:-7px;"></lord-icon>
                 <!-- <i class="fas fa-play nft-play"></i> -->
               </a>
-
             </div>
 
             <div class="panel-body">
@@ -489,19 +488,24 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       editions[i] = edition
       console.log(edition)
 
+      console.log('Getting edition\'s market sales...')
+      const sales = await getSales(i, edition)
+      editionsSales[i] = sales
+      console.log(sales)
+
       if (counts < 12) {
-        if ((12 - counts) % 6 === 0) {
+        if (counts % 6 === 0) {
           const row = $('<div class="row">')
           $('#nft-editions').append(row)
         }
 
-        await displayEdition(i, edition)
+        await displayEdition(i, edition, sales)
         counts++
       }
     }
   }
 
-  async function displayEdition (eid, edition) {
+  async function displayEdition (eid, edition, sales) {
     const elem = $(editionTemplate).clone(true, true)
     const values = edition.edition_info.valueMap
     const numberOfEditions = edition.number_of_editions.c[0]
@@ -512,19 +516,15 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const id = parseBytes(values.get('"asset_id"') || '')
     const songName = parseBytes(values.get('"song_name"'))
     const artist = parseBytes(values.get('"artist"')) || 'Artist Unknown'
-    const format = parseBytes(values.get('"asset_format"'))
     const genre = parseBytes(values.get('"genre"')) || 'None'
     const contractType = parseBytes(values.get('"legal_contract_type"'))
     const title = (songName ? songName.substr(0, 27) : songName) || 'No title'
-    console.log('Getting edition\'s market sales...')
-    const sales = await getSales(eid, edition)
-    editionsSales[eid] = sales
-    console.log(sales)
     const price = sales.price / 1000000
     const priceInUsd = (price * parseFloat(window.priceUsd)).toFixed(2)
     let termsContract = ''
     let audioUrl = 'https://radion.fm:8002/stream/1'
     let artworkUrl = 'https://radion.fm/img/bg-capa.jpg'
+    let audioFormat = ''
     let audioType = null
     let artworkType = null
 
@@ -539,6 +539,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       if (format.mimeType.startsWith('audio')) {
         audioUrl = format.uri
         audioType = format.mimeType
+        audioFormat = audioType === 'audio/wav' ? 'WAV' : 'MP3'
       } else if (format.mimeType.startsWith('image')) {
         artworkUrl = format.uri
         artworkType = format.mimeType
@@ -589,7 +590,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $(elem).find('.nft-shield').removeClass('nft-shield')
     $(elem).find('.nft-issuer-address').text(issuer).removeClass('nft-issuer-address')
     $(elem).find('.nft-host').text(host).removeClass('nft-host')
-    $(elem).find('.nft-format').text(format).removeClass('nft-format')
+    $(elem).find('.nft-format').text(audioFormat).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
     $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
     if (sales.count === 0) {
@@ -999,7 +1000,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     map.set('genre', strToHex(genre))
     map.set('copyright_holder', strToHex('Yes'))
     map.set('publisher', strToHex('RADION FM'))
-    map.set('asset_format', strToHex(audioType === 'audio/mpeg' ? 'MP3' : 'WAV'))
+    map.set('asset_format', strToHex(audioType === 'audio/wav' ? 'WAV' : 'MP3'))
     map.set('legal_terms', strToHex(termsURL))
     map.set('legal_contract_type', strToHex(terms))
 

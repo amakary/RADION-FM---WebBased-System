@@ -339,7 +339,6 @@
     const id = parseBytes(values.get('"asset_id"') || '')
     const songName = parseBytes(values.get('"song_name"'))
     const artist = parseBytes(values.get('"artist"')) || 'Artist Unknown'
-    const format = parseBytes(values.get('"asset_format"'))
     const genre = parseBytes(values.get('"genre"')) || 'None'
     const contractType = parseBytes(values.get('"legal_contract_type"'))
     const title = (songName ? songName.substr(0, 27) : songName) || 'No title'
@@ -351,6 +350,7 @@
     let termsContract = ''
     let audioUrl = 'https://radion.fm:8002/stream/1'
     let artworkUrl = 'https://radion.fm/img/bg-capa.jpg'
+    let audioFormat = ''
     let audioType = null
     let artworkType = null
 
@@ -365,6 +365,7 @@
       if (format.mimeType.startsWith('audio')) {
         audioUrl = format.uri
         audioType = format.mimeType
+        audioFormat = audioType === 'audio/wav' ? 'WAV' : 'MP3'
       } else if (format.mimeType.startsWith('image')) {
         artworkUrl = format.uri
         artworkType = format.mimeType
@@ -416,7 +417,7 @@
     $(elem).find('.nft-shield').removeClass('nft-shield')
     $(elem).find('.nft-issuer-address').text(issuer).removeClass('nft-issuer-address')
     $(elem).find('.nft-host').text(host).removeClass('nft-host')
-    $(elem).find('.nft-format').text(format).removeClass('nft-format')
+    $(elem).find('.nft-format').text(audioFormat).removeClass('nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
     $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
     if (sales.count === 0) {
