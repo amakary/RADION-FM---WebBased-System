@@ -1995,9 +1995,24 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const values = edition.edition_info.valueMap
     const numberOfEditions = edition.number_of_editions.c[0]
     const cid = parseBytes(values.get('""')).split('ipfs://')[1]
+    const enforceContract = parseBytes(values.get('"enforce_contract"') || '') === 'yes'
+    const assetId = parseBytes(values.get('"asset_id"') || '')
+    const date = parseBytes(values.get('"date"'))
+    const license = parseBytes(values.get('"legal_contract_type"'))
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
+    const loggedIn = await isLoggedIn()
     let audioUrl = null
     let audioType = null
+
+    if (enforceContract && !loggedIn) {
+      noty({
+        text: 'You should log in first to download the asset and contract',
+        type: 'error',
+        layout: 'topRight',
+        timeout: 5000
+      })
+      return
+    }
 
     editionData.formats.forEach(format => {
       if (format.mimeType.startsWith('audio')) {
@@ -2061,6 +2076,12 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         const splitted = audioUrl.split('https://www.radion.fm')
         const downloadLink = splitted.length > 1 ? splitted[1] : audioUrl
         downloadURL(downloadLink + '&hash=' + hash, filename)
+      }
+
+      if (enforceContract && loggedIn) {
+        const params = new URLSearchParams()
+        params.append('hash', hash)
+        downloadURL('/php/request_contract.php?' + params.toString(), 'contract.pdf')
       }
 
       // Display SUCCESS
@@ -2199,6 +2220,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       resize()
     }
   })
+
+  async function isLoggedIn () {
+    return await $.get('/php/isLoggedIn.php') === 'loggedIn'
+  }
 
   async function displayResults (data) {
     const template = $('#temp-result').prop('content')

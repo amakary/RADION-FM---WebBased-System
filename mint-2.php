@@ -618,41 +618,51 @@ if ($id !== null) {
                             </div>
                         </div>
 
-                          <h5 style="padding-top:20px;">Select Licensing Terms</h5>
+                          <h5 style="padding-top:20px; color:#F39C12;">Select Licensing Terms</h5>
 
                           <div class="radio" style="padding-top:5px;">
                           <label>
-                          <input type="radio" name="license-class" id="license-class-essential" value="essential" checked/>
-                          Essential Class
+                          <input type="radio" name="license-class" id="license-class-basic" value="basic"/>
+                          Basic Lease
                           </label>
                           </div>
 
                           <div class="radio">
                           <label>
-                          <input type="radio" name="license-class" id="license-class-premiums" value="premiums"/>
-                          Premiums Class
+                          <input type="radio" name="license-class" id="license-class-youtube" value="youtube"/>
+                          YouTube Lease
                           </label>
                           </div>
 
                           <div class="radio">
                           <label>
-                          <input type="radio" name="license-class" id="license-class-commercial" value="commercial"/>
-                          Commercial Class
+                          <input type="radio" name="license-class" id="license-class-trackout" value="trackout"/>
+                          Trackout Lease
                           </label>
                           </div>
-                          <p>Licensing Terms</p>
-                          <li>MP3: <span id="nft-license-mp3">Yes</span></li>
-                          <li>WAV: <span id="nft-license-wav">Yes</span></li>
-                          <li>Trackout: <span id="nft-license-trackout"></span></li>
-                          <li>Free Downloads: <span id="nft-license-free-downloads">No</span></li>
-                          <li>Distribution Copies: <span id="nft-license-distribution-copies">5000</span></li>
-                          <li>Performances (No-Profit): <span id="nft-license-performances">None</span></li>
-                          <li>Paid Performances: <span id="nft-license-paid-performances">100</span></li>
-                          <li>Music Videos or (YouTube video): <span id="nft-license-music-videos">1</span></li>
-                          <li>Audio Streams: <span id="nft-license-audio-streams">Unlimited</span></li>
-                          <li>Video Streams: <span id="nft-license-video-streams">No</span></li>
-                          <li>Broadcasting Rights: <span id="nft-license-broadcasting-rights">Yes</span></li>
-                          <li>Number of radio stations: <span id="nft-license-radio-stations">Unlimited</span></li>
+
+                          <div class="radio">
+                          <label>
+                          <input type="radio" name="license-class" id="license-class-premium" value="premium"/>
+                          Premium Lease
+                          </label>
+                          </div>
+
+                          <div class="radio" style="padding-bottom:20px;">
+                          <label>
+                          <input type="radio" name="license-class" id="license-class-exclusive" value="exclusive"/>
+                          Exclusive Rights
+                          </label>
+                          </div>
+
+                          <h5 style="padding-top:20px; color:#F39C12;">Legal Contract</h5>
+                          <p>Do you want to enforce your NFT with a legal contract?</p>
+                          <label>
+                          <input type="radio" name="enforce-contract" id="enforce-contract-yes" value="yes"/>
+                          Yes
+                          <input type="radio" name="enforce-contract" id="enforce-contract-no" value="no" checked/>
+                          No
+                          </label>
 
                           <div class="form-group" style="margin-top:30px;">
                             <h5 style="color:#909497"><i class="fad fa-handshake fa-lg"></i><strong> Terms and Conditions</strong></h5>
@@ -695,6 +705,23 @@ if ($id !== null) {
                       </div>
                       <!-- END SUBMISSION LIST STATUS -->
                     </div>
+
+                    <div>
+                      <h3 style="color:#F39C12;">LICENSING AND TERMS</h3>
+                      <li>MP3: <span id="nft-license-mp3"></span></li>
+                      <li>WAV: <span id="nft-license-wav"></span></li>
+                      <li>Trackout: <span id="nft-license-trackout"></span></li>
+                      <li>Free Downloads: <span id="nft-license-free-downloads"></span></li>
+                      <li>Distribution Copies: <span id="nft-license-distribution-copies"></span></li>
+                      <li>Performances (No-Profit): <span id="nft-license-performances"></span></li>
+                      <li>Paid Performances: <span id="nft-license-paid-performances"></span></li>
+                      <li>Music Videos or (YouTube video): <span id="nft-license-music-videos"></span></li>
+                      <li>Audio Streams: <span id="nft-license-audio-streams"></span></li>
+                      <li>Video Streams: <span id="nft-license-video-streams"></span></li>
+                      <li>Broadcasting Rights: <span id="nft-license-broadcasting-rights"></span></li>
+                      <li>Number of radio stations: <span id="nft-license-radio-stations"></span></li>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -706,9 +733,9 @@ if ($id !== null) {
                   <form class="form-horizontal">
                     <div class="panel panel-default tabs">
                       <ul class="nav nav-tabs" role="tablist" style="padding-bottom:20px;">
-                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">CURRENT ASSETS</a></li>
-                        <li><a href="#tab-second" role="tab" data-toggle="tab">SELL NFT LIMITED EDITIONS</a></li>
-                        <li><a href="#tab-third" role="tab" data-toggle="tab">COPYRIGHT STATUS</a></li>
+                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">ASSETS</a></li>
+                        <li><a href="#tab-second" role="tab" data-toggle="tab">CURRENT NFT</a></li>
+                        <li><a href="#tab-third" role="tab" data-toggle="tab">LEGAL CONTRACTS</a></li>
                       </ul>
 
                       <div class="panel-body tab-content">
@@ -716,13 +743,13 @@ if ($id !== null) {
                           <table style="width:100%;">
                             <thead>
                               <tr style="border-bottom: 2px solid #dddddd;" align="center">
-                                <th style="width:15%; padding-bottom:10px;"># ID</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">POTENTIAL PAYOUT</th>
-                                <th align="center" style="width:20%; padding-bottom:10px;">NAME</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">GENRE</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">NFT</th>
-                                <th align="center" style="width:15%; padding-bottom:10px;">LIMITED EDITION QUANTITY</th>
-                                <th align="center" style="width:20%; padding-bottom:10px;">LICENSE TYPE</th>
+                                <th style="width:15%; padding-bottom:10px; font-size:10px;"># ID</th>
+                                <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">EARNINGS</th>
+                                <th align="center" style="width:15%; padding-bottom:10px; font-size:10px;">SONG NAME</th>
+                                <th align="center" style="width:15%; padding-bottom:10px; font-size:10px;">GENRE</th>
+                                <th align="center" style="width:20%; padding-bottom:10px; font-size:10px;">NFT</th>
+                                <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">EDITIONS</th>
+                                <th align="center" style="width:15%; padding-bottom:10px; font-size:10px;">LICENSE AGREEMENT</th>
                               </tr>
                             </thead>
                             <tbody id="current_asset_table"></tbody>
@@ -733,57 +760,18 @@ if ($id !== null) {
                           <table style="width:100%;">
                             <thead>
                               <tr style="border-bottom: 2px solid #dddddd;" align="center">
-                                <th style="width:15%; padding-bottom:10px;"># ID</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">CATEGORY</th>
-                                <th align="center" style="width:20%; padding-bottom:10px;">NAME</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">GENRE</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">PRICE PER EDITION</th>
-                                <th align="center" style="width:15%; padding-bottom:10px;">LIMITED EDITIONS</th>
-                                <th align="center" style="width:20%; padding-bottom:10px;">LICENSING TERMS</th>
+                                <th style="width:5%; padding-bottom:10px; font-size:10px;">NFT</th>
+                                <th align="center" style="width:15%; padding-bottom:10px; font-size:10px;"># ID</th>
+                                <th align="center" style="width:13%; padding-bottom:10px; font-size:10px;">POTENTIAL PAYOUT</th>
+                                <th align="center" style="width:12%; padding-bottom:10px; font-size:10px;">PAID</th>
+                                <th align="center" style="width:30%; padding-bottom:10px; font-size:10px;">TRANSACTION HASH</th>
+                                <th align="center" style="width:8%; padding-bottom:10px; font-size:10px;">PRICE</th>
+                                <th align="center" style="width:7%; padding-bottom:10px; font-size:10px;">EDITIONS</th>
+                                <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">LICENSE AGREEMENT</th>
                               </tr>
                             </thead>
 
-                            <tbody>
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                              </tr>
-
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                              </tr>
-
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                              </tr>
-
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                              </tr>
-                            </tbody>
+                            <tbody id="current_asset_table_nft"></tbody>
                           </table>
                         </div>
 
@@ -791,75 +779,67 @@ if ($id !== null) {
                           <table style="width:100%;">
                             <thead>
                               <tr style="border-bottom: 2px solid #dddddd;" align="center">
-                                <th style="width:5%; padding-bottom:10px;"></th>
-                                <th align="center" style="width:15%; padding-bottom:10px;">CATEGORY</th>
-                                <th align="center" style="width:25%; padding-bottom:10px;">NAME</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">GENRE</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">ASSET</th>
-                                <th align="center" style="width:15%; padding-bottom:10px;">STREAMED</th>
-                                <th align="center" style="width:20%; padding-bottom:10px;">DOWNLOADS</th>
+                                <th align="center" style="width:5%; padding-bottom:10px; font-size:10px;">NFT</th>
+                                <th align="center" style="width:35%; padding-bottom:10px; font-size:10px;">TRANSACTION HASH</th>
+                                <th align="center" style="width:15%; padding-bottom:10px; font-size:10px;">BUYER</th>
+                                <th align="center" style="width:15%; padding-bottom:10px; font-size:10px;">SELLER</th>
+                                <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">CONTRACT TYPE</th>
+                                <th align="center" style="width:15%; padding-bottom:10px; font-size:10px;">EXPIRATION</th>
+                                <th align="center" style="width:5%; padding-bottom:10px; font-size:10px;">AGREEMENT</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"><span class="fas fa-copyright"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                              </tr>
+<?php
 
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"><span class="fas fa-copyright"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                              </tr>
+$contracts = $con->query("SELECT * FROM `contracts` WHERE `producer`='$slusername' OR `buyer`='$slname'");
+while ($row = $contracts->fetch_object()) {
+  $time = time();
+  $expiration = strtotime($row->date) + 31536000;
+  $producer = $row->producer;
+  $seller_res = $con->query("SELECT * FROM `sitelok` WHERE `Username`='$producer'");
+  $producer_name = $seller_res->fetch_object()->Name;
+  $license = $row->license;
+  $license_name = '';
 
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"><span class="fas fa-copyright"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                              </tr>
+  if ($license === 'exclusive') $expiration = 'Permanent';
+  else if ($time >= $expiration) $expiration = 'Contract ended';
+  else $expiration = date('Y-m-d H:i:s', $expiration);
 
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"><span class="fas fa-copyright"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                              </tr>
+  switch ($license) {
+    case 'basic':
+      $license_name = 'Basic Lease';
+      break;
 
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"><span class="fas fa-copyright"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd;"></td>
-                              </tr>
+    case 'youtube':
+      $license_name = 'YouTube Lease';
+      break;
 
-                              <tr>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"><span class="fas fa-copyright"></span></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                                <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; background-color:#f3f3f3;"></td>
-                              </tr>
+    case 'trackout':
+      $license_name = 'Trackout Lease';
+      break;
+
+    case 'premium':
+      $license_name = 'Premium Lease';
+      break;
+
+    case 'exclusive':
+      $license_name = 'Exclusive Rights';
+      break;
+  }
+
+?>
+<tr>
+  <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; font-size:11px;"><?= $row->edition_id ?></td>
+  <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; font-size:11px; color:#2980B9;"><?= $row->hash ?></td>
+  <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; font-size:11px;"><?= $row->producer === $slusername ? $row->buyer : '' ?></td>
+  <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; font-size:11px;"><?= $row->buyer === $slname ? $producer_name : '' ?></td>
+  <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; font-size:11px;"><?= $license_name ?></td>
+  <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; font-size:11px;"><?= $expiration ?></td>
+  <td style="padding-top:5px; padding-bottom:5px; border-bottom: 1px solid #dddddd; font-size:11px;">
+    <a href="/php/request_contract.php?hash=<?= $row->hash ?>" download="contract.pdf" class="btn btn-default btn-xs" role="button">DOWNLOAD</a>
+  </td>
+</tr>
+<?php } ?>
                             </tbody>
                           </table>
                         </div>
@@ -1087,10 +1067,11 @@ Exclusive Rights: No<br></small></p>
   $(document).ready(function() {
     express_view()
     load_status_table()
+    current_asset_table()
+    current_asset_table_nft()
 
     setInterval(function() {
       load_status_table()
-      currents_asset_table()
     }, 1000)
   })
 
@@ -1107,12 +1088,25 @@ Exclusive Rights: No<br></small></p>
     })
   }
 
-  function currents_asset_table () {
+  function current_asset_table () {
     $.ajax({
       url: 'php/current_asset_table_editions.php',
       type: 'POST',
       success: function(data, textStatus, jqXHR) {
         $('#current_asset_table').html(data)
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log('Ajax Failed Error In Saving:' + textStatus)
+      }
+    })
+  }
+
+  function current_asset_table_nft () {
+    $.ajax({
+      url: 'php/current_asset_table_editions_nft.php',
+      type: 'POST',
+      success: function(data, textStatus, jqXHR) {
+        $('#current_asset_table_nft').html(data)
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.log('Ajax Failed Error In Saving:' + textStatus)
@@ -1255,31 +1249,81 @@ Exclusive Rights: No<br></small></p>
   }
 
   $('[name="license-class"]').on('change', function () {
-    const licenseClass = $(this).val()
+    const licenseClass = $('[name="license-class"]:checked').val()
     switch (licenseClass) {
-      case 'essential':
+      case 'basic':
+        $('#nft-license-mp3').text('Yes')
+        $('#nft-license-wav').text('No')
+        $('#nft-license-trackout').text('No')
+        $('#nft-license-free-downloads').text('No')
+        $('#nft-license-distribution-copies').text('3000')
+        $('#nft-license-performances').text('Unlimited')
+        $('#nft-license-paid-performances').text('None')
         $('#nft-license-music-videos').text('1')
-        $('#nft-license-paid-performances').text('100')
-        $('#nft-license-trackout').text('No')
-        $('#nft-license-distribution-copies').text('5000')
-        $('#sell-price').val('20')
+        $('#nft-license-audio-streams').text('Unlimited')
+        $('#nft-license-video-streams').text('No')
+        $('#nft-license-broadcasting-rights').text('No')
+        $('#nft-license-radio-stations').text('None')
         break
 
-      case 'premiums':
-        $('#nft-license-music-videos').text('2')
-        $('#nft-license-paid-performances').text('200')
+      case 'youtube':
+        $('#nft-license-mp3').text('')
+        $('#nft-license-wav').text('')
+        $('#nft-license-trackout').text('')
+        $('#nft-license-free-downloads').text('')
+        $('#nft-license-distribution-copies').text('')
+        $('#nft-license-performances').text('')
+        $('#nft-license-paid-performances').text('')
+        $('#nft-license-music-videos').text('')
+        $('#nft-license-audio-streams').text('')
+        $('#nft-license-video-streams').text('')
+        $('#nft-license-broadcasting-rights').text('')
+        $('#nft-license-radio-stations').text('')
+        break
+
+      case 'trackout':
+        $('#nft-license-mp3').text('Yes')
+        $('#nft-license-wav').text('No')
         $('#nft-license-trackout').text('No')
+        $('#nft-license-free-downloads').text('No')
         $('#nft-license-distribution-copies').text('8000')
-        $('#sell-price').val('50')
+        $('#nft-license-performances').text('None')
+        $('#nft-license-paid-performances').text('200')
+        $('#nft-license-music-videos').text('2')
+        $('#nft-license-audio-streams').text('Unlimited')
+        $('#nft-license-video-streams').text('No')
+        $('#nft-license-broadcasting-rights').text('Yes')
+        $('#nft-license-radio-stations').text('Unlimited')
         break
 
-      case 'commercial':
-        $('#nft-license-music-videos').text('Unlimited')
-        $('#nft-license-paid-performances').text('Unlimited')
+      case 'premium':
+        $('#nft-license-mp3').text('Yes')
+        $('#nft-license-wav').text('No')
         $('#nft-license-trackout').text('Yes')
+        $('#nft-license-free-downloads').text('No')
         $('#nft-license-distribution-copies').text('10000')
-        $('#sell-price').val('100')
+        $('#nft-license-performances').text('None')
+        $('#nft-license-paid-performances').text('Unlimited')
+        $('#nft-license-music-videos').text('Unlimited')
+        $('#nft-license-audio-streams').text('Unlimited')
+        $('#nft-license-video-streams').text('No')
+        $('#nft-license-broadcasting-rights').text('Yes')
+        $('#nft-license-radio-stations').text('Unlimited')
         break
+
+      case 'exclusive':
+        $('#nft-license-mp3').text('No')
+        $('#nft-license-wav').text('Yes')
+        $('#nft-license-trackout').text('Yes')
+        $('#nft-license-free-downloads').text('Unlimited')
+        $('#nft-license-distribution-copies').text('Unlimited')
+        $('#nft-license-performances').text('Unlimited')
+        $('#nft-license-paid-performances').text('Unlimited')
+        $('#nft-license-music-videos').text('Unlimited')
+        $('#nft-license-audio-streams').text('Unlimited')
+        $('#nft-license-video-streams').text('Unlimited')
+        $('#nft-license-broadcasting-rights').text('Yes')
+        $('#nft-license-radio-stations').text('Unlimited')
     }
   })
   </script>
