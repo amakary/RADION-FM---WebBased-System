@@ -492,7 +492,7 @@ if ($result->num_rows > 0) {
                 <div class="page-title">
                     <h2><lord-icon src="https://cdn.lordicon.com//mmspidej.json" trigger="loop" delay="11000" colors="primary:#1B1E24,secondary:#F39C12" style="width:60px;height:60px">
                     </lord-icon> <strong>LATEST NFT &nbsp;</strong></h2><br>
-                    <div>Exclusive Rights</div>
+                    <div>COPYRIGHTS</div>
                 </div>
                 <!-- END PAGE TITLE -->
 
@@ -504,7 +504,7 @@ if ($result->num_rows > 0) {
                       <div class="panel-body panel-body-image">
                         <img class="nft-artwork" src="/img/NFT.jpg" width="205" height="205">
                         <a href="#" class="panel-body-inform">
-                          <lord-icon src="https://cdn.lordicon.com//zczmziog.json" trigger="hover" colors="primary:#ffffff,secondary:#ffffff" stroke="100" style="width:25px;height:25px;margin-top:-5px;margin-left:-3px;"> </lord-icon>
+                          <lord-icon src="https://cdn.lordicon.com//mfayjhaa.json" trigger="hover" colors="primary:#ffffff,secondary:#ffffff" stroke="100" style="width:30px;height:30px;margin-top:-4px;margin-left:-2px;"> </lord-icon>
 
                         </a>
                       </div>
@@ -516,8 +516,8 @@ if ($result->num_rows > 0) {
                         <div>Asset: <strong><span class="nft-id"></span></strong></div>
                         <div>Genre: <strong><span class="nft-genre"></span></strong></div>
                         <div>Hosting: <strong>IPFS</strong></div>
-                        <div>Legal Contract: <strong>Rights Holder</strong></div>
-                        <div>Terms: <strong style="color:#2980B9;">Permanent</strong></div>
+                        <div>Legal Contract: <strong>Exclusive Rights</strong></div>
+                        <div style="padding:5px 0px 0px 0px;"><strong>NFT</strong>: <strong style="color:#2980B9;">Copyrights</strong></div>
                       </div>
                       <div class="panel-footer text-muted" align="center">
 
@@ -1922,7 +1922,9 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $(elem).find('.nft-shield').removeClass('nft-shield')
     $(elem).find('.nft-issuer-address').text(issuer).removeClass('nft-issuer-address')
     $(elem).find('.nft-host').text(host).removeClass('nft-host')
-    $(elem).find('.nft-format').text(audioFormat).removeClass('nft-format')
+    $(elem).find('.nft-format').text(audioFormat)
+    if (audioFormat === 'MP3') $(elem).find('.nft-format').addClass('label-primary').removeClass('label-default')
+    $(elem).find('.nft-format').removeClass('.nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
     $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
     if (sales.count === 0) {
