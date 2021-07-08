@@ -23,4 +23,24 @@ function get_json ($url) {
   return is_json($response) ? json_decode($response) : $response;
 }
 
+function deldir ($path) {
+  if (!file_exists($path)) return;
+
+  if (!is_dir($path)) {
+    throw new InvalidArgumentException("$path must be a directory");
+  }
+
+  if (substr($path, strlen($path) - 1, 1) !== '/') {
+    $path .= '/';
+  }
+
+  $files = glob($path . '*', GLOB_MARK);
+  foreach ($files as $file) {
+    if (is_dir($file)) deldir($file);
+    else unlink($file);
+  }
+
+  rmdir($path);
+}
+
 ?>

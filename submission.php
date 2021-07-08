@@ -75,7 +75,9 @@ date_default_timezone_set('US/Eastern');
     border: 0;
   }
   </style>
+</head>
 
+<body>
     <!-- MODAL FOR QR -->
     <div class="modal" id="modal_small" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true">
         <div class="modal-dialog modal-sm">
@@ -120,16 +122,25 @@ date_default_timezone_set('US/Eastern');
 
     <!-- END MODAL FOR QR -->
 
-  <!-- MODAL FOR SIGNER -->
+  <!-- MODAL FOR DELETE -->
   <div class="modal" id="modal_basic" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true">
     <div class="modal-dialog" style="width:480px;">
       <div class="modal-content">
+        <div class="modal-body">
+          <div align="center" style="padding-bottom:20px;"><img src="img/letsgo.png"></div>
+          <p align="justify" style="padding:20px;"><i class="far fa-exclamation-circle fa-lg" style="color:#C0392B;"></i><strong> Important Note:</strong><br><br>
+            Be aware that these changes are not reversible, and if you delete the asset from your account, you are removing the asset permanently from our system.<br><br>
+            Are you sure you want to delete &quot;<strong><span id="delete-name"></span></strong>&quot;?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="delete-confirm">Confirm</button>
+        </div>
       </div>
     </div>
   </div>
-  <!-- END MODAL FOR SIGNER -->
+  <!-- END MODAL FOR DELETE -->
 
-    <!-- END MODAL FOR SIGNER -->
     <!-- ALERT MESSAGE -->
 
     <div class="message-box message-box-warning animated fadeIn" id="message-box-warning">
@@ -147,11 +158,6 @@ date_default_timezone_set('US/Eastern');
     </div>
     <button type="button" class="btn btn-warning mb-control hide" id="warning_btn" data-box="#message-box-warning">Warning</button>
     <!--- ALERT MESSAGE --->
-
-
-</head>
-
-<body>
 
     <!-- START PAGE CONTAINER -->
     <div class="page-container">
@@ -703,13 +709,14 @@ date_default_timezone_set('US/Eastern');
                                             <table style="width:100%;">
                                                 <thead>
                                                     <tr style="border-bottom: 2px solid #dddddd;" align="center">
-                                                        <th style="width:15%; padding-bottom:10px;">ASSET ID</th>
-                                                        <th align="center" style="width:10%; padding-bottom:10px;">FORMAT</th>
-                                                        <th align="center" style="width:20%; padding-bottom:10px;">TITLE</th>
-                                                        <th align="center" style="width:10%; padding-bottom:10px;">GENRE</th>
-                                                        <th align="center" style="width:10%; padding-bottom:10px;">NFT</th>
-                                                        <th align="center" style="width:15%; padding-bottom:10px;">STREAMED</th>
-                                                        <th align="center" style="width:20%; padding-bottom:10px;">DOWNLOADS</th>
+                                                        <th style="width:15%; padding-bottom:10px; font-size:10px;">ASSET ID</th>
+                                                        <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">FORMAT</th>
+                                                        <th align="center" style="width:25%; padding-bottom:10px; font-size:10px;">TITLE</th>
+                                                        <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">GENRE</th>
+                                                        <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">NFT</th>
+                                                        <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">STREAMED</th>
+                                                        <th align="center" style="width:10%; padding-bottom:10px; font-size:10px;">DOWNLOADS</th>
+                                                        <th align="center" style="width:30%; padding-bottom:10px; font-size:10px;">REMOVE ASSET</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="current_asset_table">
@@ -1192,6 +1199,32 @@ date_default_timezone_set('US/Eastern');
 
     $('#submit_btn').attr('disabled', null)
   }
+
+  $('#modal_basic').on('hide.bs.modal', function () {
+    window.deleteID = ''
+  })
+
+  $('#delete-confirm').click(async function (event) {
+    event.preventDefault()
+    noty({
+      text: 'Removing from server, please wait...',
+      layout: 'topRight',
+      timeout: 5000
+    })
+
+    $.ajax('/php/delete.php', {
+      method: 'POST',
+      data: { id: window.deleteID },
+      cache: false,
+      success: function (data, status, xhr) {
+        $('#modal_basic').modal('hide')
+        console.log('Successfully deleted!')
+      },
+      error: function (xhr, status, error) {
+        console.error('Delete error: ' + xhr.responseText)
+      }
+    })
+  })
   </script>
 </body>
 </html>
