@@ -1361,30 +1361,6 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $('#love_count').text(metadata.isLoveIt)
     $('#share_count').text(metadata.isDedicate)
     $('#tweet_count').text(metadata.tweets)
-
-    $('#like_post').html('')
-    $('#unlike_post').html('')
-    $('#love_post').html('')
-    $('#share_post').html('')
-
-    $('.fa-thumbs-up').removeClass('text-info')
-    $('.fa-thumbs-down').removeClass('text-info')
-    $('.fa-heart').removeClass('text-danger')
-    $('.fa-download').removeClass('text-success')
-
-    if (metadata.isVoted === '0') {
-      $('.fa-thumbs-down').addClass('text-info')
-    } else if (metadata.isVoted === '1') {
-      $('.fa-thumbs-up').addClass('text-info')
-    }
-
-    if (metadata.isLoved === '1') {
-      $('.fa-heart').addClass('text-danger')
-    }
-
-    if (metadata.isShared === '1') {
-      $('.fa-share-alt').addClass('text-success')
-    }
   }
 
   async function updatePrevious () {
