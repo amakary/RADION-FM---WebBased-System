@@ -16,6 +16,7 @@ $(document).ready(function () {
       const b64 = btoa(currentId)
       const element = $('[href^="/' + b64 + '/"]')
       iconPlay(element)
+      $.post('/php/play.php', { id: currentId })
     }
   })
 
