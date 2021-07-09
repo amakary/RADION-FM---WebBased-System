@@ -57,6 +57,9 @@ $res->isLoveIt = $loves->fetch_object()->loves;
 $dedicate = $con->query("SELECT COUNT(`SONG_SHARE_ID`) AS dedicate FROM `song_share` WHERE `SONG_ID`=$mid AND `SONG_SHARE_STATUS`=1");
 $res->isDedicate = $dedicate->fetch_object()->dedicate;
 
+$tweets = $con->query("SELECT COUNT(`SONG_TWEET_ID`) AS tweets FROM `song_tweet` WHERE `SONG_ID`=$mid");
+$res->tweets = $tweets->fetch_object()->tweets;
+
 if (isset($_SESSION) && isset($_SESSION['ses_slusername'])) {
   // If logged in, this shows if the user liked, disliked, loved, and/or shared
   $slusername = $_SESSION['ses_slusername'];
