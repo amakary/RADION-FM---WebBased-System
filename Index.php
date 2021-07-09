@@ -500,9 +500,9 @@ if ($result->num_rows > 0) {
                 <div class="row" id="nfts"></div>
                 <template id="temp-nft">
                   <div class="col-md-2">
-                    <div class="panel panel-default nft-wrapper" style="cursor: pointer;">
+                    <div class="panel panel-default nft-wrapper" style="cursor: pointer; border-radius:22px 75px 0px 0px;">
                       <div class="panel-body panel-body-image">
-                        <img class="nft-artwork" src="/img/NFT.jpg" width="205" height="205">
+                        <img class="nft-artwork" src="/img/NFT.jpg" width="205" height="205" style="border-radius:22px 75px;">
                         <a href="#" class="panel-body-inform">
                           <lord-icon src="https://cdn.lordicon.com//mfayjhaa.json" trigger="hover" colors="primary:#ffffff,secondary:#ffffff" stroke="100" style="width:30px;height:30px;margin-top:-4px;margin-left:-2px;"> </lord-icon>
 
@@ -516,7 +516,7 @@ if ($result->num_rows > 0) {
                         <div>Asset: <strong><span class="nft-id"></span></strong></div>
                         <div>Genre: <strong><span class="nft-genre"></span></strong></div>
                         <div>Hosting: <strong>IPFS</strong></div>
-                        <div>Legal Contract: <strong>Exclusive Rights</strong></div>
+                        <div>Master: <strong>Exclusive Rights</strong></div>
                         <div style="padding:5px 0px 0px 0px;"><strong>NFT</strong>: <strong style="color:#2980B9;">Copyrights</strong></div>
                       </div>
                       <div class="panel-footer text-muted" align="center">
@@ -530,7 +530,22 @@ if ($result->num_rows > 0) {
                         <!-- PAGE TITLE -->
                                       <div class="page-title">
                                           <h2><lord-icon src="https://cdn.lordicon.com//gybcsrib.json" trigger="loop" delay="9000" colors="primary:#1B1E24,secondary:#F39C12" style="width:60px;height:60px"> </lord-icon> TOP ARTISTS</h2>
+                                          <div align="right" style="padding:0px 30px 30px 0px; margin-top:0px;">
+                                            <div style="padding:0px 333px 10px 0px;">--- LEGEND ---</div>
+                                          <div style="font-size:10px;">
+                                            <span style="padding-right:10px;"><i class="fas fa-crown temp-crown fa-lg" style="color:#F39C12;"></i> = Top Artist</span>
+                                            <span style="padding-right:10px;"><i class="fas fa-star temp-star fa-lg" style="color:#F4D03F;"></i> = Full Stack Artist</span>
+                                            <span style="padding-right:10px;"><i class="fas fa-award temp-award fa-lg" style="color:#229954;"></i> = NFT Contributor</span>
+                                            <span style="padding-right:10px;"><i class="fas fa-microphone-stand fa-lg" style="color:#34495E;"></i> = Top Influencer</span>
+                                            <span style="padding-right:10px;"><i class="fas fa-star-exclamation fa-lg"></i>= Artist Rising</span><br><br>
+                                            <span style="padding-right:10px;"><i class="fad fa-album-collection fa-lg" style="color:#2980B9"></i> = Top Collector</span>
+                                            <span style="padding-right:10px;"><i class="fas fa-user-music temp-music fa-lg"></i> = Musician</span>
+                                            <span style="padding-right:10px;"><i class="fas fa-compact-disc fa-lg" style="color:#717D7E;"></i> = Record Label</span>
+                                            <span style="padding-right:10px;"><i class="far fa-sack-dollar fa-lg"></i> = Top Investor</span>
+                                          </div>
+                                          </div>
                                       </div>
+
                                       <!-- END PAGE TITLE -->
 
                         <!-- TOP ARTIST -->
@@ -543,8 +558,8 @@ if ($result->num_rows > 0) {
                           <img class="temp-image" src="assets/images/users/user3.jpg" style="width:44px; height:44px;" width="44" height="44">
                           <a href="#" class="temp-username">Username</a>
                           <div class="pull-right" style="width: 100px;">
-                            <i class="fas fa-star fa-lg temp-star" style="display:none;color:#F39C12;"></i>
-                            <i class="fas fa-crown fa-lg temp-crown" style="display:none"></i>
+                            <i class="fas fa-crown fa-lg temp-crown" style="display:none; color:#F39C12;"></i>
+                            <i class="fas fa-star fa-lg temp-star" style="display:none;color:#F4D03F;"></i>
                             <i class="fas fa-award fa-lg temp-award" style="display:none;color:#229954;"></i>
                             <i class="fas fa-code fa-lg temp-code" style="display:none"></i>
                             <i class="fas fa-user-music fa-lg temp-music" style="display:none"></i>
@@ -559,16 +574,16 @@ if ($result->num_rows > 0) {
                     <h2><lord-icon src="https://cdn.lordicon.com//hciqteio.json" trigger="loop" delay="19000" colors="primary:#1B1E24,secondary:#F39C12" style="width:60px;height:60px">
                     </lord-icon> <strong>LATEST NFT &nbsp;</strong></h2><br>
                     <div>Limited Editions</div>
-                </div>
+                    </div>
                 <!-- END PAGE TITLE -->
 
                 <!-- NFT MARKETPLACE -->
                 <div class="row" id="nft-editions"></div>
                 <template id="temp-edition">
                   <div class="col-md-2">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" style="border-radius:22px 75px 0px 0px;">
                       <div class="panel-body panel-body-image">
-                        <img class="nft-artwork" src="/img/NFT.jpg" width="205" height="205">
+                        <img class="nft-artwork" src="/img/NFT.jpg" width="205" height="205" style="border-radius:22px 75px;">
                         <a href="#" class="panel-body-inform">
                           <lord-icon src="https://cdn.lordicon.com//iiegcyhs.json" class="nft-play" trigger="click" target="a" stroke="70" colors="primary:#ffffff,secondary:#ffffff" style="width:42px;height:42px; margin-top:-7px; margin-left:-7px;"></lord-icon>
                           <!-- <i class="fas fa-play nft-play"></i> -->
@@ -585,7 +600,7 @@ if ($result->num_rows > 0) {
                         <div>Price: <span class="nft-price" style="color:#2980B9;"></span> <span style="color:#2980B9;">tz</span><span class="nft-sold-out"> / </span><strong class="nft-sold-out">$<span class="nft-price-usd"></span></strong></div>
                         <div>Editions Available: <strong><span class="nft-editions-avail" style="color:#F39C12;"></span></strong></div>
                         <div>Genre: <span class="nft-genre"></span></div>
-                        <div>Legal Contract: <strong><span class="nft-terms"></span></strong></div>
+                        <div>Contract: <strong><span class="nft-terms"></span></strong></div>
                         </div>
 
                       <div class="panel-footer text-muted" align="center">
