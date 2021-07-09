@@ -441,7 +441,7 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
 
       <div style="padding-left:10px; margin-bottom:0px;">
         <strong>TOTAL:&nbsp;&nbsp;</strong>
-        <span style="color:#F39C12;" class="tezos-price" data-temp="price"></span>&nbsp;&nbsp;=&nbsp;&nbsp; $0.50 USD
+        <span style="color:#F39C12;" class="tezos-price" data-temp="price"></span>&nbsp;&nbsp;=&nbsp;&nbsp; $1.00 USD
         <div style="font-size:10px; position: absolute;left: 20px; bottom: -25px; z-index: 1; color:#808080;">Powered by Tezos Blockchain</div>
       </div>
     </div>
@@ -635,7 +635,7 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
       search.append('op', hash)
       search.append('id', songId)
       search.append('xtz', downloadPrice)
-      search.append('usd', 0.50)
+      search.append('usd', 1.00)
 
       const download = '/php/download_song_script.php?' + search.toString()
       window.open(download, 'download-iframe')
