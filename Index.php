@@ -406,6 +406,7 @@ if ($result->num_rows > 0) {
 
               <span>
                   <lord-icon src="https://cdn.lordicon.com//ycojtdqt.json" trigger="click" target"a" colors="primary:#616A6B,secondary:#ffffff" id="twitter-share-button" stroke="80" style="width:30px;height:30px"></lord-icon>
+                  <span style="padding-right:5px; padding-left:5px; color:#AAAAAA;" id="tweet_count">0</span>
                 <!-- <button id="twitter-share-button" class="btn btn-primary btn-xs"><i class="fab fa-twitter fa-lg"></i></button>-->
               </span>
 
@@ -1339,6 +1340,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       $('#twitter-share-button').off().click(function (event) {
         event.preventDefault()
         window.open(intentURL, 'childwindow', 'width=550,height=425,toolbar=0,status=0')
+        $.post('/php/tweet.php', { id: window.mid })
       })
     }
 
@@ -1358,30 +1360,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $('#unlike_count').text(metadata.isUnlike)
     $('#love_count').text(metadata.isLoveIt)
     $('#share_count').text(metadata.isDedicate)
-
-    $('#like_post').html('')
-    $('#unlike_post').html('')
-    $('#love_post').html('')
-    $('#share_post').html('')
-
-    $('.fa-thumbs-up').removeClass('text-info')
-    $('.fa-thumbs-down').removeClass('text-info')
-    $('.fa-heart').removeClass('text-danger')
-    $('.fa-download').removeClass('text-success')
-
-    if (metadata.isVoted === '0') {
-      $('.fa-thumbs-down').addClass('text-info')
-    } else if (metadata.isVoted === '1') {
-      $('.fa-thumbs-up').addClass('text-info')
-    }
-
-    if (metadata.isLoved === '1') {
-      $('.fa-heart').addClass('text-danger')
-    }
-
-    if (metadata.isShared === '1') {
-      $('.fa-share-alt').addClass('text-success')
-    }
+    $('#tweet_count').text(metadata.tweets)
   }
 
   async function updatePrevious () {
