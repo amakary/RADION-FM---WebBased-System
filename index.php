@@ -1822,9 +1822,14 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       console.log('Getting edition\'s (ID: ' + i + ') metadata...')
       const edition = await editionsStorage.editions_metadata.get(i)
       console.log(edition)
-      await displayEdition(i, edition)
+
+      const blocked = await $.get('/php/block-nft-limited.php', { id: i })
+      if (blocked === 'Good') {
+        await displayEdition(i, edition)
+        counts++
+      }
+
       editions[i] = edition
-      counts++
     }
   }
 
