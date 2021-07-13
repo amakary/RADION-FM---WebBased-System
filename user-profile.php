@@ -193,7 +193,7 @@ while ($song = $result->fetch_object()) {
 
                 <div style="padding-top:15px;" align="right">
                   <button type="button" class="btn btn-default btn-xs" id="heart-<?= $rdon_id ?>"><i class="fas fa-heart"></i></button>
-                  <button type="button" class="btn btn-default btn-xs"><i class="fas fa-share"></i></button>
+                  <button type="button" class="btn btn-default btn-xs" id="share-<?= $rdon_id ?>"><i class="fas fa-share"></i></button>
                   <button type="button" class="btn btn-primary btn-xs" id="buy-<?= $rdon_id ?>" disabled>CONNECT WALLET TO DOWNLOAD</button>
                 </div>
 
@@ -596,6 +596,17 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
     })
   })
 
+  $('[id|="share"]').click(async function () {
+    const songID = $(this).attr('id').slice(6)
+    const metadata = await getMetadata(songID)
+    const idhash = await getHash(songID)
+    const text = encodeURIComponent('I am listening "' + metadata.title[0] + '". You can download this #song with #crypto - tez/$XTZ - If you are a musician, you can mint your #CleanNFT #music on #Tezos with RADION FM.')
+    const shareURL = encodeURIComponent('https://radion.fm/song-player.php?id=' + songID + '&hash=' + idhash)
+    const intentURL = 'https://twitter.com/intent/tweet?text=' + text + '&url=' + shareURL
+    window.open(intentURL, 'childwindow', 'width=550,height=425,toolbar=0,status=0')
+    $.post('/php/tweet.php', { id: songID })
+  })
+
   async function getMetadata (songId) {
     return new Promise((resolve, reject) => {
       $.ajax('/php/get_song_metadata.php', {
@@ -606,6 +617,22 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
           resolve(data)
         },
         error: function (xhr, status, error) {
+          reject(error)
+        }
+      })
+    })
+  }
+
+  async function getHash (id) {
+    return new Promise((resolve, reject) => {
+      $.ajax('/php/get_hash.php', {
+        type: 'GET',
+        data: { id: id },
+        success: function (data) {
+          resolve(data)
+        },
+        error: function () {
+          const error = new Error('Error getting hash')
           reject(error)
         }
       })

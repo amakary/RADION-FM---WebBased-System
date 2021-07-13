@@ -44,6 +44,9 @@ $tags['isDedicate'] = $dedicate->num_rows > 0 ? $dedicate->fetch_object()->dedic
 $plays = $con->query("SELECT COUNT(*) AS `plays` FROM `song_play` WHERE `SONG_ID`=$mid");
 $tags['playedCount'] = $plays->num_rows > 0 ? $plays->fetch_object()->plays : 0;
 
+$tweets = $con->query("SELECT COUNT(*) AS `tweets` FROM `song_tweet` WHERE `SONG_ID`=$mid");
+$tags['tweets'] = $tweets->num_rows > 0 ? $tweets->fetch_object()->tweets : 0;
+
 if (isset($_SESSION) && isset($_SESSION['ses_slusername'])) {
   // If logged in, this shows if the user liked, disliked, loved, and/or shared
   $slusername = $_SESSION['ses_slusername'];
