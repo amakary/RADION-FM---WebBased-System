@@ -116,7 +116,7 @@ $followers_count = count($followers);
 
           <div class="col-md-3" align="center">
             <div class="text-center" id="user_image">
-              <img src="<?= siteloklink($profile->Custom2, 0); ?>" class="img-thumbnail" style="border-radius:100px; height:133px; width:auto;">
+              <img src="<?= siteloklink($profile->Custom2, 0); ?>" class="img-thumbnail" style="border-radius:100px; height:133px; width:133px; object-fit:cover;">
               <h3 style="padding-top:10px; color:#F39C12;"><?= $profile->Username ?></h3>
               <p style="margin-top:-10px; color:#fff;"><?= $profile->Usergroups ?></p>
             </div>
@@ -281,7 +281,7 @@ while ($count > 0) {
               <div class="text-muted" align="justify" style="padding:10px;"><?= $profile->Custom7 ?></div>
               <hr>
               <div class="text-muted">
-                <span style="padding-right:4px;">My Website</span> <span style="padding:10px;">|</span><span class="text-warning"> <?= $profile->Custom8 ?></span><br>
+                <span style="padding-right:4px;">My Website</span> <span style="padding:10px;">|</span><a href="<?= $profile->Custom8 ?>" target="_blank" class="text-warning" style="word-break:break-all;"> <?= $profile->Custom8 ?></a><br>
                 <span style="padding-right:10px;">I am Social </span><span style="padding:10px;">|</span>
 <?php
 
