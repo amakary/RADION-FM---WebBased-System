@@ -400,10 +400,6 @@ if ($result->num_rows > 0) {
                   <!-- <button class="btn btn-primary btn-xs active" id="love_post"><i class="fal fa-heart fa-lg"></i> </button><--></span>
                   <span style="padding-right:5px; padding-left:5px; color:#AAAAAA;" id="love_count">0</span>
 
-                <span> <lord-icon src="https://cdn.lordicon.com//itfliaju.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#616A6B" id="share_post" stroke="100" style="width:25px;height:25px"></lord-icon>
-                  <!-- <button class="btn btn-primary btn-xs active" id="share_post"><i class="fad fa-share-alt"></i> </button> --> </span>
-                  <span style="padding-right:5px; padding-left:5px; color:#AAAAAA;" id="share_count">0</span>
-
               <span>
                   <lord-icon src="https://cdn.lordicon.com//ycojtdqt.json" trigger="click" target"a" colors="primary:#616A6B,secondary:#ffffff" id="twitter-share-button" stroke="80" style="width:30px;height:30px"></lord-icon>
                   <span style="padding-right:5px; padding-left:5px; color:#AAAAAA;" id="tweet_count">0</span>
@@ -1359,7 +1355,6 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $('#like_count').text(metadata.isLikes)
     $('#unlike_count').text(metadata.isUnlike)
     $('#love_count').text(metadata.isLoveIt)
-    $('#share_count').text(metadata.isDedicate)
     $('#tweet_count').text(metadata.tweets)
   }
 
@@ -1486,8 +1481,6 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       $('#unlike_post').html('')
     } else if (vote === '3') {
       $('#love_post').html('')
-    } else if (vote === '4') {
-      $('#share_post').html('')
     }
 
     $.ajax('/php/vote_send.php', {

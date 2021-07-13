@@ -56,15 +56,6 @@ if ($type == 1) {
   } else {
     $con->query("DELETE FROM `song_love` WHERE `SONG_ID`=$song_id AND `SONG_LOVE_USERNAME`='$slusername'");
   }
-} else if ($type == 4) {
-  $status_query = $con->query("SELECT `SONG_SHARE_STATUS` AS status FROM `song_share` WHERE `SONG_SHARE_USERNAME`='$slusername' AND `SONG_ID`=$song_id");
-  $status = $status_query && $status_query->num_rows > 0 ? $status_query->fetch_object()->status : null;
-
-  if ($status === null) {
-    $con->query("INSERT INTO `song_share` (`SONG_ID`, `SONG_SHARE_USERNAME`) VALUES ($song_id, '$slusername')");
-  } else {
-    $con->query("DELETE FROM `song_share` WHERE `SONG_ID`=$song_id AND `SONG_SHARE_USERNAME`='$slusername'");
-  }
 }
 
 ?>
