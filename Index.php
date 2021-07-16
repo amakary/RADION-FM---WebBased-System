@@ -513,8 +513,8 @@ if ($result->num_rows > 0) {
                         <div>Asset: <strong><span class="nft-id"></span></strong></div>
                         <div>Genre: <strong><span class="nft-genre"></span></strong></div>
                         <div>Hosting: <strong>IPFS</strong></div>
-                        <div>Master: <strong>Exclusive Rights</strong></div>
-                        <div style="padding:5px 0px 0px 0px;"><strong>NFT</strong>: <strong style="color:#2980B9;">Copyrights</strong></div>
+                        <div>File: <strong>Master</strong></div>
+                        <div style="padding:5px 0px 0px 0px;"><strong>NFT</strong>: <strong style="color:#2980B9;">Exclusive Rights</strong></div>
                       </div>
                       <div class="panel-footer text-muted" align="center">
 
@@ -1018,7 +1018,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> White paper</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="free-ID3-tag-editor.php" target="blank" class="linko"> ID3 Tag Editor</a>
       <div style="padding-top:30px; padding-bottom:10px;">
-        <p style="color:#85929E; margin-bottom:-3px;">© 2021 RADION V1.1 </p>
+        <p style="color:#85929E; margin-bottom:-3px;">&copy; 2021 RADION V1.1 </p>
         <p style="color:#85929E;">Made with <i class="fas fa-heart"></i> in Delaware, U.S.</p>
       </div>
     </div>
