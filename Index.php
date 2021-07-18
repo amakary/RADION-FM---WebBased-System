@@ -658,6 +658,19 @@ if ($result->num_rows > 0) {
 
             <div class="panel panel-primary">
               <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a href="#accOneColSeven"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> CAN I MINT A NFT FOR MY MUSIC TRACKS?</a>
+                </h4>
+              </div>
+
+              <div class="panel-body" id="accOneColSeven" align="justify">
+                Yes you can! We developed a unique dual modular redundancy approach for NFTs which allows us to enforce every non-fungible token with different types of legal contracts. This approach brings trust and transparency to the music industry, where not only producers can benefit from it but also; record labels, distributors, singers, musicians, to name a few...
+
+              </div>
+            </div>
+
+            <div class="panel panel-primary">
+              <div class="panel-heading">
                 <h4 class="panel-title"><a href="#accOneColSix"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> WHAT IS A SMART CONTRACT?</a></h4>
               </div>
               <div class="panel-body" id="accOneColSix" align="justify">
@@ -709,15 +722,15 @@ if ($result->num_rows > 0) {
         <div class="panel-body">
           <h2><i class="fad fa-sliders-v-square"></i> FEATURES</h2>
         </div>
-        <div class="panel-body list-group" style="padding-bottom:30px;">
+        <div class="panel-body list-group" style="padding:0px 10px 30px 10px;">
           <div class="list-group-item">
-            <h6 style="padding-left:5px;"><strong><i class="fas fa-hashtag fa-2x"></i>NON-FUNGIBLE TOKENS FOR MUSIC (NFT)</strong></h6>
-            RADION FM allow musicians to create eternal non-fungible token (NFT) for their music.<br/>
+            <h6 style="padding-left:5px;"><strong><i class="fas fa-hashtag fa-2x"></i>NON-FUNGIBLE TOKENS (NFT) FOR MUSIC</strong></h6>
+            RADION FM allow producers to create non-fungible token (NFT) for their music tracks.<br/>
           </div>
 
 		  <div class="list-group-item">
             <h6 style="padding-left:5px;"><strong><i class="fab fa-creative-commons fa-2x"></i> MUSIC LICENSING</strong></h6>
-            RADION FM offers music licensing in order to protect your musicians rights.<br/>
+            RADION FM works with music licensing in order to protect your rights.<br/>
           </div>
           <div class="list-group-item">
             <h6 style="padding-left:5px;"><strong><i class="fas fa-user-friends fa-2x"></i> PLAYABLE BY ANYONE</strong></h6>
@@ -2302,7 +2315,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       try { metadata = await getMetadata(id) } catch (error) { console.log(error) }
       console.log('Fetched metadata: ', metadata)
 
-      if (metadata === null) continue
+      if (metadata === null || metadata.deleted) continue
       $(elem).find('.nft-wrapper').click(function () {
         window.location = '/song-player.php?id=' + id + '&hash=' + hash
       }).removeClass('nft-wrapper')

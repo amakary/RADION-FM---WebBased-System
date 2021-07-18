@@ -15,6 +15,12 @@ if ($id === null) {
 
 $song_res = $con->query("SELECT * FROM `song` WHERE `RDON_ID`='$id'");
 $song = $song_res->fetch_object();
+if (empty($song->USER_NAME)) {
+  $result = ['deleted' => true];
+  header('Content-Type: application/json');
+  die(json_encode($result));
+}
+
 $mid = $song->SONG_ID;
 $source = get_music_source($song->RDON_ID, $song->SONG_STATUS, true);
 $getID3 = new getID3();
