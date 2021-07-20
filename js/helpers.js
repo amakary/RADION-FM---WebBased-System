@@ -79,3 +79,42 @@ function strToHex (string) {
 
   return result
 }
+
+/**
+ *  Parses MichelsonMap to JavaScript object
+ *  @param {object} michelson    MichelsonMap code to decode
+ *  @return {object}
+ */
+function parseMichelsonMap (michelson) {
+  if (Array.isArray(michelson)) {
+    const parsed = []
+    for (let i = 0; i < michelson.length; i++) {
+      const parsedObject = parseMichelsonMap(michelson[i])
+      parsed.push(parsedObject)
+    }
+    return parsed
+  }
+
+  if (michelson.type === 'namedtuple') {
+    const parsed = {}
+    for (let i = 0; i < michelson.children.length; i++) {
+      const child = michelson.children[i]
+      parsed[child.name] = parseMichelsonMap(child)
+    }
+    return parsed
+  }
+
+  if (michelson.type === 'big_map') {
+    return { bigMap: michelson.value }
+  }
+
+  if (michelson.type === 'option' && michelson.value === 'None') {
+    return null
+  }
+
+  if (michelson.type === 'nat' || michelson.type === 'mutez') {
+    return parseInt(michelson.value)
+  }
+
+  return michelson.value
+}
