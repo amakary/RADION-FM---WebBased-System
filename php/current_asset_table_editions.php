@@ -123,6 +123,6 @@ $('.btn-create-nft').click(async function (event) {
   $('#license').val(songData.copyright_message[0])
   $('#record-label').val(songData.record)
   $('#filesize').val(songData.filesize)
-  window.history.pushState('', '', '/mint-2.php?id=' + id)
+  window.history.pushState('', '', '?id=' + id)
 })
 </script>
