@@ -652,7 +652,7 @@ if ($id !== null) {
                                 <th align="center" style="width:10%; padding-bottom:10px;">CATEGORY</th>
                                 <th align="center" style="width:20%; padding-bottom:10px;">NAME</th>
                                 <th align="center" style="width:10%; padding-bottom:10px;">GENRE</th>
-                                <th align="center" style="width:10%; padding-bottom:10px;">NFT</th>
+                                <th align="center" style="width:10%; padding-bottom:10px;">COPYRIGHT</th>
                                 <th align="center" style="width:15%; padding-bottom:10px;">STREAMED</th>
                                 <th align="center" style="width:20%; padding-bottom:10px;">DOWNLOADS</th>
                               </tr>
@@ -829,69 +829,6 @@ if ($id !== null) {
     </div>
     <!-- END PAGE CONTAINER -->
 
-    <!-- START SIDEBAR -->
-    <div class="sidebar">
-      <div class="sidebar-wrapper scroll">
-        <div class="sidebar-tabs">
-          <a href="#sidebar_1" class="sidebar-tab"><i class="fad fa-comments fa-lg"></i> CHAT</a>
-          <a href="#sidebar_2" class="sidebar-tab"><i class="fal fa-newspaper fa-lg"></i> NEWS</a>
-        </div>
-
-        <div class="sidebar-tab-content active" id="sidebar_1">
-          <div style="padding-left:10px; padding-right:10px; height:730px;">
-
-<?php
-
-if (function_exists('sl_combichatbox')) {
-  sl_combichatbox(array(
-    'width' => '100%',
-    'maxwidth' => '400px',
-    'height' => '720px',
-    'sendheight' => '110px',
-    'showframe' => true,
-    'starttab' => 'receivedprivate',
-    'showimage' => true,
-    'messagelinks' => true,
-    'userlistlinks' => true,
-    'publicenabled' => true,
-    'allmsgtype' => '',
-    'about' => '',
-    'datetoday' => '!A! ago',
-    'dateearlier' => '!D!/!M!/!Y! !H!:!I!',
-    'userpage' => 'user-profile.php',
-    'displayfields' => 'nickname',
-    'showonline' => true,
-    'usersortby' => 'nickname',
-    'usersortdir' => 'ASC',
-    'userlistgroups' => '',
-    'userlistfilter' => '',
-    'searchfields' => 'nickname',
-    'maxlength' => '300',
-    'number' => 7,
-    'usernumber' => 11,
-    'refresh' => 5,
-    'sendpublicfiles' => true,
-    'sendprivatefiles' => true,
-    'allowedfiles' => '.jpg,.jpeg,.png,.gif',
-    'maxfilesize' => '2000000',
-    'showfileimages' => true,
-    'userlisthtml' => '',
-    'recentuserhtml' => ''
-  ));
-} ?>
-          </div>
-        </div>
-
-        <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
-          <div style="padding-left:30px; padding-right:30px; height:1150px;">
-            <small>
-              <p></p>
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END SIDEBAR -->
 
     <!-- MESSAGE BOX-->
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
@@ -913,6 +850,31 @@ if (function_exists('sl_combichatbox')) {
     </div>
     <!-- END MESSAGE BOX-->
   </div>
+
+  <!-- START SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-wrapper scroll">
+      <div class="sidebar-tabs">
+        <a href="#sidebar_1" class="sidebar-tab"><i class="fad fa-comments fa-lg"></i> CHAT</a>
+        <a href="#sidebar_2" class="sidebar-tab"><i class="fal fa-newspaper fa-lg"></i> NEWS</a>
+      </div>
+
+      <div class="sidebar-tab-content active" id="sidebar_1">
+        <div style="padding-left:10px; padding-right:10px; height:730px;">
+
+        </div>
+      </div>
+
+      <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
+        <div style="padding-left:30px; padding-right:30px; height:1150px;">
+          <small>
+            <p></p>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END SIDEBAR -->
 
   <!-- START PRELOADS -->
   <audio id="audio-alert" src="/audio/alert.mp3" preload="auto"></audio>
