@@ -957,9 +957,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
                   <div style="padding-top:8px;"></div>
                   <p>Get in Touch with us and find us on social media!</p>
                   <!-- SOCIAL MEDIA -->
-                  <span data-toggle="tooltip" data-placement="right" title="Twitter" style="margin-left:0px;"><a href="https://twitter.com/fm_radion" target="blank" rel="nofollow"><i class="fab fa-twitter fa-2x" style="color:#22262E;"></i></a></span>
-                  <span><a href="https://www.youtube.com/channel/UCuJOeoT-2o2stPXXJJGzAdg" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="left" title="YouTube"><i class="fab fa-youtube fa-2x" style="color:#22262E;"></i></a></span>
-                  <span><a href="https://t.me/joinchat/TdHnxqPrcJPK3mZ1" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="left" title="Telegram"><i class="fab fa-telegram fa-2x" style="color:#22262E;"></i></a></span>
+                  <span data-toggle="tooltip" data-placement="bottom" title="Twitter" style="margin-left:0px;"><a href="https://twitter.com/fm_radion" target="blank" rel="nofollow"><i class="fab fa-twitter fa-2x" style="color:#22262E;"></i></a></span>
+                  <span><a href="https://www.youtube.com/channel/UCuJOeoT-2o2stPXXJJGzAdg" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="YouTube"><i class="fab fa-youtube fa-2x" style="color:#22262E;"></i></a></span>
+                  <span><a href="https://t.me/joinchat/TdHnxqPrcJPK3mZ1" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="Telegram"><i class="fab fa-telegram fa-2x" style="color:#22262E;"></i></a></span>
+                  <span><a href="https://www.tiktok.com/@radion_music" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="Tik-Tok"><i class="fab fa-tiktok fa-2x" style="color:#22262E;"></i></a></span>
                   <!-- SOCIAL MEDIA -->
                   <div style="padding-top:8px;"></div>
                 </blockquote>
