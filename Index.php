@@ -1139,6 +1139,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   <script>window.beaconSdk = beacon</script>
   <script src="https://unpkg.com/@taquito/taquito@9.0.1/dist/taquito.min.js"></script>
   <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.1/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/michel-codec@9.0.1/dist/taquito-michel-codec.umd.js"></script>
   <script src="/js/helpers.js"></script>
   <script src="/js/ipfs.js"></script>
 
@@ -1215,6 +1216,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
   const { TezosToolkit } = taquito
   const { BeaconWallet } = taquitoBeaconWallet
+  const { packDataBytes } = taquitoMichelCodec
   const { NetworkType } = beacon
 
   const rpc = 'https://mainnet-tezos.giganode.io'
@@ -1806,9 +1808,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
   <!-- TEZOS CHART -->
   <script>
+  const api = 'https://api.better-call.dev/v1'
   const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
   const fixedPrice = 'KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6'
-  const editions = {}
+  const editions = []
   let editionsStorage = null
   let marketStorage = null
   let maxEditionsPerRun = 0
@@ -1816,18 +1819,20 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   async function getEditions () {
     console.log('Displaying Editions...')
     console.log('Getting edition contract\'s storage...')
-    editionsStorage = await tezos.contract.getStorage(fa2)
-    const size = editionsStorage.next_edition_id.c[0]
+    const editionsStorageJSON = await $.getJSON(`${api}/contract/mainnet/${fa2}/storage`)
+    editionsStorage = parseMichelsonMap(editionsStorageJSON, true)[0]
+    const size = editionsStorage.next_edition_id
     let counts = 0
 
     console.log(size + ' editions found')
     console.log('Getting market contract\'s storage')
-    marketStorage = await tezos.contract.getStorage(fixedPrice)
-    maxEditionsPerRun = editionsStorage.max_editions_per_run.c[0]
+    const marketStorageJSON = await $.getJSON(`${api}/contract/mainnet/${fixedPrice}/storage`)
+    marketStorage = parseMichelsonMap(marketStorageJSON, true)[0]
+    maxEditionsPerRun = editionsStorage.max_editions_per_run
 
     for (let i = size - 1; i >= 0 && counts < 6; i--) {
       console.log('Getting edition\'s (ID: ' + i + ') metadata...')
-      const edition = await editionsStorage.editions_metadata.get(i)
+      const edition = (await editionsStorage.editions_metadata)[i]
       console.log(edition)
 
       const blocked = await $.get('/php/block-nft-limited.php', { id: i })
@@ -1842,17 +1847,17 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
   async function displayEdition (eid, edition) {
     const elem = $(editionTemplate).clone(true, true)
-    const values = edition.edition_info.valueMap
-    const numberOfEditions = edition.number_of_editions.c[0]
-    const cid = parseBytes(values.get('""')).split('ipfs://')[1]
+    const values = edition['@map_4']
+    const numberOfEditions = edition['@nat_8']
+    const cid = values['""'].split('ipfs://')[1]
     console.log('Getting edition\'s (ID: ' + eid + ') additional data from IFPS')
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     console.log('IPFS Metadata', editionData)
-    const id = parseBytes(values.get('"asset_id"') || '')
-    const songName = parseBytes(values.get('"song_name"'))
-    const artist = parseBytes(values.get('"artist"')) || 'Artist Unknown'
-    const genre = parseBytes(values.get('"genre"')) || 'None'
-    const contractType = parseBytes(values.get('"legal_contract_type"'))
+    const id = values.asset_id || ''
+    const songName = values.song_name || ''
+    const artist = values.artist || 'Artist Unknown'
+    const genre = values.genre || 'None'
+    const contractType = values.legal_contract_type || ''
     const title = (songName ? songName.substr(0, 27) : songName) || 'No title'
     console.log('Getting edition\'s market sales...')
     const sales = await getSales(eid, edition)
@@ -1921,7 +1926,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.split('ipfs://')[1]
     console.log('Getting artwork data from ' + artworkUrl + '...')
     const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.split('ipfs://')[1]
-    const issuer = edition.creator.substr(0, edition.creator.length - 15) + '...'
+    const issuer = edition['@address_2'].substr(0, edition['@address_2'] - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
     $(elem).find('.nft-title').text(title).removeClass('nft-title')
@@ -1955,25 +1960,32 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     let count = 0
     let price = 0
 
-    for (let i = 0; i < edition.number_of_editions.c[0]; i++) {
+    for (let i = 0; i < edition['@nat_8']; i++) {
       const tokenId = eid * maxEditionsPerRun + i
+      const address = packDataBytes(
+        { string: edition['@address_2'] },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const contract = packDataBytes(
+        { string: fa2 },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const key = `Pair 0x${address} (Pair 0x${contract} ${tokenId})`
+
       tokenIds.push(tokenId)
-      keys.push({
-        seller: edition.creator,
-        sale_token: {
-          token_for_sale_address: fa2,
-          token_for_sale_token_id: tokenId
-        }
-      })
+      keys.push(key)
     }
 
-    const values = await marketStorage.sales.getMultipleValues(keys)
-    values.valueMap.forEach(item => {
-      if (item) {
-        price = item.c[0]
+    const sales = await marketStorage.sales
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      if (sales[key]) {
+        price = sales[key]
         count++
       }
-    })
+    }
 
     if (price === 0) {
       const response = await $.getJSON('https://api.better-call.dev/v1/contract/mainnet/' + fixedPrice + '/operations?entrypoints=buy')
@@ -2000,13 +2012,13 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
     const eid = parseInt($(this).attr('data-buy'))
     const edition = editions[eid]
-    const values = edition.edition_info.valueMap
-    const numberOfEditions = edition.number_of_editions.c[0]
-    const cid = parseBytes(values.get('""')).split('ipfs://')[1]
-    const enforceContract = parseBytes(values.get('"enforce_contract"') || '') === 'yes'
-    const assetId = parseBytes(values.get('"asset_id"') || '')
-    const date = parseBytes(values.get('"date"'))
-    const license = parseBytes(values.get('"legal_contract_type"'))
+    const values = edition['@map_4']
+    const numberOfEditions = edition['@nat_8']
+    const cid = values['""'].split('ipfs://')[1]
+    const enforceContract = (values['enforce_contract'] || '') === 'yes'
+    const assetId = values['asset_id'] || ''
+    const date = values['date'] || ''
+    const license = values['legal_contract_type'] || ''
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     const loggedIn = await isLoggedIn()
     let audioUrl = null
@@ -2029,27 +2041,37 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       }
     })
 
+    const marketSales = await marketStorage.sales
     const contract = await tezos.wallet.at(fixedPrice)
-    const storage = await contract.storage()
     let salePrice = 0
     let sale = null
 
     for (let i = 0; i < numberOfEditions; i++) {
       const tokenId = eid * maxEditionsPerRun + i
-      try {
-        const key = {
-          seller: edition.creator,
-          sale_token: {
-            token_for_sale_address: fa2,
-            token_for_sale_token_id: tokenId
-          }
-        }
-        const value = await storage.sales.get(key)
+      const address = packDataBytes(
+        { string: edition['@address_2'] },
+        { prim: 'address' }
+      ).bytes.slice(12)
 
+      const contractAddress = packDataBytes(
+        { string: fa2 },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const keyString = `Pair 0x${address} (Pair 0x${contractAddress} ${tokenId})`
+      const key = {
+        seller: edition['@address_2'],
+        sale_token: {
+          token_for_sale_address: fa2,
+          token_for_sale_token_id: tokenId
+        }
+      }
+
+      if (typeof marketSales[keyString] !== 'undefined') {
         sale = key
-        salePrice = value.c[0] / 1000000
+        salePrice = marketSales[keyString] / 1000000
         break
-      } catch (error) {}
+      }
     }
 
     if (sale !== null) {
