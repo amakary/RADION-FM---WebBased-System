@@ -48,12 +48,12 @@ $(document).ready(function () {
   setInterval(updatePrice, 10000)
 })
 
-async function getBalances (address, contract) {
+async function getBalances (address, contract, network = 'mainnet') {
   const balances = []
   let total = -1
 
   while (total === -1 || balances.length !== total) {
-    const url = 'https://api.better-call.dev/v1/account/mainnet/' + address + '/token_balances'
+    const url = `https://api.better-call.dev/v1/account/${network}/${address}/token_balances`
     const response = await $.get(url, {
       contract: contract,
       size: 10,
@@ -67,12 +67,12 @@ async function getBalances (address, contract) {
   return balances
 }
 
-async function getTokens (contract) {
+async function getTokens (contract, network = 'mainnet') {
   const tokens = []
   const total = await getTokensCount(contract)
 
   while (tokens.length !== total) {
-    const url = 'https://api.better-call.dev/v1/contract/mainnet/' + contract + '/tokens'
+    const url = `https://api.better-call.dev/v1/contract/${network}/${contract}/tokens`
     const response = await $.get(url, {
       size: 10,
       offset: tokens.length
@@ -84,11 +84,77 @@ async function getTokens (contract) {
   return tokens
 }
 
-async function getTokensCount (contract) {
-  return new Promise((resolve, reject) => {
-    const url = 'https://api.better-call.dev/v1/contract/mainnet/' + contract + '/tokens/count'
-    $.getJSON(url, (data) => {
-      resolve(data.count)
-    })
-  })
+async function getTokensCount (contract, network = 'mainnet') {
+  const url = `https://api.better-call.dev/v1/contract/${network}/${contract}/tokens/count`
+  const response = await $.getJSON(url)
+  return response.count
+}
+
+async function getBigmapCount (pointer, network = 'mainnet') {
+  const url = `https://api.better-call.dev/v1/bigmap/${network}/${pointer}/count`
+  const response = await $.getJSON(url)
+  return response.count
+}
+
+/**
+ *  Parses MichelsonMap to JavaScript object
+ *
+ *  @param {object}  michelson      MichelsonMap code to decode
+ *  @param {boolean} parseBigmap    Parse bigmap
+ *
+ *  @return {object}
+ */
+function parseMichelsonMap (michelson, parseBigmap = false) {
+  if (Array.isArray(michelson)) {
+    const parsed = []
+    for (let i = 0; i < michelson.length; i++) {
+      const parsedObject = parseMichelsonMap(michelson[i], parseBigmap)
+      parsed.push(parsedObject)
+    }
+    return parsed
+  }
+
+  if (michelson.type === 'namedtuple' || michelson.type === 'map') {
+    const parsed = {}
+    for (let i = 0; i < michelson.children.length; i++) {
+      const child = michelson.children[i]
+      parsed[child.name] = parseMichelsonMap(child, parseBigmap)
+    }
+    return parsed
+  }
+
+  if (michelson.type === 'big_map') {
+    if (parseBigmap) {
+      return new Promise(async (resolve, reject) => {
+        const url = `https://api.better-call.dev/v1/bigmap/mainnet/${michelson.value}/keys`
+        const keys = {}
+        const count = await getBigmapCount(michelson.value)
+
+        for (let x = 0; x < count; x++) {
+          const response = await $.get(url, {
+            size: 10,
+            offset: x * 10
+          }, 'json')
+
+          for (let i = 0; i < response.length; i++) {
+            const key = response[i]
+            const value = parseMichelsonMap(key.data.value, parseBigmap)
+            keys[key.data.key_string] = value
+          }
+        }
+
+        resolve(keys)
+      })
+    } else return { bigMap: michelson.value }
+  }
+
+  if (michelson.type === 'option' && michelson.value === 'None') {
+    return null
+  }
+
+  if (michelson.type === 'nat' || michelson.type === 'mutez') {
+    return parseInt(michelson.value)
+  }
+
+  return michelson.value
 }
