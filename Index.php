@@ -1983,7 +1983,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         if (operation.internal) continue
 
         const parameters = parseMichelsonMap(operation.parameters)
-        const tokenId = parameters[0].sale_token.sale_token.token_for_sale_token_id
+        const tokenId = parameters[0].sale_token.token_for_sale_token_id
         if (tokenIds.includes(tokenId)) {
           price = operation.amount
           break
