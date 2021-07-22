@@ -513,8 +513,8 @@ if ($result->num_rows > 0) {
                         <div>Asset: <strong><span class="nft-id"></span></strong></div>
                         <div>Genre: <strong><span class="nft-genre"></span></strong></div>
                         <div>Hosting: <strong>IPFS</strong></div>
-                        <div>Master: <strong>Exclusive Rights</strong></div>
-                        <div style="padding:5px 0px 0px 0px;"><strong>NFT</strong>: <strong style="color:#2980B9;">Copyrights</strong></div>
+                        <div>File: <strong>Master</strong></div>
+                        <div style="padding:5px 0px 0px 0px;"><strong>NFT</strong>: <strong style="color:#2980B9;">Exclusive Rights</strong></div>
                       </div>
                       <div class="panel-footer text-muted" align="center">
 
@@ -658,6 +658,19 @@ if ($result->num_rows > 0) {
 
             <div class="panel panel-primary">
               <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a href="#accOneColSeven"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> CAN I MINT A NFT FOR MY MUSIC TRACKS?</a>
+                </h4>
+              </div>
+
+              <div class="panel-body" id="accOneColSeven" align="justify">
+                Yes you can! We developed a unique dual modular redundancy approach for NFTs which allows us to enforce every non-fungible token with different types of legal contracts. This approach brings trust and transparency to the music industry, where not only producers can benefit from it but also; record labels, distributors, singers, musicians, to name a few...
+
+              </div>
+            </div>
+
+            <div class="panel panel-primary">
+              <div class="panel-heading">
                 <h4 class="panel-title"><a href="#accOneColSix"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> WHAT IS A SMART CONTRACT?</a></h4>
               </div>
               <div class="panel-body" id="accOneColSix" align="justify">
@@ -709,15 +722,15 @@ if ($result->num_rows > 0) {
         <div class="panel-body">
           <h2><i class="fad fa-sliders-v-square"></i> FEATURES</h2>
         </div>
-        <div class="panel-body list-group" style="padding-bottom:30px;">
+        <div class="panel-body list-group" style="padding:0px 10px 30px 10px;">
           <div class="list-group-item">
-            <h6 style="padding-left:5px;"><strong><i class="fas fa-hashtag fa-2x"></i>NON-FUNGIBLE TOKENS FOR MUSIC (NFT)</strong></h6>
-            RADION FM allow musicians to create eternal non-fungible token (NFT) for their music.<br/>
+            <h6 style="padding-left:5px;"><strong><i class="fas fa-hashtag fa-2x"></i>NON-FUNGIBLE TOKENS (NFT) FOR MUSIC</strong></h6>
+            RADION FM allow producers to create non-fungible token (NFT) for their music tracks.<br/>
           </div>
 
 		  <div class="list-group-item">
             <h6 style="padding-left:5px;"><strong><i class="fab fa-creative-commons fa-2x"></i> MUSIC LICENSING</strong></h6>
-            RADION FM offers music licensing in order to protect your musicians rights.<br/>
+            RADION FM works with music licensing in order to protect your rights.<br/>
           </div>
           <div class="list-group-item">
             <h6 style="padding-left:5px;"><strong><i class="fas fa-user-friends fa-2x"></i> PLAYABLE BY ANYONE</strong></h6>
@@ -944,9 +957,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
                   <div style="padding-top:8px;"></div>
                   <p>Get in Touch with us and find us on social media!</p>
                   <!-- SOCIAL MEDIA -->
-                  <span data-toggle="tooltip" data-placement="right" title="Twitter" style="margin-left:0px;"><a href="https://twitter.com/fm_radion" target="blank" rel="nofollow"><i class="fab fa-twitter fa-2x" style="color:#22262E;"></i></a></span>
-                  <span><a href="https://www.youtube.com/channel/UCuJOeoT-2o2stPXXJJGzAdg" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="left" title="YouTube"><i class="fab fa-youtube fa-2x" style="color:#22262E;"></i></a></span>
-                  <span><a href="https://t.me/joinchat/TdHnxqPrcJPK3mZ1" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="left" title="Telegram"><i class="fab fa-telegram fa-2x" style="color:#22262E;"></i></a></span>
+                  <span data-toggle="tooltip" data-placement="bottom" title="Twitter" style="margin-left:0px;"><a href="https://twitter.com/fm_radion" target="blank" rel="nofollow"><i class="fab fa-twitter fa-2x" style="color:#22262E;"></i></a></span>
+                  <span><a href="https://www.youtube.com/channel/UCuJOeoT-2o2stPXXJJGzAdg" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="YouTube"><i class="fab fa-youtube fa-2x" style="color:#22262E;"></i></a></span>
+                  <span><a href="https://t.me/joinchat/TdHnxqPrcJPK3mZ1" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="Telegram"><i class="fab fa-telegram fa-2x" style="color:#22262E;"></i></a></span>
+                  <span><a href="https://www.tiktok.com/@radion_music" target="blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="Tik-Tok"><i class="fab fa-tiktok fa-2x" style="color:#22262E;"></i></a></span>
                   <!-- SOCIAL MEDIA -->
                   <div style="padding-top:8px;"></div>
                 </blockquote>
@@ -1018,7 +1032,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> White paper</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="free-ID3-tag-editor.php" target="blank" class="linko"> ID3 Tag Editor</a>
       <div style="padding-top:30px; padding-bottom:10px;">
-        <p style="color:#85929E; margin-bottom:-3px;">© 2021 RADION V1.1 </p>
+        <p style="color:#85929E; margin-bottom:-3px;">&copy; 2021 RADION V1.1 </p>
         <p style="color:#85929E;">Made with <i class="fas fa-heart"></i> in Delaware, U.S.</p>
       </div>
     </div>
@@ -1125,6 +1139,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   <script>window.beaconSdk = beacon</script>
   <script src="https://unpkg.com/@taquito/taquito@9.0.1/dist/taquito.min.js"></script>
   <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.1/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/michel-codec@9.0.1/dist/taquito-michel-codec.umd.js"></script>
   <script src="/js/helpers.js"></script>
   <script src="/js/ipfs.js"></script>
 
@@ -1201,6 +1216,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
   const { TezosToolkit } = taquito
   const { BeaconWallet } = taquitoBeaconWallet
+  const { packDataBytes } = taquitoMichelCodec
   const { NetworkType } = beacon
 
   const rpc = 'https://mainnet-tezos.giganode.io'
@@ -1792,9 +1808,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
   <!-- TEZOS CHART -->
   <script>
+  const api = 'https://api.better-call.dev/v1'
   const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
   const fixedPrice = 'KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6'
-  const editions = {}
+  const editions = []
   let editionsStorage = null
   let marketStorage = null
   let maxEditionsPerRun = 0
@@ -1802,18 +1819,20 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   async function getEditions () {
     console.log('Displaying Editions...')
     console.log('Getting edition contract\'s storage...')
-    editionsStorage = await tezos.contract.getStorage(fa2)
-    const size = editionsStorage.next_edition_id.c[0]
+    const editionsStorageJSON = await $.getJSON(`${api}/contract/mainnet/${fa2}/storage`)
+    editionsStorage = parseMichelsonMap(editionsStorageJSON, true)[0]
+    const size = editionsStorage.next_edition_id
     let counts = 0
 
     console.log(size + ' editions found')
     console.log('Getting market contract\'s storage')
-    marketStorage = await tezos.contract.getStorage(fixedPrice)
-    maxEditionsPerRun = editionsStorage.max_editions_per_run.c[0]
+    const marketStorageJSON = await $.getJSON(`${api}/contract/mainnet/${fixedPrice}/storage`)
+    marketStorage = parseMichelsonMap(marketStorageJSON, true)[0]
+    maxEditionsPerRun = editionsStorage.max_editions_per_run
 
     for (let i = size - 1; i >= 0 && counts < 6; i--) {
       console.log('Getting edition\'s (ID: ' + i + ') metadata...')
-      const edition = await editionsStorage.editions_metadata.get(i)
+      const edition = (await editionsStorage.editions_metadata)[i]
       console.log(edition)
 
       const blocked = await $.get('/php/block-nft-limited.php', { id: i })
@@ -1828,17 +1847,17 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
   async function displayEdition (eid, edition) {
     const elem = $(editionTemplate).clone(true, true)
-    const values = edition.edition_info.valueMap
-    const numberOfEditions = edition.number_of_editions.c[0]
-    const cid = parseBytes(values.get('""')).split('ipfs://')[1]
+    const values = edition['@map_4']
+    const numberOfEditions = edition['@nat_8']
+    const cid = values['""'].split('ipfs://')[1]
     console.log('Getting edition\'s (ID: ' + eid + ') additional data from IFPS')
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     console.log('IPFS Metadata', editionData)
-    const id = parseBytes(values.get('"asset_id"') || '')
-    const songName = parseBytes(values.get('"song_name"'))
-    const artist = parseBytes(values.get('"artist"')) || 'Artist Unknown'
-    const genre = parseBytes(values.get('"genre"')) || 'None'
-    const contractType = parseBytes(values.get('"legal_contract_type"'))
+    const id = values.asset_id || ''
+    const songName = values.song_name || ''
+    const artist = values.artist || 'Artist Unknown'
+    const genre = values.genre || 'None'
+    const contractType = values.legal_contract_type || ''
     const title = (songName ? songName.substr(0, 27) : songName) || 'No title'
     console.log('Getting edition\'s market sales...')
     const sales = await getSales(eid, edition)
@@ -1907,7 +1926,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.split('ipfs://')[1]
     console.log('Getting artwork data from ' + artworkUrl + '...')
     const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.split('ipfs://')[1]
-    const issuer = edition.creator.substr(0, edition.creator.length - 15) + '...'
+    const issuer = edition['@address_2'].substr(0, edition['@address_2'] - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
     $(elem).find('.nft-title').text(title).removeClass('nft-title')
@@ -1941,25 +1960,32 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     let count = 0
     let price = 0
 
-    for (let i = 0; i < edition.number_of_editions.c[0]; i++) {
+    for (let i = 0; i < edition['@nat_8']; i++) {
       const tokenId = eid * maxEditionsPerRun + i
+      const address = packDataBytes(
+        { string: edition['@address_2'] },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const contract = packDataBytes(
+        { string: fa2 },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const key = `Pair 0x${address} (Pair 0x${contract} ${tokenId})`
+
       tokenIds.push(tokenId)
-      keys.push({
-        seller: edition.creator,
-        sale_token: {
-          token_for_sale_address: fa2,
-          token_for_sale_token_id: tokenId
-        }
-      })
+      keys.push(key)
     }
 
-    const values = await marketStorage.sales.getMultipleValues(keys)
-    values.valueMap.forEach(item => {
-      if (item) {
-        price = item.c[0]
+    const sales = await marketStorage.sales
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      if (sales[key]) {
+        price = sales[key]
         count++
       }
-    })
+    }
 
     if (price === 0) {
       const response = await $.getJSON('https://api.better-call.dev/v1/contract/mainnet/' + fixedPrice + '/operations?entrypoints=buy')
@@ -1969,7 +1995,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         if (operation.internal) continue
 
         const parameters = parseMichelsonMap(operation.parameters)
-        const tokenId = parameters[0].buy.sale_token.sale_token.token_for_sale_token_id
+        const tokenId = parameters[0].sale_token.token_for_sale_token_id
         if (tokenIds.includes(tokenId)) {
           price = operation.amount
           break
@@ -1986,13 +2012,13 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
     const eid = parseInt($(this).attr('data-buy'))
     const edition = editions[eid]
-    const values = edition.edition_info.valueMap
-    const numberOfEditions = edition.number_of_editions.c[0]
-    const cid = parseBytes(values.get('""')).split('ipfs://')[1]
-    const enforceContract = parseBytes(values.get('"enforce_contract"') || '') === 'yes'
-    const assetId = parseBytes(values.get('"asset_id"') || '')
-    const date = parseBytes(values.get('"date"'))
-    const license = parseBytes(values.get('"legal_contract_type"'))
+    const values = edition['@map_4']
+    const numberOfEditions = edition['@nat_8']
+    const cid = values['""'].split('ipfs://')[1]
+    const enforceContract = (values['enforce_contract'] || '') === 'yes'
+    const assetId = values['asset_id'] || ''
+    const date = values['date'] || ''
+    const license = values['legal_contract_type'] || ''
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     const loggedIn = await isLoggedIn()
     let audioUrl = null
@@ -2015,27 +2041,37 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       }
     })
 
+    const marketSales = await marketStorage.sales
     const contract = await tezos.wallet.at(fixedPrice)
-    const storage = await contract.storage()
     let salePrice = 0
     let sale = null
 
     for (let i = 0; i < numberOfEditions; i++) {
       const tokenId = eid * maxEditionsPerRun + i
-      try {
-        const key = {
-          seller: edition.creator,
-          sale_token: {
-            token_for_sale_address: fa2,
-            token_for_sale_token_id: tokenId
-          }
-        }
-        const value = await storage.sales.get(key)
+      const address = packDataBytes(
+        { string: edition['@address_2'] },
+        { prim: 'address' }
+      ).bytes.slice(12)
 
+      const contractAddress = packDataBytes(
+        { string: fa2 },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const keyString = `Pair 0x${address} (Pair 0x${contractAddress} ${tokenId})`
+      const key = {
+        seller: edition['@address_2'],
+        sale_token: {
+          token_for_sale_address: fa2,
+          token_for_sale_token_id: tokenId
+        }
+      }
+
+      if (typeof marketSales[keyString] !== 'undefined') {
         sale = key
-        salePrice = value.c[0] / 1000000
+        salePrice = marketSales[keyString] / 1000000
         break
-      } catch (error) {}
+      }
     }
 
     if (sale !== null) {
@@ -2302,7 +2338,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       try { metadata = await getMetadata(id) } catch (error) { console.log(error) }
       console.log('Fetched metadata: ', metadata)
 
-      if (metadata === null) continue
+      if (metadata === null || metadata.deleted) continue
       $(elem).find('.nft-wrapper').click(function () {
         window.location = '/song-player.php?id=' + id + '&hash=' + hash
       }).removeClass('nft-wrapper')
