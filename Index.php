@@ -1820,14 +1820,20 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     console.log('Displaying Editions...')
     console.log('Getting edition contract\'s storage...')
     const editionsStorageJSON = await $.getJSON(`${api}/contract/mainnet/${fa2}/storage`)
-    editionsStorage = parseMichelsonMap(editionsStorageJSON, true)[0]
+    editionsStorage = parseMichelsonMap(editionsStorageJSON, {
+      network: 'mainnet',
+      includeNone: true
+    })[0]
     const size = editionsStorage.next_edition_id
     let counts = 0
 
     console.log(size + ' editions found')
     console.log('Getting market contract\'s storage')
     const marketStorageJSON = await $.getJSON(`${api}/contract/mainnet/${fixedPrice}/storage`)
-    marketStorage = parseMichelsonMap(marketStorageJSON, true)[0]
+    marketStorage = parseMichelsonMap(marketStorageJSON, {
+      network: 'mainnet',
+      includeNone: false
+    })[0]
     maxEditionsPerRun = editionsStorage.max_editions_per_run
 
     for (let i = size - 1; i >= 0 && counts < 6; i--) {
@@ -1926,7 +1932,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.split('ipfs://')[1]
     console.log('Getting artwork data from ' + artworkUrl + '...')
     const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.split('ipfs://')[1]
-    const issuer = edition['@address_2'].substr(0, edition['@address_2'] - 15) + '...'
+    const issuer = edition['@address_2'].substr(0, edition['@address_2'].length - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
     $(elem).find('.nft-title').text(title).removeClass('nft-title')
