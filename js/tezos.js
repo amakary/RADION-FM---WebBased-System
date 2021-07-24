@@ -99,12 +99,12 @@ async function getBigmapCount (pointer, network = 'mainnet') {
 /**
  *  Parses MichelsonMap to JavaScript object
  *
- *  @param {object}  michelson      MichelsonMap code to decode
- *  @param {boolean} parseBigmap    Parse bigmap
+ *  @param {object} michelson      MichelsonMap code to decode
+ *  @param {object} parseBigmap    Parse bigmap
  *
  *  @return {object}
  */
-function parseMichelsonMap (michelson, parseBigmap = false) {
+function parseMichelsonMap (michelson, parseBigmap = {}) {
   if (Array.isArray(michelson)) {
     const parsed = []
     for (let i = 0; i < michelson.length; i++) {
@@ -124,9 +124,11 @@ function parseMichelsonMap (michelson, parseBigmap = false) {
   }
 
   if (michelson.type === 'big_map') {
-    if (parseBigmap) {
+    if (typeof parseBigmap !== 'undefined') {
       return new Promise(async (resolve, reject) => {
-        const url = `https://api.better-call.dev/v1/bigmap/mainnet/${michelson.value}/keys`
+        const network = parseBigmap.network || 'mainnet'
+        const includeNone = parseBigmap.includeNone || false
+        const url = `https://api.better-call.dev/v1/bigmap/${network}/${michelson.value}/keys`
         const keys = {}
         const count = await getBigmapCount(michelson.value)
 
@@ -138,6 +140,7 @@ function parseMichelsonMap (michelson, parseBigmap = false) {
 
           for (let i = 0; i < response.length; i++) {
             const key = response[i]
+            if (key.count === 1 && !includeNone) continue
             const value = parseMichelsonMap(key.data.value, parseBigmap)
             keys[key.data.key_string] = value
           }
