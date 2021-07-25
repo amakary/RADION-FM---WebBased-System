@@ -34,6 +34,7 @@
   <script>window.beaconSdk = beacon</script>
   <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
   <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/michel-codec@9.2.0/dist/taquito-michel-codec.umd.js"></script>
   <script src="https://unpkg.com/mp3tag.js@3.1.1/dist/mp3tag.min.js"></script>
   <script src="https://unpkg.com/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
 </head>
@@ -430,6 +431,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   <script>
   const { TezosToolkit, MichelsonMap } = taquito
   const { BeaconWallet } = taquitoBeaconWallet
+  const { packDataBytes } = taquitoMichelCodec
   const { NetworkType } = beacon
 
   const rpc = 'https://mainnet-tezos.giganode.io'
@@ -442,10 +444,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
   tezos.setWalletProvider(wallet)
 
+  const api = 'https://api.better-call.dev/v1'
   const fa2 = 'KT1WjTTTgHy5MojfoAe1yFUGU6roLaE2x8Uj'
   const fixedPrice = 'KT1BNXQ8XLbBqapbQjPVg3xFnxoade2UjxE6'
   const editions = []
-  const editionsSales = []
   let editionsStorage = null
   let marketStorage = null
   let maxEditionsPerRun = 0
@@ -470,55 +472,58 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $('#wallet-balance').text(tezBalance + ' tz')
   }
 
-  async function getEditions (address) {
+  async function getEditions () {
     console.log('Displaying Editions...')
     console.log('Getting edition contract\'s storage...')
-    editionsStorage = await tezos.contract.getStorage(fa2)
-    const size = editionsStorage.next_edition_id.c[0]
+    const editionsStorageJSON = await $.getJSON(`${api}/contract/mainnet/${fa2}/storage`)
+    editionsStorage = parseMichelsonMap(editionsStorageJSON, {
+      network: 'mainnet',
+      includeNone: true
+    })[0]
+    const size = editionsStorage.next_edition_id
     let counts = 0
 
     console.log(size + ' editions found')
     console.log('Getting market contract\'s storage')
-    marketStorage = await tezos.contract.getStorage(fixedPrice)
-    maxEditionsPerRun = editionsStorage.max_editions_per_run.c[0]
+    const marketStorageJSON = await $.getJSON(`${api}/contract/mainnet/${fixedPrice}/storage`)
+    marketStorage = parseMichelsonMap(marketStorageJSON, {
+      network: 'mainnet',
+      includeNone: false
+    })[0]
+    maxEditionsPerRun = editionsStorage.max_editions_per_run
 
-    for (let i = size - 1; i >= 0; i--) {
+    for (let i = size - 1; i >= 0 && counts < 6; i--) {
       console.log('Getting edition\'s (ID: ' + i + ') metadata...')
-      const edition = await editionsStorage.editions_metadata.get(i)
-      editions[i] = edition
+      const edition = (await editionsStorage.editions_metadata)[i]
       console.log(edition)
 
-      console.log('Getting edition\'s market sales...')
-      const sales = await getSales(i, edition)
-      editionsSales[i] = sales
-      console.log(sales)
-
-      if (counts < 12) {
-        if (counts % 6 === 0) {
-          const row = $('<div class="row">')
-          $('#nft-editions').append(row)
-        }
-
-        await displayEdition(i, edition, sales)
+      const blocked = await $.get('/php/block-nft-limited.php', { id: i })
+      if (blocked === 'Good') {
+        await displayEdition(i, edition)
         counts++
       }
+
+      editions[i] = edition
     }
   }
 
-  async function displayEdition (eid, edition, sales) {
+  async function displayEdition (eid, edition) {
     const elem = $(editionTemplate).clone(true, true)
-    const values = edition.edition_info.valueMap
-    const numberOfEditions = edition.number_of_editions.c[0]
-    const cid = parseBytes(values.get('""')).split('ipfs://')[1]
+    const values = edition['@map_4']
+    const numberOfEditions = edition['@nat_8']
+    const cid = values['""'].slice(7)
     console.log('Getting edition\'s (ID: ' + eid + ') additional data from IFPS')
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     console.log('IPFS Metadata', editionData)
-    const id = parseBytes(values.get('"asset_id"') || '')
-    const songName = parseBytes(values.get('"song_name"'))
-    const artist = parseBytes(values.get('"artist"')) || 'Artist Unknown'
-    const genre = parseBytes(values.get('"genre"')) || 'None'
-    const contractType = parseBytes(values.get('"legal_contract_type"'))
+    const id = values.asset_id || ''
+    const songName = values.song_name || ''
+    const artist = values.artist || 'Artist Unknown'
+    const genre = values.genre || 'None'
+    const contractType = values.legal_contract_type || ''
     const title = (songName ? songName.substr(0, 27) : songName) || 'No title'
+    console.log('Getting edition\'s market sales...')
+    const sales = await getSales(eid, edition)
+    console.log(sales)
     const price = sales.price / 1000000
     const priceInUsd = (price * parseFloat(window.priceUsd)).toFixed(2)
     let termsContract = ''
@@ -531,7 +536,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     let metadata = null
     try {
       metadata = await getMetadata(id)
-      artworkUrl = metadata.artwork ? 'https://radion.fm' + metadata.artwork : audioUrl
+      artworkUrl = metadata.artwork ? 'https://radion.fm' + metadata.artwork : artworkUrl
       $(elem).find('.nft-shield').show()
     } catch (error) {}
 
@@ -552,7 +557,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         break
 
       case 'commercial':
-        termsContract = 'Trackout Lease'
+        termsContract = 'Basic Lease'
         break
 
       case 'basic':
@@ -580,22 +585,24 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     }
 
     const host = audioUrl.startsWith('https://') ? 'RADION Server' : 'IPFS'
-    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.split('ipfs://')[1]
+    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.slice(7)
     console.log('Getting artwork data from ' + artworkUrl + '...')
-    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.split('ipfs://')[1]
-    const issuer = edition.creator.substr(0, edition.creator.length - 15) + '...'
+    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.slice(7)
+    const issuer = edition['@address_2'].substr(0, edition['@address_2'].length - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
     $(elem).find('.nft-title').text(title).removeClass('nft-title')
     $(elem).find('.nft-shield').removeClass('nft-shield')
     $(elem).find('.nft-issuer-address').text(issuer).removeClass('nft-issuer-address')
     $(elem).find('.nft-host').text(host).removeClass('nft-host')
-    $(elem).find('.nft-format').text(audioFormat).removeClass('nft-format')
+    $(elem).find('.nft-format').text(audioFormat)
+    if (audioFormat === 'MP3') $(elem).find('.nft-format').addClass('label-primary').removeClass('label-default')
+    $(elem).find('.nft-format').removeClass('.nft-format')
     $(elem).find('.nft-price').text(price).removeClass('nft-price')
     $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
     if (sales.count === 0) {
       $(elem).find('.nft-sold-out').hide().removeClass('nft-sold-out')
-      $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out')
+      $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out').css('color', '#C0392B')
     }
     else $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions)
     $(elem).find('.nft-editions-avail').removeClass('nft-editions-avail')
@@ -604,9 +611,9 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $(elem).find('.nft-buy').attr('data-buy', eid).removeClass('nft-buy').click(buyEdition)
     $(elem).find('.nft-play').attr({
       href: audioDataUrl,
-      'data-hash': audioDataUrl.split('/')[1]
+      'data-hash': audioDataUrl
     }).removeClass('nft-play')
-    $('#nft-editions .row:last-child').append(elem)
+    $('#nft-editions').append(elem)
   }
 
   async function getSales (eid, edition) {
@@ -615,25 +622,32 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     let count = 0
     let price = 0
 
-    for (let i = 0; i < edition.number_of_editions.c[0]; i++) {
+    for (let i = 0; i < edition['@nat_8']; i++) {
       const tokenId = eid * maxEditionsPerRun + i
+      const address = packDataBytes(
+        { string: edition['@address_2'] },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const contract = packDataBytes(
+        { string: fa2 },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const key = `Pair 0x${address} (Pair 0x${contract} ${tokenId})`
+
       tokenIds.push(tokenId)
-      keys.push({
-        seller: edition.creator,
-        sale_token: {
-          token_for_sale_address: fa2,
-          token_for_sale_token_id: tokenId
-        }
-      })
+      keys.push(key)
     }
 
-    const values = await marketStorage.sales.getMultipleValues(keys)
-    values.valueMap.forEach(item => {
-      if (item) {
-        price = item.c[0]
+    const sales = await marketStorage.sales
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      if (sales[key]) {
+        price = sales[key]
         count++
       }
-    })
+    }
 
     if (price === 0) {
       const response = await $.getJSON('https://api.better-call.dev/v1/contract/mainnet/' + fixedPrice + '/operations?entrypoints=buy')
@@ -643,7 +657,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         if (operation.internal) continue
 
         const parameters = parseMichelsonMap(operation.parameters)
-        const tokenId = parameters[0].buy.sale_token.sale_token.token_for_sale_token_id
+        const tokenId = parameters[0].sale_token.token_for_sale_token_id
         if (tokenIds.includes(tokenId)) {
           price = operation.amount
           break
@@ -655,16 +669,32 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   }
 
   async function buyEdition (event) {
-    await connectWallet()
+    const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
+    await wallet.requestPermissions({ network })
 
-    const eid = parseInt($(this).attr('data-buy'))
+    const eid = $(this).attr('data-buy')
     const edition = editions[eid]
-    const values = edition.edition_info.valueMap
-    const numberOfEditions = edition.number_of_editions.c[0]
-    const cid = parseBytes(values.get('""')).split('ipfs://')[1]
+    const values = edition['@map_4']
+    const numberOfEditions = edition['@nat_8']
+    const cid = values['""'].slice(7)
+    const enforceContract = (values.enforce_contract || '') === 'yes'
+    const assetId = values.asset_id || ''
+    const date = values.date || ''
+    const license = values.legal_contract_type || ''
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
+    const loggedIn = await isLoggedIn()
     let audioUrl = null
     let audioType = null
+
+    if (enforceContract && !loggedIn) {
+      noty({
+        text: 'You should log in first to download the asset and contract',
+        type: 'error',
+        layout: 'topRight',
+        timeout: 5000
+      })
+      return
+    }
 
     editionData.formats.forEach(format => {
       if (format.mimeType.startsWith('audio')) {
@@ -673,27 +703,37 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       }
     })
 
+    const marketSales = await marketStorage.sales
     const contract = await tezos.wallet.at(fixedPrice)
-    const storage = await contract.storage()
     let salePrice = 0
     let sale = null
 
     for (let i = 0; i < numberOfEditions; i++) {
       const tokenId = eid * maxEditionsPerRun + i
-      try {
-        const key = {
-          seller: edition.creator,
-          sale_token: {
-            token_for_sale_address: fa2,
-            token_for_sale_token_id: tokenId
-          }
-        }
-        const value = await storage.sales.get(key)
+      const address = packDataBytes(
+        { string: edition['@address_2'] },
+        { prim: 'address' }
+      ).bytes.slice(12)
 
+      const contractAddress = packDataBytes(
+        { string: fa2 },
+        { prim: 'address' }
+      ).bytes.slice(12)
+
+      const keyString = `Pair 0x${address} (Pair 0x${contractAddress} ${tokenId})`
+      const key = {
+        seller: edition['@address_2'],
+        sale_token: {
+          token_for_sale_address: fa2,
+          token_for_sale_token_id: tokenId
+        }
+      }
+
+      if (typeof marketSales[keyString] !== 'undefined') {
         sale = key
-        salePrice = value.c[0] / 1000000
+        salePrice = marketSales[keyString] / 1000000
         break
-      } catch (error) {}
+      }
     }
 
     if (sale !== null) {
@@ -705,8 +745,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       noty({
         text: '<i class="fas fa-compact-disc fa-lg fa-spin"></i> Transaction Request Sent. Confirming...<br>Please wait for confirmation! Do not refresh browser...',
         type: 'information',
-        layout: 'topRight',
-        timeout: 20000
+        layout: 'topRight'
       })
 
       const hash = operation.opHash
@@ -715,21 +754,27 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       noty({
         text: 'Please wait for download. Do not refresh browser! This may take a while...',
         type: 'information',
-        layout: 'topRight',
-        timeout: 5000
+        layout: 'topRight'
       })
 
       let filename = editionData.name
       if (audioType === 'audio/mpeg') filename += '.mp3'
       else if (audioType === 'audio/wav') filename += '.wav'
       if (audioUrl.startsWith('ipfs://')) {
-        const audioCID = audioUrl.split('ipfs://')[1]
+        const audioCID = audioUrl.slice(7)
         const downloadLink = '/ipfs/cat.php?cid=' + audioCID
         downloadURL(downloadLink, filename)
       } else {
-        const splitted = audioUrl.split('https://www.radion.fm')
-        const downloadLink = splitted.length > 1 ? splitted[1] : audioUrl
+        const regex = /https:\/\/(www\.)?radion\.fm(\/.+)/
+        const match = audioUrl.match(regex)
+        const downloadLink = match !== null ? match[2] : audioUrl
         downloadURL(downloadLink + '&hash=' + hash, filename)
+      }
+
+      if (enforceContract && loggedIn) {
+        const params = new URLSearchParams()
+        params.append('hash', hash)
+        downloadURL('/php/request_contract.php?' + params.toString(), 'contract.pdf')
       }
 
       // Display SUCCESS
