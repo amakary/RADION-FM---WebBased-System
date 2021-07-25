@@ -765,15 +765,17 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         const downloadLink = '/ipfs/cat.php?cid=' + audioCID
         downloadURL(downloadLink, filename)
       } else {
-        const regex = /https:\/\/(www\.)?radion\.fm(\/.+)/
-        const match = audioUrl.match(regex)
-        const downloadLink = match !== null ? match[2] : audioUrl
-        downloadURL(downloadLink + '&hash=' + hash, filename)
+        const windowURL = new URL(audioUrl)
+        const params = new URLSearchParams(windowURL.search)
+        params.set('hash', hash)
+
+        const downloadLink = windowURL.pathname + '?' + params.toString()
+        downloadURL(downloadLink, filename)
       }
 
       if (enforceContract && loggedIn) {
         const params = new URLSearchParams()
-        params.append('hash', hash)
+        params.set('hash', hash)
         downloadURL('/php/request_contract.php?' + params.toString(), 'contract.pdf')
       }
 
