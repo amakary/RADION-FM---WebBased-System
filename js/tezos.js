@@ -130,7 +130,7 @@ function parseMichelsonMap (michelson, parseBigmap = {}) {
         const includeNone = parseBigmap.includeNone || false
         const url = `https://api.better-call.dev/v1/bigmap/${network}/${michelson.value}/keys`
         const keys = {}
-        const count = await getBigmapCount(michelson.value)
+        const count = await getBigmapCount(michelson.value, network)
 
         for (let x = 0; x < count; x++) {
           const response = await $.get(url, {
