@@ -1219,6 +1219,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $('#mint-terms').text('Exclusive Rights')
   })
 
+  async function isLoggedIn () {
+    return await $.get('/php/isLoggedIn.php') === 'loggedIn'
+  }
+
   async function saveAsset (data, type) {
     const formData = new FormData()
     formData.append('type', type)
