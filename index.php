@@ -1137,9 +1137,9 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   <script src="https://unpkg.com/ipfs@0.54.4/dist/index.min.js"></script>
   <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.7/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.0.1/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.1/dist/taquito-beacon-wallet.umd.js"></script>
-  <script src="https://unpkg.com/@taquito/michel-codec@9.0.1/dist/taquito-michel-codec.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/michel-codec@9.2.0/dist/taquito-michel-codec.umd.js"></script>
   <script src="/js/helpers.js"></script>
   <script src="/js/ipfs.js"></script>
 
