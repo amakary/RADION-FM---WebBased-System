@@ -1855,7 +1855,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const elem = $(editionTemplate).clone(true, true)
     const values = edition['@map_4']
     const numberOfEditions = edition['@nat_8']
-    const cid = values['""'].split('ipfs://')[1]
+    const cid = values['""'].slice(7)
     console.log('Getting edition\'s (ID: ' + eid + ') additional data from IFPS')
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     console.log('IPFS Metadata', editionData)
@@ -1929,9 +1929,9 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     }
 
     const host = audioUrl.startsWith('https://') ? 'RADION Server' : 'IPFS'
-    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.split('ipfs://')[1]
+    const audioDataUrl = audioUrl.startsWith('https://') ? audioUrl : 'https://www.radion.fm:8980/ipfs/' + audioUrl.slice(7)
     console.log('Getting artwork data from ' + artworkUrl + '...')
-    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.split('ipfs://')[1]
+    const artworkDataUrl = artworkUrl.startsWith('https://') ? artworkUrl : 'https://www.radion.fm:8980/ipfs/' + artworkUrl.slice(7)
     const issuer = edition['@address_2'].substr(0, edition['@address_2'].length - 15) + '...'
     $(elem).find('.nft-artwork').attr('src', artworkDataUrl).removeClass('nft-artwork')
     $(elem).find('.nft-artist').text(artist).removeClass('nft-artist')
@@ -1946,7 +1946,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
     if (sales.count === 0) {
       $(elem).find('.nft-sold-out').hide().removeClass('nft-sold-out')
-      $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out')
+      $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out').css('color', '#C0392B')
     }
     else $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions)
     $(elem).find('.nft-editions-avail').removeClass('nft-editions-avail')
@@ -2016,15 +2016,15 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const network = { type: NetworkType.MAINNET, rpcUrl: rpc }
     await wallet.requestPermissions({ network })
 
-    const eid = parseInt($(this).attr('data-buy'))
+    const eid = $(this).attr('data-buy')
     const edition = editions[eid]
     const values = edition['@map_4']
     const numberOfEditions = edition['@nat_8']
-    const cid = values['""'].split('ipfs://')[1]
-    const enforceContract = (values['enforce_contract'] || '') === 'yes'
-    const assetId = values['asset_id'] || ''
-    const date = values['date'] || ''
-    const license = values['legal_contract_type'] || ''
+    const cid = values['""'].slice(7)
+    const enforceContract = (values.enforce_contract || '') === 'yes'
+    const assetId = values.asset_id || ''
+    const date = values.date || ''
+    const license = values.legal_contract_type || ''
     const editionData = await $.getJSON('https://www.radion.fm:8980/ipfs/' + cid)
     const loggedIn = await isLoggedIn()
     let audioUrl = null
@@ -2105,12 +2105,13 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       if (audioType === 'audio/mpeg') filename += '.mp3'
       else if (audioType === 'audio/wav') filename += '.wav'
       if (audioUrl.startsWith('ipfs://')) {
-        const audioCID = audioUrl.split('ipfs://')[1]
+        const audioCID = audioUrl.slice(7)
         const downloadLink = '/ipfs/cat.php?cid=' + audioCID
         downloadURL(downloadLink, filename)
       } else {
-        const splitted = audioUrl.split('https://www.radion.fm')
-        const downloadLink = splitted.length > 1 ? splitted[1] : audioUrl
+        const regex = /https:\/\/(www\.)?radion\.fm(\/.+)/
+        const match = audioUrl.match(regex)
+        const downloadLink = match !== null ? match[2] : audioUrl
         downloadURL(downloadLink + '&hash=' + hash, filename)
       }
 
