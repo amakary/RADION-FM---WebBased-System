@@ -2109,8 +2109,9 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         const downloadLink = '/ipfs/cat.php?cid=' + audioCID
         downloadURL(downloadLink, filename)
       } else {
-        const splitted = audioUrl.split('https://www.radion.fm')
-        const downloadLink = splitted.length > 1 ? splitted[1] : audioUrl
+        const regex = /https:\/\/(www\.)?radion\.fm(\/.+)/
+        const match = audioUrl.match(regex)
+        const downloadLink = match !== null ? match[2] : audioUrl
         downloadURL(downloadLink + '&hash=' + hash, filename)
       }
 
