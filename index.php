@@ -1946,7 +1946,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     $(elem).find('.nft-price-usd').text(priceInUsd).removeClass('nft-price-usd')
     if (sales.count === 0) {
       $(elem).find('.nft-sold-out').hide().removeClass('nft-sold-out')
-      $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out')
+      $(elem).find('.nft-editions-avail').text(numberOfEditions === 1 ? 'Sold' : 'Sold out').css('color', '#C0392B')
     }
     else $(elem).find('.nft-editions-avail').text(sales.count + '/' + numberOfEditions)
     $(elem).find('.nft-editions-avail').removeClass('nft-editions-avail')
