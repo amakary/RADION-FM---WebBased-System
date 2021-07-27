@@ -46,7 +46,7 @@
     <div class="page-content">
       <!-- START PAGE CONTENT HEADER -->
       <div class="page-content-header">
-        <a href="index.php" class="logo"><img src="letsgo.png"></a>
+        <a href="index.php" class="logo"><img src="/img/letsgo.png"></a>
         <div class="pull-right">
           <div class="socials">
             <a href="https://t.me/joinchat/TdHnxqPrcJPK3mZ1" target="blank" rel="nofollow"><span class="fab fa-telegram"></span></a>
@@ -765,12 +765,10 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         const downloadLink = '/ipfs/cat.php?cid=' + audioCID
         downloadURL(downloadLink, filename)
       } else {
-        const windowURL = new URL(audioUrl)
-        const params = new URLSearchParams(windowURL.search)
-        params.set('hash', hash)
-
-        const downloadLink = windowURL.pathname + '?' + params.toString()
-        downloadURL(downloadLink, filename)
+        const regex = /https:\/\/(www\.)?radion\.fm(\/.+)/
+        const match = audioUrl.match(regex)
+        const downloadLink = match !== null ? match[2] : audioUrl
+        downloadURL(downloadLink + '&hash=' + hash, filename)
       }
 
       if (enforceContract && loggedIn) {
