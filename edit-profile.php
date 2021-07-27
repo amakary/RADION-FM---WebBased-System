@@ -6,6 +6,74 @@ require_once 'slpw/slupdateform.php';
 $res = $con->query("SELECT `id` FROM `sitelok` WHERE `Username`='$slusername'");
 $userid = $res->num_rows > 0 ? $res->fetch_object()->id : 0;
 $userhash = md5("$userid$SiteKey");
+
+function sl_2facontrol_switch ($settings = array()) {
+  global $SiteKey, $SitelokLocationURLPath, $sluserid, $slusergroups, $DbExtraUserTableName;
+  $enabletext = isset($settings['enabletext']) ? $settings['enabletext'] : 'Enable 2FA';
+  $disabletext = isset($settings['disabletext']) ? $settings['disabletext'] : 'Disable 2FA';
+  $confirmmsg = isset($settings['confirmmsg']) ? $settings['confirmmsg'] : 'Are you sure?';
+  $processingmsg = isset($settings['processingmsg']) ? $settings['processingmsg'] : 'please wait';
+  $resetkey = isset($settings['resetkey']) ? $settings['resetkey'] : 0;
+  // Get current logintype setting
+  $paramdata['userid'] = $sluserid;
+  $paramdata['usergroups'] = $slusergroups;
+  $logintype = sl_CheckforLogin2($paramdata);
+  $action = 1;
+  $action_text = '';
+  $labeltext = $enabletext;
+
+  if ($logintype == 7) {
+    $action = 0;
+    $action_text = ' checked';
+    $labeltext = $disabletext;
+  }
+
+  $key = mt_rand();
+  $hash = hash('sha256', $SiteKey . $sluserid . $key . $resetkey);
+  $postdata = "userid=$sluserid&key=$key&resetkey=$resetkey&hash=$hash";
+  $html = <<<EOT
+  <label id="sl2facontrol-{$key}" class="switch switch-small">
+    <input id="sl2facontrol-switch-{$key}" type="checkbox"{$action_text}/>
+    <span></span>
+  </label>
+
+  <script>
+  $('#sl2facontrol-switch-{$key}').on('change', async function (event) {
+    event.preventDefault()
+
+    const confirmed = await confirmDialog('{$confirmmsg}')
+    const action = $(this).is(':checked') ? 1 : 0
+
+    if (confirmed) {
+      const enabletext = '{$enabletext}'
+      const disabletext = '{$disabletext}'
+      const url = '{$SitelokLocationURLPath}plugin_2fa/2facontrolajax.php'
+
+      $.ajax(url, {
+        method: 'POST',
+        dataType: 'json',
+        data: '{$postdata}&action=' + action.toString(),
+        success: function (data, status, xhr) {
+          if (data.enabled == 1) {
+            console.log('2FA enabled')
+          } else {
+            console.log('2FA disabled')
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error(error)
+        }
+      })
+    } else {
+      $(this).attr('checked', action === 1 ? null : true)
+    }
+  })
+  </script>
+EOT;
+
+  return $html;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -687,6 +755,18 @@ function slseeifchecked_4(name,idprefix)
 </head>
 
 <body>
+  <div class="modal" id="modal_confirm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width:480px;">
+      <div class="modal-content">
+        <div class="modal-body confirm-message"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger cancel-btn" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary confirm-btn" data-dismiss="modal">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal" id="modal_basic" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" style="width:480px;">
       <div class="modal-content" style="padding:48px;">
@@ -720,7 +800,10 @@ function slseeifchecked_4(name,idprefix)
           </div>
 
           <div class="rw-connect">
-            <h1>Connect Key</h1>
+            <div align="center" style="padding:20px 0px 20px 0px;"><img src="img/logo-dark.png" style="width:90px; height:30px;"></div>
+            <h3 align="center">NATIVE WALLET</h3>
+            <p align="justify" style="padding-bottom:20px;"><small><strong>Important Note</strong>:<br>The native wallet was created to comply with the basic requirements that RADION needs in order to allow interaction
+              with its platform. This feature is limited to specific functions; check balance and/or withdraw funds. Once you get familiar with our system we recommend migrating to another wallet provider.</small></p>
             <form action="#" method="get" id="rw-connect-secret">
               <div class="form-group rw-connect-secret-input">
                 <label for="rw-connect-secret-input">Secret Key / Encrypted Key / Seed Words</label>
@@ -738,7 +821,7 @@ function slseeifchecked_4(name,idprefix)
               </div>
 
               <div class="rw-hidden rw-connect-error"></div>
-              <button type="submit" class="btn btn-default">Connect</button>
+              <button type="submit" class="btn btn-primary">Connect</button>
             </form>
           </div>
         </div>
@@ -810,55 +893,52 @@ function slseeifchecked_4(name,idprefix)
         </li>
 
         <li class="xn-openable">
-          <a href="#">
-            <lord-icon src="https://cdn.lordicon.com//mmspidej.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
-            <span class="xn-text">&nbsp;&nbsp; MUSIC</span>
-          </a>
+        <a href="#">
+          <lord-icon src="https://cdn.lordicon.com//mmspidej.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
+          <span class="xn-text">&nbsp;&nbsp; MUSIC</span>
+        </a>
+        <ul>
+            <li><a href="submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD FILE</span></a></li>
+            <li><a href="mint-NFT-song-track.php"><span class="xn-text"><i class="fad fa-compact-disc fa-lg"></i> &nbsp;&nbsp; CREATE A NFT SONG TRACK</span></a></li>
+        </ul>
+    </li>
 
-          <ul>
-            <li><a href="/submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD MP3 TO STREAM</span></a></li>
-            <li><a href="/mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; MINT NFT MUSIC</span></a></li>
-          </ul>
-        </li>
+    <li class="xn-openable">
+        <a href="#">
+          <lord-icon src="https://cdn.lordicon.com//hciqteio.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
+          <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span>
+        </a>
+        <ul>
+            <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
+            <li><a href="NFT-music-marketplace-tezos.php"><span class="xn-text"><i class="fas fa-album-collection fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE FOR MUSIC</span></a></li>
+        </ul>
+    </li>
 
-        <li class="xn-openable">
-          <a href="#">
-            <lord-icon src="https://cdn.lordicon.com//hciqteio.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
-            <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span>
-          </a>
+    <li class="xn-openable">
+    <a href="#">
+      <lord-icon src="https://cdn.lordicon.com//dizvjgip.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
+      <span class="xn-text">&nbsp;&nbsp; RADION SERVICES</span>
+    </a>
+        <ul>
+          <li><a href="ad-submission.php"><span class="xn-text"><i class="far fa-ad fa-lg"></i>&nbsp;&nbsp; CREATE AD WITH CRYPTO</span></a></li>
+          <li><a href="#"><span class="xn-text"><i class="fal fa-fingerprint fa-lg"></i>&nbsp;&nbsp; ISRC ASSIGNMENT &nbsp;&nbsp;&nbsp;<label class="label label-primary"> SOON</label></span></a></li>
+          <li><a href="#"><span class="xn-text"><i class="fad fa-chart-network fa-lg"></i>&nbsp;&nbsp; MUSIC SYNC LICENSING &nbsp;&nbsp;&nbsp;<label class="label label-primary"> SOON</label></span></a></li>
+        </ul>
+    </li>
 
-          <ul>
-            <li><a href="/marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
-            <li><a href="#"><span class="xn-text"><i class="fad fa-file-certificate fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE &nbsp;&nbsp;&nbsp;<label class="label label-success"> INCOMING</label></span></a></li>
-          </ul>
-        </li>
+<li class="xn-openable">
+<a href="submission.php">
+  <lord-icon src="https://cdn.lordicon.com//zqxcrgvd.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
+  <span class="xn-text">&nbsp;&nbsp; LAB</span>
+</a>
+<ul>
+  <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; MECHANICAL ROYALTIES &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
+  <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; CRYPTO BILLBOARD &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
+</ul>
+    </li>
 
-        <li class="xn-openable">
-          <a href="#">
-            <lord-icon src="https://cdn.lordicon.com//dizvjgip.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
-            <span class="xn-text">&nbsp;&nbsp; RADION SERVICES</span>
-          </a>
-
-          <ul>
-            <li><a href="/ad-submission.php"><span class="xn-text"><i class="fad fa-ad fa-lg"></i>&nbsp;&nbsp; CREATE AD</span></a></li>
-            <li><a href="#"><span class="xn-text"><i class="fal fa-fingerprint fa-lg"></i>&nbsp;&nbsp; ISRC ASSIGNMENT &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
-          </ul>
-        </li>
-
-        <li class="xn-openable">
-          <a href="/submission.php">
-            <lord-icon src="https://cdn.lordicon.com//zqxcrgvd.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
-            <span class="xn-text">&nbsp;&nbsp; LAB</span>
-          </a>
-
-          <ul>
-            <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; MUSIC SYNC LICENSING &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
-            <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; MECHANICAL ROYALTIES &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
-            <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; CRYPTO BILLBOARD CHART &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
-          </ul>
-        </li>
-      </ul>
-      <!-- END X-NAVIGATION -->
+    </ul>
+    <!-- END X-NAVIGATION -->
     </div>
     <!-- END PAGE SIDEBAR -->
 
@@ -912,6 +992,22 @@ function slseeifchecked_4(name,idprefix)
         <br>
         <!-- START WIDGETS -->
         <div class="row">
+
+          <div class="col-md-3">
+            <!-- START WIDGET MESSAGES -->
+            <div class="widget widget-primary widget-item-icon">
+              <div class="widget-item-left">
+                <img src="img/ON-logo.png" style="height:40px; width:40px;">
+              </div>
+              <div class="widget-data">
+                <div class="widget-int num-count">TOKEN</div>
+                <div class="widget-title">BALANCE</div>
+                <div class="widget-subtitle radio-balance" style="color:#F39C12;">0 RADIO</div>
+              </div>
+            </div>
+            <!-- END WIDGET MESSAGES -->
+          </div>
+
           <div class="col-md-3">
             <!-- START WIDGET MESSAGES -->
             <div class="widget widget-primary widget-item-icon">
@@ -925,22 +1021,7 @@ function slseeifchecked_4(name,idprefix)
               <div class="widget-data">
                 <div class="widget-int num-count">XTZ</div>
                 <div class="widget-title">BALANCE</div>
-                <div class="widget-subtitle" style="color:#F39C12;"><span class="xtz-balance"></span> &#42793;</div>
-              </div>
-            </div>
-            <!-- END WIDGET MESSAGES -->
-          </div>
-
-          <div class="col-md-3">
-            <!-- START WIDGET MESSAGES -->
-            <div class="widget widget-primary widget-item-icon">
-              <div class="widget-item-left">
-                <i class="fad fa-sack-dollar fa-3x"></i>
-              </div>
-              <div class="widget-data">
-                <div class="widget-int num-count">USD</div>
-                <div class="widget-title">BALANCE</div>
-                <div class="widget-subtitle" style="color:#F39C12;"><i class="fas fa-dollar-sign"></i> <span class="usd-balance"></span></div>
+                <div class="widget-subtitle" style="color:#F39C12;"><span class="xtz-balance">0</span> &#42793;</div>
               </div>
             </div>
             <!-- END WIDGET MESSAGES -->
@@ -980,14 +1061,17 @@ function slseeifchecked_4(name,idprefix)
               </div>
               <div class="widget-buttons widget-c3">
                 <div align="left" style="margin-top:0px; padding-left:15px;">
-                  <a href="#" class="widget-control-right connect-wallet connect-wallet-text-connected" style="font-size:13px; text-decoration:none; color:#F39C12; display:none;"><i class="fad fa-wallet"></i> DISCONNECT WALLET</a>
-                  <a href="#" class="widget-control-right connect-wallet connect-wallet-text-connect" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-wallet"></i> CONNECT BEACON WALLET</a>
+                  <a href="#" class="widget-control-right connect-wallet connect-wallet-text-connected" style="font-size:13px; text-decoration:none; color:#F39C12; display:none;"><i class="fad fa-wallet"></i> Disconnect Wallet</a>
+                  <a href="#" class="widget-control-right connect-wallet connect-wallet-text-connect" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-wallet"></i> Connect Wallet</a>
                   <span class="connect-wallet-text-connect" style="padding-right:3px; padding-left:3px;">|</span>
-                  <a href="#modal_basic" data-toggle="modal" class="connect-wallet-text-connect" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-wallet"></i> CONNECT RADION WALLET</a>
+                  <a href="#modal_basic" data-toggle="modal" class="connect-wallet-text-connect" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-wallet"></i> Connect Native Wallet</a>
+
                   <span class="connect-wallet-text-connected" style="padding-right:3px; padding-left:3px; display:none;">|</span>
-                  <a href="#modal_small" data-toggle="modal" class="connect-wallet-text-connected" style="font-size:13px; text-decoration:none; color:#F39C12; display:none;"><i class="fad fa-qrcode"></i> RECEIVE</a>
+                  <a href="#modal_small" data-toggle="modal" class="connect-wallet-text-connected" style="font-size:13px; text-decoration:none; color:#F39C12; display:none;"><i class="fad fa-qrcode"></i> Receive</a>
                   <span class="connect-wallet-text-connected-radion" style="padding-right:3px; padding-left:3px; display:none;">|</span>
-                  <a id="sidebar-toggler" href="#" class="sidebar-toggle connect-wallet-text-connected-radion" style="font-size:13px; text-decoration:none; color:#F39C12; display:none;"><i class="fad fa-paper-plane"></i> WITHDRAW</a>
+                  <a id="sidebar-toggler" href="#" class="sidebar-toggle connect-wallet-text-connected-radion" style="font-size:13px; text-decoration:none; color:#F39C12; display:none;"><i class="fad fa-paper-plane"></i> Withdraw</a>
+                  <span style="padding-right:3px; padding-left:3px;">|</span>
+                  <span style="color:#797D7F;">USD Balance <i class="fas fa-dollar-sign"></i> <span class="usd-balance">0</span></span>
                 </div>
               </div>
             </div>
@@ -1019,7 +1103,7 @@ function slseeifchecked_4(name,idprefix)
                     </div>
 
                     <div id="slfielddiv_4_1" class="sltextfield_4" style="padding-bottom:5px;">
-                      <label for="slfieldinput_4_1">User Name</label>
+                      <label for="slfieldinput_4_1">Legal Name</label>
                       <input type="text" class="form-control" name="newusername" id="slfieldinput_4_1" autocorrect="off" autocapitalize="off" spellcheck="off" autocomplete="off" maxlength="100" value="<?= $newusername ?>">
                       <div id="slmsg_4_1" class="slmsg_4" aria-live="polite"></div>
                     </div>
@@ -1029,6 +1113,8 @@ function slseeifchecked_4(name,idprefix)
                       <input type="text" class="form-control" name="newcustom3" id="slfieldinput_4_2" placeholder="00/00/0000" maxlength="255" value="<?= $newcustom3 ?>">
                       <div id="slmsg_4_2" class="slmsg_4" aria-live="polite"></div>
                     </div>
+
+
 
                     <div id="slfielddiv_4_3" class="sltextfield_4" style="padding-bottom:5px;">
                       <label for="slfieldinput_4_3">Phone Number</label>
@@ -1111,8 +1197,9 @@ function slseeifchecked_4(name,idprefix)
                     <div style="padding-left:50px; padding-right:50px;" align="justify"><?= $newcustom7 ?></div>
                   </blockquote>
 
-                  <div class="col-md-12"><div class="col-md-3"><strong>Name:</strong></div><div class="col-md-9"><?= $slname ?></div></div>
+                  <div class="col-md-12"><div class="col-md-3"><strong>Legal Name:</strong></div><div class="col-md-9"><?= $slname ?></div></div>
                   <div class="col-md-12"><div class="col-md-3"><strong>DOB:</strong></div><div class="col-md-9"><?= $slcustom3 ?></div></div>
+                  <div class="col-md-12"><div class="col-md-3"><strong>Address:</strong></div><div class="col-md-9"><?= $slcustom9 ?></div></div>
                   <div class="col-md-12"><div class="col-md-3"><strong>Phone Number:</strong></div><div class="col-md-9"><?= $slcustom4 ?></div></div>
                   <div class="col-md-12"><div class="col-md-3"><strong>Email:</strong></div><div class="col-md-9"><?= $slemail ?></div></div>
                   <div class="col-md-12"><div class="col-md-3"><strong>Account Wallet:</strong></div><div id="user-address" class="col-md-9 text-info"><?= $slcustom6 ?></div></div>
@@ -1120,12 +1207,14 @@ function slseeifchecked_4(name,idprefix)
               </form>
 
               <div style="padding:20px;">
-                <h3>Sync</h3>
+                <h3>2FA</h3>
+
+                <div class="col-md-6">
+                  <?php if (function_exists("sl_2facontrol_switch")) echo sl_2facontrol_switch(array("enabletext"=>"Enable 2FA","disabletext"=>"Disable 2FA","confirmmsg"=>"Are you sure?","processingmsg"=>"please wait","resetkey"=>"0")); ?>
+                </div>
               </div>
 
               <div class="col-md-12"><div class="col-md-3"><strong>Sync:</strong></div><div class="col-md-9" id="source-address">tz1</div></div>
-
-
             </div>
             <!-- END DEFAULT PANEL -->
           </div>
@@ -1323,13 +1412,17 @@ function slseeifchecked_4(name,idprefix)
 
     const userAddress = $('#user-address').text()
     const balance = totalBalance / 1000000
-    const usdRate = $('.tezos-price-usd').text()
-    const usdBalance = (parseFloat(usdRate) * balance).toFixed(2)
+    const usdBalance = (balance * parseFloat(window.priceUsd)).toFixed(2)
+    const radioBalanceURL = 'https://api.better-call.dev/v1/account/florencenet/' + pkh + '/token_balances?contract=KT1XLDJzzgSAb6HMXAKoFTxEQ3zMA7HGgU91'
+    const radio = await $.getJSON(radioBalanceURL)
+    const radioBal = radio.balances[0]
+    const radioBalance = typeof radioBal !== 'undefined' ? parseInt(radioBal.balance) / (10 ** radioBal.decimals) : 0
 
     new QRCode($('.address-qrcode')[0], pkh)
     $('.source-address').text(pkh)
     $('.xtz-balance').text(balance)
     $('.usd-balance').text(usdBalance)
+    $('.radio-balance').text(radioBalance + ' RADIO')
     $('.connect-wallet-text-connect').hide()
     $('.connect-wallet-text-connected').show()
     $('.connect-wallet-text-connected-radion').show()
@@ -1348,8 +1441,9 @@ function slseeifchecked_4(name,idprefix)
     connected = false
     $('.address-qrcode').empty()
     $('.source-address').empty()
-    $('.xtz-balance').empty()
-    $('.usd-balance').empty()
+    $('.xtz-balance').text('0')
+    $('.usd-balance').text('0')
+    $('.radio-balance').text('0 RADIO')
     $('#wallet-radioff').show()
     $('#wallet-radion').hide()
     $('.connect-wallet-text-connect').show()
@@ -1510,14 +1604,17 @@ function slseeifchecked_4(name,idprefix)
     $('#send-decline').attr('disabled', true)
   })
 
-  $('.connect-wallet').click(async function () {
+  $('.connect-wallet').click(async function (event) {
+    event.preventDefault()
+
     if (connected) {
       await wallet.clearActiveAccount()
       $('.rw-manage-remove').click()
       $('.address-qrcode').empty()
       $('.source-address').empty()
-      $('.xtz-balance').empty()
-      $('.usd-balance').empty()
+      $('.xtz-balance').text('0')
+      $('.usd-balance').text('0')
+      $('.radio-balance').text('0 RADIO')
       $('#wallet-radioff').show()
       $('#wallet-radion').hide()
       $('.connect-wallet-text-connect').show()
@@ -1534,14 +1631,19 @@ function slseeifchecked_4(name,idprefix)
     const walletAddress = await wallet.getPKH()
     const balanceMutez = await tezos.tz.getBalance(walletAddress)
     const balance = balanceMutez / 1000000
-    const usdRate = $('.tezos-price-usd').text()
-    const usdBalance = (parseFloat(usdRate) * balance).toFixed(2)
+    const usdBalance = (balance * parseFloat(window.priceUsd)).toFixed(2)
+    const radioBalanceURL = 'https://api.better-call.dev/v1/account/florencenet/' + walletAddress + '/token_balances?contract=KT1XLDJzzgSAb6HMXAKoFTxEQ3zMA7HGgU91'
+    const radio = await $.getJSON(radioBalanceURL)
+    const radioBal = radio.balances[0]
+    const radioBalance = typeof radioBal !== 'undefined' ? parseInt(radioBal.balance) / (10 ** radioBal.decimals) : 0
     connected = true
 
+    $('.address-qrcode').empty()
     new QRCode($('.address-qrcode')[0], walletAddress)
     $('.source-address').text(walletAddress)
     $('.xtz-balance').text(balance)
     $('.usd-balance').text(usdBalance)
+    $('.radio-balance').text(radioBalance + ' RADIO')
     $('.connect-wallet-text-connect').hide()
     $('.connect-wallet-text-connected').show()
     $('.connect-wallet-text-connected-radion').hide()
@@ -1554,6 +1656,22 @@ function slseeifchecked_4(name,idprefix)
       $('#wallet-radion').show()
     }
   })
+
+  function confirmDialog (message) {
+    return new Promise((resolve, reject) => {
+      $('#modal_confirm').modal('show')
+      $('#modal_confirm').find('.confirm-message').html(message)
+      $('#modal_confirm .confirm-btn').off('click').on('click', function (event) {
+        event.preventDefault()
+        resolve(true)
+      })
+
+      $('#modal_confirm .cancel-btn').off('click').on('click', function (event) {
+        event.preventDefault()
+        resolve(false)
+      })
+    })
+  }
   </script>
 </body>
 </html>
