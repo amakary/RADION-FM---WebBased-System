@@ -1018,8 +1018,8 @@ on_link='<a href='+result[3]+' target="_blank" style="text-decoration:none" rel=
 
   <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.3/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@8.1.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@8.1.0/dist/taquito-beacon-wallet.umd.js"></script>
 	<script>
   const { TezosToolkit } = taquito
   const { BeaconWallet } = taquitoBeaconWallet
