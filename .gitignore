@@ -1,6 +1,7 @@
 music/
 php/ranking_cache.json
 slbackups_mlicqx83sq/
+slpw/
 stored/*
 !stored/index.php
 tezos/
