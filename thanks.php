@@ -1,9 +1,9 @@
 <?php
 
 $groupswithaccess = 'PUBLIC,ALL';
-require_once '/slpw/sitelokpw.php';
+require_once 'slpw/sitelokpw.php';
 
-header('refresh: 6; url=index.php');
+header('refresh: 6; url=login.php');
 
 ?>
 <!DOCTYPE html>

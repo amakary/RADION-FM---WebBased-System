@@ -1,6 +1,6 @@
 <?php
 
-require_once './php/utils.php';
+require_once 'php/utils.php';
 
 $cached_data = file_get_contents('./tezos/tezos.json');
 $cached = json_decode($cached_data);

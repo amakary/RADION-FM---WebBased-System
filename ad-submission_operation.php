@@ -1,6 +1,6 @@
 <?php
 
-require_once '/slpw/sitelokpw.php';
+require_once 'slpw/sitelokpw.php';
 
 $title = $con->real_escape_string($_POST['title']);
 $website = $con->real_escape_string($_POST['website']);

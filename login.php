@@ -1,13 +1,14 @@
 <?php
-require_once("/slpw/slloginform.php");
+
 $groupswithaccess="FOUNDER,PUBLIC,RADIONER,CEO";
 $loginpage=$slpagename;
 $logoutpage=$slpagename;
 $loginredirect=2;
-require_once("/slpw/sitelokpw.php");
+
+require_once 'slpw/slloginform.php';
+require_once 'slpw/sitelokpw.php';
+
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en" class="body-full-height">
     <head>
@@ -81,8 +82,8 @@ function slvalidateform_11(form)
           window.location=data.redirect;
           return(false);
         }
-        else  
-        {  
+        else
+        {
           if (!Date.now) {
             Date.now = function() { return new Date().getTime(); };
           };
@@ -104,7 +105,7 @@ function slvalidateform_11(form)
     if (slfrmact=="")
       slfrmact=window.location.href;
     document.getElementById('myButton_11').disabled=true;
-    document.getElementById('slspinner_11').style['display']="block";    
+    document.getElementById('slspinner_11').style['display']="block";
     xhttp.open("POST", slfrmact, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(formData);
@@ -123,7 +124,7 @@ function forgotpw_11()
     username.focus();
     return(false);
   }
-  var forgotpassword=document.getElementById('forgotpassword_11');	
+  var forgotpassword=document.getElementById('forgotpassword_11');
   forgotpassword.value="forgotten-it";
   var form=document.getElementById('siteloklogin_11');
   loginmessage.innerHTML='';
@@ -143,12 +144,12 @@ function forgotpw_11()
         var data = JSON.parse(xhttp.responseText);
         if (data.success)
         {
-          forgotpassword.value="";          
+          forgotpassword.value="";
           window.location=data.redirect;
           return(false);
         }
-        else  
-        {  
+        else
+        {
           if (!Date.now) {
             Date.now = function() { return new Date().getTime(); };
           };
@@ -171,13 +172,13 @@ function forgotpw_11()
     if (slfrmact=="")
       slfrmact=window.location.href;
     document.getElementById('myButton_11').disabled=true;
-    document.getElementById('slspinner_11').style['display']="block";    
+    document.getElementById('slspinner_11').style['display']="block";
     xhttp.open("POST", slfrmact, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(formData);
     return(false);
   }
-  form.submit(); 
+  form.submit();
   return(true);
 }
 
@@ -212,12 +213,12 @@ function sl_serialize(form)
      case 'radio':
        if (form.elements[i].checked) {
          q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-       }           
+       }
        break;
      case 'file':
        break;
      }
-     break;       
+     break;
    case 'TEXTAREA':
      q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
      break;
@@ -338,15 +339,16 @@ for (i = 0; i < timg.length; i++)
 </svg></div></div>
 
                 </div>
-                <div class="login-footer">
-                    <div class="pull-left">
-                        &copy; 2018 - 2021 RADION FM.
-                    </div>
-                    <div class="pull-right">
 
-                        <a href="privacy-policy.php">Privacy Policy</a> |
-                        <a href="terms-of-use.php">Terms of Use</a>
-                    </div>
+            </div>
+            <div class="login-footer">
+                <div class="pull-left">
+                    &copy; 2018 - 2021 RADION FM.
+                </div>
+                <div class="pull-right">
+
+                    <a href="privacy-policy.php">Privacy Policy</a> |
+                    <a href="terms-of-use.php">Terms of Use</a>
                 </div>
             </div>
 

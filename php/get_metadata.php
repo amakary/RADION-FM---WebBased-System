@@ -6,8 +6,8 @@
 
 session_start();
 
-require_once './db.php';
-require_once './music_info_get.php';
+require_once 'db.php';
+require_once 'music_info_get.php';
 
 $sid = isset($_GET['sid']) ? $_GET['sid'] : '1';
 $SiteKey = $_SESSION['ses_SiteKey'];

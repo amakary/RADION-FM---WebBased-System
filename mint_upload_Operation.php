@@ -5,11 +5,11 @@ error_reporting(E_ALL);
 
 $groupswithaccess = 'RADIONER,CEO,FOUNDER';
 
-require_once '/slpw/sitelokpw.php';
-require_once '/slpw/slconfig.php';
+require_once 'slpw/sitelokpw.php';
+require_once 'slpw/slconfig.php';
 
-require_once '/getID3/getid3/getid3.php';
-require_once '/getID3/getid3/write.php';
+require_once 'getID3/getid3/getid3.php';
+require_once 'getID3/getid3/write.php';
 
 date_default_timezone_set('US/Eastern');
 

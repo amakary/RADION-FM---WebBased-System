@@ -2,10 +2,10 @@
 
 $groupswithaccess = 'RADIONER,CEO,FOUNDER';
 
-require_once '/slpw/sitelokpw.php';
-require_once '/getID3/getid3/getid3.php';
-require_once '/getID3/getid3/write.php';
-require_once '/php/music_info_get.php';
+require_once 'slpw/sitelokpw.php';
+require_once 'getID3/getid3/getid3.php';
+require_once 'getID3/getid3/write.php';
+require_once 'php/music_info_get.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $id = isset($_POST['id']) ? $_POST['id'] : null;

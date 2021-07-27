@@ -1,7 +1,7 @@
 <?php
 
-require_once './default.php';
-require_once './db.php';
+require_once 'default.php';
+require_once 'db.php';
 
 $username = isset($_GET['username']) ? $_GET['username'] : null;
 if ($username === null) {

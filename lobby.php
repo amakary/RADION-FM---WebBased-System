@@ -1,7 +1,7 @@
 <?php
- $groupswithaccess="RADIONER,CEO,FOUNDER";
-require_once("/slpw/sitelokpw.php");
- require_once "slpw/slconfig.php";
+$groupswithaccess="RADIONER,CEO,FOUNDER";
+require_once "slpw/sitelokpw.php";
+require_once "slpw/slconfig.php";
 ?>
 
 <!DOCTYPE html>
@@ -63,63 +63,53 @@ require_once("/slpw/sitelokpw.php");
 
         </div>
     </li>
-        <li class="xn-openable" data-step="4" data-intro="As you can see there are different option in the the main menu, each one of these options will take you to a different page with features." data-position="right">
-        <a href="#"><lord-icon
-src="https://cdn.lordicon.com//mmspidej.json"
-trigger="click" target="a"
-colors="primary:#ffffff,secondary:#F39C12"
-style="width:45px;height:45px">
-</lord-icon><span class="xn-text">&nbsp;&nbsp; MUSIC</span></a>
-<ul>
-            <li><a href="submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD MP3 TO STREAM</span></a></li>
-            <li><a href="mint.php"><span class="xn-text"><i class="fas fa-award fa-lg"></i> &nbsp;&nbsp; NFT FOR EXCLUSIVE RIGHTS</span></a></li>
-            <li><a href="mint-2.php"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i> &nbsp;&nbsp; MINT NFT TO SELL YOUR MUSIC</span></a></li>
-        </ul>
-    </li>
-
     <li class="xn-openable">
-        <a href="#"><lord-icon
-src="https://cdn.lordicon.com//hciqteio.json"
-trigger="click" target="a"
-colors="primary:#ffffff,secondary:#F39C12"
-style="width:45px;height:45px">
-</lord-icon> <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span></a>
-<ul>
-            <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
-            <li><a href="NFT-music-marketplace-tezos.php"><span class="xn-text"><i class="fas fa-album-collection fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE FOR MUSIC</span></a></li>
-        </ul>
-    </li>
-
-    <li class="xn-openable">
-        <a href="#"><lord-icon
-src="https://cdn.lordicon.com//dizvjgip.json"
-trigger="click" target="a"
-colors="primary:#ffffff,secondary:#F39C12"
-style="width:45px;height:45px">
-</lord-icon> <span class="xn-text">&nbsp;&nbsp; RADION SERVICES</span></a>
-        <ul>
-<li><a href="ad-submission.php"><span class="xn-text"><i class="fad fa-ad fa-lg"></i>&nbsp;&nbsp; CREATE AD</span></a></li>
-<li><a href="#"><span class="xn-text"><i class="fal fa-fingerprint fa-lg"></i>&nbsp;&nbsp; ISRC ASSIGNMENT &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
-
-        </ul>
-    </li>
-
-<li class="xn-openable" data-step="7" data-intro="This is the lab tab. Here you can see what we are doing and testing along with the status of it." data-position="left">
-        <a href="submission.php"><lord-icon
-src="https://cdn.lordicon.com//zqxcrgvd.json"
-trigger="click" target="a"
-colors="primary:#ffffff,secondary:#F39C12"
-style="width:45px;height:45px">
-</lord-icon> <span class="xn-text">&nbsp;&nbsp; LAB</span></a>
-        <ul>
-            <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; MUSIC SYNC LICENSING &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
-            <li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; MECHANICAL ROYALTIES &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
-<li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; CRYPTO BILLBOARD CHART &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
-</ul>
-    </li>
-
+    <a href="#">
+      <lord-icon src="https://cdn.lordicon.com//mmspidej.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
+      <span class="xn-text">&nbsp;&nbsp; MUSIC</span>
+    </a>
+    <ul>
+        <li><a href="submission.php"><span class="xn-text"><i class="fad fa-upload fa-lg"></i>&nbsp;&nbsp; UPLOAD FILE</span></a></li>
+        <li><a href="mint-NFT-song-track.php"><span class="xn-text"><i class="fad fa-compact-disc fa-lg"></i> &nbsp;&nbsp; CREATE A NFT SONG TRACK</span></a></li>
     </ul>
-    <!-- END X-NAVIGATION -->
+</li>
+
+<li class="xn-openable">
+    <a href="#">
+      <lord-icon src="https://cdn.lordicon.com//hciqteio.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
+      <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span>
+    </a>
+    <ul>
+        <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
+        <li><a href="NFT-music-marketplace-tezos.php"><span class="xn-text"><i class="fas fa-album-collection fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE FOR MUSIC</span></a></li>
+    </ul>
+</li>
+
+<li class="xn-openable">
+<a href="#">
+  <lord-icon src="https://cdn.lordicon.com//dizvjgip.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
+  <span class="xn-text">&nbsp;&nbsp; RADION SERVICES</span>
+</a>
+    <ul>
+      <li><a href="ad-submission.php"><span class="xn-text"><i class="far fa-ad fa-lg"></i>&nbsp;&nbsp; CREATE AD WITH CRYPTO</span></a></li>
+      <li><a href="#"><span class="xn-text"><i class="fal fa-fingerprint fa-lg"></i>&nbsp;&nbsp; ISRC ASSIGNMENT &nbsp;&nbsp;&nbsp;<label class="label label-primary"> SOON</label></span></a></li>
+      <li><a href="#"><span class="xn-text"><i class="fad fa-chart-network fa-lg"></i>&nbsp;&nbsp; MUSIC SYNC LICENSING &nbsp;&nbsp;&nbsp;<label class="label label-primary"> SOON</label></span></a></li>
+    </ul>
+</li>
+
+<li class="xn-openable">
+<a href="submission.php">
+<lord-icon src="https://cdn.lordicon.com//zqxcrgvd.json" trigger="click" target="a" colors="primary:#ffffff,secondary:#F39C12" style="width:45px;height:45px"></lord-icon>
+<span class="xn-text">&nbsp;&nbsp; LAB</span>
+</a>
+<ul>
+<li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; MECHANICAL ROYALTIES &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
+<li><a href="#"><span class="xn-text"><i class="fad fa-sack-dollar fa-lg"></i>&nbsp;&nbsp; CRYPTO BILLBOARD &nbsp;&nbsp;&nbsp;<label class="label label-warning"> IN PROGRESS</label></span></a></li>
+</ul>
+</li>
+
+</ul>
+<!-- END X-NAVIGATION -->
 </div>
 <!-- END PAGE SIDEBAR -->
 
@@ -400,7 +390,7 @@ data-step="1" data-intro="" data-position="right"
 					<!-- START WIZARD WITH VALIDATION -->
                             <div>
 
-							<div style="color:#33414E; width:50px; height:50px; margin-left:42%; margin-top:20px; margin-bottom:-20px;">
+							<div style="color:#33414E; width:50px; height:50px; margin-left:32%; margin-top:20px; margin-bottom:-20px;">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
 <path style="fill:#2c84f7;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
@@ -416,9 +406,10 @@ data-step="1" data-intro="" data-position="right"
  0 3.702.557 5.88 1.67 2.202 1.089 3.896 2.59 5.081 4.5 1.186 1.888 1.948 3.703 2.287 5.445.363 1.743.545 3.291.545
  4.646 0 3.098-.654 5.977-1.96 8.64-1.307 2.661-3.291 4.645-5.953 5.952-2.662 1.307-5.542 1.96-8.639 1.96z"></path>
 </svg></div>
+<div align="center" style="margin-top:-55px;"><span><i style="color:#fff; padding-right:10px; padding-top:10px;" class="fas fa-exchange-alt fa-3x"></i></span> <span><img src="img/ON-logo.png" style="height:48px; width:48px;"></span></div>
 
                                 <div class="panel-body">
-                                    <h3 align="center" style="padding:20px; color:#fff;">BUY TEZOS WITH CREDIT CARD</h3>
+                                    <h3 align="center" style="padding:20px; color:#fff;">SWAP XTZ FOR RADIO</h3>
                                     <form action="javascript:alert('Validated!');" role="form" class="form-horizontal" id="wizard-validation">
                                     <div class="wizard show-submit wizard-validation">
                                         <ul>

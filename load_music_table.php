@@ -2,10 +2,10 @@
 
 $groupswithaccess = 'ALL,PUBLIC,RADIONER,CEO,FOUNDER';
 
-require_once '/slpw/sitelokpw.php';
-require_once '/slpw/slconfig.php';
+require_once 'slpw/sitelokpw.php';
+require_once 'slpw/slconfig.php';
 
-require_once '/php/music_info_get.php';
+require_once 'php/music_info_get.php';
 
 // Tab ID => Genre Name
 $genres = [

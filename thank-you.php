@@ -1,7 +1,7 @@
 <?php
 
 $groupswithaccess = 'RADIONER,CEO,FOUNDER';
-require_once '/slpw/sitelokpw.php';
+require_once 'slpw/sitelokpw.php';
 
 ?>
 <!DOCTYPE html>

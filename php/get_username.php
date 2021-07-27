@@ -1,7 +1,7 @@
 <?php
 
-require_once './default.php';
-require_once './db.php';
+require_once 'default.php';
+require_once 'db.php';
 
 $uid = isset($_GET['uid']) ? $_GET['uid'] : null;
 if ($uid === null) {

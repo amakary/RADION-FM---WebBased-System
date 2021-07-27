@@ -3,8 +3,8 @@
 session_start();
 
 require_once '../getID3/getid3/getid3.php';
-require_once './db.php';
-require_once './music_info_get.php';
+require_once 'db.php';
+require_once 'music_info_get.php';
 
 $id = !empty($_GET['id']) ? $_GET['id'] : null;
 if ($id === null) {
