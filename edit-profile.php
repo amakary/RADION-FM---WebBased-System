@@ -1205,16 +1205,20 @@ function slseeifchecked_4(name,idprefix)
                   <div class="col-md-12"><div class="col-md-3"><strong>Account Wallet:</strong></div><div id="user-address" class="col-md-9 text-info"><?= $slcustom6 ?></div></div>
                 </div>
               </form>
-
-              <div style="padding:20px;">
-                <h3>2FA</h3>
-
-                <div class="col-md-6">
-                  <?php if (function_exists("sl_2facontrol_switch")) echo sl_2facontrol_switch(array("enabletext"=>"Enable 2FA","disabletext"=>"Disable 2FA","confirmmsg"=>"Are you sure?","processingmsg"=>"please wait","resetkey"=>"0")); ?>
-                </div>
+              <hr>
+              <div style="padding:20px 0px 30px 0px;">
+                <h3>SETTINGS</h3>
+                <div class="col-md-12"><small>For better security we recommend you to have a strong password and your 2FA activated.</small></div>
               </div>
+              <hr>
 
-              <div class="col-md-12"><div class="col-md-3"><strong>Sync:</strong></div><div class="col-md-9" id="source-address">tz1</div></div>
+              <div class="col-md-12">
+                <div class="col-md-2">
+                  <strong>2FA</strong>
+                </div>
+                <div class="col-md-9" style="margin-top:-10px;"><?php if (function_exists("sl_2facontrol_switch")) echo sl_2facontrol_switch(array("enabletext"=>"Enable 2FA","disabletext"=>"Disable 2FA","confirmmsg"=>"Are you sure?","processingmsg"=>"please wait","resetkey"=>"0")); ?>
+              </div>
+              </div>
             </div>
             <!-- END DEFAULT PANEL -->
           </div>
