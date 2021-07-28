@@ -52,6 +52,7 @@ $response['success'] = $success;
 if ($success) {
   $response['message'] = 'Success';
   $response['url'] = "https://radion.fm/stored/index.php?id=$id";
+  $response['id'] = $id;
 } else {
   http_response_code(500);
   $response['message'] = 'Unable to store file';
