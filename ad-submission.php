@@ -1233,9 +1233,8 @@ require_once 'slpw/sitelokpw.php';
     })
 
     const hash = operation.opHash
-    const tezosOp = tezos.operation.createTransactionOperation(hash)
-    const result = await tezosOp.confirmation(1)
-    if (result) {
+    const result = await operation.confirmation(1)
+    if (result.completed) {
       Swal.fire({
         icon: 'success',
         title: 'SUCCESS',
