@@ -1013,10 +1013,10 @@ Exclusive Rights: No<br></small></p>
   <script src="/js/plugins/bootstrap/bootstrap.min.js"></script>
   <script src="/js/all.min.js"></script>
   <script src="/js/plugins/dropzone/dropzone.min.js"></script>
-  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.7/dist/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.0.1/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.1/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
   <!-- END PLUGINS -->
 
   <!-- START THIS PAGE PLUGINS-->

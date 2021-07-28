@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="css/theme-dark.css" id="theme">
   <script src="https://cdn.lordicon.com//libs/frhvbuzj/lord-icon-2.0.2.js"></script>
   <script src="https://unpkg.com/ipfs@0.54.4/dist/index.min.js"></script>
-  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.7/dist/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
   <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
   <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>

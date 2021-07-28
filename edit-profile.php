@@ -1382,10 +1382,10 @@ function slseeifchecked_4(name,idprefix)
   <script src="/js/demo_edit_profile.js"></script>
   <!-- END TEMPLATE -->
 
-  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.8/dist/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.1.0/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.1.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
   <script src="/js/tezos.js"></script>
 
   <script>

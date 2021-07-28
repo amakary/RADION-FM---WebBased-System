@@ -247,7 +247,7 @@ require_once 'slpw/slregisterform.php';
     }
   </style>
 
-  <script src="/js/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>
   const { DAppClient } = beacon
   const { KeyStoreUtils } = conseiljssoftsigner

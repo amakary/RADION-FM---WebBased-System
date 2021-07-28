@@ -846,7 +846,7 @@ require_once 'slpw/sitelokpw.php';
   <script src="/js/demo_dashboard.js"></script>
   <!-- END TEMPLATE -->
 
-  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.3/dist/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
   <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
   <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
