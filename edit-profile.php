@@ -11,7 +11,8 @@ function sl_2facontrol_switch ($settings = array()) {
   global $SiteKey, $SitelokLocationURLPath, $sluserid, $slusergroups, $DbExtraUserTableName;
   $enabletext = isset($settings['enabletext']) ? $settings['enabletext'] : 'Enable 2FA';
   $disabletext = isset($settings['disabletext']) ? $settings['disabletext'] : 'Disable 2FA';
-  $confirmmsg = isset($settings['confirmmsg']) ? $settings['confirmmsg'] : 'Are you sure?';
+  $confirmdisablemsg = isset($settings['confirmdisablemsg']) ? $settings['confirmdisablemsg'] : 'Are you sure?';
+  $confirmenablemsg = isset($settings['confirmenablemsg']) ? $settings['confirmenablemsg'] : 'Are you sure?';
   $processingmsg = isset($settings['processingmsg']) ? $settings['processingmsg'] : 'please wait';
   $resetkey = isset($settings['resetkey']) ? $settings['resetkey'] : 0;
   // Get current logintype setting
@@ -41,8 +42,10 @@ function sl_2facontrol_switch ($settings = array()) {
   $('#sl2facontrol-switch-{$key}').on('change', async function (event) {
     event.preventDefault()
 
-    const confirmed = await confirmDialog('{$confirmmsg}')
-    const action = $(this).is(':checked') ? 1 : 0
+    const disableConfirm = '{$confirmdisablemsg}'
+    const enableConfirm = '{$confirmenablemsg}'
+    const action = $(this).prop('checked') ? 1 : 0
+    const confirmed = await confirmDialog(action === 0 ? disableConfirm : enableConfirm)
 
     if (confirmed) {
       const enabletext = '{$enabletext}'
@@ -65,7 +68,7 @@ function sl_2facontrol_switch ($settings = array()) {
         }
       })
     } else {
-      $(this).attr('checked', action === 1 ? null : true)
+      $(this).prop('checked', action === 0 ? true : false)
     }
   })
   </script>
@@ -1216,7 +1219,8 @@ function slseeifchecked_4(name,idprefix)
                 <div class="col-md-2">
                   <strong>2FA</strong>
                 </div>
-                <div class="col-md-9" style="margin-top:-10px;"><?php if (function_exists("sl_2facontrol_switch")) echo sl_2facontrol_switch(array("enabletext"=>"Enable 2FA","disabletext"=>"Disable 2FA","confirmmsg"=>"Are you sure?","processingmsg"=>"please wait","resetkey"=>"0")); ?>
+                <div class="col-md-9" style="margin-top:-7px;">
+                  <?php if (function_exists("sl_2facontrol_switch")) echo sl_2facontrol_switch(array("enabletext"=>"Enable 2FA","disabletext"=>"Disable 2FA","confirmdisablemsg"=>"<h3>2FA Settings</h3><br>Are you sure you want to disable you 2FA?","confirmenablemsg"=>"<h3>2FA Settings</h3><br>Are you sure you want to enable you 2FA?","processingmsg"=>"please wait","resetkey"=>"0")); ?>
               </div>
               </div>
             </div>
