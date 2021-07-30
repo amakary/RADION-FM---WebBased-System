@@ -31,7 +31,7 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
 	<meta property="og:url" content="https://radion.fm">
   <meta property="og:type" content="website">
   <meta property="og:title" content="RADION&trade; FM">
-  <meta property="og:description" content="RADION FM is an decentralized music platform built on Tezos Blockchain. We welcome music producers who want to sell their music with crypto.">
+  <meta property="og:description" content="RADION FM is a music streaming platform that creates genuine NFT music tracks with blockchain technology.">
   <meta property="og:image" content="https://radion.fm/img/facebook-img.png">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -570,7 +570,7 @@ if ($result->num_rows > 0) {
                 <div class="page-title">
                     <h2><lord-icon src="https://cdn.lordicon.com//hciqteio.json" trigger="loop" delay="19000" colors="primary:#1B1E24,secondary:#F39C12" style="width:60px;height:60px">
                     </lord-icon> <strong>LATEST NFT &nbsp;</strong></h2><br>
-                    <div>Limited Editions</div>
+                    <div>Music Tracks</div>
                     </div>
                 <!-- END PAGE TITLE -->
 
@@ -638,20 +638,26 @@ if ($result->num_rows > 0) {
                 </h4>
               </div>
               <div class="panel-body panel-body" id="accOneColOne" align="justify">
-                RADION engages in a wide range of functions in the music industry, including but not limited to; establishing a new method of payment with crypto, new artist recruitment and development as well as music publishing, and copyright enforcement. Our platform works as music discovery where users can upload their music to be streamed online. In this process RADION embeds a unique public address key in every MP3 or WAV file that it is uploaded in our system, in order to allow downloads / purchases without third party intervention. Musicians receive payment directly to their public wallets, every time someone downloads their songs from our streams.<br><br>
-                This method can be used with current MP3 files as well as the new generation of digital assets represented by a <strong>non-fungible token (NFT)</strong>.
+                RADION engages in a wide range of functions in the music industry, including but not limited to; establishing a new method of payment with crypto, new artist recruitment and development as well as genuine NFT music tracks with copyright enforcement. Our platform works as music discovery where users can upload their music to be streamed online. In this process RADION embeds a unique public address key in every MP3 or WAV file that it is uploaded in our system, in order to allow downloads / purchases without third party intervention. Musicians receive payment directly to their public wallets, every time someone downloads their songs from our streams.<br><br>
+                This method can be used with current MP3 files as well as the new generation of digital assets represented by a <strong>non-fungible token (NFT)</strong>. We are developing an entire framework for the music industry where music producers and artists can benefit from this technology by minting NFT for their music tracks with legal contracts...
               </div>
             </div>
 
             <div class="panel panel-primary">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a href="#accOneColFive"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> WHAT IS A NON-FUNGIBLE TOKEN (NFT)?</a>
+                  <a href="#accOneColFive"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> WHAT IS A NFT?</a>
                 </h4>
               </div>
 
               <div class="panel-body" id="accOneColFive" align="justify">
-                NFT or non-fungible token is a type of cryptographic token that can represents ownership of something unique! A song is a great way to explain NTFs because in today's world you may be able to purchase a song and receive a digital MP3 copy to play the song as many times as you want, but it doesn't mean you can return it and get your money back, or sell it to someone else. NFT is not intended to prove the genesis of the original file, but rather the ownership of the song asset).<br><br>This technology opens a new set of possibilities in the music industry, where musicians can have better control over their songs (digital assets). With this tech the musician doesn't have to worry about distributor to collect royalties directly from stores/streaming platforms on behalf of labels, not to mention that music licensing and copyrights wont be a problem, because the MP3 can carry all this information and be ready to be bought by anybody without a third party intervention (contract). In a near future, musicians may choose music platforms that works with NFTs and <strong>smart contracts</strong> like RADION. Why? - Because they can benefit much more for less effort.<br><br>
+                NFT stands for Non-fungible token! Non-fungible token is a type of cryptographic token that can represent something unique! A NFT music tracks is a great way to explain NTFs because in today's
+                world you may be able to purchase a song and receive a digital MP3 copy to play the song as many times as you want, but it doesn't mean you can return it and get your
+                money back, or sell it to someone else. NFT is not intended to prove the genesis of the original file, but rather to prove singularity of a song represented by its owner.<br><br>This technology
+                opens a new set of possibilities in the music industry, where musicians can have better control over their songs (digital assets).
+                With this tech the musician doesn't have to worry about distributor to collect royalties directly from stores/streaming platforms on behalf of record labels, not to
+                mention that music licensing and copyrights won't be a problem, because the MP3 can carry all this information and be ready to be bought by anybody without a
+                third party intervention (contract). In the near future, musicians may choose music platforms that work with NFTs and <strong>smart contracts</strong> like RADION. Why? - Because they can benefit much more for less effort.<br><br>
 								Now, the traditional business model of the music industry is a complex subject, especially when we talk about collecting music royalties, copyrights infringements, and music licensing, however we believe that our work can change the entire industry. Having said that; we have a marketplace for NFT music! This marketplace is open to the public and arbitrated by smart contracts.
               </div>
             </div>
@@ -664,7 +670,9 @@ if ($result->num_rows > 0) {
               </div>
 
               <div class="panel-body" id="accOneColSeven" align="justify">
-                Yes you can! We developed a unique dual modular redundancy approach for NFTs which allows us to enforce every non-fungible token with different types of legal contracts. This approach brings trust and transparency to the music industry, where not only producers can benefit from it but also; record labels, distributors, singers, musicians, to name a few...
+                Yes you can! We developed a unique dual modular redundancy approach for NFTs which allows us to enforce every non-fungible token music track with different types of
+                legal contracts, including; exclusive or non-exclusive. Your NFT music track will have a prove of ownership, Licensing Terms, royalties, and a legal contract with proper Jurisdiction.
+                This approach allows to make direct deals with artist, record labels, TV Shows, or Films.
 
               </div>
             </div>
@@ -692,7 +700,7 @@ if ($result->num_rows > 0) {
             <div class="panel panel-primary">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a href="#accOneColThree"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> IS RADION A MUSIC PLATFORM?</a>
+                  <a href="#accOneColThree"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> IS RADION A MUSIC STREAM PLATFORM?</a>
                 </h4>
               </div>
               <div class="panel-body" id="accOneColThree" align="justify">
@@ -724,12 +732,12 @@ if ($result->num_rows > 0) {
         </div>
         <div class="panel-body list-group" style="padding:0px 10px 30px 10px;">
           <div class="list-group-item">
-            <h6 style="padding-left:5px;"><strong><i class="fas fa-hashtag fa-2x"></i>NON-FUNGIBLE TOKENS (NFT) FOR MUSIC</strong></h6>
-            RADION FM allow producers to create non-fungible token (NFT) for their music tracks.<br/>
+            <h6 style="padding-left:5px;"><strong><i class="fas fa-hashtag fa-2x"></i> NFT MUSIC TRACKS</strong></h6>
+            RADION FM creates genuine NFT music tracks from music producers and artist.<br/>
           </div>
 
 		  <div class="list-group-item">
-            <h6 style="padding-left:5px;"><strong><i class="fab fa-creative-commons fa-2x"></i> MUSIC LICENSING</strong></h6>
+            <h6 style="padding-left:5px;"><strong><i class="fab fa-creative-commons fa-2x"></i> MUSIC LICENSING & ROYALTIES</strong></h6>
             RADION FM works with music licensing in order to protect your rights.<br/>
           </div>
           <div class="list-group-item">
@@ -1024,7 +1032,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       <span style="color: #85929E;">|</span>
       <a style="text-decoration: none;" href="intellectual-property-policy.php" class="linko"> Intellectual Property Policy</a>
       <span style="color: #85929E;">|</span>
-      <a style="text-decoration: none;" href="NFT-music-marketplace-tezos.php" class="linko"> NFT Music Marketplace</a>
+      <a style="text-decoration: none;" href="NFT-music-marketplace-tezos.php" class="linko"> NFT Music Tracks Marketplace</a>
       <span style="color: #85929E;">|</span>
       <a style="text-decoration: none;" href="radion-ads.php" class="linko"> RADION Ads</a>
       <span style="color: #85929E;">|</span>
@@ -1032,7 +1040,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> White paper</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="free-ID3-tag-editor.php" target="blank" class="linko"> ID3 Tag Editor</a>
       <div style="padding-top:30px; padding-bottom:10px;">
-        <p style="color:#85929E; margin-bottom:-3px;">&copy; 2021 RADION V1.1 </p>
+        <p style="color:#85929E; margin-bottom:-3px;">&copy; 2021 RADION Beta V1.1 </p>
         <p style="color:#85929E;">Made with <i class="fas fa-heart"></i> in Delaware, U.S.</p>
       </div>
     </div>
@@ -2021,7 +2029,6 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const values = edition['@map_4']
     const numberOfEditions = edition['@nat_8']
     const cid = values['""'].slice(7)
-    const enforceContract = (values.enforce_contract || '') === 'yes'
     const assetId = values.asset_id || ''
     const date = values.date || ''
     const license = values.legal_contract_type || ''
@@ -2030,7 +2037,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     let audioUrl = null
     let audioType = null
 
-    if (enforceContract && !loggedIn) {
+    if (loggedIn) {
       noty({
         text: 'You should log in first to download the asset and contract',
         type: 'error',
@@ -2117,11 +2124,9 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         downloadURL(downloadLink, filename)
       }
 
-      if (enforceContract && loggedIn) {
-        const params = new URLSearchParams()
-        params.set('hash', hash)
-        downloadURL('/php/request_contract.php?' + params.toString(), 'contract.pdf')
-      }
+      const params = new URLSearchParams()
+      params.set('hash', hash)
+      downloadURL('/php/request_contract.php?' + params.toString(), 'contract.pdf')
 
       // Display SUCCESS
       const sweetAlert = await Swal.fire({
