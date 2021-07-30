@@ -651,21 +651,20 @@ if ($result->num_rows > 0) {
               </div>
 
               <div class="panel-body" id="accOneColFive" align="justify">
-                NFT stands for Non-fungible token! Non-fungible token is a type of cryptographic token that can represent something unique! A NFT music tracks is a great way to explain NTFs because in today's
-                world you may be able to purchase a song and receive a digital MP3 copy to play the song as many times as you want, but it doesn't mean you can return it and get your
-                money back, or sell it to someone else. NFT is not intended to prove the genesis of the original file, but rather to prove singularity of a song represented by its owner.<br><br>This technology
-                opens a new set of possibilities in the music industry, where musicians can have better control over their songs (digital assets).
-                With this tech the musician doesn't have to worry about distributor to collect royalties directly from stores/streaming platforms on behalf of record labels, not to
-                mention that music licensing and copyrights won't be a problem, because the MP3 can carry all this information and be ready to be bought by anybody without a
-                third party intervention (contract). In the near future, musicians may choose music platforms that work with NFTs and <strong>smart contracts</strong> like RADION. Why? - Because they can benefit much more for less effort.<br><br>
-								Now, the traditional business model of the music industry is a complex subject, especially when we talk about collecting music royalties, copyrights infringements, and music licensing, however we believe that our work can change the entire industry. Having said that; we have a marketplace for NFT music! This marketplace is open to the public and arbitrated by smart contracts.
+                NFT stands for Non-fungible token! Non-fungible token is a type of cryptographic token that can represent something unique! A song track is a great way to explain NTFs
+                because every original song as its very own wavesound. In today's world you may be able to purchase a song and receive a digital MP3 copy to play the song as many times as you want,
+                but it doesn't mean you can return it and get your money back, or have the rights to sell it to someone else. NFT is not intended to prove the genesis of the original file, but
+                rather to prove the singularity of a song represented by its owner (producer).<br><br>NFT technology opens a new set of possibilities in the music industry, where music producers and
+                musicians can have better control over their digital assets (songs).
+                With this technology the producers and musician can benefit from the legal concerns that the music industry is facing! In addition there is a great benefit on copyrights and royalties.
+                <br>RADION is working on the future framework that the music industry needs to become truly decentralized.
               </div>
             </div>
 
             <div class="panel panel-primary">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a href="#accOneColSeven"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> CAN I MINT A NFT FOR MY MUSIC TRACKS?</a>
+                  <a href="#accOneColSeven"><i class="fal fa-check-circle fa-lg" style="color:#27AE60;"></i> CAN I CREATE NFT MUSIC TRACKS?</a>
                 </h4>
               </div>
 

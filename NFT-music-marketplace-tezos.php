@@ -677,7 +677,6 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     const values = edition['@map_4']
     const numberOfEditions = edition['@nat_8']
     const cid = values['""'].slice(7)
-    const enforceContract = (values.enforce_contract || '') === 'yes'
     const assetId = values.asset_id || ''
     const date = values.date || ''
     const license = values.legal_contract_type || ''
@@ -686,7 +685,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     let audioUrl = null
     let audioType = null
 
-    if (enforceContract && !loggedIn) {
+    if (!loggedIn) {
       noty({
         text: 'You should log in first to download the asset and contract',
         type: 'error',
@@ -773,11 +772,9 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
         downloadURL(downloadLink, filename)
       }
 
-      if (enforceContract && loggedIn) {
-        const params = new URLSearchParams()
-        params.set('hash', hash)
-        downloadURL('/php/request_contract.php?' + params.toString(), 'contract.pdf')
-      }
+      const params = new URLSearchParams()
+      params.set('hash', hash)
+      downloadURL('/php/request_contract.php?' + params.toString(), 'contract.pdf')
 
       // Display SUCCESS
       const sweetAlert = await Swal.fire({
