@@ -1,6 +1,6 @@
 <?php
 
-require_once '../slpw/sitelokpw.php';
+require_once 'db.php';
 
 header('Content-Type: text/plain');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
