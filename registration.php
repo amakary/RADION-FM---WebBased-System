@@ -1,8 +1,13 @@
 <?php
 
+$codes_json = file_get_contents(__DIR__ . '/php/country_codes.json');
+$codes = json_decode($codes_json, true);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   define('E_MSG_COUNTRY_CODE', );
-  $valid_codes = ['AF', 'AX', 'AL', 'DZ', 'AS', 'AD', 'AO', 'AI', 'AQ', 'AG', 'AR', 'AM', 'AW', 'AU', 'AT', 'AZ', 'BS', 'BH', 'BD', 'BB', 'BY', 'BE', 'BZ', 'BJ', 'BM', 'BT', 'BO', 'BQ', 'BA', 'BW', 'BV', 'BR', 'IO', 'BN', 'BG', 'BF', 'BI', 'KH', 'CM', 'CA', 'CV', 'KY', 'CF', 'TD', 'CL', 'CN', 'CX', 'CC', 'CO', 'KM', 'CG', 'CD', 'CK', 'CR', 'CI', 'HR', 'CU', 'CW', 'CY', 'CZ', 'DK', 'DJ', 'DM', 'DO', 'EC', 'EG', 'SV', 'GQ', 'ER', 'EE', 'ET', 'FK', 'FO', 'FJ', 'FI', 'FR', 'GF', 'PF', 'TF', 'GA', 'GM', 'GE', 'DE', 'GH', 'GI', 'GR', 'GL', 'GD', 'GP', 'GU', 'GT', 'GG', 'GN', 'GW', 'GY', 'HT', 'HM', 'VA', 'HN', 'HK', 'HU', 'IS', 'IN', 'ID', 'IR', 'IQ', 'IE', 'IM', 'IL', 'IT', 'JM', 'JP', 'JE', 'JO', 'KZ', 'KE', 'KI', 'KP', 'KR', 'KW', 'KG', 'LA', 'LV', 'LB', 'LS', 'LR', 'LY', 'LI', 'LT', 'LU', 'MO', 'MK', 'MG', 'MW', 'MY', 'MV', 'ML', 'MT', 'MH', 'MQ', 'MR', 'MU', 'YT', 'MX', 'FM', 'MD', 'MC', 'MN', 'ME', 'MS', 'MA', 'MZ', 'MM', 'NA', 'NR', 'NP', 'NL', 'NC', 'NZ', 'NI', 'NE', 'NG', 'NU', 'NF', 'MP', 'NO', 'OM', 'PK', 'PW', 'PS', 'PA', 'PG', 'PY', 'PE', 'PH', 'PN', 'PL', 'PT', 'PR', 'QA', 'RE', 'RO', 'RU', 'RW', 'BL', 'SH', 'KN', 'LC', 'MF', 'PM', 'VC', 'WS', 'SM', 'ST', 'SA', 'SN', 'RS', 'SC', 'SL', 'SG', 'SX', 'SK', 'SI', 'SB', 'SO', 'ZA', 'GS', 'SS', 'ES', 'LK', 'SD', 'SR', 'SJ', 'SZ', 'SE', 'CH', 'SY', 'TW', 'TJ', 'TZ', 'TH', 'TL', 'TG', 'TK', 'TO', 'TT', 'TN', 'TR', 'TM', 'TC', 'TV', 'UG', 'UA', 'AE', 'GB', 'UK', 'US', 'UM', 'UY', 'UZ', 'VU', 'VE', 'VN', 'VG', 'VI', 'WF', 'EH', 'YE', 'ZM', 'ZW'];
+
+  $valid_codes = [];
+  foreach ($codes as $code => $country) $valid_codes[] = $code;
 
   if (!in_array($_POST['custom1'], $valid_codes)) {
     header('Content-Type: application/json');
@@ -102,7 +107,13 @@ require_once 'slpw/slregisterform.php';
                   <div class="col-md-4" style="margin-left:-10px;">
                     <div id="slfielddiv_1_4" class="sltextfield_1">
                       <div class="registration-subtitle" style="color:#7B7D7D;"><small>Country Code <a href="#" title="ISO-3166-1: Alpha-2"><i class="far fa-exclamation-circle"></i></a></small></div>
-                      <input type="text" class="form-control" name="custom1" id="slfieldinput_1_4" placeholder="US" maxlength="2" value="<?php echo $custom1; ?>" style="text-transform:uppercase;">
+                      <select name="custom1" id="slfieldinput_1_4" class="form-control">
+                        <option value="None" selected>Select country code</option>
+                        <?php
+                        foreach ($codes as $code => $country) { ?>
+                        <option value="<?= $code ?>"><?= $country ?></option>
+                        <?php } ?>
+                      </select>
                       <div id="slmsg_1_4" class ="slmsg_1" aria-live="polite" style="color:#C0392B;"></div>
                     </div>
                   </div>
