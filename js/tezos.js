@@ -104,7 +104,7 @@ async function getBigmapCount (pointer, network = 'mainnet') {
  *
  *  @return {object}
  */
-function parseMichelsonMap (michelson, parseBigmap = {}) {
+function parseMichelsonMap (michelson, parseBigmap) {
   if (Array.isArray(michelson)) {
     const parsed = []
     for (let i = 0; i < michelson.length; i++) {
