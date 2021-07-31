@@ -21,12 +21,55 @@ require_once "slpw/slconfig.php";
 		<link rel="stylesheet" type="text/css" href="css/all.css" />
 		<link rel="stylesheet" type="text/css" href="css/cropper/cropper.min.css"/>
     <script src="https://cdn.lordicon.com//libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+    <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
+    <script>window.beaconSdk = beacon</script>
+    <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
+    <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/8.0.2/bignumber.min.js" integrity="sha512-7UzDjRNKHpQnkh1Wf1l6i/OPINS9P2DDzTwQNX79JxfbInCXGpgI1RPb3ZD+uTP3O5X7Ke4e0+cxt2TxV7n0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- EOF CSS INCLUDE -->
 
 
     </head>
     <body>
+
+  <div class="modal" id="modal_small" tabindex="-1" role="dialog" aria-labelledby="defModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div align="left" style="color:#33414E; width:30px; height:30px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
+              <path style="fill:#3498DB;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
+   0 0 1 1.489-1.489c.629-.363 1.403-.544 2.323-.544.92 0 1.693.181 2.323.544.629.363 1.125.86 1.488 1.489.363.629.544 1.403.544
+   2.323 0 1.113-.266 2.02-.798 2.722-.533.702-1.162 1.161-1.888 1.38.63.87 1.622 1.487 2.977 1.85 1.355.388 2.71.581 4.065.581
+   1.887 0 3.593-.508 5.118-1.524 1.524-1.017 2.65-2.517 3.376-4.501.726-1.984 1.089-4.235 1.089-6.752
+   0-2.734-.4-5.07-1.198-7.005-.775-1.96-1.924-3.412-3.449-4.356a9.21 9.21 0 0 0-4.936-1.415c-1.162 0-2.613.484-4.356
+   1.452l-3.194 1.597v-1.597L37.076 16.4H17.185v19.89c0 1.646.363 3.001 1.089 4.066s1.839 1.597 3.34 1.597c1.16 0 2.274-.387
+   3.339-1.162a11.803 11.803 0 0 0 2.758-2.83c.097-.219.218-.376.363-.473a.723.723 0 0 1 .472-.181c.266 0 .58.133.944.4.339.386.508.834.508
+   1.342a9.243 9.243 0 0 1-.182 1.017c-.822 1.839-1.96 3.242-3.412 4.21a8.457 8.457 0 0
+   1-4.79 1.452c-4.308 0-7.285-.847-8.93-2.54-1.645-1.695-2.468-3.994-2.468-6.897V16.4H.052v-3.703h10.164v-8.42L7.893
+   1.952V.066h6.751l2.54 1.306v11.325l26.28-.072 2.614 2.613-16.116 16.116a10.807 10.807 0 0 1 3.049-.726c1.742
+   0 3.702.557 5.88 1.67 2.202 1.089 3.896 2.59 5.081 4.5 1.186 1.888 1.948 3.703 2.287 5.445.363 1.743.545 3.291.545
+   4.646 0 3.098-.654 5.977-1.96 8.64-1.307 2.661-3.291 4.645-5.953 5.952-2.662 1.307-5.542 1.96-8.639 1.96z"></path>
+            </svg>
+          </div>
+
+          <div style="padding-left:35px; margin-top:-20px;"><strong>Receive Tezos</strong></div><br>
+          <div align="jusity" style="padding-right:5px; padding-left:5px; font-size:9px; color:#515A5A;">
+            <strong>Important:</strong> We are not custodian of your keys, so please connect your wallet if you want to see your QR code.
+          </div><hr>
+
+          <div align="center" id="qraddress"></div><hr>
+          <div style="padding-bottom:20px;">
+            <p style="color:#333; margin-bottom:-5px;"><strong>Wallet Address:</strong></p>
+            <span style="font-size:11px; padding-right:10px;" id="wallet_address"></span>
+            <div align="right" style="margin-top:-20px;"><button class="btn btn-default btn-xs copyButton" data-clipboard-action="copy" data-clipboard-target="#wallet_address"><i class="fad fa-copy"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
         <!-- START PAGE CONTAINER -->
         <div class="page-container">
@@ -196,6 +239,117 @@ require_once "slpw/slconfig.php";
 								</div>
                         </div>
                     </div>
+
+                    <!-- START WIDGETS -->
+                <div class="row">
+
+                  <div class="col-md-3">
+                    <!-- START WIDGET MESSAGES -->
+                    <div class="widget widget-primary widget-item-icon">
+                      <div class="widget-item-left">
+                        <img src="img/ON-logo.png" style="height:40px; width:40px;">
+                      </div>
+                      <div class="widget-data">
+                        <div class="widget-int num-count">TOKEN</div>
+                        <div class="widget-title">BALANCE</div>
+                        <div class="widget-subtitle radio-balance" style="color:#F39C12;">0 RADIO</div>
+                      </div>
+                    </div>
+                    <!-- END WIDGET MESSAGES -->
+                  </div>
+
+                  <div class="col-md-3">
+                    <!-- START WIDGET MESSAGES -->
+                    <div class="widget widget-primary widget-item-icon">
+                            <div class="widget-item-left">
+                                <div style="height:40px; width:40px; margin-left:10px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
+                                        <path style="fill:#737577;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
+ 0 0 1 1.489-1.489c.629-.363 1.403-.544 2.323-.544.92 0 1.693.181 2.323.544.629.363 1.125.86 1.488 1.489.363.629.544 1.403.544
+ 2.323 0 1.113-.266 2.02-.798 2.722-.533.702-1.162 1.161-1.888 1.38.63.87 1.622 1.487 2.977 1.85 1.355.388 2.71.581 4.065.581
+ 1.887 0 3.593-.508 5.118-1.524 1.524-1.017 2.65-2.517 3.376-4.501.726-1.984 1.089-4.235 1.089-6.752
+ 0-2.734-.4-5.07-1.198-7.005-.775-1.96-1.924-3.412-3.449-4.356a9.21 9.21 0 0 0-4.936-1.415c-1.162 0-2.613.484-4.356
+ 1.452l-3.194 1.597v-1.597L37.076 16.4H17.185v19.89c0 1.646.363 3.001 1.089 4.066s1.839 1.597 3.34 1.597c1.16 0 2.274-.387
+ 3.339-1.162a11.803 11.803 0 0 0 2.758-2.83c.097-.219.218-.376.363-.473a.723.723 0 0 1 .472-.181c.266 0 .58.133.944.4.339.386.508.834.508
+ 1.342a9.243 9.243 0 0 1-.182 1.017c-.822 1.839-1.96 3.242-3.412 4.21a8.457 8.457 0 0
+ 1-4.79 1.452c-4.308 0-7.285-.847-8.93-2.54-1.645-1.695-2.468-3.994-2.468-6.897V16.4H.052v-3.703h10.164v-8.42L7.893
+ 1.952V.066h6.751l2.54 1.306v11.325l26.28-.072 2.614 2.613-16.116 16.116a10.807 10.807 0 0 1 3.049-.726c1.742
+ 0 3.702.557 5.88 1.67 2.202 1.089 3.896 2.59 5.081 4.5 1.186 1.888 1.948 3.703 2.287 5.445.363 1.743.545 3.291.545
+ 4.646 0 3.098-.654 5.977-1.96 8.64-1.307 2.661-3.291 4.645-5.953 5.952-2.662 1.307-5.542 1.96-8.639 1.96z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="widget-data">
+                                <div class="widget-int num-count">XTZ</div>
+                                <div class="widget-title">BALANCE</div>
+                                <div class="widget-subtitle xtz-balance" style="color:#F39C12;">0 <span>&#42793;</span></div>
+                            </div>
+
+                        </div>
+                        <!-- END WIDGET MESSAGES -->
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <!-- START WIDGET CLOCK -->
+                        <div class="widget widget-primary widget-padding-sm">
+                            <div class="widget-controls">
+                                <div style="height:35px; width:35px; margin-bottom:-37px; padding-left:20px;" class="widget-control-left">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
+                                        <path style="fill:#7B7D7D;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
+ 0 0 1 1.489-1.489c.629-.363 1.403-.544 2.323-.544.92 0 1.693.181 2.323.544.629.363 1.125.86 1.488 1.489.363.629.544 1.403.544
+ 2.323 0 1.113-.266 2.02-.798 2.722-.533.702-1.162 1.161-1.888 1.38.63.87 1.622 1.487 2.977 1.85 1.355.388 2.71.581 4.065.581
+ 1.887 0 3.593-.508 5.118-1.524 1.524-1.017 2.65-2.517 3.376-4.501.726-1.984 1.089-4.235 1.089-6.752
+ 0-2.734-.4-5.07-1.198-7.005-.775-1.96-1.924-3.412-3.449-4.356a9.21 9.21 0 0 0-4.936-1.415c-1.162 0-2.613.484-4.356
+ 1.452l-3.194 1.597v-1.597L37.076 16.4H17.185v19.89c0 1.646.363 3.001 1.089 4.066s1.839 1.597 3.34 1.597c1.16 0 2.274-.387
+ 3.339-1.162a11.803 11.803 0 0 0 2.758-2.83c.097-.219.218-.376.363-.473a.723.723 0 0 1 .472-.181c.266 0 .58.133.944.4.339.386.508.834.508
+ 1.342a9.243 9.243 0 0 1-.182 1.017c-.822 1.839-1.96 3.242-3.412 4.21a8.457 8.457 0 0
+ 1-4.79 1.452c-4.308 0-7.285-.847-8.93-2.54-1.645-1.695-2.468-3.994-2.468-6.897V16.4H.052v-3.703h10.164v-8.42L7.893
+ 1.952V.066h6.751l2.54 1.306v11.325l26.28-.072 2.614 2.613-16.116 16.116a10.807 10.807 0 0 1 3.049-.726c1.742
+ 0 3.702.557 5.88 1.67 2.202 1.089 3.896 2.59 5.081 4.5 1.186 1.888 1.948 3.703 2.287 5.445.363 1.743.545 3.291.545
+ 4.646 0 3.098-.654 5.977-1.96 8.64-1.307 2.661-3.291 4.645-5.953 5.952-2.662 1.307-5.542 1.96-8.639 1.96z"></path>
+                                    </svg>
+                                </div>
+								<div style="width:100%; margin:5px 20px 0px 40px; color:#7B7D7D;" align="left">
+						<h5><strong style="color:#7B7D7D;">Tezos</strong></h5>
+						<div style="margin-top:-10px; font-size:11px;">XTZ/USD</div>
+						</div>
+                            </div>
+
+                            <div class="widget-big-int" style="margin-top:-33px;"><small>$</small><span class="tezos-price-usd"></span></div>
+                            <div class="widget-subtitle">Change 24h
+                              <span>
+                                <span class="tezos-change-24hr-down" style="display:none;">
+                                  <span class="fas fa-sort-down fa-xs" style="vertical-align:2px;"></span>
+                                  <span class="tDown tezos-change-24hr" style="font-size:12px;"></span>
+                                </span>
+                                <span class="tezos-change-24hr-up" style="display:none;">
+                                  <span class="fas fa-sort-up fa-xs" style="vertical-align:-2px;"></span>
+                                  <span class="tUp tezos-change-24hr" style="font-size:12px;"></span>
+                                </span>
+                              </span>
+                            </div>
+                            <div class="widget-buttons widget-c3">
+
+
+                                    <div align="left" style="margin-top:0px; padding-left:15px;">
+                                    <!-- <span><a href="#modal_basic" class="widget-control-right linko" data-toggle="modal" style="font-size:13px; text-decoration:none;"><i class="fad fa-wallet"></i> Connect Wallet</a></span> -->
+                                    <span><a href="#" id="connect-wallet" class="widget-control-right" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-wallet"></i> Connect Wallet</a></span>
+                                    <span style="padding-right:3px; padding-left:3px;">|</span>
+                                    <span><a href="#modal_small" data-toggle="modal" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-qrcode"></i> Receive</a></span>
+                                    <span style="padding-right:3px; padding-left:3px;">|</span>
+                                    <span style="color:#797D7F;">USD Balance <i class="fas fa-dollar-sign"></i> <span class="usd-balance">0</span></span>
+									</div>
+
+                            </div>
+                        </div>
+                        <!-- END WIDGET CLOCK -->
+
+                    </div>
+                </div>
+                <!-- END WIDGETS -->
 
                     <div class="row">
 
@@ -375,167 +529,89 @@ data-step="1" data-intro="" data-position="right"
         <!-- END PAGE CONTAINER -->
 
 <!-- START SIDEBAR -->
-        <div class="sidebar">
+        <div class="sidebar" style="overflow-y: hidden;">
             <div class="sidebar-wrapper scroll">
 
                 <div class="sidebar-tabs">
-                    <a href="#sidebar_1" class="sidebar-tab"><i class="fad fa-credit-card-front"></i> "TEZOS ATM"</a>
+                    <a href="#sidebar_1" class="sidebar-tab"><i class="fad fa-credit-card-front"></i> "MEMBERSHIP UNITS"</a>
                     <a href="#sidebar_2" class="sidebar-tab"><span class="fas fa-map-signs"></span> NEWS</a>
-
                 </div>
 
                 <div class="sidebar-tab-content active" id="sidebar_1">
-                    <div style="padding-left:10px; padding-right:10px; height:730px;">
+
 
 					<!-- START WIZARD WITH VALIDATION -->
-                            <div>
+            <div align="center" style="padding-top:30px;">
+							<span class="swap-input-img"><img src="img/tezos-logo.png" style="height:43px;"></span>
+              <span><i style="color:#fff;" class="fas fa-exchange-alt fa-lg"></i></span>
+              <span class="swap-output-img"><img src="img/ON-logo.png" style="height:43px; width:43px;"></span>
+            </div>
 
-							<div style="color:#33414E; width:50px; height:50px; margin-left:32%; margin-top:20px; margin-bottom:-20px;">
+                      <div class="panel-body">
+                                    <h3 align="center" style="padding:20px; color:#fff;">SWAP</h3>
+                                    <form id="form-swap" action="" method="post" class="form-horizontal">
+                                      <div style="padding-left:15px; margin-bottom:-10px;">
+                                        <p style="color:#ccc; margin-bottom:-3px;"><small>Expected Exchange Rate:<span class="exchange-rate" style="padding-left:50px; color:#F39C12;">1 RADD = 0.00000 XTZ</span></small></p>
+                                        <p style="color:#ccc; margin-bottom:-3px;"><small>Exchange Fee: <span class="exchange-fee" style="padding-left:102px; color:#F39C12;">0 RADD</span></small></p>
+                                        <p style="color:#ccc; margin-bottom:-3px;"><small>Network Fee: <span style="padding-left:107px; color:#A9CCE3;">0 XTZ</span></small></p>
+                                        <hr>
+                                      </div>
 
-<svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
-<path style="fill:#2c84f7;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
- 0 0 1 1.489-1.489c.629-.363 1.403-.544 2.323-.544.92 0 1.693.181 2.323.544.629.363 1.125.86 1.488 1.489.363.629.544 1.403.544
- 2.323 0 1.113-.266 2.02-.798 2.722-.533.702-1.162 1.161-1.888 1.38.63.87 1.622 1.487 2.977 1.85 1.355.388 2.71.581 4.065.581
- 1.887 0 3.593-.508 5.118-1.524 1.524-1.017 2.65-2.517 3.376-4.501.726-1.984 1.089-4.235 1.089-6.752
- 0-2.734-.4-5.07-1.198-7.005-.775-1.96-1.924-3.412-3.449-4.356a9.21 9.21 0 0 0-4.936-1.415c-1.162 0-2.613.484-4.356
- 1.452l-3.194 1.597v-1.597L37.076 16.4H17.185v19.89c0 1.646.363 3.001 1.089 4.066s1.839 1.597 3.34 1.597c1.16 0 2.274-.387
- 3.339-1.162a11.803 11.803 0 0 0 2.758-2.83c.097-.219.218-.376.363-.473a.723.723 0 0 1 .472-.181c.266 0 .58.133.944.4.339.386.508.834.508
- 1.342a9.243 9.243 0 0 1-.182 1.017c-.822 1.839-1.96 3.242-3.412 4.21a8.457 8.457 0 0
- 1-4.79 1.452c-4.308 0-7.285-.847-8.93-2.54-1.645-1.695-2.468-3.994-2.468-6.897V16.4H.052v-3.703h10.164v-8.42L7.893
- 1.952V.066h6.751l2.54 1.306v11.325l26.28-.072 2.614 2.613-16.116 16.116a10.807 10.807 0 0 1 3.049-.726c1.742
- 0 3.702.557 5.88 1.67 2.202 1.089 3.896 2.59 5.081 4.5 1.186 1.888 1.948 3.703 2.287 5.445.363 1.743.545 3.291.545
- 4.646 0 3.098-.654 5.977-1.96 8.64-1.307 2.661-3.291 4.645-5.953 5.952-2.662 1.307-5.542 1.96-8.639 1.96z"></path>
-</svg></div>
-<div align="center" style="margin-top:-55px;"><span><i style="color:#fff; padding-right:10px; padding-top:10px;" class="fas fa-exchange-alt fa-3x"></i></span> <span><img src="img/ON-logo.png" style="height:48px; width:48px;"></span></div>
+                                      <div style="padding-top:20px; padding-bottom:0px; height:400px;">
+                                        <h5 style="padding:0px 0px 0px 15px; color:#fff;"><small>CURRENT INPUT & OUTPUT</small></h5>
+                                        <div class="form-group">
+                                          <div class="col-md-3">
+                                            <div class="input-group">
+                                              <span class="input-group-btn">
+                                                <button id="swap-input-unit" class="btn btn-default" type="button">TEZOS</button>
+                                              </span>
 
-                                <div class="panel-body">
-                                    <h3 align="center" style="padding:20px; color:#fff;">SWAP XTZ FOR RADIO</h3>
-                                    <form action="javascript:alert('Validated!');" role="form" class="form-horizontal" id="wizard-validation">
-                                    <div class="wizard show-submit wizard-validation">
-                                        <ul>
-                                            <li>
-                                                <a href="#step-7">
-                                                    <span class="stepNumber">1</span>
-                                                    <span class="stepDesc" style="color:#fff;">XTZ<br /><small>Conversion</small></span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#step-8">
-                                                    <span class="stepNumber">2</span>
-                                                    <span class="stepDesc" style="color:#fff;">User<br /><small>Payment</small></span>
-                                                </a>
-                                            </li>
-                                        </ul>
-
-										<div style="padding-left:15px; margin-bottom:-10px;">
-
-										<p style="color:#ccc; margin-bottom:-3px;"><small>Expected Exchange Rate:<span style="padding-left:50px; color:#A9CCE3;">1 USD = 0.00000 XTZ</span></small></p>
-										<p style="color:#ccc; margin-bottom:-3px;"><small>Exchange Fee: <span style="padding-left:102px; color:#A9CCE3;">0.00000 XTZ</span></small></p>
-										<p style="color:#ccc; margin-bottom:-3px;"><small>Network Fee: <span style="padding-left:107px; color:#A9CCE3;">0 XTZ</span></small></p>
-										<p style="color:#ccc; margin-bottom:-3px;"><small>Estimate Arrival: <span style="padding-left:92px; color:#A9CCE3;">5 - 55 minutes</span></small></p>
-										<hr>
-										</div>
-
-
-                                        <div id="step-7" style="padding-top:20px; padding-bottom:0px; height:400px;">
-										<h3 style="padding-bottom:10px; color:#fff;">ENTER AMOUNT</h3>
-
-                                            <div class="col-md-12" style="padding-bottom:15px;">
-                                               <p style="margin-bottom:0px; color:#ccc;">YOU SEND</p>
-                                                <div class="input-group">
-													<input type="text" class="form-control" placeholder="..."/>
-                                                    <span class="input-group-addon" style="background-color:#ddd; border: 1px solid #ddd; color:#333;">USD</span>
-                                                </div>
-
+                                              <span class="input-group-btn">
+                                                <button id="swap-output-unit" class="btn btn-default" type="button">RADIO</button>
+                                              </span>
                                             </div>
-
-											<div class="col-md-12" style="padding-bottom:15px;">
-                                               <p style="margin-bottom:0px; color:#ccc;">YOU GET</p>
-                                                <div class="input-group">
-													<input type="text" class="form-control" placeholder="..."/>
-                                                    <span class="input-group-addon" style="background-color:#ddd; border: 1px solid #ddd; color:#333;">XTZ</span>
-                                                </div>
-
-                                            </div>
-
-											<div class="col-md-12" style="padding-bottom:10px;">
-											<p style="margin-bottom:0px; color:#ccc;">RECIPIENT TEZOS ADDRESS</p>
-                                                <input type="text" placeholder="tz..." class="form-control"/>
-                                            </div>
-
-
-
-
+                                          </div>
                                         </div>
 
-                                        <div id="step-8" style="padding-bottom:0px; height:400px;">
+                                        <h3 style="padding:10px 0px 0px 10px; color:#fff;">ENTER AMOUNT</h3>
 
-										<div class="col-md-6" style="padding-bottom:20px;">
-											<p style="margin-bottom:0px; color:#ccc;">NAME</p>
-                                                <input type="text" placeholder="..." class="form-control"/>
-                                            </div>
-
-											<div class="col-md-6" style="padding-bottom:20px;">
-											<p style="margin-bottom:0px; color:#ccc;">LAST NAME</p>
-                                                <input type="text" placeholder="..." class="form-control"/>
-                                            </div>
-
-											<div class="col-md-12" style="padding-bottom:10px;">
-											<p style="margin-bottom:0px; color:#ccc;">CREDIT CARD NUMBER</p>
-                                                <input type="text" placeholder="..." class="form-control"/>
-                                            </div>
-
-											<div class="col-md-4" style="padding-bottom:15px;">
-                                               <p style="margin-bottom:0px; color:#ccc;">EXP DATE</p>
-                                                <div class="input-group">
-													<input type="text" class="form-control" placeholder=".. / .."/>
-
-                                                </div>
-
-                                            </div>
-											<div class="col-md-3" style="padding-bottom:15px;">
-                                               <p style="margin-bottom:0px; color:#ccc;">CODE</p>
-                                                <div class="input-group">
-													<input type="text" class="form-control" placeholder="..."/>
-
-                                                </div>
-
-                                            </div>
-
-											 <div class="checkbox" style="padding-left:15px; padding-bottom:10px;">
-                                                <label>
-                                                    <input type="checkbox" value=""/>
-                                                    <small>I Agree with <a href="#">Terms of Use</a>, <a href="#">Privace Policy</a> and <a href="#">AML/KYC</a>.</small>
-                                                </label>
-
-									<div align="right" style="padding-right:15px; padding-top:10px;"><span style="padding-right:10px;">WE ACCEPT:</span>
-									<i class="fab fa-cc-paypal fa-lg"></i>
-									<i class="fab fa-cc-visa fa-lg"></i>
-									<i class="fab fa-cc-mastercard fa-lg"></i>
-									</div>
-
-                                            </div>
-
-
+                                        <div class="col-md-12" style="padding-bottom:15px;">
+                                          <p style="margin-bottom:0px; color:#ccc;">YOU SEND</p>
+                                          <div class="input-group">
+                                            <input type="text" id="swap-input" name="swap-input" class="form-control" placeholder="..."/>
+                                            <span class="input-group-addon" style="background-color:#ddd; border: 1px solid #ddd; color:#333;"><strong class="swap-input-unit">TEZOS</strong></span>
+                                          </div>
                                         </div>
-                                    </div>
+
+                                        <div class="col-md-12" style="padding-bottom:15px;">
+                                          <p style="margin-bottom:0px; color:#ccc;">YOU GET</p>
+                                          <div class="input-group">
+                                            <input type="text" id="swap-output" name="swap-output" class="form-control" placeholder="..." readonly />
+                                            <span class="input-group-addon" style="background-color:#ddd; border: 1px solid #ddd; color:#333;"><strong class="swap-output-unit">RADIO</strong></span>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-12" style="padding-bottom:20px;">
+                                          <p style="margin-bottom:0px; color:#ccc;">RECIPIENT TEZOS ADDRESS</p>
+                                          <input style="color:#2471A3;" type="text" id="swap-address" name="swap-address" class="form-control" placeholder="tz..." readonly />
+                                        </div>
+                                        <div style="padding:15px;">
+                                          <button type="submit" class="btn btn-block btn-warning"><i class="fad fa-exchange-alt fa-lg"></i> SWAP</button>
+                                        </div>
+                                      </div>
                                     </form>
                                 </div>
-                            </div>
+
                             <!-- END WIZARD WITH VALIDATION -->
 
 					</div>
                 </div>
 
                 <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
-
-<div style="padding-left:30px; padding-right:30px; height:1150px;">
-
-                    </div>
+                    <div style="padding-left:30px; padding-right:30px; height:1150px;"></div>
                 </div>
+              </div>
 
-            </div>
-        </div>
         <!-- END SIDEBAR -->
 
 		    <!-- MESSAGE BOX-->
@@ -605,16 +681,262 @@ data-step="1" data-intro="" data-position="right"
         <script type="text/javascript" src="js/actions.js"></script>
         <script type="text/javascript" src="js/demo_dashboard.js"></script>
         <script type="text/javascript" src="js/id3-minimized.js"></script>
+        <script src="/js/helpers.js"></script>
+        <script src="/js/tezos.js"></script>
         <!-- END TEMPLATE -->
 
 
 
 
-    </body>
+  <script>
+  const { TezosToolkit } = taquito
+  const { BeaconWallet } = taquitoBeaconWallet
+  const { NetworkType } = beacon
+
+  const api = 'https://api.better-call.dev/v1'
+  const rpc = 'https://florencenet.smartpy.io'
+  const tezos = new TezosToolkit(rpc)
+  const wallet = new BeaconWallet({
+    name: 'RADION FM',
+    iconUrl: 'https://www.radion.fm/favicon/apple-icon-60x60.png',
+    appUrl: 'https://www.radion.fm'
+  })
+
+  tezos.setWalletProvider(wallet)
+  let connected = false
+  const tokenContract = 'KT1XLDJzzgSAb6HMXAKoFTxEQ3zMA7HGgU91'
+  const dexContract = 'KT1H7Ku9jsmZ5hjpsYUcTbj4rJWm5dbfbrGH'
+  let tokenStorage = null
+  let dexStorage = null
+
+  $('#connect-wallet').click(async function (event) {
+    event.preventDefault()
+    if (connected) {
+      await wallet.clearActiveAccount()
+      $('#connect-wallet').html('<i class="fad fa-wallet"></i> Connect Wallet')
+      $('.xtz-balance').text('0 ꜩ')
+      $('.usd-balance').text('0')
+      $('.radio-balance').text('0 RADIO')
+      $('#wallet_address').empty()
+      $('#swap-address').val('')
+      $('#qraddress').empty()
+      connected = false
+      return false
+    }
+
+    try {
+      const network = { type: NetworkType.FLORENCENET, rpcUrl: rpc }
+      await wallet.requestPermissions({ network })
+      $('#connect-wallet').html('<i class="fad fa-wallet"></i> Disconnect Wallet')
+      connected = true
+    } catch (error) {
+      noty({
+        text: '<i class="far fa-exclamation-circle fa-lg"></i> Connection to wallet was not granted',
+        layout: 'topRight',
+        type: 'error',
+        timeout: 5000
+      })
+      return false
+    }
+
+    const address = await wallet.getPKH()
+    const mutez = await tezos.tz.getBalance(address)
+    const balance = mutez / 1000000
+    const usdBalance = (balance * parseFloat(window.priceUsd)).toFixed(2)
+    const radioBalanceURL = 'https://api.better-call.dev/v1/account/florencenet/' + address + '/token_balances?contract=' + tokenContract
+    const radio = await $.getJSON(radioBalanceURL)
+    const radioBal = radio.balances[0]
+    const radioBalance = typeof radioBal !== 'undefined' ? parseInt(radioBal.balance) / (10 ** radioBal.decimals) : 0
+
+    new QRCode($('#qraddress')[0], address)
+    $('#wallet_address').text(address)
+    $('#swap-address').val(address)
+    $('.xtz-balance').text(balance + ' ꜩ')
+    $('.usd-balance').text(usdBalance)
+    $('.radio-balance').text(radioBalance + ' RADIO')
+  })
+
+  $('#swap-input-unit,#swap-output-unit').click(function () {
+    const input = $('#swap-input-unit').text()
+    const output = $('#swap-output-unit').text()
+
+    if (input === 'TEZOS') {
+      $('#swap-input-unit,.swap-input-unit').text('RADIO')
+      $('#swap-output-unit,.swap-output-unit').text('TEZOS')
+      $('.swap-input-img').html('<img src="img/ON-logo.png" style="height:43px; width:43px;">')
+      $('.swap-output-img').html('<img src="img/tezos-logo.png" style="height:43px;">')
+    } else if (input === 'RADIO') {
+      $('#swap-input-unit,.swap-input-unit').text('TEZOS')
+      $('#swap-output-unit,.swap-output-unit').text('RADIO')
+      $('.swap-input-img').html('<img src="img/tezos-logo.png" style="height:43px;">')
+      $('.swap-output-img').html('<img src="img/ON-logo.png" style="height:43px; width:43px;">')
+    }
+  })
+
+  $('#swap-input').on('input', async function () {
+    const value = $(this).val()
+    const input = parseFloat(value)
+    const inputUnit = $('#swap-input-unit').text()
+
+    if (input) {
+      if (inputUnit === 'TEZOS') {
+        const output = await estimateTezToToken(input)
+        const fee = output * 0.003
+        $('#swap-output').val(output)
+        $('.exchange-fee').text(fee + ' RADIO')
+      } else if (inputUnit === 'RADIO') {
+        const output = await estimateTokenToTez(input)
+        const feeStr = (output * 0.003).toFixed(6)
+        const fee = parseFloat(feeStr)
+        $('#swap-output').val(output)
+        $('.exchange-fee').text(fee + ' TEZOS')
+      }
+    }
+  })
+
+  $('#form-swap').submit(async function (event) {
+    event.preventDefault()
+    if (dexStorage === null || tokenStorage === null) return
+    if (!connected) {
+      noty({
+        text: 'Please connect your wallet first',
+        layout: 'topRight',
+        type: 'error',
+        timeout: 5000
+      })
+      return
+    }
+
+    const value = $('#swap-input').val()
+    const input = parseFloat(value)
+    const inputUnit = $('#swap-input-unit').text()
+
+    if (input) {
+      const tokenMetadata = await tokenStorage.assets.token_metadata
+      const decimals = parseInt(tokenMetadata[0]['@map_3'].decimals)
+      const pkh = await tezos.wallet.pkh()
+      const contract = await tezos.wallet.at(dexContract)
+      let op = null
+
+      if (inputUnit === 'TEZOS') {
+        const output = await estimateTezToToken(input)
+        const slippage = output * 0.005
+        const minReceive = new BigNumber(output - slippage)
+          .times(10 ** decimals)
+          .integerValue(BigNumber.ROUND_DOWN)
+          .toNumber()
+
+        op = await contract.methods.tezToTokenPayment(minReceive, pkh).send({
+          amount: input
+        })
+      } else if (inputUnit === 'RADIO') {
+        const output = await estimateTokenToTez(input)
+        const slippageStr = (output * 0.005).toFixed(6)
+        const token = new BigNumber(input)
+          .times(10 ** decimals)
+          .integerValue(BigNumber.ROUND_DOWN)
+          .toNumber()
+
+        const slippage = parseFloat(slippageStr)
+        const minReceive = new BigNumber(output - slippage)
+          .times(1000000)
+          .integerValue(BigNumber.ROUND_DOWN)
+          .toNumber()
+
+        const batch = tezos.batch()
+        const tokenCont = await tezos.contract.at(tokenContract)
+        batch.withContractCall(tokenCont.methods.update_operators([{
+          add_operator: {
+            owner: pkh,
+            operator: dexContract,
+            token_id: 0
+          }
+        }]))
+
+        batch.withContractCall(contract.methods.tokenToTezPayment(token, minReceive, pkh))
+        batch.withContractCall(tokenCont.methods.update_operators([{
+          remove_operator: {
+            owner: pkh,
+            operator: dexContract,
+            token_id: 0
+          }
+        }]))
+
+        op = await tezos.wallet.batch(batch.operations).send()
+      }
+
+      if (op === null) return
+      const n = noty({
+        text: 'Waiting for confirmation',
+        layout: 'topRight'
+      })
+
+      const confirmed = await op.confirmation(1)
+      n.close()
+
+      if (confirmed) {
+        $(this).trigger('reset')
+        noty({
+          text: 'Confirmed',
+          layout: 'topRight',
+          type: 'success',
+          timeout: 5000
+        })
+      } else {
+        noty({
+          text: 'Unable to confirm operation',
+          layout: 'topRight',
+          type: 'error',
+          timeout: 5000
+        })
+      }
+    }
+  })
+
+  $(document).ready(function () {
+    getExchange()
+  })
+
+  async function estimateTezToToken (tezAmount) {
+    if (dexStorage === null || tokenStorage === null) return 0
+
+    const mutez = new BigNumber(tezAmount * 1000000)
+    const tezWithFee = mutez.times(997)
+    const numerator = tezWithFee.times(dexStorage.storage.token_pool)
+    const denominator = new BigNumber(dexStorage.storage.tez_pool).times(1000).plus(tezWithFee)
+    const output = numerator.idiv(denominator)
+
+    const tokenMetadata = await tokenStorage.assets.token_metadata
+    const decimals = parseInt(tokenMetadata[0]['@map_3'].decimals)
+    return output.div(10 ** decimals).toNumber()
+  }
+
+  async function estimateTokenToTez (tokenAmount) {
+    if (dexStorage === null || tokenStorage === null) return 0
+
+    const tokenMetadata = await tokenStorage.assets.token_metadata
+    const decimals = parseInt(tokenMetadata[0]['@map_3'].decimals)
+    const amount = new BigNumber(tokenAmount).times(10 ** decimals)
+    const tokenWithFee = amount.times(997)
+    const numerator = tokenWithFee.times(dexStorage.storage.tez_pool)
+    const denominator = new BigNumber(dexStorage.storage.token_pool).times(1000).plus(tokenWithFee)
+    const mutez = numerator.idiv(denominator)
+
+    return mutez.div(1000000).toNumber()
+  }
+
+  async function getExchange () {
+    const dexStorageJSON = await $.getJSON(`${api}/contract/florencenet/${dexContract}/storage`)
+    const tokenStorageJSON = await $.getJSON(`${api}/contract/florencenet/${tokenContract}/storage`)
+    dexStorage = parseMichelsonMap(dexStorageJSON, undefined)[0]
+    tokenStorage = parseMichelsonMap(tokenStorageJSON, {
+      network: 'florencenet',
+      includeNone: true
+    })[0]
+
+    const exchangeRate = await estimateTokenToTez(1)
+    $('.exchange-rate').text(`1 RADD = ${exchangeRate} XTZ`)
+  }
+  </script>
+</body>
 </html>
-
-
-
-
-
-
