@@ -1150,7 +1150,7 @@ function slseeifchecked_4(name,idprefix)
                 <div id="slform_4">
                   <form action="" method="post" enctype="multipart/form-data" onSubmit="return slvalidateform_4(this)" style="padding:20px;">
                     <input type="hidden" name="slajaxform" value="0">
-                    <?php if (function_exists('sitelokmodify')) sitelokmodify("updateuser.htm","updateuseradmin.htm","update-successful.php?nocache=1616462224","YNNNNYYYNNYYNNYYYYYYNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN","4"); ?>
+                    <?php if (function_exists('sitelokmodify')) sitelokmodify("updateuser.htm","updateuseradmin.htm","update-successful.php?nocache=1616462224","YNNNNYYYNNYYYNYYYYYYNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN","4"); ?>
 
                     <div id="slfielddiv_4_10" class="sltextfield_4" style="padding-bottom:5px;">
                       <label for="slfieldinput_4_10">Bio</label>
@@ -1170,13 +1170,17 @@ function slseeifchecked_4(name,idprefix)
                       <div id="slmsg_4_1" class="slmsg_4" aria-live="polite"></div>
                     </div>
 
+                    <div id="slfielddiv_4_10" class="sltextfield_4" style="padding-bottom:5px;">
+                      <label for="slfieldinput_4_10">Country / State</label>
+                      <input type="text" class="form-control" name="newcustom9" id="slfieldinput_4_10" autocorrect="off" autocapitalize="off" spellcheck="off" autocomplete="off" maxlength="100" value="<?= $newcustom9 ?>">
+                      <div id="slmsg_4_10" class="slmsg_4" aria-live="polite"></div>
+                    </div>
+
                     <div id="slfielddiv_4_2" class="sltextfield_4" style="padding-bottom:5px;">
                       <label for="slfieldinput_4_2">DOB</label>
                       <input type="text" class="form-control" name="newcustom3" id="slfieldinput_4_2" placeholder="00/00/0000" maxlength="255" value="<?= $newcustom3 ?>">
                       <div id="slmsg_4_2" class="slmsg_4" aria-live="polite"></div>
                     </div>
-
-
 
                     <div id="slfielddiv_4_3" class="sltextfield_4" style="padding-bottom:5px;">
                       <label for="slfieldinput_4_3">Phone Number</label>
