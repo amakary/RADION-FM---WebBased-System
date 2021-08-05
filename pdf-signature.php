@@ -4,14 +4,22 @@ ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
 $bg_transparent = isset($_GET['transparent-bg']);
+$font_name = isset($_GET['font']) ? $_GET['font'] : 'signature';
 $font_size = isset($_GET['font-size']) ? (int) $_GET['font-size'] : 20;
 $text = isset($_GET['text']) ? $_GET['text'] : 'RADION FM';
+
+$font = __DIR__ . '/fonts';
+if (file_exists("$font/$font_name.ttf")) $font .= "/$font_name.ttf";
+else if (file_exists("$font/$font_name.otf")) $font .= "/$font_name.otf";
+else {
+  http_response_code(400);
+  die('Invalid font name');
+}
 
 $img_width = 300;
 $img_height = 100;
 $img = imagecreatetruecolor($img_width, $img_height);
 $bg_color = 0;
-$font = __DIR__ . '/fonts/signature.otf';
 
 if ($bg_transparent) {
   imagesavealpha($img, true);

@@ -3,8 +3,10 @@ $groupswithaccess = 'RADIONER,CEO,FOUNDER';
 require_once 'slpw/sitelokpw.php';
 require_once 'slpw/slupdateform.php';
 
-$res = $con->query("SELECT `id` FROM `sitelok` WHERE `Username`='$slusername'");
-$userid = $res->num_rows > 0 ? $res->fetch_object()->id : 0;
+$res = $con->query("SELECT `id`,`signature_font` FROM `sitelok` WHERE `Username`='$slusername'");
+$userobj = $res->num_rows > 0 ? $res->fetch_object() : null;
+$userid = $userobj !== null ? $userobj->id : 0;
+$signature = $userobj !== null ? $userobj->signature_font : '';
 $userhash = md5("$userid$SiteKey");
 
 function sl_2facontrol_switch ($settings = array()) {
@@ -770,6 +772,63 @@ function slseeifchecked_4(name,idprefix)
     </div>
   </div>
 
+  <div class="modal" id="modal_signature" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width:480px;">
+      <form id="form-signature" action="/php/lock-sign.php" method="post" class="modal-content">
+        <div class="modal-body">
+          <?php if ($signature) { ?>
+          <img src="/pdf-signature.php?text=<?= urlencode($slname) ?>&font=<?= $signature ?>" alt="<?= $slusername ?> Digital Signature">
+          <?php } else { ?>
+          <div class="form-group">
+            <div align="center"><img src="img/letsgo.png"></div>
+
+            <p style="padding:30px 10px 5px 10px;"><small><strong>Important Note</strong>: Digital Signature is an important aspect of your profile, without it you won't be
+              able to mint and sell NFT. After you select your style, click on the checkbox "Agree". RADION use this as proof of identity and intent for your legal contract.</small></p>
+
+            <select name="signature-font" id="signature-font" class="form-control" style="display:none;">
+              <?php
+              $fonts = scandir(__DIR__ . '/fonts');
+              for ($i = 0; $i < count($fonts); $i++) {
+                $font = $fonts[$i];
+                $ext = substr($font, -4);
+                if ($ext === '.otf' || $ext === '.ttf') {
+                  $length = strlen($font);
+                  $name = substr($font, 0, $length - 4);
+                  ?>
+                  <option value="<?= $name ?>"<?= $i === 0 ? ' selected' : '' ?>><?= $name ?></option>
+                  <?php
+                }
+              }
+            ?>
+            </select>
+
+
+
+          </div>
+
+          <div class="form-group" align="center">
+            <div>--- P R E V I E W ---</div>
+            <img id="signature-preview" src="/pdf-signature.php?text=<?= urlencode($slname) ?>" alt="<?= $slusername ?> Digital Signature Preview">
+          </div>
+
+          <?php } ?>
+          <div><button type="button" id="update-preview" class="btn btn-default btn-block">Change Digital Signature</button></div>
+        </div>
+        <div class="modal-footer">
+          <div style="position:absolute; padding:0px 20px 0px 0px;" "right">
+            <input type="checkbox" id="confirm-lock" name="confirm-lock"> <label for="confirm-lock"> I Agree to use this signature.</label>
+          </div>
+          <?php if ($signature) { ?>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <?php } else { ?>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          <button id="confirm-signature-btn" type="submit" class="btn btn-primary" disabled>Confirm</button>
+          <?php } ?>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal" id="modal_basic" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" style="width:480px;">
       <div class="modal-content" style="padding:48px;">
@@ -912,7 +971,7 @@ function slseeifchecked_4(name,idprefix)
           <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span>
         </a>
         <ul>
-            <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
+            <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; ENGAGE WITH NEW TALENTS</span></a></li>
             <li><a href="NFT-music-marketplace-tezos.php"><span class="xn-text"><i class="fas fa-album-collection fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE FOR MUSIC</span></a></li>
         </ul>
     </li>
@@ -1216,12 +1275,34 @@ function slseeifchecked_4(name,idprefix)
               <hr>
 
               <div class="col-md-12">
-                <div class="col-md-2">
+                <div class="col-md-4">
                   <strong>2FA</strong>
                 </div>
-                <div class="col-md-9" style="margin-top:-7px;">
+                <div class="col-md-8" style="margin-top:-7px;">
                   <?php if (function_exists("sl_2facontrol_switch")) echo sl_2facontrol_switch(array("enabletext"=>"Enable 2FA","disabletext"=>"Disable 2FA","confirmdisablemsg"=>"<h3>2FA Settings</h3><br>Are you sure you want to disable you 2FA?","confirmenablemsg"=>"<h3>2FA Settings</h3><br>Are you sure you want to enable you 2FA?","processingmsg"=>"please wait","resetkey"=>"0")); ?>
+                </div>
               </div>
+
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  <strong>eSignature</strong>
+                  <div style="color:#ccc;"><small class="signature-status"><?= $signature ? 'Activated' : 'Need Approval!' ?></small></div>
+                </div>
+                <div class="col-md-8" style="margin:-7px 0px 0px -8px;">
+                  <div class="col-md-4">
+                    <label class="switch switch-small">
+                      <input id="signature-switch" type="checkbox" class="switch" value="0"<?= $signature ? ' checked="checked" disabled="disabled"' : '' ?> />
+                      <span></span>
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-md-12">
+                <?php if ($signature) { ?>
+                <img src="/pdf-signature.php?text=<?= urlencode($slname) ?>&font=<?= urlencode($signature) ?>" alt="<?= $slusername ?> Digital Signature">
+                <?php } ?>
               </div>
             </div>
             <!-- END DEFAULT PANEL -->
@@ -1410,6 +1491,8 @@ function slseeifchecked_4(name,idprefix)
   let totalBalance = 0
   let pkh = null
   tezos.setWalletProvider(wallet)
+
+  const legalName = '<?= $slname ?>'
 
   radionWallet.events.on('connect', async function (tezos) {
     $('#modal_basic').modal('hide')
@@ -1663,6 +1746,59 @@ function slseeifchecked_4(name,idprefix)
       $('#wallet-radioff').hide()
       $('#wallet-radion').show()
     }
+  })
+
+  $('#signature-switch').on('change', function (event) {
+    const value = $(this).is(':checked')
+    if (value) {
+      $('#modal_signature').modal('show')
+      $(this).prop('checked', false)
+    }
+  })
+
+  $('#update-preview').click(function (event) {
+    const selectedIndex = $('#signature-font').prop('selectedIndex')
+    const nFonts = $('#signature-font').children().length
+    const nextIndex = selectedIndex + 1 === nFonts ? 0 : (selectedIndex + 1)
+    $('#signature-font').prop('selectedIndex', nextIndex)
+
+    const name = $('#signature-font').val()
+    const fontName = encodeURIComponent(name)
+    const username = encodeURIComponent(legalName)
+    $('#signature-preview').attr('src', `/pdf-signature.php?text=${username}&font=${fontName}`)
+  })
+
+  $('#confirm-lock').on('change', function (event) {
+    const value = $(this).is(':checked')
+    if (value) $('#confirm-signature-btn').attr('disabled', null)
+    else $('#confirm-signature-btn').attr('disabled', true)
+  })
+
+  $('#form-signature').submit(function (event) {
+    event.preventDefault()
+
+    const action = $(this).attr('action')
+    const method = $(this).attr('method')
+    const name = $('#signature-font').val()
+
+    $('#confirm-lock').attr('disabled', true)
+    $.ajax(action, {
+      method: method,
+      dataType: 'text',
+      data: { font: name },
+      success: function (data, xhr, status) {
+        $('#modal_signature').modal('hide')
+        window.location.reload()
+      },
+      error: function (xhr, status, error) {
+        noty({
+          text: 'Error occured',
+          layout: 'topRight',
+          type: 'error',
+          timeout: 5000
+        })
+      }
+    })
   })
 
   function confirmDialog (message) {
