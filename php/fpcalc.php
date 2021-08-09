@@ -6,7 +6,7 @@ function fpcalc ($path) {
   $code = 999;
 
   $fpcalc = realpath(__DIR__ . $ds . '..' . $ds . 'bin' . $ds . 'fpcalc.exe');
-  exec("\"$fpcalc\" -json \"$path\"", $output, $code);
+  exec("\"$fpcalc\" -json -raw \"$path\"", $output, $code);
 
   if ($code !== 0) return false;
   return json_decode($output[0]);
