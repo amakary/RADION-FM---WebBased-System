@@ -267,6 +267,7 @@ async function submitForm () {
         type: 'success',
         timeout: 5000
       })
+      window.location.reload()
     },
     error: function (xhr, status, error) {
       console.error(status, xhr, error)
