@@ -209,7 +209,7 @@ date_default_timezone_set('US/Eastern');
                 <span class="xn-text">&nbsp;&nbsp; DISCOVER MUSIC</span>
               </a>
               <ul>
-                  <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; VOTE ROOM</span></a></li>
+                  <li><a href="marketplace.php"><span class="xn-text"><i class="fad fa-poll-people fa-lg"></i>&nbsp;&nbsp; ENGAGE WITH NEW TALENTS</span></a></li>
                   <li><a href="NFT-music-marketplace-tezos.php"><span class="xn-text"><i class="fas fa-album-collection fa-lg"></i>&nbsp;&nbsp; NFT MARKETPLACE FOR MUSIC</span></a></li>
               </ul>
           </li>
@@ -555,7 +555,7 @@ date_default_timezone_set('US/Eastern');
 										<div class="col-md-12" style="padding-top:20px; padding-bottom:30px;">
 										<div class="form-group has-info" data-step="9" data-intro="Publisher is by default RADION FM. We embed this information in ID3 tags, so if others find your music, they know where to download with crypto." data-position="right">
                                             <label class="control-label">PUBLISHER</label>
-                                            <input id="publisher" name="publisher" type="text" class="form-control" value="" placeholder="RADION - https://www.radion.fm" readonly/>
+                                            <input id="publisher" name="publisher" type="text" class="form-control" value="" placeholder="RADION - www.radion.fm" readonly/>
                                         </div>
 										</div>
 
@@ -638,7 +638,8 @@ date_default_timezone_set('US/Eastern');
 
                                                     <div class="form-group" style="margin-top:0px;" data-step="11" data-intro="This is your final step to upload your song, however, the (upload now) button will be disabed if any of the entries are not populated correctly or if you have not accept the terms and conditions. If everything is correct, you should be able to click in the button to start the upload." data-position="right">
                                                         <h5 style="color:#909497"><i class="fad fa-handshake fa-lg"></i><strong> Terms and Conditions</strong></h5>
-                                                        <p align="justify"><small>I acknowledge that my submission allows me expose my asset in RADION vote room without guaranteeing online stream due to a preliminary vote system arbitrated by users.</small></p>
+                                                        <p align="justify"><small>I acknowledge that my submission allows me expose my sound track (asset) in RADION's vote room without guarantee of online streaming. I understand that if my song/beat
+                                                          (asset) is accepted by users for the online stream, I can't collect mechanical royalties per reproduction, instead I will receive 100% royalty per download. </small></p>
                                                         <label class="check" style="padding-right:50px;"><input type="checkbox" name="agree_disagree" /> <strong>Yes, I Accept.</strong></label>
 
                                                         <button type="button" id="submit_btn" class="btn btn-success btn-lg mb-control" disabled><i class="fas fa-check-circle"></i> UPLOAD NOW</button>
