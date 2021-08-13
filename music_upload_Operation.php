@@ -11,6 +11,8 @@ require_once 'slpw/slconfig.php';
 require_once 'getID3/getid3/getid3.php';
 require_once 'getID3/getid3/write.php';
 
+require_once 'php/fpcalc.php';
+
 date_default_timezone_set('US/Eastern');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -38,25 +40,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die('Invalid tz address');
   }
 
-  $check_query = "SELECT * FROM `song` WHERE `SONG_NAME`='$title' AND `ARTIST_NAME`='$artist'";
+  $ds = DIRECTORY_SEPARATOR;
+  $mp3_path = __DIR__ . $ds . 'uploads' . $ds . $_POST['mp3'];
+  $fpcalc_result = fpcalc($mp3_path);
+  $duration = ceil($fpcalc_result->duration);
+  $fingerprint = $fpcalc_result->fingerprint;
+  $similars = [];
+
+  $check_query = "SELECT * FROM `song` WHERE `duration`=$duration";
   $check_res = $con->query($check_query);
   if ($check_res->num_rows > 0) {
-    $result = $check_res->fetch_object();
-    $username = $result->USER_NAME;
-    $country_code = $result->COUNTRY_CODE;
-    $year = substr($result->YEAR, -2);
-    $number_id = $result->NUMBER_ID;
-    $rdon_id = $country_code . 'RADION' . $year . $number_id;
-
-    if ($username !== $slusername) {
-      // potential copyright infringement
-      // flag both users
-      $user1 = $con->real_escape_string($username);
-      $user2 = $con->real_escape_string($slusername);
-      $query = "INSERT INTO `copyright_infringement` (`RDON_ID`,`USER_1`,`USER_2`) VALUES ('$rdon_id','$user1','$user2')";
-      $con->query($query);
-      die('Potential copyright infringement detected');
+    while ($song = $check_res->fetch_object()) {
+      $fpb = json_decode(base64_decode($song->fingerprint));
+      $score = fp_compare($fingerprint, $fpb);
+      if ($score > 0.85) $similars[] = $song;
     }
+  }
+
+  if (count($similars) > 0) {
+    $song = $similars[0];
+    $title = $song->SONG_NAME;
+    $artist = $song->ARTIST_NAME;
+    $song_id = $song->RDON_ID;
+    $hash = md5("asset-preview-$song_id");
+    $user = $song->USER_NAME;
+    echo 'Potential copyright detected.';
+    echo '<div>Title: ' . $title . '</div>';
+    echo '<div>Artist: ' . $artist . '</div>';
+    echo '<div>Uploaded by: ' . $user . '</div>';
+    echo '<a href="/song-player.php?id=' . $song_id . '&hash=' . $hash . '" class="btn btn-primary" role="button">Play song</a>';
+    exit(1);
   }
 
   $licenses = ['by', 'by-nc', 'by-nd', 'by-nc-nd', 'by-sa', 'by-nc-sa'];
@@ -75,7 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $number_id = (string) $number_id + 1;
     while (strlen($number_id) < 5) $number_id = "0$number_id";
     $rdon_id = $slcustom1 . 'RADION' . substr($year, -2) . $number_id;
-    $insert_query = "INSERT INTO `song` (`COUNTRY_CODE`,`RDON_ID`,`NUMBER_ID`,`USER_NAME`,`SONG_NAME`,`SONG_GENRE`,`ARTIST_NAME`,`ALBUM_NAME`,`YEAR`,`RECORD_LABEL`,`COPYRIGHT`,`SONG_SUBMIT_DATE`) VALUES ('$slcustom1','$rdon_id','$number_id','$slusername','$title','$genre','$artist','$album',$year,'$record','$copyright','$date')";
+    $fingerprint64 = base64_encode(json_encode($fingerprint));
+    $insert_query = "INSERT INTO `song` (`COUNTRY_CODE`,`RDON_ID`,`NUMBER_ID`,`USER_NAME`,`SONG_NAME`,`SONG_GENRE`,`ARTIST_NAME`,`ALBUM_NAME`,`YEAR`,`RECORD_LABEL`,`COPYRIGHT`,`SONG_SUBMIT_DATE`,`duration`,`fingerprint`) VALUES ('$slcustom1','$rdon_id','$number_id','$slusername','$title','$genre','$artist','$album',$year,'$record','$copyright','$date',$duration,'$fingerprint64')";
 
     if ($con->query($insert_query)) {
       $last_inserted_id = $con->insert_id;
