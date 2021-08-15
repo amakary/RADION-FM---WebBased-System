@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     while ($song = $check_res->fetch_object()) {
       $fpb = json_decode(base64_decode($song->fingerprint));
       $score = fp_compare($fingerprint, $fpb);
-      if ($score > 0.85) $similars[] = $song;
+      if ($score > 0.90) $similars[] = $song;
     }
   }
 
