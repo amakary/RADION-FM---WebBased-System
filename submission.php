@@ -332,7 +332,7 @@ date_default_timezone_set('US/Eastern');
                     <!-- START WIDGET MESSAGES -->
                     <div class="widget widget-primary widget-item-icon">
                       <div class="widget-item-left">
-                        <img src="img/ON-logo.png" style="height:40px; width:40px;">
+                        <img src="img/ON-logo-2.png" style="height:40px; width:40px;">
                       </div>
                       <div class="widget-data">
                         <div class="widget-int num-count">TOKEN</div>
@@ -638,8 +638,8 @@ date_default_timezone_set('US/Eastern');
 
                                                     <div class="form-group" style="margin-top:0px;" data-step="11" data-intro="This is your final step to upload your song, however, the (upload now) button will be disabed if any of the entries are not populated correctly or if you have not accept the terms and conditions. If everything is correct, you should be able to click in the button to start the upload." data-position="right">
                                                         <h5 style="color:#909497"><i class="fad fa-handshake fa-lg"></i><strong> Terms and Conditions</strong></h5>
-                                                        <p align="justify"><small>I acknowledge that my submission allows me expose my sound track (asset) in RADION's vote room without guarantee of online streaming. I understand that if my song/beat
-                                                          (asset) is accepted by users for the online stream, I can't collect mechanical royalties per reproduction, instead I will receive 100% royalty per download. </small></p>
+                                                        <p align="justify"><small>I declare that these materials were created by myself or by my team and do not infringe on any third party rights.
+                                                          I understand that the illegal use of digital assets is against RADION's <strong>Terms of Service</strong> and may result in termination of my account.</small></p>
                                                         <label class="check" style="padding-right:50px;"><input type="checkbox" name="agree_disagree" /> <strong>Yes, I Accept.</strong></label>
 
                                                         <button type="button" id="submit_btn" class="btn btn-success btn-lg mb-control" disabled><i class="fas fa-check-circle"></i> UPLOAD NOW</button>
@@ -1204,7 +1204,7 @@ date_default_timezone_set('US/Eastern');
   $('#delete-confirm').click(async function (event) {
     event.preventDefault()
     noty({
-      text: 'Removing from server, please wait...',
+      text: 'Removing from server! Please wait a moment.',
       layout: 'topRight',
       timeout: 5000
     })
