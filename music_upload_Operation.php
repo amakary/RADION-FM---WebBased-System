@@ -12,6 +12,7 @@ require_once 'getID3/getid3/getid3.php';
 require_once 'getID3/getid3/write.php';
 
 require_once 'php/fpcalc.php';
+require_once 'php/utils.php';
 
 date_default_timezone_set('US/Eastern');
 
@@ -43,8 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $ds = DIRECTORY_SEPARATOR;
   $mp3_path = __DIR__ . $ds . 'uploads' . $ds . $_POST['mp3'];
   $fpcalc_result = fpcalc($mp3_path);
-  $duration = ceil($fpcalc_result->duration);
-  $fingerprint = $fpcalc_result->fingerprint;
+  $duration = ceil($fpcalc_result['duration']);
+  $fingerprint = $fpcalc_result['fingerprint'];
+  $fingerprint_raw = $fpcalc_result['fingerprint_raw'];
   $similars = [];
 
   $check_query = "SELECT * FROM `song` WHERE `duration`=$duration";
@@ -52,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($check_res->num_rows > 0) {
     while ($song = $check_res->fetch_object()) {
       $fpb = json_decode(base64_decode($song->fingerprint));
-      $score = fp_compare($fingerprint, $fpb);
+      $score = fp_compare($fingerprint_raw, $fpb);
       if ($score > 0.90) $similars[] = $song;
     }
   }
@@ -65,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mid = $song->SONG_ID;
     $hash = md5("asset-preview-$song_id");
     $user = $song->USER_NAME;
+
     echo 'Potential copyright detected.<br>';
     echo '<span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
     echo '<span style="color:#999;">Artist: </span><span>' . $artist . '</span><br>';
@@ -73,6 +76,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo '<span style="display:none;">' . $hash . '</span>';
 
     $con->query("INSERT INTO `copyright_infringement` (`SONG_ID`,`RDON_ID`,`USER_1`,`USER_2`) VALUES ($mid,'$song_id','$user','$slusername')");
+    exit(1);
+  }
+
+  $acoustid_creds = json_decode(file_get_contents('acoustid.json'));
+  $clientkey = $acoustid_creds->clientkey;
+  $lookup = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&duration=$duration&fingerprint=$fingerprint");
+  if ($lookup->status === 'ok' && count($lookup->results) > 0) {
+    $trackid = $lookup->results[0]->id;
+    $metadata_results = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&trackid=$trackid&meta=recordings");
+    $recordings = $metadata_results->results[0]->recordings;
+    $title = 'Unknown title';
+    $artist = 'Unknown artist';
+
+    for ($i = 0; $i < count($recordings); $i++) {
+      $recording = $recordings[$i];
+      $artist = isset($recording->artists[0]) ? $recording->artists[0]->name : $artist;
+      $title = isset($recording->title) ? $recording->title : $title;
+    }
+
+    echo 'Potential copyright detected.<br>';
+    echo '<span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
+    echo '<span style="color:#999;">Artist: </span><span>' . $artist . '</span><br>';
     exit(1);
   }
 
@@ -92,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $number_id = (string) $number_id + 1;
     while (strlen($number_id) < 5) $number_id = "0$number_id";
     $rdon_id = $slcustom1 . 'RADION' . substr($year, -2) . $number_id;
-    $fingerprint64 = base64_encode(json_encode($fingerprint));
+    $fingerprint64 = base64_encode(json_encode($fingerprint_raw));
     $insert_query = "INSERT INTO `song` (`COUNTRY_CODE`,`RDON_ID`,`NUMBER_ID`,`USER_NAME`,`SONG_NAME`,`SONG_GENRE`,`ARTIST_NAME`,`ALBUM_NAME`,`YEAR`,`RECORD_LABEL`,`COPYRIGHT`,`SONG_SUBMIT_DATE`,`duration`,`fingerprint`) VALUES ('$slcustom1','$rdon_id','$number_id','$slusername','$title','$genre','$artist','$album',$year,'$record','$copyright','$date',$duration,'$fingerprint64')";
 
     if ($con->query($insert_query)) {

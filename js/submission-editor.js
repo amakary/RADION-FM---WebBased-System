@@ -174,6 +174,7 @@ async function readTags (file) {
   }
 }
 
+const audio = new Audio()
 async function submitForm () {
   $('#submit_btn').attr('disabled', true)
   if (!audioFile) {
@@ -274,27 +275,45 @@ async function submitForm () {
       const data = xhr.responseText
       if (data.startsWith('Potential copyright detected.')) {
         const html = $.parseHTML(data)
-        const songID = html[11].innerHTML
-        const hash = html[12].innerHTML
-        noty({
-          text: 'Something went wrong. Error: ' + data,
-          layout: 'topRight',
-          buttons: [{
-            addClass: 'btn btn-primary btn-clean btn-sm',
-            text: 'Play song',
-            onClick: function (noti) {
-              const audio = new Audio()
-              audio.src = '/asset.php?id=' + songID + '&hash=' + hash
-              audio.play()
-            }
-          }, {
-            addClass: 'btn btn-danger btn-clean btn-sm',
-            text: 'Close',
-            onClick: function (noti) {
-              noti.close()
-            }
-          }]
-        })
+        const songID = typeof html[11] !== 'undefined' ? html[11].innerHTML : null
+        const hash = typeof html[12] !== 'undefined' ? html[12].innerHTML : null
+        if (songID !== null && hash !== null) {
+          noty({
+            text: 'Something went wrong. Error: ' + data,
+            layout: 'topRight',
+            buttons: [{
+              addClass: 'btn btn-primary btn-clean btn-sm',
+              text: 'Play song',
+              onClick: function (noti) {
+                if (audio.paused) {
+                  audio.src = '/asset.php?id=' + songID + '&hash=' + hash
+                  audio.play()
+                } else {
+                  audio.pause()
+                }
+              }
+            }, {
+              addClass: 'btn btn-danger btn-clean btn-sm',
+              text: 'Close',
+              onClick: function (noti) {
+                audio.pause()
+                noti.close()
+              }
+            }]
+          })
+        } else {
+          noty({
+            text: 'Something went wrong. Error: ' + data,
+            layout: 'topRight',
+            buttons: [{
+              addClass: 'btn btn-danger btn-clean btn-sm',
+              text: 'Close',
+              onClick: function (noti) {
+                noti.close()
+              }
+            }]
+          })
+        }
         return
       }
 

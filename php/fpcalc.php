@@ -2,14 +2,20 @@
 
 function fpcalc ($path) {
   $ds = DIRECTORY_SEPARATOR;
+  $output_raw = null;
+  $code_raw = 999;
   $output = null;
   $code = 999;
 
   $fpcalc = realpath(__DIR__ . $ds . '..' . $ds . 'bin' . $ds . 'fpcalc.exe');
-  exec("\"$fpcalc\" -json -raw \"$path\"", $output, $code);
+  exec("\"$fpcalc\" -json -raw \"$path\"", $output_raw, $code_raw);
+  exec("\"$fpcalc\" -json \"$path\"", $output, $code);
 
-  if ($code !== 0) return false;
-  return json_decode($output[0]);
+  if ($code !== 0 || $code_raw !== 0) return false;
+
+  $result = json_decode($output[0], true);
+  $result['fingerprint_raw'] = json_decode($output_raw[0])->fingerprint;
+  return $result;
 }
 
 $popcnt_table = [
