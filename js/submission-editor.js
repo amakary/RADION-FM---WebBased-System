@@ -271,8 +271,35 @@ async function submitForm () {
     },
     error: function (xhr, status, error) {
       console.error(status, xhr, error)
+      const data = xhr.responseText
+      if (data.startsWith('Potential copyright detected.')) {
+        const html = $.parseHTML(data)
+        const songID = html[11].innerHTML
+        const hash = html[12].innerHTML
+        noty({
+          text: 'Something went wrong. Error: ' + data,
+          layout: 'topRight',
+          buttons: [{
+            addClass: 'btn btn-primary btn-clean btn-sm',
+            text: 'Play song',
+            onClick: function (noti) {
+              const audio = new Audio()
+              audio.src = '/asset.php?id=' + songID + '&hash=' + hash
+              audio.play()
+            }
+          }, {
+            addClass: 'btn btn-danger btn-clean btn-sm',
+            text: 'Close',
+            onClick: function (noti) {
+              noti.close()
+            }
+          }]
+        })
+        return
+      }
+
       noty({
-        text: 'Something went wrong. Error: ' + xhr.responseText,
+        text: 'Something went wrong. Error: ' + data,
         layout: 'topRight',
         type: 'error'
       })

@@ -64,11 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $song_id = $song->RDON_ID;
     $hash = md5("asset-preview-$song_id");
     $user = $song->USER_NAME;
-    echo 'Potential copyright detected.';
-    echo '<div>Title: ' . $title . '</div>';
-    echo '<div>Artist: ' . $artist . '</div>';
-    echo '<div>Uploaded by: ' . $user . '</div>';
-    echo '<a href="/song-player.php?id=' . $song_id . '&hash=' . $hash . '" class="btn btn-primary" role="button">Play song</a>';
+    echo 'Potential copyright detected.<br>';
+    echo '<span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
+    echo '<span style="color:#999;">Artist: </span><span>' . $artist . '</span><br>';
+    echo '<span style="color:#999;">Uploaded by: </span><span>' . $user . '</span><br>';
+    echo '<span style="display:none;">' . $song_id . '</span>';
+    echo '<span style="display:none;">' . $hash . '</span>';
     exit(1);
   }
 
