@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $song->SONG_NAME;
     $artist = $song->ARTIST_NAME;
     $song_id = $song->RDON_ID;
+    $mid = $song->SONG_ID;
     $hash = md5("asset-preview-$song_id");
     $user = $song->USER_NAME;
     echo 'Potential copyright detected.<br>';
@@ -70,6 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo '<span style="color:#999;">Uploaded by: </span><span>' . $user . '</span><br>';
     echo '<span style="display:none;">' . $song_id . '</span>';
     echo '<span style="display:none;">' . $hash . '</span>';
+
+    $con->query("INSERT INTO `copyright_infringement` (`SONG_ID`,`RDON_ID`,`USER_1`,`USER_2`) VALUES ($mid,'$song_id','$user','$slusername')");
     exit(1);
   }
 
