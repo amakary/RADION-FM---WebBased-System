@@ -38,7 +38,7 @@ if ($res->num_rows > 0) {
   $con->query("DELETE FROM `song_like` WHERE `SONG_ID`=$mid");
   $con->query("DELETE FROM `song_downloads` WHERE `SONG_ID`=$mid");
   $con->query("DELETE FROM `copyright_infringement` WHERE `RDON_ID`='$id'");
-  $con->query("UPDATE `song` SET `USER_NAME`='', `SONG_NAME`='', `SONG_GENRE`='', `ARTIST_NAME`='', `ALBUM_NAME`='', `YEAR`=0, `RECORD_LABEL`='', `COPYRIGHT`='', `COPYRIGHT_STATUS`=0, `COPYRIGHT_1`=0, `WANT_INVESTOR`=0, `INVEST_RADIO`=0, `TOTAL_STREAM`=0, `SONG_SUBMIT_DATE`=NULL, `SONG_STATUS`=3, `NFT`='', `TOKEN_ID`=-1, `IPFS_CID`='', `EDITION_ID`=-1, `EDITION_CID`='', `EDITION_HASH`='' WHERE `RDON_ID`='$id' AND `USER_NAME`='$slusername'");
+  $con->query("UPDATE `song` SET `USER_NAME`='', `SONG_NAME`='', `SONG_GENRE`='', `ARTIST_NAME`='', `ALBUM_NAME`='', `RECORD_LABEL`='', `COPYRIGHT`='', `COPYRIGHT_STATUS`=0, `COPYRIGHT_1`=0, `WANT_INVESTOR`=0, `INVEST_RADIO`=0, `TOTAL_STREAM`=0, `SONG_SUBMIT_DATE`=NULL, `SONG_STATUS`=3, `NFT`='', `TOKEN_ID`=-1, `IPFS_CID`='', `EDITION_ID`=-1, `EDITION_CID`='', `EDITION_HASH`='', `duration`=0, `fingerprint`='' WHERE `RDON_ID`='$id' AND `USER_NAME`='$slusername'");
 } else {
   http_response_code(400);
   header('Content-Type: text/plain');
