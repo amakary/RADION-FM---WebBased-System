@@ -14,7 +14,11 @@ function get_json ($url) {
     CURLOPT_TIMEOUT => 0,
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET'
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => [
+      'Accept: application/json',
+      'User-Agent: RADION FM/v1.0.0 (https://www.radion.fm)'
+    ]
   ));
 
   $response = curl_exec($curl);
