@@ -11,10 +11,24 @@ require_once 'slpw/slconfig.php';
 require_once 'getID3/getid3/getid3.php';
 require_once 'getID3/getid3/write.php';
 
+require_once 'php/music_info_get.php';
 require_once 'php/fpcalc.php';
 require_once 'php/utils.php';
 
 date_default_timezone_set('US/Eastern');
+
+$result = [
+  'success' => false,
+  'message' => 'Unknown error',
+  'copyright' => null,
+  'result' => null
+];
+
+function display_result () {
+  global $result;
+  header('Content-Type: application/json');
+  die(json_encode($result));
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $in_title = isset($_POST['title']) ? $_POST['title'] : '';
@@ -37,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Validation
   preg_match('/^tz[1-3]([a-z0-9]{33})$/i', $slcustom6, $matches);
   if (!isset($matches[1])) {
-    http_response_code(400);
-    die('Invalid tz address');
+    $result['message'] = 'Invalid tz address';
+    display_result();
   }
 
   $ds = DIRECTORY_SEPARATOR;
@@ -66,17 +80,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $song_id = $song->RDON_ID;
     $mid = $song->SONG_ID;
     $hash = md5("asset-preview-$song_id");
+    $type = $song->SONG_STATUS;
     $user = $song->USER_NAME;
+    $artwork = get_art_work($song_id, $type);
 
-    echo 'Potential copyright detected.<br>';
-    echo '<span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
-    echo '<span style="color:#999;">Artist: </span><span>' . $artist . '</span><br>';
-    echo '<span style="color:#999;">Uploaded by: </span><span>' . $user . '</span><br>';
-    echo '<span style="display:none;">' . $song_id . '</span>';
-    echo '<span style="display:none;">' . $hash . '</span>';
+    $message = '';
+    $message .= '<i class="far fa-copyright"></i> We detected potential copyright infringement!<br><br> <span style="color:#F39C12;">- Song Information:</span><br><br>';
+    $message .= '<div class="row">';
+    $message .= '  <img src="' . $artwork . '" alt="' . $title . ' artwork" class="col-sm-4">';
+    $message .= '  <div class="col-sm-8">';
+    $message .= '    <span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
+    $message .= '    <span style="color:#999;">Artist: </span><span>' . $artist . '</span><br>';
+    $message .= '    <span style="color:#999;">Uploaded by: </span><span>' . $user . '</span><br>';
+    $message .= '  </div>';
+    $message .= '</div>';
 
     $con->query("INSERT INTO `copyright_infringement` (`SONG_ID`,`RDON_ID`,`USER_1`,`USER_2`) VALUES ($mid,'$song_id','$user','$slusername')");
-    exit(1);
+    $result['message'] = 'Potential copyright detected';
+    $result['copyright'] = [
+      'message' => $message,
+      'song_id' => $song_id,
+      'hash' => $hash
+    ];
+    display_result();
   }
 
   $acoustid_creds = json_decode(file_get_contents('acoustid.json'));
@@ -84,21 +110,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $lookup = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&duration=$duration&fingerprint=$fingerprint");
   if ($lookup->status === 'ok' && count($lookup->results) > 0) {
     $trackid = $lookup->results[0]->id;
-    $metadata_results = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&trackid=$trackid&meta=recordings");
-    $recordings = $metadata_results->results[0]->recordings;
-    $title = 'Unknown title';
-    $artist = 'Unknown artist';
+    $recordings = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&trackid=$trackid&meta=recordings");
+    if ($recordings->status === 'ok' && count($recordings->results) > 0) {
+      $recordings_result = $recordings->results[0];
+      if (count($recordings_result->recordings) > 0) {
+        $recording_id = $recordings_result->recordings[0]->id;
+        $releases = get_json("https://musicbrainz.org/ws/2/recording/$recording_id?inc=artists+releases&fmt=json");
+        if (count($releases->releases) > 0) {
+          $release_id = $releases->releases[0]->id;
+          $title = $releases->title;
+          $artists = '';
+          $artwork = '';
 
-    for ($i = 0; $i < count($recordings); $i++) {
-      $recording = $recordings[$i];
-      $artist = isset($recording->artists[0]) ? $recording->artists[0]->name : $artist;
-      $title = isset($recording->title) ? $recording->title : $title;
+          for ($i = 0; $i < count($releases->{'artist-credit'}); $i++) {
+            $artist = $releases->{'artist-credit'}[$i]->name;
+            $artists = empty($artists) ? $artist : "$artists; $artist";
+          }
+
+          $artworks = get_json("https://coverartarchive.org/release/$release_id");
+          $artwork = count($artworks->images) > 0 ? $artworks->images[0]->thumbnails->small : '';
+
+          $message = '';
+          $message .= '<i class="far fa-copyright fa-lg"></i> Potential copyright detected <i class="fas fa-exclamation"></i> <br><br>';
+          $message .= '<div class="row">';
+          $message .= '  <img src="' . $artwork . '" alt="' . $title . ' artwork" class="col-sm-4">';
+          $message .= '  <div class="col-sm-8">';
+          $message .= '    <span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
+          $message .= '    <span style="color:#999;">Artist: </span><span>' . $artists . '</span><br>';
+          $message .= '  </div>';
+          $message .= '</div>';
+          $result['message'] = 'Potential copyright detected';
+          $result['copyright'] = [
+            'message' => $message,
+            'song_id' => null,
+            'hash' => null
+          ];
+          display_result();
+        }
+      }
     }
-
-    echo 'Potential copyright detected.<br>';
-    echo '<span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
-    echo '<span style="color:#999;">Artist: </span><span>' . $artist . '</span><br>';
-    exit(1);
   }
 
   $licenses = ['by', 'by-nc', 'by-nd', 'by-nc-nd', 'by-sa', 'by-nc-sa'];
@@ -106,8 +156,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $patterns = array('/by/', '/nc/', '/nd/', '/sa/');
     $replace = array('Attribution', 'NonCommercial', 'NoDerivatives', 'ShareAlike');
     $copyright_message = preg_replace($patterns, $replace, $copyright);
-  } else die('Unknown license');
+  } else {
+    $result['message'] = 'Unknown license';
+    display_result();
+  }
 
+  // Inserting and tagging
   if (isset($_SESSION) && isset($_SESSION['ses_sluserid'])) {
     // uses gmdate() (timezone+00:00) when inserting a song to the database
     $date = gmdate('Y-m-d H:i:s');
@@ -188,24 +242,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tagwriter->tag_data = $tag_data;
 
         if ($tagwriter->WriteTags()) {
-          header('Content-Type: application/json');
-          $result = json_encode([
+          $result['success'] = true;
+          $result['message'] = 'Success';
+          $result['result'] = [
             'id' => $rdon_id,
             'hash' => md5("asset-preview-$rdon_id")
-          ]);
+          ];
 
-          die($result);
+          display_result();
         } else {
-          echo 'error7:';
-          print_r($tagwriter->warnings);
-          print_r($tagwriter->errors);
+          $result['message'] = $tagwriter->errors;
+          display_result();
         }
       } else {
-        $con->query("DELETE FROM `song` WHERE `SONG_ID`=$last_inserted_id");
-        echo 'error5';
+        $result['message'] = 'Unable to move file(s)';
+        display_result();
       }
-    } else echo 'error2: ' . $con->error;
-  } else echo 'error3';
-} else echo 'error4';
+    } else {
+      $result['message'] = 'Unable to insert new song';
+      display_result();
+    }
+  } else {
+    $result['message'] = 'Not logged in';
+    display_result();
+  }
+} else {
+  $result['message'] = 'Unsupported method';
+  display_result();
+}
 
 ?>

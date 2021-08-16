@@ -1,4 +1,3 @@
-
 function imageURL (bytes, format) {
   let encoded = ''
   bytes.forEach(function (byte) {
@@ -144,7 +143,7 @@ async function readTags (file) {
   mp3tag.read()
   if (mp3tag.error !== '') {
     noty({
-      text: 'File has no tags, please continue!',
+      text: '<i class="far fa-exclamation-circle fa-lg"></i> File has no tags, please continue!',
       layout: 'topRight',
       timeout: 5000
     })
@@ -178,13 +177,13 @@ const audio = new Audio()
 async function submitForm () {
   $('#submit_btn').attr('disabled', true)
   if (!audioFile) {
-    noty({ text: 'No MP3 file found', layout: 'topRight', type: 'error' })
+    noty({ text: '<i class="far fa-exclamation-circle fa-lg"></i> No MP3 file found', layout: 'topRight', type: 'error' })
     $('#submit_btn').attr('disabled', null)
     return
   }
 
   if (!imageBytes) {
-    noty({ text: 'Artwork is required', layout: 'topRight', type: 'error' })
+    noty({ text: '<i class="far fa-exclamation-circle fa-lg"></i> Artwork is required', layout: 'topRight', type: 'error' })
     $('#submit_btn').attr('disabled', null)
     return
   }
@@ -199,7 +198,7 @@ async function submitForm () {
   const terms = $('input[name="agree_disagree"]').is(':checked')
   if (!terms) {
     noty({
-      text: 'Terms and Conditions are not accepted',
+      text: '<i class="far fa-exclamation-circle fa-lg"></i> Terms and Conditions are not accepted',
       layout: 'topRight',
       type: 'error'
     })
@@ -214,7 +213,7 @@ async function submitForm () {
   const copyright = $('input[name="copyright-type"]:checked').val()
   if (copyright !== 'c' && (!commercial || !adaptations)) {
     noty({
-      text: 'Invalid license',
+      text: '<i class="far fa-exclamation-circle fa-lg"></i> Invalid license',
       layout: 'topRight',
       type: 'error'
     })
@@ -246,7 +245,7 @@ async function submitForm () {
   }
 
   noty({
-    text: '<i class="fad fa-spinner-third fa-spin fa-lg"></i> Uploading file to server! Please wait for confirmation. Do not refresh browser.',
+    text: '<i class="fad fa-spinner-third fa-spin fa-lg"></i> Uploading file! <br>Please wait for confirmation. Do not refresh browser.',
     layout: 'topRight',
     timeout: 16000
   })
@@ -262,48 +261,56 @@ async function submitForm () {
       $('#submit_btn').attr('disabled', null)
     },
     success: function (data) {
-      noty({
-        text: '<i class="far fa-check-circle fa-lg"></i> Submission was successful!',
-        layout: 'topRight',
-        type: 'success',
-        timeout: 5000
-      })
-      window.location.reload()
-    },
-    error: function (xhr, status, error) {
-      console.error(status, xhr, error)
-      const data = xhr.responseText
-      if (data.startsWith('Potential copyright detected.')) {
-        const html = $.parseHTML(data)
-        const songID = typeof html[11] !== 'undefined' ? html[11].innerHTML : null
-        const hash = typeof html[12] !== 'undefined' ? html[12].innerHTML : null
+      if (data.success) {
+        noty({
+          text: '<i class="far fa-check-circle fa-lg"></i> Submission was successful!',
+          type: 'success',
+          layout: 'topRight',
+          timeout: 5000
+        })
+
+        window.location.reload()
+      } else if (data.copyright !== null) {
+        const songID = data.copyright.song_id
+        const hash = data.copyright.hash
+
         if (songID !== null && hash !== null) {
           noty({
-            text: 'Something went wrong. Error: ' + data,
+            text: data.copyright.message,
             layout: 'topRight',
             buttons: [{
               addClass: 'btn btn-primary btn-clean btn-sm',
               text: 'Play song',
               onClick: function (noti) {
+                const button = $(noti.$buttons).find('button')[0]
                 if (audio.paused) {
                   audio.src = '/asset.php?id=' + songID + '&hash=' + hash
                   audio.play()
+                  $(button).text('Pause song')
                 } else {
                   audio.pause()
+                  $(button).text('Play song')
                 }
               }
             }, {
-              addClass: 'btn btn-danger btn-clean btn-sm',
-              text: 'Close',
+              addClass: 'btn btn-primary btn-clean btn-sm',
+              text: 'Go to player',
               onClick: function (noti) {
-                audio.pause()
+                window.location.href = '/song-player.php?id=' + songID + '&hash=' + hash
                 noti.close()
               }
-            }]
+            }],
+            callback: {
+              onClose: function (noti) {
+                audio.pause()
+                const button = $(noti.$buttons).find('button')[0]
+                $(button).text('Play song')
+              }
+            }
           })
         } else {
           noty({
-            text: 'Something went wrong. Error: ' + data,
+            text: data.copyright.message,
             layout: 'topRight',
             buttons: [{
               addClass: 'btn btn-danger btn-clean btn-sm',
@@ -314,11 +321,24 @@ async function submitForm () {
             }]
           })
         }
-        return
+      } else {
+        noty({
+          text: '<p align="center"><strong>ATTENTION <i class="fas fa-exclamation"></i></strong></p> ' + data.message,
+          layout: 'topRight',
+          buttons: [{
+            addClass: 'btn btn-danger btn-clean btn-sm',
+            text: 'Close',
+            onClick: function (noti) {
+              noti.close()
+            }
+          }]
+        })
       }
-
+    },
+    error: function (xhr, status, error) {
+      const text = xhr.responseText
       noty({
-        text: 'Something went wrong. Error: ' + data,
+        text: text,
         layout: 'topRight',
         type: 'error'
       })
