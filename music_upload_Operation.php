@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
 $groupswithaccess = 'RADIONER,CEO,FOUNDER';
 
 require_once 'slpw/sitelokpw.php';
@@ -85,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $artwork = get_art_work($song_id, $type);
 
     $message = '';
-    $message .= '<i class="far fa-copyright"></i> We detected potential copyright infringement!<br><br> <span style="color:#F39C12;">- Song Information:</span><br><br>';
+    $message .= '<i class="far fa-copyright"></i> RADION has detected potential copyright infringement with this asset, and we cannot accept your upload at this time! <br><br> <span style="color:#F39C12;">- Song Information:</span><br><br>';
     $message .= '<div class="row">';
-    $message .= '  <img src="' . $artwork . '" alt="' . $title . ' artwork" class="col-sm-4">';
+    $message .= '  <img src="' . $artwork . '" alt="' . $title . ' artwork" class="col-sm-4" style="border-radius:20px 30px;">';
     $message .= '  <div class="col-sm-8">';
     $message .= '    <span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
     $message .= '    <span style="color:#999;">Artist: </span><span>' . $artist . '</span><br>';
@@ -115,38 +112,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $recordings_result = $recordings->results[0];
       if (count($recordings_result->recordings) > 0) {
         $recording_id = $recordings_result->recordings[0]->id;
-        $releases = get_json("https://musicbrainz.org/ws/2/recording/$recording_id?inc=artists+releases&fmt=json");
-        if (count($releases->releases) > 0) {
-          $release_id = $releases->releases[0]->id;
-          $title = $releases->title;
-          $artists = '';
-          $artwork = '';
+        $releases = get_json("https://musicbrainz.org/ws/2/recording/$recording_id?inc=artists+releases+label-rels&fmt=json");
+        $release_id = isset($releases->releases[0]) ? $releases->releases[0]->id : null;
+        $label = isset($releases->relations[0]) ? $releases->relations[0]->label->name : 'No label';
+        $release_year = substr($releases->{'first-release-date'}, 0, 4);
+        $title = $releases->title;
+        $artists = '';
+        $artworks = $release_id !== null ? get_json("https://coverartarchive.org/release/$release_id") : null;
+        $artwork = $artworks !== null && count($artworks->images) > 0 ? $artworks->images[0]->thumbnails->small : '';
 
-          for ($i = 0; $i < count($releases->{'artist-credit'}); $i++) {
-            $artist = $releases->{'artist-credit'}[$i]->name;
-            $artists = empty($artists) ? $artist : "$artists; $artist";
-          }
-
-          $artworks = get_json("https://coverartarchive.org/release/$release_id");
-          $artwork = count($artworks->images) > 0 ? $artworks->images[0]->thumbnails->small : '';
-
-          $message = '';
-          $message .= '<i class="far fa-copyright fa-lg"></i> Potential copyright detected <i class="fas fa-exclamation"></i> <br><br>';
-          $message .= '<div class="row">';
-          $message .= '  <img src="' . $artwork . '" alt="' . $title . ' artwork" class="col-sm-4">';
-          $message .= '  <div class="col-sm-8">';
-          $message .= '    <span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
-          $message .= '    <span style="color:#999;">Artist: </span><span>' . $artists . '</span><br>';
-          $message .= '  </div>';
-          $message .= '</div>';
-          $result['message'] = 'Potential copyright detected';
-          $result['copyright'] = [
-            'message' => $message,
-            'song_id' => null,
-            'hash' => null
-          ];
-          display_result();
+        for ($i = 0; $i < count($releases->{'artist-credit'}); $i++) {
+          $artist = $releases->{'artist-credit'}[$i]->name;
+          $artists = empty($artists) ? $artist : "$artists; $artist";
         }
+
+        $message = '';
+        $message .= '<div align="center" style="color:#F39C12;"><strong>ATTENTION <i class="fas fa-exclamation"></i></strong></div><p style="color:#7B7D7D; padding:10px;" align=justify">We have detected potential copyright infringement with this recording. Please read our <a href="https://www.radion.fm/intellectual-property-policy.php" target="blank">Intellectual property policy</a> for more information. If you think we have made a mistake please contact us.</p>';
+        $message .= '<div class="row">';
+        $message .= '  <img src="' . $artwork . '" alt="' . $title . ' artwork" class="col-sm-4" style="border-radius:30px">';
+        $message .= '  <div class="col-sm-8">';
+        $message .= '    <span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
+        $message .= '    <span style="color:#999;">Artist: </span><span>' . $artists . '</span><br>';
+        $message .= '    <span style="color:#999;">Label: </span><span>' . $label . '</span><br>';
+        $message .= '    <span style="color:#999;">Release: </span><span>' . $release_year . '</span><br> <i class="far fa-copyright"></i>';
+        $message .= '  </div>';
+        $message .= '</div>';
+        $result['message'] = 'Potential copyright detected';
+        $result['copyright'] = [
+          'message' => $message,
+          'song_id' => null,
+          'hash' => null
+        ];
+        display_result();
       }
     }
   }
