@@ -245,8 +245,9 @@ async function submitForm () {
   }
 
   noty({
-    text: '<i class="fad fa-spinner-third fa-spin fa-lg"></i> Uploading file! <br>Please wait for confirmation. Do not refresh browser.',
+    text: '<i class="fad fa-spinner-third fa-spin fa-lg"></i> Processing file! <br>Please wait for confirmation. Do not refresh browser.',
     layout: 'topRight',
+    type: 'information',
     timeout: 16000
   })
 
