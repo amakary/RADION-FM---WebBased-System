@@ -31,8 +31,8 @@
   <script src="https://unpkg.com/ipfs@0.54.4/dist/index.min.js"></script>
   <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@10.1.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@10.1.0/dist/taquito-beacon-wallet.umd.js"></script>
   <script src="https://unpkg.com/mp3tag.js@3.1.1/dist/mp3tag.min.js"></script>
   <script src="https://unpkg.com/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
 </head>

@@ -50,10 +50,10 @@ date_default_timezone_set('US/Eastern');
   <script src="/slpw/plugin_blab/sarissa.js"></script>
   <script src="/slpw/plugin_blab/blab.js"></script>
   <script src="https://cdn.lordicon.com//libs/frhvbuzj/lord-icon-2.0.2.js"></script>
-  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.3/dist/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.0.0/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@10.1.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@10.1.0/dist/taquito-beacon-wallet.umd.js"></script>
 
   <!-- QR CODE CDN -->
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>

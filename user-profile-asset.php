@@ -484,8 +484,8 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
   <script src="/js/tezos.js"></script>
   <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.2.0/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.2.0/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@10.1.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@10.1.0/dist/taquito-beacon-wallet.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
   <!-- END PLUGINS -->
 
