@@ -4,7 +4,7 @@ $codes_json = file_get_contents(__DIR__ . '/php/country_codes.json');
 $codes = json_decode($codes_json, true);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  define('E_MSG_COUNTRY_CODE', );
+  define('E_MSG_COUNTRY_CODE', 'Invalid country code');
 
   $valid_codes = [];
   foreach ($codes as $code => $country) $valid_codes[] = $code;
@@ -72,7 +72,7 @@ require_once 'slpw/slregisterform.php';
       <div class="registration-body">
         <div class="row">
           <div class="col-md-6">
-            <div class="registration-title" align="center"><strong>REGISTRATION</strong></div>
+            <div align="center"><h1 style="color:#fff;">REGISTRATION</h1></div>
             <div class="registration-subtitle" align="justify" style="border-bottom: 1px dashed #F39C12; padding-bottom:15px;">Welcome to RADION FM! This process may take a few minutes. Your personal information is required in order to be recognized for your talent.</div>
 
             <div id="slform_1" style="padding-bottom:0px;">
@@ -104,21 +104,21 @@ require_once 'slpw/slregisterform.php';
                 </div><br>
 
                 <div class="row">
-                  <div class="col-md-4" style="margin-left:-10px;">
+                  <div class="col-md-6" style="margin-left:-10px;">
                     <div id="slfielddiv_1_4" class="sltextfield_1">
                       <div class="registration-subtitle" style="color:#7B7D7D;"><small>Country Code <a href="#" title="ISO-3166-1: Alpha-2"><i class="far fa-exclamation-circle"></i></a></small></div>
                       <select name="custom1" id="slfieldinput_1_4" class="form-control">
-                        <option value="None" selected>Select country code</option>
+                        <option value="None" selected style="background-color:#555;">Select your country</option>
                         <?php
                         foreach ($codes as $code => $country) { ?>
                         <option value="<?= $code ?>"><?= $country ?></option>
                         <?php } ?>
                       </select>
-                      <div id="slmsg_1_4" class ="slmsg_1" aria-live="polite" style="color:#C0392B;"></div>
+                      <div id="slmsg_1_4" class ="slmsg_1" aria-live="polite" style="color:#555;"></div>
                     </div>
                   </div>
 
-                  <div class="col-md-8" style="padding:0px; right:0; position:absolute; margin-right:10px;">
+                  <div class="col-md-6" style="padding:0px; right:0; position:absolute; margin-right:10px;">
                     <div id="slfielddiv_1_5" class="slselectfield_1">
                       <div class="registration-subtitle" style="color:#7B7D7D;"><small>- Select one option - You are?</small></div>
                       <select name="custom10" class="form-control" id="slfieldinput_1_5">
@@ -232,7 +232,7 @@ require_once 'slpw/slregisterform.php';
       </div>
 
       <div class="registration-footer">
-        <div class="pull-left">&copy; 2018 - 2021 RADION FM</div>
+        <div class="pull-left">&copy; 2021 RADION FM</div>
         <div class="pull-right">
 
           <a href="https://www.radion.fm/privacy-policy.php">Privacy Policy</a> |
