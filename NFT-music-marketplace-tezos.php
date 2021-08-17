@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>NFT Marketplace RADION FM</title>
-  <meta property="og:description" content="RADION FM - Create NFT for your Music on Tezos.">
+  <title>NFT for Music</title>
+  <meta property="og:description" content="RADION FM allows you to create NFT for your music on Tezos blockchain.">
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -83,7 +83,7 @@
       <!-- START BREADCRUMB -->
       <ul class="breadcrumb">
         <li><a href="#"></a></li>
-        <li class="active">This is an experimental feature open to the public. Our current commission fee is 3.69% per sell. For example; If you sell a NFT for $20 USD you will receive $19.22 USD.</li>
+        <li class="active">This is an experimental feature open to the public. Our platform allows music producers to create NFT for their music and and sell them as NFT.</li>
       </ul>
       <!-- END BREADCRUMB -->
 
