@@ -108,7 +108,7 @@ require_once 'slpw/slregisterform.php';
                     <div id="slfielddiv_1_4" class="sltextfield_1">
                       <div class="registration-subtitle" style="color:#7B7D7D;"><small>Country Code <a href="#" title="ISO-3166-1: Alpha-2"><i class="far fa-exclamation-circle"></i></a></small></div>
                       <select name="custom1" id="slfieldinput_1_4" class="form-control">
-                        <option value="None" selected style="background-color:#555;">Select your country</option>
+                        <option value="None" selected>Select your country</option>
                         <?php
                         foreach ($codes as $code => $country) { ?>
                         <option value="<?= $code ?>"><?= $country ?></option>
@@ -243,18 +243,23 @@ require_once 'slpw/slregisterform.php';
   </div>
 
   <style>
-    #slfakenamediv_1 {
-      opacity: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 0;
-      width: 0;
-      padding: 0;
-      margin: 0;
-      z-index: -1;
-      margin-bottom: 20px;
-    }
+  #slfieldinput_1_4 option:checked,
+  #slfieldinput_1_4 option:hover {
+    background-color: #555;
+  }
+
+  #slfakenamediv_1 {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    z-index: -1;
+    margin-bottom: 20px;
+  }
   </style>
 
   <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
