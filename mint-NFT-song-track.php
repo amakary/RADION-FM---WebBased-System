@@ -496,8 +496,9 @@ if ($id !== null) {
                             <div>This asset was already minted</div>
                             <?php } ?>
 
-                            <input type="hidden" id="license" value="CC BY-NC-ND">
-                            <input type="hidden" id="filesize" value="10">
+                            <input type="hidden" id="license" value="<?= $license ?>">
+                            <input type="hidden" id="filesize" value="<?= $filesize ?>">
+
                             <div class="form-group has-info">
                               <label class="control-label">RADION ID</label>
                               <input id="id" type="text" value="<?= $id ?>" class="form-control" readonly>

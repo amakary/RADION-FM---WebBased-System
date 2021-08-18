@@ -2,7 +2,7 @@ const { TezosToolkit, MichelsonMap } = taquito
 const { BeaconWallet } = taquitoBeaconWallet
 const { NetworkType } = beacon
 
-const rpc = 'https://mainnet-tezos.giganode.io'
+const rpc = 'https://mainnet.smartpy.io'
 const tezos = new TezosToolkit(rpc)
 const wallet = new BeaconWallet({
   name: 'RADION FM',
@@ -76,6 +76,7 @@ async function mint () {
   const idbml = $('#idbml').val()
   const editionsCount = parseInt($('#editions-count').val())
   const enforceContract = $('[name="enforce-contract"]:checked').val()
+  const fingerprint = await getFingerprint(audioData)
   let type = $('[name="license-class"]:checked').val()
   let termsURL = ''
   let sellPrice = 0
@@ -171,7 +172,8 @@ async function mint () {
     idbml: idbml,
     licensing_terms: termsURL,
     legal_contract_type: type,
-    enforce_contract: enforceContract
+    enforce_contract: enforceContract,
+    fingerprint: fingerprint
   })
 
   const { cid: bytesCid } = await ipfsAdd(bytes)
@@ -195,6 +197,7 @@ async function mint () {
   map.set('licensing_terms', strToHex(termsURL))
   map.set('legal_contract_type', strToHex(type))
   map.set('enforce_contract', strToHex(enforceContract))
+  map.set('fingerprint', strToHex(fingerprint))
 
   const batch = tezos.batch()
   const receivers = []
@@ -343,3 +346,26 @@ $(document).ready(function () {
     $('#sell-price-xtz').html(sellXTZ + ' &#42793;')
   }
 })
+
+async function getFingerprint (data, type) {
+  return new Promise(function (resolve, reject) {
+    const blob = new Blob([data], { type: type })
+    const formData = new FormData()
+    formData.append('data', blob, 'filetemp')
+    $.ajax('/php/get_fingerprint.php', {
+      type: 'POST',
+      data: formData,
+      dataType: 'json',
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data) {
+        if (data.success) resolve(data.message)
+        else reject(data.message)
+      },
+      error: function (xhr, status, error) {
+        reject(error)
+      }
+    })
+  })
+}
