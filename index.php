@@ -731,25 +731,25 @@ if ($result->num_rows > 0) {
         </div>
         <div class="panel-body list-group" style="padding:0px 10px 30px 10px;">
           <div class="list-group-item">
-            <h6 style="padding-left:5px;"><strong><i class="fas fa-hashtag fa-2x"></i> NFT MUSIC TRACKS</strong></h6>
+            <h6 style="padding-left:5px;"><strong><i class="fas fa-hashtag fa-2x"></i> GENUINE NFT MUSIC TRACKS</strong></h6>
             RADION FM creates genuine NFT music tracks from music producers and artist.<br/>
           </div>
 
 		  <div class="list-group-item">
             <h6 style="padding-left:5px;"><strong><i class="fab fa-creative-commons fa-2x"></i> MUSIC LICENSING & ROYALTIES</strong></h6>
-            RADION FM works with music licensing in order to protect your rights.<br/>
+            RADION FM works with multiple type of music licensing in order to protect your rights.<br/>
           </div>
           <div class="list-group-item">
-            <h6 style="padding-left:5px;"><strong><i class="fas fa-user-friends fa-2x"></i> PLAYABLE BY ANYONE</strong></h6>
-            RADION FM creates MP3 files compatible with all the online radio stations and music players.<br/>
+            <h6 style="padding-left:5px;"><strong><i class="fal fa-fingerprint fa-2x"></i> AUDIO FINGERPRINT RECOGNITION</strong></h6>
+            RADION FM use audio fingerprint to prevent copyright infringements and protect genuine NFTs.<br/>
           </div>
           <div class="list-group-item">
-            <h6 style="padding-left:5px;"><strong><i class="fas fa-phone-laptop fa-2x"></i> CROSS-PLATFORM</strong></h6>
-            RADION FM works on every mobile, tablet, desktop, across all browsers and operating systems.<br/>
+            <h6 style="padding-left:5px;"><strong><i class="fas fa-file-contract fa-2x"></i> LEGAL CONTRACTS</strong></h6>
+            We integrate legal contracts to support NFTs and comply with the legal aspects of the industry.<br/>
           </div>
           <div class="list-group-item">
             <h6 style="padding-left:5px;"><strong><i class="far fa-wallet fa-2x"></i> DIRECT PAYMENT</strong></h6>
-            Instant Payment for each song downloaded by users. Transaction confirm with blockchain technology.<br/>
+            Instant Payment for each song downloaded by users. Transaction confirm on blockchain.<br/>
           </div>
           <div class="list-group-item">
             <h6 style="padding-left:5px;"><strong><i class="fas fa-chart-network fa-2x"></i> PEER TO PEER NETWORK</strong></h6>
