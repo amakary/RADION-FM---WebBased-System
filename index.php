@@ -216,7 +216,7 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
             <li><a href="#" style="color:#FEA223;"><i class="far fa-exclamation-circle fa-lg"></i>&nbsp; <strong>ASSETS PENDING</strong></a><div class="informer informer-warning" id="total_submission">+679</div></li>
             <li><a href="#"><i class="fad fa-podcast fa-lg"></i>&nbsp; PODCAST</a><div class="informer informer-default" id="talk_show">0</div></li>
       			<li><a href="#"><i class="far fa-headphones"></i>&nbsp; LATINO</a><div class="informer informer-default" id="latin">0</div></li>
-      			<li><a href="#"><i class="far fa-headphones"></i>&nbsp; DJs MIX</a><div class="informer informer-default" id="djmix">0</div></li>
+      			<li><a href="#"><i class="far fa-headphones"></i>&nbsp; Beats</a><div class="informer informer-default" id="djmix">0</div></li>
       			<li><a href="#"><i class="far fa-headphones"></i>&nbsp; INDIE ROCK</a><div class="informer informer-default" id="rock">0</div></li>
             <li><a href="#"><i class="far fa-headphones"></i>&nbsp; COUNTRY MUSIC</a> <div class="informer informer-default" id="country">0</div></li>
             <li><a href="#"><i class="far fa-headphones"></i>&nbsp; POP</a><div class="informer informer-default" id="pop">0</div></li>
