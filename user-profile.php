@@ -1,6 +1,8 @@
 <?php
 
 date_default_timezone_set('UTC');
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
 
 $groupswithaccess = 'ALL,PUBLIC,RADIONER,RADION,FOUNDER';
 $memberprofilepage = 1;
@@ -152,7 +154,27 @@ $followers_count = count($followers);
 $getID3 = new getID3();
 $from = ($page_no - 1) * $per_page;
 $to = $per_page;
-$result = $con->query("SELECT * FROM `song` WHERE `USER_NAME`='$profile_username' AND `SONG_STATUS`<>0 ORDER BY `SONG_ID` DESC LIMIT $from,$to");
+$query = <<<EOD
+SELECT
+  `song`.`RDON_ID`,
+  `song`.`SONG_ID`,
+  `song`.`SONG_STATUS`,
+  `song`.`SONG_NAME`,
+  `song`.`SONG_SUBMIT_DATE`,
+  `song`.`NFT`,
+  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND `song_like`.`SONG_LIKE_STATUS` = 1) -
+  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND `song_like`.`SONG_LIKE_STATUS` = 0) AS `likes`,
+  (SELECT COUNT(*) FROM `song_love` WHERE `song_love`.`SONG_ID` = `song`.`SONG_ID`) AS `loves`,
+  (SELECT COUNT(*) FROM `song_tweet` WHERE `song_tweet`.`SONG_ID` = `song`.`SONG_ID`) AS `shares`,
+  (SELECT COUNT(*) FROM `song_play` WHERE `song_play`.`SONG_ID` = `song`.`SONG_ID`) AS `plays`
+FROM `song`
+WHERE `song`.`USER_NAME` = '{$profile_username}' AND `song`.`SONG_STATUS` <> 0
+ORDER BY `song`.`SONG_ID` DESC
+LIMIT $from,$to
+EOD;
+
+$result = $con->query($query);
+if ($con->errno) die($con->error);
 
 while ($song = $result->fetch_object()) {
   $rdon_id = $song->RDON_ID;
@@ -160,13 +182,10 @@ while ($song = $result->fetch_object()) {
   $img_src = get_art_work($rdon_id, $song->SONG_STATUS);
   $source = get_music_source($rdon_id, $song->SONG_STATUS);
 
-  // Get loves, shares, and mp3's info to display
-  $hearts_res = $con->query("SELECT COUNT(*) AS `hearts` FROM `song_love` WHERE `SONG_ID`=$song_id AND `SONG_LOVE_STATUS`=1");
-  $hearts = $hearts_res->fetch_object()->hearts;
-  $shares_res = $con->query("SELECT COUNT(*) AS `shares` FROM `song_share` WHERE `SONG_ID`=$song_id");
-  $shares = $shares_res->fetch_object()->shares;
-  $plays_res = $con->query("SELECT COUNT(*) AS `plays` FROM `song_play` WHERE `SONG_ID`=$song_id");
-  $plays = $plays_res->fetch_object()->plays;
+  $likes = $song->likes;
+  $hearts = $song->loves;
+  $shares = $song->shares;
+  $plays = $song->plays;
   $mp3info = $getID3->analyze($source);
   $duration = $mp3info['playtime_string'];
 
@@ -192,6 +211,7 @@ while ($song = $result->fetch_object()) {
                 </div>
 
                 <div style="padding-top:15px;" align="right">
+                  <button type="button" class="btn btn-default btn-xs" id="like-<?= $rdon_id ?>"><i class="fas fa-thumbs-up"></i></button>
                   <button type="button" class="btn btn-default btn-xs" id="heart-<?= $rdon_id ?>"><i class="fas fa-heart"></i></button>
                   <button type="button" class="btn btn-default btn-xs" id="share-<?= $rdon_id ?>"><i class="fas fa-share"></i></button>
                   <button type="button" class="btn btn-primary btn-xs" id="buy-<?= $rdon_id ?>" disabled>CONNECT WALLET TO DOWNLOAD</button>
@@ -199,9 +219,10 @@ while ($song = $result->fetch_object()) {
 
                 <div style="font-size:12px; margin-top:-30px;">
                   <span>Published:</span> <span style="color:#F39C12;"><?= $song->SONG_SUBMIT_DATE ?></span><br>
-                  <span style="padding-right:10px;"><i class="fas fa-heart"></i> <span id="hearts"><?= $hearts ?></span></span>
+                  <span style="padding-right:10px;"><i class="fas fa-thumbs-up"></i> <span id="likes-<?= $rdon_id ?>"><?= $likes ?></span></span>
+                  <span style="padding-right:10px;"><i class="fas fa-heart"></i> <span id="hearts-<?= $rdon_id ?>"><?= $hearts ?></span></span>
                   <span style="padding-right:10px;"><i class="fas fa-headphones"></i> <?= $plays ?></span>
-                  <span style="padding-right:10px;"><i class="fas fa-share"></i> <?= $shares ?></span>
+                  <span style="padding-right:10px;"><i class="fas fa-share"></i> <span id="shares-<?= $rdon_id ?>"><?= $shares ?></span></span>
                   <span>CHART:</span> <span style="padding-right:10px;">#<?= $rank ?></span>
                   <?php if ($song->NFT) { ?><span><strong>NFT</strong> <i class="far fa-check-circle" style="color:#27AE60;"></i></span><?php } ?>
                 </div>
@@ -540,7 +561,7 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
   })
 
   $('[id|="heart"]').click(async function () {
-    const songId = $(this).attr('id').split('-')[1]
+    const songId = $(this).attr('id').slice(6)
     $.ajax('/php/vote_send.php', {
       type: 'POST',
       data: {
@@ -549,7 +570,26 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
       },
       success: function (data, status, xhr) {
         getMetadata(songId).then(function (metadata) {
-          $('#hearts').text(metadata.isLoveIt)
+          $('#hearts-' + songId).text(metadata.isLoveIt)
+        })
+      },
+      error: function (xhr, status, error) {
+        alert(xhr.responseText)
+      }
+    })
+  })
+
+  $('[id|="like"]').click(async function () {
+    const songId = $(this).attr('id').slice(5)
+    $.ajax('/php/vote_send.php', {
+      type: 'POST',
+      data: {
+        type: '1',
+        music_id: songId
+      },
+      success: function (data, status, xhr) {
+        getMetadata(songId).then(function (metadata) {
+          $('#likes-' + songId).text(metadata.isLikes)
         })
       },
       error: function (xhr, status, error) {
@@ -559,7 +599,7 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
   })
 
   $('[id|="buy"]').click(async function () {
-    const songId = $(this).attr('id').split('-')[1]
+    const songId = $(this).attr('id').slice(6)
     const content = $('#temp-buy-noty').prop('content')
     const clone = $(content).clone(true, true)
     const metadata = await getMetadata(songId)
@@ -605,6 +645,9 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
     const intentURL = 'https://twitter.com/intent/tweet?text=' + text + '&url=' + shareURL
     window.open(intentURL, 'childwindow', 'width=550,height=425,toolbar=0,status=0')
     $.post('/php/tweet.php', { id: songID })
+
+    const newMetadata = await getMetadata(songID)
+    $('#shares-' + songID).text(newMetadata.tweets)
   })
 
   async function getMetadata (songId) {
