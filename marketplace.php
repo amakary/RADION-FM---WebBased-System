@@ -439,16 +439,16 @@ require_once 'php/music_info_get.php';
                   <input type="text" value="" class="hide" id="rdon_id">
 
                                         <a onclick="play_audio()" class="profile-control-left"><i class="fas fa-play" name="" id="play_icon"></i></a>
-                                        <a onclick="sendAjax(3)" class="profile-control-right" id="love_post"><span class="fas fa-heart"></span></a>
+                                        <a onclick="sendAjax('3')" class="profile-control-right" id="love_post"><span class="fas fa-heart"></span></a>
                                     </div>
 
                                 </div>
                                 <div class="panel-body list-group" style="padding-top:20px; background-color:#F3F3F3">
 <div style="width:100%;">
 <span style="padding-left:10px; padding-right:40%;"><i href="#" class="fas fa-check-circle"></i> VOTE</span>
-<button class="btn btn-default btn-condensed" onclick="sendAjax('2')" id="like_btn"><i class="fas fa-thumbs-up"></i></button>
+<button class="btn btn-default btn-condensed" onclick="sendAjax('1')" id="like_btn"><i class="fas fa-thumbs-up"></i></button>
 <span style=" padding-bottom:10px; padding-left:5px; padding-right:5px;">-</span>
-<button class="btn btn-default btn-condensed" style="padding-right:10px;" onclick="sendAjax('1')" id="unlike_post"><i class="fas fa-thumbs-down"></i></button>
+<button class="btn btn-default btn-condensed" style="padding-right:10px;" onclick="sendAjax('2')" id="unlike_post"><i class="fas fa-thumbs-down"></i></button>
 </div>
 <hr>
 <div style="width:100%;" id="sponsor_section" class="<?php echo $investor_section;?>">
@@ -925,55 +925,29 @@ alert(b);
 
  }
 
-function sendAjax(vote) {
-		//alert();
-		  sid= $('#song_id').val();
+function sendAjax (vote) {
+  const rdonId = $('#rdon_id').val()
+  if (vote === '1') {
+    $('#unlike_post').html('<i class="fa fa-cog faa-spin animated"></i>')
+  } else if (vote === '2') {
+    $('#like_btn').html('<i class="fa fa-cog faa-spin animated"></i>')
+  } else if (vote === '3') {
+    $('#love_post').html('<i class="fa fa-cog faa-spin animated"></i>')
+  }
 
-		if(vote==1){
-			$('#unlike_post').html('<i class="fa fa-cog faa-spin animated"></i>');
-
-		}else if(vote==2){
-
-					$('#like_btn').html('<i class="fa fa-cog faa-spin animated"></i>');
-
-		}else if(vote==3){
-													$('#love_post').html('<i class="fa fa-cog faa-spin animated"></i>');
-
-
-		}else if(vote==4){
-													//	$('#share_post').html('<i class="fa fa-cog faa-spin animated"></i>');
-
-
-		}
-	$.ajax({
-				url: "php/vote_submit1.php",
-				type: 'POST',
-				data: {'type': vote,SONG_ID:sid},
-				success: function (data) {
-
-               // alert(data);
-			$('#love_post').html('<span class="fas fa-heart"></span>');
-			$('#like_btn').html('<i class="fas fa-thumbs-up"></i>');
-			$('#unlike_post').html('<i class="fas fa-thumbs-down"></i>');
-
-
-//$('#data_tab').html('<li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Rock</a></li>  <li><a href="#tab-second" role="tab" data-toggle="tab">Pop</a></li><li><a href="#tab-third" role="tab" data-toggle="tab">Country</a></li><li ><a href="#tab-third"  role="tab" data-toggle="tab">Hip Hop / R&B </a></li><li><a href="#tab-third" role="tab" data-toggle="tab">Latin</a></li>  <li><a href="#tab-third" role="tab" data-toggle="tab">DJ Mix</a></li><li><a href="#tab-third" role="tab" data-toggle="tab">Talk Shows</a></li>');
-
-
-			},
-				error: function (xhr, ajaxOptions, thrownError) {
-				//alert(xhr.status);
-
-					if (xhr.status === 404) {
-						//alert('Not allowed.');
-					}
-
-					if (xhr.status === 403) {
-						//alert('Not allowed.');
-					}
-				}
-		});
-		}
+  $.ajax('/php/vote_send.php', {
+    type: 'POST',
+    data: {
+      type: vote,
+      music_id: rdonId
+    },
+    success: function (data) {
+      $('#love_post').html('<span class="fas fa-heart"></span>')
+      $('#like_btn').html('<i class="fas fa-thumbs-up"></i>')
+      $('#unlike_post').html('<i class="fas fa-thumbs-down"></i>')
+    }
+  })
+}
 
 		function express_view(){
 
