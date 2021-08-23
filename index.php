@@ -2134,7 +2134,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
             hash: hash,
             id: assetId,
             xtz: salePrice,
-            usd: salePrice * parseFloat(window.priceUsd)
+            usd: salePrice / parseFloat(window.priceUsd)
           }
         })
       }
