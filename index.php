@@ -2127,6 +2127,18 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       params.set('hash', hash)
       downloadURL('/php/request_contract.php?' + params.toString(), 'contract.pdf')
 
+      if (assetId) {
+        $.ajax('/php/download_nft.php', {
+          type: 'POST',
+          data: {
+            hash: hash,
+            id: assetId,
+            xtz: salePrice,
+            usd: salePrice * parseFloat(window.priceUsd)
+          }
+        })
+      }
+
       // Display SUCCESS
       const sweetAlert = await Swal.fire({
         icon: 'success',
