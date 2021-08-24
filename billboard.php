@@ -1,61 +1,29 @@
 <?php
 
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
 $groupswithaccess = 'ALL,PUBLIC';
-
 require_once 'slpw/sitelokpw.php';
 require_once 'php/music_info_get.php';
 
-$last_week_start = gmdate('Y-m-d 00:00:00', strtotime('monday last week'));
-$last_week_end = gmdate('Y-m-d 00:00:00', strtotime('monday this week'));
-$query_last = <<<EOD
-SELECT
-  `song`.*,
-  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND `song_like`.`SONG_LIKE_STATUS` = 1 AND `song_like`.`DATE` BETWEEN '{$last_week_start}' AND '{$last_week_end}') * 0.03 -
-  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND `song_like`.`SONG_LIKE_STATUS` = 0 AND `song_like`.`DATE` BETWEEN '{$last_week_start}' AND '{$last_week_end}') * 0.03 +
-  (SELECT COUNT(*) FROM `song_love` WHERE `song_love`.`SONG_ID` = `song`.`SONG_ID` AND `song_love`.`DATE` BETWEEN '{$last_week_start}' AND '{$last_week_end}') * 0.03 +
-  (SELECT COUNT(*) FROM `song_tweet` WHERE `song_tweet`.`SONG_ID` = `song`.`SONG_ID` AND `song_tweet`.`DATE` BETWEEN '{$last_week_start}' AND '{$last_week_end}') * 0.03 +
-  (SELECT COALESCE(SUM(`song_downloads`.`PRICE_USD`), 0) FROM `song_downloads` WHERE `song_downloads`.`SONG_ID` = `song`.`SONG_ID` AND `song_downloads`.`DATE` BETWEEN '{$last_week_start}' AND '{$last_week_end}') AS `score`
-FROM `song`
-WHERE `song`.`SONG_STATUS` = 1
-ORDER BY `score` DESC
-EOD;
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
 
-$billboard_last = [];
-$result_last = $con->query($query_last);
-$i = 0;
-
-while ($row = $result_last->fetch_object()) {
-  $billboard_last[$row->SONG_ID] = [
-    'index' => $i,
-    'rank' => $i + 1,
-    'score' => $row->score,
-    'peak' => $row->peak,
-    'wks' => $row->wks,
-    'wks_last' => $row->wks_last,
-    'uniq_id' => $row->RDON_ID,
-    'username' => $row->USER_NAME,
-    'title' => $row->SONG_NAME,
-    'artist' => $row->ARTIST_NAME,
-    'genre' => $row->SONG_GENRE,
-    'token_id' => $row->TOKEN_ID,
-    'hash' => $row->NFT
-  ];
-  $i++;
+function searchByID ($id, $array) {
+  foreach ($array as $key => $value) {
+    if ($value['song_id'] === $id) return $key;
+  }
+  return null;
 }
 
-$this_week_start = gmdate('Y-m-d 00:00:00', strtotime('monday this week'));
-$this_week_end = gmdate('Y-m-d 00:00:00', strtotime('monday next week'));
-$week_of = gmdate('F d, Y', strtotime('monday this week'));
+$this_week_start = gmdate('Y-m-d H:i:s', strtotime('monday this week') - 18000);
+$this_week_end = gmdate('Y-m-d H:i:s', strtotime('monday next week') - 18000);
+$week_of = gmdate('F d, Y', strtotime('monday this week') - 18000);
 $query_this = <<<EOD
 SELECT
   `song`.*,
-  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND `song_like`.`SONG_LIKE_STATUS` = 1 AND `song_like`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.03 -
-  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND `song_like`.`SONG_LIKE_STATUS` = 0 AND `song_like`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.03 +
+  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND `song_like`.`SONG_LIKE_STATUS` = 1 AND `song_like`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.03 +
   (SELECT COUNT(*) FROM `song_love` WHERE `song_love`.`SONG_ID` = `song`.`SONG_ID` AND `song_love`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.03 +
   (SELECT COUNT(*) FROM `song_tweet` WHERE `song_tweet`.`SONG_ID` = `song`.`SONG_ID` AND `song_tweet`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.03 +
+  (SELECT COALESCE(SUM(`song_downloads_nft`.`PRICE_USD`), 0) FROM `song_downloads_nft` WHERE `song_downloads_nft`.`SONG_ID` =  `song`.`SONG_ID` AND `song_downloads_nft`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') +
   (SELECT COALESCE(SUM(`song_downloads`.`PRICE_USD`), 0) FROM `song_downloads` WHERE `song_downloads`.`SONG_ID` = `song`.`SONG_ID` AND `song_downloads`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') AS `score`
 FROM `song`
 WHERE `song`.`SONG_STATUS` = 1
@@ -65,40 +33,66 @@ EOD;
 $billboard_this = [];
 $result_this = $con->query($query_this);
 $i = 0;
-
 while ($row = $result_this->fetch_object()) {
-  $billboard_this[$row->SONG_ID] = [
-    'index' => $i,
-    'rank' => $i + 1,
-    'score' => $row->score,
-    'peak' => $row->peak,
-    'wks' => $row->wks,
-    'wks_last' => $row->wks_last,
-    'uniq_id' => $row->RDON_ID,
-    'username' => $row->USER_NAME,
-    'title' => $row->SONG_NAME,
-    'artist' => $row->ARTIST_NAME,
-    'genre' => $row->SONG_GENRE,
-    'token_id' => $row->TOKEN_ID,
-    'hash' => $row->NFT
-  ];
-  $i++;
+  if ($i === 30) break;
+  if ($row->score > 0) {
+    $billboard_this[$i] = [
+      'score' => $row->score,
+      'peak' => $row->peak,
+      'wks' => $row->wks,
+      'wks_last' => $row->wks_last,
+      'song_id' => $row->SONG_ID,
+      'uniq_id' => $row->RDON_ID,
+      'username' => $row->USER_NAME,
+      'title' => $row->SONG_NAME,
+      'artist' => $row->ARTIST_NAME,
+      'genre' => $row->SONG_GENRE,
+      'token_id' => $row->TOKEN_ID,
+      'hash' => $row->NFT
+    ];
+    $i++;
+  }
 }
 
-$billboard = array_slice($billboard_this, 0, 30, true);
-$billboard_week = [];
+$query_last = "SELECT `BILLBOARD` FROM `song_billboard` WHERE `DATE`='$this_week_start'";
+$result_last = $con->query($query_last);
+$billboard_last = [];
+if ($result_last->num_rows > 0) {
+  $billboard_res = $result_last->fetch_object();
+  $billboard_last = json_decode($billboard_res->BILLBOARD, true);
+}
+
+$billboard = array_slice($billboard_this, 0, 30);
 $i = count($billboard);
-
-foreach ($billboard_last as $song_id => $song) {
-  if (!isset($billboard[$song_id]) && $i < 30) {
-    $song_rank = $song;
-    $song['index'] = $i;
-    $song['rank'] = $i + 1;
+foreach ($billboard_last as $index => $song) {
+  if ($i === 30) break;
+  if (searchById($song['song_id'], $billboard) === null) {
+    $billboard[$i] = $song;
     $i++;
-
-    $billboard_week[$song_id] = $song_rank;
-    $billboard[$song_id] = $song_rank;
   }
+}
+
+$billboard_week = [];
+foreach ($billboard_this as $index => $song) {
+  if (searchById($song['song_id'], $billboard_last) === null) {
+    $billboard_week[] = $song;
+  }
+}
+
+foreach ($billboard as $index => $song) {
+  $song_id = $song['song_id'];
+  $index_last = searchById($song_id, $billboard_last);
+  $arrow = 0;
+  if (($index === 0 && $billboard_last[0]['song_id'] !== $song_id) || $index_last > $index) {
+    $arrow = 1;
+  } else {
+    $song_prev = isset($billboard[$index - 1]) ? $billboard[$index - 1]['arrow'] : 0;
+    if ($song_prev === 1) {
+      $arrow = -1;
+    }
+  }
+
+  $billboard[$index]['arrow'] = $arrow;
 }
 
 ?>
@@ -179,58 +173,58 @@ foreach ($billboard_last as $song_id => $song) {
   </div>
 
   <?php
-  $limit = 30;
-  $i = 0;
   $prev_score = 0;
-
-  foreach ($billboard as $song_id => $song) {
-    if ($song['index'] === 1) {
+  foreach ($billboard as $index => $song) {
+    if ($index === 1) {
       $prev_score = $song['score'];
       break;
     }
   }
 
-  foreach ($billboard as $song_id => $song) {
-    if ($i < $limit) $i++;
-    else break;
-
-    $score_this = isset($billboard[$song_id]) ? $billboard[$song_id]['score'] : 0;
-    $rank = $song['rank'];
+  foreach ($billboard as $index => $song) {
+    $rank = $index + 1;
+    $song_id = $song['song_id'];
     $peak = $song['peak'];
     $wks = $song['wks'];
     $wks_last = $song['wks_last'];
     $rdon_id = $song['uniq_id'];
+    $arrow = $song['arrow'];
     $artwork = get_art_work($rdon_id, 1);
     $hash = md5("asset-preview-$rdon_id");
-    $arrow = '';
-    if ($score_this > $prev_score) {
+    if ($arrow === 1) {
       $arrow = '<i class="fas fa-caret-up" style="color:#27AE60;"></i>';
-    } else if ($score_this === $prev_score) {
+    } else if ($arrow === 0) {
       $arrow = '<i class="fas fa-caret-right" style="color:#999;"></i>';
-    } else {
+    } else if ($arrow === -1) {
       $arrow = '<i class="fas fa-caret-down" style="color:#C0392B;"></i>';
     }
-    $prev_score = $score_this;
-
-    if ($peak > $rank || $peak === 0) {
-      $peak = $rank;
-      $con->query("UPDATE `song` SET `peak`=$rank WHERE `SONG_ID`=$song_id");
-    }
-
-    if ($wks_last !== $this_week_start) {
-      $wks_last = $this_week_start;
-      if ($billboard[$song_id]['index'] < 30) $wks++;
-      else $wks = 0;
-
-      $con->query("UPDATE `song` SET `wks`=$wks, `wks_last`='$wks_last' WHERE `SONG_ID`=$song_id");
-    }
-
+    $prev_score = $song['score'];
     $username = $song['username'];
     $user_res = $con->query("SELECT `id` FROM `sitelok` WHERE `Username`='$username'");
     $user = $user_res->fetch_object();
     $userid = $user->id;
     $userhash = md5("$userid$SiteKey");
 
+    if ($peak > $rank || $peak === 0) {
+      $peak = $rank;
+      $song['peak'] = $peak;
+      $billboard[$index] = $song;
+      $con->query("UPDATE `song` SET `peak`=$rank WHERE `SONG_ID`=$song_id");
+    }
+
+    if ($wks_last !== $this_week_start) {
+      $wks_last = $this_week_start;
+      $search_id = searchById($song_id, $billboard_last);
+      if ($search_id !== null && $search_id < 30) $wks++;
+      else $wks = 0;
+
+      $song['wks'] = $wks;
+      $song['wks_last'] = $wks_last;
+      $billboard[$index] = $song;
+      $con->query("UPDATE `song` SET `wks`=$wks, `wks_last`='$wks_last' WHERE `SONG_ID`=$song_id");
+    }
+
+    $last_index = searchById($song_id, $billboard_last);
   ?>
   <div style="padding-right:50px; padding-left:50px;">
     <div class="panel panel-default asset-container" style="margin-bottom:2px; border-radius:0 30px 0 0;">
@@ -251,7 +245,7 @@ foreach ($billboard_last as $song_id => $song) {
                 </tr>
                 <tr>
                   <td><span style="padding-left:14px;"></span></td>
-                  <td><span style="padding-left:30px; font-size:14px; font-family:Arial;"><?= $billboard_last[$song_id]['index'] + 1 ?></span></td>
+                  <td><span style="padding-left:30px; font-size:14px; font-family:Arial;"><?= $last_index !== null ? $last_index + 1 : 0 ?></span></td>
                   <td><span style="padding-left:10px; font-size:14px; font-family:Arial;"><?= $peak ?></span></td>
                   <td><span style="padding-left:40px; font-size:14px; font-family:Arial;"><?= $wks ?></span></td>
                 </tr>
@@ -284,7 +278,7 @@ foreach ($billboard_last as $song_id => $song) {
             </div>
             <div class="row" style="margin:30px 200px 0 -75px;">
               <div class="col-sm-4" align="center">
-                <span style="font-size:18px;"><?= $billboard_last[$song_id]['index'] + 1 ?></span><br>
+                <span style="font-size:18px;"><?= $last_index !== null ? $last_index + 1 : 'Not in chart' ?></span><br>
                 <span style="font-size:10px; color:#F39C12;">LAST WEEK</span>
               </div>
               <div class="col-sm-4" align="center">
@@ -322,21 +316,22 @@ foreach ($billboard_last as $song_id => $song) {
     $('[data-hash]').click(function () {
       const id = $(this).attr('data-id')
       const hash = $(this).attr('data-hash')
+      const buttons = $('[data-hash="' + hash + '"]')
       const url = '/asset.php?id=' + id + '&hash=' + hash
 
       if (currentId !== id) {
         $('[data-hash]').html('<i class="fas fa-play"></i>')
-        $(this).html('<i class="fas fa-pause"></i>')
+        $(buttons).html('<i class="fas fa-pause"></i>')
 
         currentId = id
         audio.src = url
         audio.play()
       } else {
         if (audio.paused) {
-          $(this).html('<i class="fas fa-pause"></i>')
+          $(buttons).html('<i class="fas fa-pause"></i>')
           audio.play()
         } else {
-          $(this).html('<i class="fas fa-play"></i>')
+          $(buttons).html('<i class="fas fa-play"></i>')
           audio.pause()
         }
       }
