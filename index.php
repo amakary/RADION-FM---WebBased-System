@@ -93,13 +93,13 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
       <div class="message-box message-box-primary animated fadeIn" data-sound="fail" id="message-box-sound-2">
         <div class="mb-container">
           <div class="mb-middle">
-            <div class="mb-title"><i class="fal fa-hand-paper"></i> HOLD ON</div>
+            <div class="mb-title"><i class="fal fa-hand-paper"></i> Hold On</div>
             <div class="mb-content">
-              <p align="justify">In order to vote, you need to sing in. If you don't have an account yet, please sign up today for Free.</p>
+              <p align="justify">You forgot to sign in? If you don't have an account yet, please do not hesitate to sign up today, it is Free.</p>
             </div>
             <div class="mb-footer">
-  						<button class="btn btn-default btn-sm" onclick="window.open('login.php', '_blank')"><i class="fad fa-sign-in-alt"></i> SIGN IN</button>
-  						<button class="btn btn-default btn-sm" onclick="window.open('registration.php', '_blank')"><i class="fad fa-user-plus"></i> SIGN UP</button>
+  						<button class="btn btn-warning btn-sm" onclick="window.open('login.php', '_blank')"><i class="fad fa-sign-in-alt"></i> SIGN IN</button>
+  						<button class="btn btn-warning btn-sm" onclick="window.open('registration.php', '_blank')"><i class="fad fa-user-plus"></i> SIGN UP</button>
               <button class="btn btn-danger btn-sm pull-right mb-control-close"><i class="fas fa-times-octagon"></i> CLOSE</button>
             </div>
           </div>
