@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 
 function searchByID ($id, $array) {
   foreach ($array as $key => $value) {
-    if ($value['song_id'] === $id) return $key;
+    if ($value['song_id'] == $id) return $key;
   }
   return null;
 }
@@ -54,14 +54,27 @@ while ($row = $result_this->fetch_object()) {
   }
 }
 
-$query_last = "SELECT `BILLBOARD` FROM `song_billboard` WHERE `DATE`='$this_week_start'";
+$query_week = "SELECT `BILLBOARD` FROM `song_billboard` WHERE `DATE`='$this_week_start'";
+$result_week = $con->query($query_week);
+$billboard_week = [];
+if ($result_week->num_rows > 0) {
+  $billboard_res = $result_week->fetch_object();
+  $billboard_week = json_decode($billboard_res->BILLBOARD, true);
+}
+
+$query_last = "SELECT `BILLBOARD` FROM `song_billboard_changes` ORDER BY `BILLBOARD_ID` DESC LIMIT 1";
 $result_last = $con->query($query_last);
 $billboard_last = [];
+$billboard_last_text = '';
 if ($result_last->num_rows > 0) {
   $billboard_res = $result_last->fetch_object();
   $billboard_last = json_decode($billboard_res->BILLBOARD, true);
+  $billboard_last_text = $billboard_res->BILLBOARD;
+} else {
+  $billboard_last = $billboard_week;
 }
 
+// Merging this week's and last saved tops
 $billboard = array_slice($billboard_this, 0, 30);
 $i = count($billboard);
 foreach ($billboard_last as $index => $song) {
@@ -72,27 +85,44 @@ foreach ($billboard_last as $index => $song) {
   }
 }
 
-$billboard_week = [];
-foreach ($billboard_this as $index => $song) {
-  if (searchById($song['song_id'], $billboard_last) === null) {
-    $billboard_week[] = $song;
-  }
-}
-
 foreach ($billboard as $index => $song) {
   $song_id = $song['song_id'];
   $index_last = searchById($song_id, $billboard_last);
-  $arrow = 0;
-  if (($index === 0 && $billboard_last[0]['song_id'] !== $song_id) || $index_last > $index) {
-    $arrow = 1;
-  } else {
-    $song_prev = isset($billboard[$index - 1]) ? $billboard[$index - 1]['arrow'] : 0;
-    if ($song_prev === 1) {
-      $arrow = -1;
-    }
-  }
+  $prev_arrow = isset($billboard[$index - 1]) ? $billboard[$index - 1]['arrow'] : 0;
 
-  $billboard[$index]['arrow'] = $arrow;
+  if ($index_last > $index) {
+    $billboard[$index]['arrow'] = 1;
+  } else if ($index_last == $index) {
+    $billboard[$index]['arrow'] = isset($billboard_last[$index]['arrow']) ? $billboard_last[$index]['arrow'] : 0;
+  } else if ($prev_arrow == -1){
+    $billboard[$index]['arrow'] = 0;
+  } else if ($index_last < $index && $prev_arrow == 1) {
+    $billboard[$index]['arrow'] = -1;
+  }
+}
+
+// Save billboard
+if (strcmp($billboard_last_text, json_encode($billboard)) !== 0) {
+  $billboard_record = $con->real_escape_string(json_encode($billboard));
+  $con->query("INSERT INTO `song_billboard_changes` (`BILLBOARD`) VALUES ('$billboard_record')");
+}
+
+$billboard_chart_week = [];
+$i = 0;
+foreach ($billboard_this as $index => $song) {
+  if ($i === 5) break;
+
+  $song_id = $song['song_id'];
+  if (searchById($song_id, $billboard_week) === null) {
+    $song_shown_res = $con->query("SELECT `billboard_week` FROM `song` WHERE `SONG_ID`=$song_id");
+    $song_shown = $song_shown_res->fetch_object();
+    if ($song_shown->billboard_week == '00-00-00 00:00:00') {
+      $con->query("UPDATE `song` SET `billboard_week`='$this_week_end' WHERE `SONG_ID`=$song_id");
+    }
+
+    $billboard_chart_week[] = $song;
+    $i++;
+  }
 }
 
 ?>
@@ -135,16 +165,53 @@ foreach ($billboard as $index => $song) {
 
   <style>
   .asset-container:hover {
-    background-color: #eaecee;
+    background-color: #FCF3CF;
     cursor: pointer;
-  }
-
-  .active {
-    display: block !important;
   }
 
   .minimize, .maximize {
     display: none;
+  }
+
+  .active {
+    display: block;
+  }
+
+  .maximize:not(.active) * {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+  }
+
+  .maximize.active {
+    height: 300px;
+    -webkit-animation: maximize 1s ease;
+  }
+
+  .maximize.active * {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    -webkit-animation: maximize-contents 2s ease;
+  }
+
+  @-webkit-keyframes maximize {
+    0% { height: 0; }
+    100% { height: 300px; }
+  }
+
+  @-webkit-keyframes maximize-contents {
+    0% {
+      visibility: hidden;
+      opacity: 0;
+      height: 0;
+    }
+
+    100% {
+      visibility: visible;
+      opacity: 1;
+      height: auto;
+    }
   }
   </style>
 </head>
@@ -153,14 +220,14 @@ foreach ($billboard as $index => $song) {
   <div class="error-container">
     <div><img src="img/logo-dark.png" style="width:75px; height:25px;"></div>
     <div align="center" style="font-family:Arial; font-size:42px;"><strong>THE TOP 30</strong></div>
-    <div align="center" style="font-family:Arial; font-size:18px; margin-top:-10px; padding-left:56px; color:#7d7d7d;">CRYPTO BILLBOARD</div>
+    <div align="center" style="font-family:Arial; font-size:18px; margin-top:-10px; padding-left:56px; color:#7d7d7d;">BILLBOARD</div>
     <div class="error-subtext">
       <h6>THIS WEEK IN THE CHART</h6>
       <!-- <div style="background-image:linear-gradient(0deg, rgba(51,51,51,1) 20%, rgba(0,0,0,0.4181022750897234) 60%), url('https://radion.fm/img/no-image.jpg'); height:100px; width:100px; border-radius:30px 0px 30px 0px;">
         <span style="color:#fff; margin-left:10px; font-size:11px;"><br><br><br><br>&nbsp;&nbsp;<strong>ARTIST NAME</strong></span></div> -->
       <?php
       $i = 0;
-      foreach ($billboard_week as $song_id => $song) {
+      foreach ($billboard_chart_week as $index => $song) {
         if ($i < 5) $i++;
         else break;
 
@@ -191,11 +258,11 @@ foreach ($billboard as $index => $song) {
     $arrow = $song['arrow'];
     $artwork = get_art_work($rdon_id, 1);
     $hash = md5("asset-preview-$rdon_id");
-    if ($arrow === 1) {
+    if ($arrow == 1) {
       $arrow = '<i class="fas fa-caret-up" style="color:#27AE60;"></i>';
-    } else if ($arrow === 0) {
+    } else if ($arrow == 0) {
       $arrow = '<i class="fas fa-caret-right" style="color:#999;"></i>';
-    } else if ($arrow === -1) {
+    } else if ($arrow == -1) {
       $arrow = '<i class="fas fa-caret-down" style="color:#C0392B;"></i>';
     }
     $prev_score = $song['score'];
@@ -205,16 +272,11 @@ foreach ($billboard as $index => $song) {
     $userid = $user->id;
     $userhash = md5("$userid$SiteKey");
 
-    if ($peak > $rank || $peak === 0) {
-      $peak = $rank;
-      $song['peak'] = $peak;
-      $billboard[$index] = $song;
-      $con->query("UPDATE `song` SET `peak`=$rank WHERE `SONG_ID`=$song_id");
-    }
+    if ($peak == 0) $peak = '';
 
     if ($wks_last !== $this_week_start) {
       $wks_last = $this_week_start;
-      $search_id = searchById($song_id, $billboard_last);
+      $search_id = searchById($song_id, $billboard_week);
       if ($search_id !== null && $search_id < 30) $wks++;
       else $wks = 0;
 
@@ -224,82 +286,105 @@ foreach ($billboard as $index => $song) {
       $con->query("UPDATE `song` SET `wks`=$wks, `wks_last`='$wks_last' WHERE `SONG_ID`=$song_id");
     }
 
-    $last_index = searchById($song_id, $billboard_last);
+    $last_index = searchById($song_id, $billboard_week);
   ?>
-  <div style="padding-right:50px; padding-left:50px;">
-    <div class="panel panel-default asset-container" style="margin-bottom:2px; border-radius:0 30px 0 0;">
-      <div class="minimize active">
-        <div class="panel-body" style="width:calc(100% - 100px);">
-          <div align="right" style="padding-right:145px; color:#777777; font-size:18px; font-family:Arial; margin-bottom:-33px;"></div>
-          <div style="color:#34495E; padding:30px 0px 0px 20px; font-size:50px; font-family:Arial;"><span style="font-size:20px; padding-bottom:20px;"><?= $arrow ?></span> <?= $rank ?></div>
-          <div style="color:#777777; padding:30px 140px 0px 80px; font-size:18px; font-family:Arial; margin-top:-90px;">
-            <div style="padding-left:40px;"><span style="padding-right:30px; color:#34495E;"><?= $song['title'] ?></span> </div>
-            <div style="padding-left:40px; color:#85929E;"><small><?= $song['artist'] ?></small></div>
-            <div style="margin-top:-45px;" align="right">
-              <table style="width:50%">
-                <tr>
-                  <th style="width:25%; font-size:14px; font-family:Arial; color:#F7DC6F;"><small>AWARD</small></th>
-                  <th style="width:25%; font-size:14px; font-family:Arial; color:#F7DC6F;"><small>LAST WEEK</small></th>
-                  <th style="width:25%;font-size:14px; font-family:Arial; color:#F7DC6F;"><small>PEAK</small></th>
-                  <th style="width:25%; font-size:14px; font-family:Arial; color:#F7DC6F;"><small>WKS ON CHART</small></th>
-                </tr>
-                <tr>
-                  <td><span style="padding-left:14px;"></span></td>
-                  <td><span style="padding-left:30px; font-size:14px; font-family:Arial;"><?= $last_index !== null ? $last_index + 1 : 0 ?></span></td>
-                  <td><span style="padding-left:10px; font-size:14px; font-family:Arial;"><?= $peak ?></span></td>
-                  <td><span style="padding-left:40px; font-size:14px; font-family:Arial;"><?= $wks ?></span></td>
-                </tr>
-              </table>
+  <div class="panel panel-default asset-container" style="margin: 0 50px 2px 50px; border-radius:0 30px 0 0; width:calc(100% - 100px);">
+    <div class="minimize active">
+      <div class="panel-body" style="width:calc(100% - 100px);">
+        <div style="color:#34495E; padding:0 0 0 20px; font-size:50px; font-family:Arial;">
+          <span style="font-size:20px;"><?= $arrow ?></span> <?= $rank ?>
+        </div>
+        <div style="color:#777777; padding:30px 140px 0px 120px; font-size:18px; font-family:Arial; margin-top:-90px;">
+          <div><span style="padding-right:30px; color:#34495E;"><?= $song['title'] ?></span></div>
+          <div style="color:#85929E;"><small><?= $song['artist'] ?></small></div>
+          <div style="margin-top:-45px;" align="right">
+            <table style="width:50%">
+              <tr>
+                <th style="width:25%; font-size:14px; font-family:Arial; color:#F7DC6F;"><small>AWARD</small></th>
+                <th style="width:25%; font-size:14px; font-family:Arial; color:#F7DC6F;"><small>LAST WEEK</small></th>
+                <th style="width:25%;font-size:14px; font-family:Arial; color:#F7DC6F;"><small>PEAK</small></th>
+                <th style="width:25%; font-size:14px; font-family:Arial; color:#F7DC6F;"><small>WKS ON CHART</small></th>
+              </tr>
+              <tr>
+                <td><span style="padding-left:14px;"></span></td>
+                <td><span style="padding-left:30px; font-size:14px; font-family:Arial;"><?= $last_index !== null ? $last_index + 1 : '' ?></span></td>
+                <td><span style="padding-left:10px; font-size:14px; font-family:Arial;"><?= $peak ?></span></td>
+                <?php if ($last_index !== null) { ?>
+                <td><span style="padding-left:40px; font-size:14px; font-family:Arial;"><?= $wks ?></span></td>
+                <?php } else { ?>
+                <td><span style="padding-left:40px; font-size:14px; font-family Arial; color:#229954;"><strong>NEW</strong></span></td>
+                <?php } ?>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <span align="right">
+        <button type="button" class="btn btn-default btn-rounded blob white" style="z-index:1;position:absolute;margin:31.5px 31.5px;" data-id="<?= $rdon_id ?>" data-hash="<?= $hash ?>">
+          <i class="fas fa-play"></i>
+        </button>
+        <img src="<?= $artwork ?>" style="height:100px; width:100px; border-radius:0 30px 0 30px;">
+      </span>
+    </div>
+
+    <div class="maximize">
+      <div class="panel-body" style="width:calc(100% - 300px);">
+        <div style="color:#F39C12; padding:0 0 0 20px; font-size:50px; font-family:Arial;"><span style="font-size:20px; padding-bottom:20px;"><?= $arrow ?></span> <?= $rank ?></div>
+        <div style="color:#777777; padding:30px 140px 0px 80px; font-size:18px; font-family:Arial; margin-top:-90px;">
+          <div style="padding-left:40px;"><span style="padding-right:30px; color:#34495E;"><strong><?= $song['title'] ?></strong></span></div>
+          <div style="padding-left:40px;"><small style="color:#85929E;"><?= $song['artist'] ?></small></div>
+          <div align="right" style="padding-right:10px;"><h1 style="color:#273746;"><strong>NFT</strong></h1></div>
+
+          <div align="right" style="margin-top:-20px; padding-right:10px; font-size:9px; color:#F39C12;"><?= $song['token_id'] != -1 ? 'AVAILABLE' : 'NO AVAILABLE' ?></div>
+          <div align="right" style="width:27px; height:27px; margin-left:100%; margin-top:-38px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
+              <path style="fill:#FCF3CF;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
+          0 0 1 1.489-1.489c.629-.363 1.403-.544 2.323-.544.92 0 1.693.181 2.323.544.629.363 1.125.86 1.488 1.489.363.629.544 1.403.544
+          2.323 0 1.113-.266 2.02-.798 2.722-.533.702-1.162 1.161-1.888 1.38.63.87 1.622 1.487 2.977 1.85 1.355.388 2.71.581 4.065.581
+          1.887 0 3.593-.508 5.118-1.524 1.524-1.017 2.65-2.517 3.376-4.501.726-1.984 1.089-4.235 1.089-6.752
+          0-2.734-.4-5.07-1.198-7.005-.775-1.96-1.924-3.412-3.449-4.356a9.21 9.21 0 0 0-4.936-1.415c-1.162 0-2.613.484-4.356
+          1.452l-3.194 1.597v-1.597L37.076 16.4H17.185v19.89c0 1.646.363 3.001 1.089 4.066s1.839 1.597 3.34 1.597c1.16 0 2.274-.387
+          3.339-1.162a11.803 11.803 0 0 0 2.758-2.83c.097-.219.218-.376.363-.473a.723.723 0 0 1 .472-.181c.266 0 .58.133.944.4.339.386.508.834.508
+          1.342a9.243 9.243 0 0 1-.182 1.017c-.822 1.839-1.96 3.242-3.412 4.21a8.457 8.457 0 0
+          1-4.79 1.452c-4.308 0-7.285-.847-8.93-2.54-1.645-1.695-2.468-3.994-2.468-6.897V16.4H.052v-3.703h10.164v-8.42L7.893
+          1.952V.066h6.751l2.54 1.306v11.325l26.28-.072 2.614 2.613-16.116 16.116a10.807 10.807 0 0 1 3.049-.726c1.742
+          0 3.702.557 5.88 1.67 2.202 1.089 3.896 2.59 5.081 4.5 1.186 1.888 1.948 3.703 2.287 5.445.363 1.743.545 3.291.545
+          4.646 0 3.098-.654 5.977-1.96 8.64-1.307 2.661-3.291 4.645-5.953 5.952-2.662 1.307-5.542 1.96-8.639 1.96z"></path>
+            </svg>
+          </div>
+          <div style="margin:-50px 0 0 0; font-size:15px;">
+            <div style="padding-left:40px;"><small><strong>ASSET</strong>: <?= $song['uniq_id'] ?></small></div>
+            <div style="padding-left:40px;"><small><strong>UPLOADED BY</strong>: <a target="blank" href="/user-profile.php?uid=<?= $userid ?>&hash=<?= $userhash ?>"><?= $username ?></a></small></div>
+            <div style="padding-left:40px;"><small><strong>GENRE</strong>: <?= $song['genre'] ?></small></div>
+          </div>
+          <div class="row" style="margin:30px 200px 0 -75px;">
+            <div class="col-sm-4" align="center">
+              <span style="font-size:18px;"><?= $last_index !== null ? $last_index + 1 : '' ?></span><br>
+              <span style="font-size:10px; color:#F39C12;">LAST WEEK</span>
+            </div>
+            <div class="col-sm-4" align="center">
+              <span style="font-size:18px;"><?= $peak ?></span><br>
+              <span style="font-size:10px; color:#F39C12;">PEAK</span>
+            </div>
+            <div class="col-sm-4" align="center">
+              <?php if ($last_index !== null) { ?>
+              <span style="font-size:18px;"><?= $wks ?></span><br>
+              <?php } else { ?>
+              <span style="font-size:18px; color:#229954;"><strong>NEW</strong></span><br>
+              <?php } ?>
+              <span style="font-size:10px; color:#F39C12;">WKS ON CHART</span>
             </div>
           </div>
         </div>
-
-        <span align="right">
-          <button type="button" class="btn btn-default btn-rounded blob white" style="z-index:1;position:absolute;margin:31.5px 31.5px;" data-id="<?= $rdon_id ?>" data-hash="<?= $hash ?>">
-            <i class="fas fa-play"></i>
-          </button>
-          <img src="<?= $artwork ?>" style="height:100px; width:100px; border-radius:0 30px 0 30px;">
-        </span>
       </div>
 
-      <div class="maximize">
-        <div class="panel-body" style="width:calc(100% - 300px);">
-          <div align="right" style="padding-right:145px; color:#777777; font-size:18px; font-family:Arial; margin-bottom:-33px;"></div>
-          <div style="color:#F39C12; padding:30px 0px 0px 20px; font-size:50px; font-family:Arial;"><span style="font-size:20px; padding-bottom:20px;"><?= $arrow ?></span> <?= $rank ?></div>
-          <div style="color:#777777; padding:30px 140px 0px 80px; font-size:18px; font-family:Arial; margin-top:-90px;">
-            <div style="padding-left:40px;"><span style="padding-right:30px; color:#34495E;"><strong><?= $song['title'] ?></strong></span></div>
-            <div style="padding-left:40px;"><small style="color:#85929E;"><?= $song['artist'] ?></small></div>
-            <div align="right"><h1 style="color:#273746;"><strong>NFT</strong></h1></div>
-            <div align="right" style="margin-top:-20px; font-size:9px;"><?= $song['token_id'] != -1 ? 'AVAILABLE' : 'NO AVAILABLE' ?></div>
-            <div style="margin:-50px 0 0 0; font-size:15px;">
-              <div><small><strong>ASSET</strong>: <?= $song['uniq_id'] ?></small></div>
-              <div><small><strong>UPLOADED BY</strong>: <a target="blank" href="/user-profile.php?uid=<?= $userid ?>&hash=<?= $userhash ?>"><?= $username ?></a></small></div>
-              <div><small><strong>GENRE</strong>: <?= $song['genre'] ?></small></div>
-            </div>
-            <div class="row" style="margin:30px 200px 0 -75px;">
-              <div class="col-sm-4" align="center">
-                <span style="font-size:18px;"><?= $last_index !== null ? $last_index + 1 : 'Not in chart' ?></span><br>
-                <span style="font-size:10px; color:#F39C12;">LAST WEEK</span>
-              </div>
-              <div class="col-sm-4" align="center">
-                <span style="font-size:18px;"><?= $peak ?></span><br>
-                <span style="font-size:10px; color:#F39C12;">PEAK</span>
-              </div>
-              <div class="col-sm-4" align="center">
-                <span style="font-size:18px;"><?= $wks ?></span><br>
-                <span style="font-size:10px; color:#F39C12;">WKS ON CHART</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <span align="right" style="width:150px;">
-          <button type="button" class="btn btn-warning btn-lg btn-rounded blob white;" style="z-index:1;position:absolute;margin:241.5px 241.5px;" data-id="<?= $rdon_id ?>" data-hash="<?= $hash ?>">
-            <i class="fas fa-play"></i>
-          </button>
-          <img src="<?= $artwork ?>" style="height:300px; width:300px; border-radius:0 30px 0 30px;">
-        </span>
-      </div>
+      <span align="right" style="width:150px;">
+        <button type="button" class="btn btn-warning btn-lg btn-rounded blob white;" style="z-index:1;position:absolute;margin:241.5px 241.5px;" data-id="<?= $rdon_id ?>" data-hash="<?= $hash ?>">
+          <i class="fas fa-play"></i>
+        </button>
+        <img src="<?= $artwork ?>" style="height:300px; width:300px; border-radius:0 30px 0 30px;">
+      </span>
     </div>
   </div>
   <?php } ?>
@@ -313,7 +398,10 @@ foreach ($billboard as $index => $song) {
     const audio = new Audio()
     let currentId = null
 
-    $('[data-hash]').click(function () {
+    $('[data-hash]').click(function (event) {
+      event.preventDefault()
+      event.stopPropagation()
+
       const id = $(this).attr('data-id')
       const hash = $(this).attr('data-hash')
       const buttons = $('[data-hash="' + hash + '"]')
