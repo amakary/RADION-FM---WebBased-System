@@ -205,16 +205,19 @@ while ($pl_song = $result->fetch_object()) {
           </div>
 
           <div class="controls bottom">
-            <a>
+            <a href="" id="like">
+              <i class="fal fa-thumbs-up fa-2x"></i>
+            </a>
+            <a href="" id="heart">
               <i class="fal fa-heart fa-2x"></i>
             </a>
-            <a>
-              <i id="connect-wallet" class="fal fa-wallet fa-2x"></i>
+            <a href="" id="connect-wallet">
+              <i class="fal fa-wallet fa-2x"></i>
             </a>
-            <a>
-              <i id="download-asset" class="fal fa-download fa-2x"></i>
+            <a href="" id="download-asset">
+              <i class="fal fa-download fa-2x"></i>
             </a>
-            <a class="flip">
+            <a href="" class="flip">
               <i class="fas fa-bars fa-2x"></i>
             </a>
           </div>
@@ -293,12 +296,72 @@ while ($pl_song = $result->fetch_object()) {
     $(element).html('<i class="fas fa-play fa-2x"></i>')
   }
 
+  async function getMetadata (songId) {
+    return new Promise((resolve, reject) => {
+      $.ajax('/php/get_song_metadata.php', {
+        type: 'GET',
+        dataType: 'json',
+        data: { id: songId },
+        success: function (data, status, xhr) {
+          resolve(data)
+        },
+        error: function (xhr, status, error) {
+          reject(error)
+        }
+      })
+    })
+  }
+
   $(document).ready(function () {
     const license = ('<?= $copyright ?>').split('-')
     if (license.includes('by')) $('.cc-icon-by').show()
     if (license.includes('nc')) $('.cc-icon-nc').show()
     if (license.includes('nd')) $('.cc-icon-nd').show()
     if (license.includes('sa')) $('.cc-icon-sa').show()
+
+    const songId = '<?= $id ?>'
+    getMetadata(songId).then(function (metadata) {
+      if (metadata.isLoved == '1') $('#love').html('<i class="fas fa-heart fa-2x"></i>')
+      if (metadata.isVoted == '1') $('#like').html('<i class="fas fa-thumbs-up fa-2x"></i>')
+    })
+
+    $('#love').click(function (event) {
+      event.preventDefault()
+      $.ajax('/php/vote_send.php', {
+        type: 'POST',
+        data: {
+          type: '3',
+          music_id: songId
+        },
+        success: function (data, status, xhr) {
+          getMetadata(songId).then(function (metadata) {
+            if (metadata.isLoved == '1') $('#love').html('<i class="fas fa-heart fa-2x"></i>')
+          })
+        },
+        error: function (xhr, status, error) {
+          alert(xhr.responseText)
+        }
+      })
+    })
+
+    $('#like').click(function (event) {
+      event.preventDefault()
+      $.ajax('/php/vote_send.php', {
+        type: 'POST',
+        data: {
+          type: '1',
+          music_id: songId
+        },
+        success: function (data, status, xhr) {
+          getMetadata(songId).then(function (metadata) {
+            if (metadata.isVoted == '1') $('#like').html('<i class="fas fa-thumbs-up fa-2x"></i>')
+          })
+        },
+        error: function (xhr, status, error) {
+          alert(xhr.responseText)
+        }
+      })
+    })
 
     $('[data-hash]').click(function (event) {
       event.preventDefault()
@@ -351,6 +414,7 @@ while ($pl_song = $result->fetch_object()) {
     })
 
     $('#download-asset').click(async function (event) {
+      event.preventDefault()
       noty({
         text: '<div align="justify" style="padding:15px;"><div><i class="fad fa-cart-arrow-down fa-2x"></i> &nbsp;&nbsp;<strong>DOWNLOAD ASSET</strong></div><div style="padding-left:60%; margin-top:-14px; font-size:10px; color:#f2c945;"><i class="fas fa-signal-stream fa-lg"></i> <strong class="station-name">MAIN STATION</strong> </div><div style="margin-top:10px; color:#999999; padding-bottom:1px;"><strong>Artist</strong>:&nbsp;&nbsp;&nbsp;<span style="color:#F2F4F4;"><?= $artist ?></span></div><div style="color:#999999; padding-bottom:2px;"><strong>Song</strong>:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#F2F4F4;"><?= addslashes($title) ?></span></div><div style="color:#999999; padding-bottom:2px;"><strong>RDON:</strong>&nbsp;&nbsp;<span style="color:#F2F4F4;"><?= $id ?></span></div><div style="padding-left:50%; position:absolute; margin-top:-15px; font-size:10px;"><strong>License</strong>: <span style="color:#999999;"> <i class="fab fa-creative-commons fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-by fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-nc fa-lg" style="color:#ccc;"></i> <i class="fab fa-creative-commons-nd fa-lg" style="color:#ccc;"></i> </span></div><div style="color:#999999; font-size:0px;"">ID #:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#fff; font-size:px;" class="id"> </span></div></div><div style="padding-left:10px; margin-bottom:0px;"><strong>TOTAL:&nbsp;&nbsp;</strong> <span style="color:#f2c945;" class="tezos-price">' + price + ' &#42793;</span>&nbsp;&nbsp;=&nbsp;&nbsp; $1.00 USD<div style="font-size:10px; position: absolute;left: 20px; bottom: -25px; z-index: 1; color:#808080;">Powered by Tezos Blockchain</div></div>',
         layout: 'topRight',
