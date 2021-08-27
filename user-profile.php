@@ -599,7 +599,7 @@ for ($i = $followers_count - 1; $i > -1 && $i >= $followers_count - 5; $i--) {
   })
 
   $('[id|="buy"]').click(async function () {
-    const songId = $(this).attr('id').slice(6)
+    const songId = $(this).attr('id').slice(4)
     const content = $('#temp-buy-noty').prop('content')
     const clone = $(content).clone(true, true)
     const metadata = await getMetadata(songId)
