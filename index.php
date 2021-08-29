@@ -514,7 +514,7 @@ if ($result->num_rows > 0) {
                         <div>Genre: <strong><span class="nft-genre"></span></strong></div>
                         <div>Hosting: <strong>IPFS</strong></div>
                         <div>File: <strong>Master</strong></div>
-                        <div style="padding:5px 0px 0px 0px;"><strong>NFT</strong>: <strong style="color:#2980B9;">Exclusive Rights</strong></div>
+                        <div style="padding:5px 0px 0px 0px;"><strong>NFT</strong>: <strong style="color:#2980B9;">Copyrights</strong></div>
                       </div>
                       <div class="panel-footer text-muted" align="center">
 
