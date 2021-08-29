@@ -12,32 +12,9 @@ const wallet = new BeaconWallet({
 
 tezos.setWalletProvider(wallet)
 
-function readFile (file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = function () {
-      resolve(this.result)
-    }
-
-    reader.readAsArrayBuffer(file)
-  })
-}
-
-function strToHex (string) {
-  let result = ''
-  string = string.toString()
-
-  for (let i = 0; i < string.length; i++) {
-    const hex = string.charCodeAt(i).toString(16)
-    result += hex
-  }
-
-  return result
-}
-
 async function mint () {
   $('#submit_btn').attr('disabled', true)
-  const files = $('#filename1').prop('files')
+  const files = $('#filename1').prop('dropzone').files
   if (files.length === 0) {
     noty({
       text: 'WAV upload is required',
@@ -125,7 +102,7 @@ async function mint () {
     timeout: 10000
   })
 
-  const { cid } = await ipfsAdd(wavData)
+  const storeId = await uploadFile(wavData, 'audio/wav')
   const thumbnailCid = 'QmPRSm43Wcpoch3qdaENqV3aGqpBv37wdPEBR9j7wMRoxV'
 
   const contract = await tezos.contract.at('KT1MR8e46WJBq4RcFSogiDbSg3ceDRi81hpE')
@@ -141,10 +118,10 @@ async function mint () {
     symbol: 'RADION',
     decimals: 0,
     tags: [],
-    artifactUri: 'ipfs://' + cid.toString(),
+    artifactUri: 'https://www.radion.fm/stored/index.php?id=' + storeId,
     thumbnailUri: 'ipfs://' + thumbnailCid,
     formats: [{
-      uri: 'ipfs://' + cid.toString(),
+      uri: 'https://www.radion.fm/stored/index.php?id=' + storeId,
       mimeType: 'audio/wav'
     }],
     date: date.toISOString()
@@ -249,15 +226,18 @@ $(document).ready(function () {
     const address = await wallet.getPKH()
     const mutez = await tezos.tz.getBalance(address)
     const balance = mutez / 1000000
-    const usdRate = $('.tezos-price-usd').text()
-    const usdBalance = parseFloat(balance * usdRate).toFixed(2)
+    const usdBalance = (balance * parseFloat(window.priceUsd)).toFixed(2)
+    const radioBalanceURL = 'https://api.better-call.dev/v1/account/florencenet/' + address + '/token_balances?contract=KT1XLDJzzgSAb6HMXAKoFTxEQ3zMA7HGgU91'
+    const radio = await $.getJSON(radioBalanceURL)
+    const radioBal = radio.balances[0]
+    const radioBalance = typeof radioBal !== 'undefined' ? parseInt(radioBal.balance) / (10 ** radioBal.decimals) : 0
 
     new QRCode($('#qraddress')[0], address)
-    $('#get_source').text(address)
     $('#wallet_address').text(address)
+    $('.xtz-balance').text(balance + ' ꜩ')
+    $('.usd-balance').text(usdBalance)
+    $('.radio-balance').text(radioBalance + ' RADIO')
     $('#modal_basic').modal('hide')
-    $('#address').text(balance + ' ꜩ')
-    $('#usd_balance').text(usdBalance)
   })
 
   $('#submit_btn').click(function (event) {
@@ -288,3 +268,29 @@ $(document).ready(function () {
     $('#sell-price-xtz').html(sellXTZ + ' &#42793;')
   }
 })
+
+async function uploadFile (bytes, type) {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData()
+    let object = bytes
+    if (bytes instanceof ArrayBuffer) object = new Blob([new Uint8Array(bytes)])
+    formData.set('bytes', object)
+    formData.set('type', type)
+
+    $.ajax('/php/store.php', {
+      method: 'POST',
+      dataType: 'json',
+      data: formData,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (data, status, xhr) {
+        if (data.success) resolve(data.id)
+        else reject(data.message)
+      },
+      error: function (xhr, status, error) {
+        reject(error)
+      }
+    })
+  })
+}

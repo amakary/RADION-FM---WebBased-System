@@ -332,11 +332,24 @@ if ($id !== null) {
 
         <!-- START WIDGETS -->
         <div class="row">
+          <div class="col-md-3">
+            <!-- START WIDGET MESSAGES -->
+            <div class="widget widget-primary widget-item-icon">
+              <div class="widget-item-left">
+                <img src="img/ON-logo-2.png" style="height:40px; width:40px;">
+              </div>
+              <div class="widget-data">
+                <div class="widget-int num-count">TOKEN</div>
+                <div class="widget-title">BALANCE</div>
+                <div class="widget-subtitle radio-balance" style="color:#F39C12;">0 RADIO</div>
+              </div>
+            </div>
+            <!-- END WIDGET MESSAGES -->
+          </div>
 
-            <div class="col-md-3">
-
-                <!-- START WIDGET MESSAGES -->
-                <div class="widget widget-primary widget-item-icon" onclick="#">
+          <div class="col-md-3">
+            <!-- START WIDGET MESSAGES -->
+            <div class="widget widget-primary widget-item-icon">
                     <div class="widget-item-left">
                         <div style="height:40px; width:40px; margin-left:10px;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
@@ -358,36 +371,21 @@ if ($id !== null) {
                     <div class="widget-data">
                         <div class="widget-int num-count">XTZ</div>
                         <div class="widget-title">BALANCE</div>
-                        <div class="widget-subtitle" id="address" style="color:#F39C12;">&#42793;</div>
+                        <div class="widget-subtitle xtz-balance" style="color:#F39C12;">0 <span>&#42793;</span></div>
                     </div>
 
                 </div>
                 <!-- END WIDGET MESSAGES -->
 
             </div>
-            <div class="col-md-3">
 
-                <!-- START WIDGET MESSAGES -->
-                <div class="widget widget-primary widget-item-icon" onclick="#">
-                    <div class="widget-item-left">
-                        <i class="fad fa-sack-dollar fa-3x"></i>
-                    </div>
-                    <div class="widget-data">
-                        <div class="widget-int num-count">USD</div>
-                        <div class="widget-title">BALANCE</div>
-                        <div class="widget-subtitle" style="color:#F39C12;"><i class="fas fa-dollar-sign"></i> <span id="usd_balance"></span></div>
-                    </div>
 
-                </div>
-                <!-- END WIDGET MESSAGES -->
-
-            </div>
             <div class="col-md-6">
 
                 <!-- START WIDGET CLOCK -->
                 <div class="widget widget-primary widget-padding-sm">
                     <div class="widget-controls">
-                        <div style="height:35px; width:35px; margin-bottom:-40px; padding-left:20px;" class="widget-control-left">
+                        <div style="height:35px; width:35px; margin-bottom:-37px; padding-left:20px;" class="widget-control-left">
                             <svg xmlns="http://www.w3.org/2000/svg" width="47" height="64" viewBox="0 0 47 64">
                                 <path style="fill:#7B7D7D;" d="M30.252 63.441c-4.55 0-7.864-1.089-9.946-3.267-2.08-2.177-3.121-4.525-3.121-7.041 0-.92.181-1.694.544-2.323a3.993 3.993
 0 0 1 1.489-1.489c.629-.363 1.403-.544 2.323-.544.92 0 1.693.181 2.323.544.629.363 1.125.86 1.488 1.489.363.629.544 1.403.544
@@ -404,12 +402,12 @@ if ($id !== null) {
                             </svg>
                         </div>
         <div style="width:100%; margin:5px 20px 0px 40px; color:#7B7D7D;" align="left">
-    <h3><strong style="color:#7B7D7D;">Tezos</strong></h3>
-    <div style="margin-top:-10px;">XTZ/USD</div>
+    <h5><strong style="color:#7B7D7D;">Tezos</strong></h5>
+    <div style="margin-top:-10px; font-size:11px;">XTZ/USD</div>
     </div>
                     </div>
 
-                    <div class="widget-big-int" style="margin-top:-40px;"><small>$</small><span class="tezos-price-usd"></span></div>
+                    <div class="widget-big-int" style="margin-top:-33px;"><small>$</small><span class="tezos-price-usd"></span></div>
                     <div class="widget-subtitle">Change 24h
                       <span>
                         <span class="tezos-change-24hr-down" style="display:none;">
@@ -431,7 +429,7 @@ if ($id !== null) {
                             <span style="padding-right:3px; padding-left:3px;">|</span>
                             <span><a href="#modal_small" data-toggle="modal" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-qrcode"></i> Receive</a></span>
                             <span style="padding-right:3px; padding-left:3px;">|</span>
-                            <span><a href="#" style="font-size:13px; text-decoration:none; color:#F39C12;"><i class="fad fa-paper-plane"></i> Send</a></span>
+                            <span style="color:#797D7F;">USD Balance <i class="fas fa-dollar-sign"></i> <span class="usd-balance">0</span></span>
           </div>
 
                     </div>
@@ -467,10 +465,7 @@ if ($id !== null) {
                         <!-- UPLOAD ZONE ENDS -->
                         <div class="col-md-6">
                           <div class="form-group">
-                            <label class="col-md-12 control-label"></label>
-                            <div class="col-md-12">
-                              <input type="file" class="fileinput btn-info btn-block" name="filename1" id="filename1" title="UPLOAD YOUR WAV HERE!" accept="audio/*" required>
-                            </div>
+                            <form action="/upload.php" id="filename1" class="dropzone dropzone-mini"></form>
                           </div>
 
                           <div align="justify" style="color:#c0c0c0; padding-right:20px; padding-left:20px;">
@@ -484,6 +479,8 @@ if ($id !== null) {
 
                             <input type="hidden" id="license" value="<?= $license ?>">
                             <input type="hidden" id="filesize" value="<?= $filesize ?>">
+                            <input type="hidden" id="fingerprint" value="">
+
                             <div class="form-group has-info">
                               <label class="control-label">RADION ID</label>
                               <input id="id" type="text" value="<?= $id ?>" class="form-control" readonly>
@@ -888,10 +885,10 @@ if ($id !== null) {
   <script src="/js/plugins/bootstrap/bootstrap.min.js"></script>
   <script src="/js/all.min.js"></script>
   <script src="/js/plugins/dropzone/dropzone.min.js"></script>
-  <script src="https://unpkg.com/@airgap/beacon-sdk@2.2.7/dist/walletbeacon.min.js"></script>
+  <script src="https://unpkg.com/@airgap/beacon-sdk@2.3.1/dist/walletbeacon.min.js"></script>
   <script>window.beaconSdk = beacon</script>
-  <script src="https://unpkg.com/@taquito/taquito@9.0.1/dist/taquito.min.js"></script>
-  <script src="https://unpkg.com/@taquito/beacon-wallet@9.0.1/dist/taquito-beacon-wallet.umd.js"></script>
+  <script src="https://unpkg.com/@taquito/taquito@10.1.0/dist/taquito.min.js"></script>
+  <script src="https://unpkg.com/@taquito/beacon-wallet@10.1.0/dist/taquito-beacon-wallet.umd.js"></script>
   <!-- END PLUGINS -->
 
   <!-- START THIS PAGE PLUGINS-->
@@ -1079,7 +1076,6 @@ if ($id !== null) {
   })
 
   const inputs = [
-    '#filename1',
     '[name="agree_disagree"]'
   ]
 
