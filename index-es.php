@@ -2339,13 +2339,18 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       console.log('Getting current owner of token ID: ' + nft.token_id)
       const owner = await getCurrentOwner(nft.token_id)
       const id = nft.name !== 'Unknown' ? nft.name : nft.extras.asset_id
+      let tokenData = {}
+      if (!nft.extras.song_name) {
+        tokenData = (await $.getJSON('/php/tzstats-bigmap.php?bigmap=1313&key=' + nft.token_id)).value.token_info
+      }
+
       console.log('Detected RADION ID: ' + id)
       const hash = await getHash(id)
-      const songName = nft.extras.song_name || (nft.extras.asset && nft.extras.asset.song_name)
+      const songName = nft.extras.song_name || (nft.extras.asset && nft.extras.asset.song_name) || parseBytes(tokenData.song_name)
       const issuer = owner ? owner.substr(0, owner.length - 15) + '...' : owner
       const title = songName ? songName.substr(0, 27) : songName
-      const artist = nft.extras.artist || (nft.extras.asset && nft.extras.asset.artist)
-      const genre = nft.extras.genre
+      const artist = nft.extras.artist || (nft.extras.asset && nft.extras.asset.artist) || parseBytes(tokenData.artist)
+      const genre = nft.extras.genre || parseBytes(tokenData.genre)
       let metadata = null
       try { metadata = await getMetadata(id) } catch (error) { console.log(error) }
       console.log('Fetched metadata: ', metadata)
