@@ -2351,7 +2351,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       console.log('Displaying token (ID: ' + nft.token_id + ')')
       console.log('Getting current owner of token ID: ' + nft.token_id)
       const owner = await getCurrentOwner(nft.token_id)
-      const id = nft.name !== 'Unknown' ? nft.name : nft.extras.asset_id
+      const id = await $.get('/php/actualid.php?id=' + (nft.name !== 'Unknown' ? nft.name : nft.extras.asset_id))
       let tokenData = {}
       if (!nft.extras.song_name) {
         tokenData = (await $.getJSON('/php/tzstats-bigmap.php?bigmap=1313&key=' + nft.token_id)).value.token_info
