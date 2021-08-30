@@ -15,6 +15,13 @@ $id = isset($_GET['id']) ? $_GET['id'] : '0';
 $hash = isset($_GET['hash']) ? $_GET['hash'] : '0';
 $embed = isset($_GET['embed']);
 
+$actualid = actualid($id);
+if ($actualid !== $id) {
+  $actualhash = md5("asset-preview-$actualid");
+  header("Location: /song-player.php?id=$actualid&hash=$actualhash");
+  exit(0);
+}
+
 $hash_match = md5("asset-preview-$id");
 if ($hash !== $hash_match) {
   http_response_code(400);

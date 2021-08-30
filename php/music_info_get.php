@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/db.php';
+
 function get_music_source ($song_id, $type = 0, $root = false) {
   $root = $root ? __DIR__ . '/../' : '';
   $base_path = $root . ($type == 1 ? "music/$song_id" : 'slbackups_mlicqx83sq/Music');
@@ -33,6 +35,17 @@ function get_art_work ($song_id, $type = 0, $root = false) {
   }
 
   return $file_name;
+}
+
+function actualid ($id) {
+  global $con;
+
+  $id = $con->real_escape_string($id);
+  $ids_res = $con->query("SELECT * FROM `song_transfer` WHERE `RDON_ID`='$id'");
+  if ($ids_res->num_rows > 0) {
+    $ids = $ids_res->fetch_object();
+    return $ids->NEW_RDON_ID;
+  } else return $id;
 }
 
 ?>
