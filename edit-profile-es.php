@@ -782,7 +782,7 @@ function slseeifchecked_4(name,idprefix)
           <div class="form-group">
             <div align="center"><img src="img/letsgo.png"></div>
 
-            <p style="padding:30px 10px 5px 10px;"><small><strong>Nota Importante</strong>: La firma digital es un aspecto importante de su perfil, sin ella no podrá crear y vender NFT. Después de seleccionar su estilo, haga clic en la casilla de verificación "Acepto". RADION use esto como prueba de identidad e intención para su contratos legales.</small></p>
+            <p style="padding:30px 10px 5px 10px;" align="justify"><small><strong>Nota Importante</strong>:<br>La firma digital es un aspecto importante de su perfil, sin ella no podrá crear y vender NFT. Después de seleccionar su estilo, haga clic en la casilla de verificación "Acepto". RADION use esto como prueba de identidad e intención para su contratos legales.</small></p>
 
             <select name="signature-font" id="signature-font" class="form-control" style="display:none;">
               <?php
@@ -811,7 +811,7 @@ function slseeifchecked_4(name,idprefix)
           </div>
 
           <?php } ?>
-          <div><button type="button" id="update-preview" class="btn btn-default btn-block">Canbiar Firma Digital</button></div>
+          <div><button type="button" id="update-preview" class="btn btn-default btn-block">Cambiar Firma Digital</button></div>
         </div>
         <div class="modal-footer">
           <div style="position:absolute; padding:0px 20px 0px 0px;" "right">
@@ -1365,11 +1365,11 @@ function slseeifchecked_4(name,idprefix)
           </form>
 
           <form id="send-fees" style="display:none;">
-            <div style="color:#fff; padding-left:15px;"><h5 style="color:#fff;">RECIPIENT</h5></div>
+            <div style="color:#fff; padding-left:15px;"><h5 style="color:#fff;">BENEFICIARIO</h5></div>
 
             <div class="form-group" style="color:#979A9A; padding-left:15px; margin-top:-10px;"><small>Address or Tezos domain to send tez funds to.</small></div>
             <div class="form-group" style="padding-left:15px; color:#2980B9; margin-top:-10px;"><strong><span id="send-confirm-receiver"></span></strong></div>
-            <div style="padding-left:15px; margin-top:-10px;"><strong>AMOUNT: <span id="send-confirm-amount" style="color:#F39C12;"></span></srong></div>
+            <div style="padding-left:15px; margin-top:-10px;"><strong>MONTO: <span id="send-confirm-amount" style="color:#F39C12;"></span></srong></div>
 
             <div class="form-group" style="padding-bottom:50px;">
 
@@ -1385,19 +1385,19 @@ function slseeifchecked_4(name,idprefix)
                                             <div class="radio" style="padding-left:30px; color:#979A9A;">
                                                 <label>
                                                     <input type="radio" name="send-add-fee" id="optionsRadios1" value="100" checked/>
-                                                    <i class="far fa-tachometer-alt-slow"></i> <small>Minimal - 0.0001 tez</small>
+                                                    <i class="far fa-tachometer-alt-slow"></i> <small>Minimo - 0.0001 tez</small>
                                                 </label>
                                             </div>
                                             <div class="radio" style="padding-left:30px; color:#979A9A;">
                                                 <label>
                                                     <input type="radio" name="send-add-fee" id="optionsRadios2" value="150"/>
-                                                    <i class="far fa-tachometer-alt-average"></i> <small>Faster - 0.00015 tez</small>
+                                                    <i class="far fa-tachometer-alt-average"></i> <small>Rapido - 0.00015 tez</small>
                                                 </label>
                                             </div>
                                             <div class="radio" style="padding:0px 0px 10px 30px; color:#979A9A;">
                                                 <label>
                                                     <input type="radio" name="send-add-fee" id="optionsRadios3" value="200"/>
-                                                    <i class="far fa-tachometer-alt-fastest"></i> <small>Ultra Faster - 0.0002 tez</small>
+                                                    <i class="far fa-tachometer-alt-fastest"></i> <small>Ultra Rapido - 0.0002 tez</small>
                                                 </label>
                                             </div>
 
@@ -1586,7 +1586,7 @@ function slseeifchecked_4(name,idprefix)
 
       const receiver = $('#send-receiver').val()
       const amount = $('#send-amount').val()
-      if (receiver.length !== 36 || radionTezos === null) throw new Error('Invalid address')
+      if (receiver.length !== 36 || radionTezos === null) throw new Error('Direccion Invalida')
       $('.send-allocation-fee-container').hide()
       $('#send-confirm-receiver').text(receiver)
       $('#send-confirm-amount').text(amount)
