@@ -944,7 +944,7 @@ function slseeifchecked_4(name,idprefix)
                   <div class="profile-data-title"><?php echo $slusergroups; ?></div>
               </div>
               <div class="profile-controls">
-                  <a href="#" class="profile-control-left sidebar-toggle"><i class="far fa-comment-alt-lines"></i></a>
+                  <a href="#" class="profile-control-left sidebar-toggle"><i class="fad fa-coins"></i></a>
                   <a href="edit-profile-es.php" class="profile-control-right"><i class="fad fa-user-edit"></i></a>
               </div>
 
@@ -1014,7 +1014,7 @@ function slseeifchecked_4(name,idprefix)
         <li class="xn-icon-button pull-right last">
           <a href="#"><i class="fad fa-sign-out-alt fa-lg"></i></a>
           <ul class="xn-drop-left animated zoomIn">
-            <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fas fa-sign-out-alt"></span> Sign Out</a></li>
+            <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fas fa-sign-out-alt"></span> Terminar Sesion</a></li>
           </ul>
         </li>
         <!-- END POWER OFF -->
@@ -1026,7 +1026,7 @@ function slseeifchecked_4(name,idprefix)
             <div class="panel-heading">
               <h3 class="panel-title"><i class="fad fa-bell-on"></i> Notificaciones</h3>
               <div class="pull-right">
-                <span class="label label-warning"><?php if (function_exists('sl_showprivatemessagecount')) sl_showprivatemessagecount(); ?> new</span>
+                <span class="label label-warning"><?php if (function_exists('sl_showprivatemessagecount')) sl_showprivatemessagecount(); ?> Nuevo</span>
               </div>
             </div>
             <div class="panel-footer text-center">
@@ -1106,7 +1106,7 @@ function slseeifchecked_4(name,idprefix)
                 <small>$</small>
                 <span class="tezos-price-usd"></span>
               </div>
-              <div class="widget-subtitle">Change 24h
+              <div class="widget-subtitle">Cambio 24h
                 <span>
                   <span class="tezos-change-24hr-down" style="display:none;">
                     <span class="fas fa-sort-down fa-xs" style="vertical-align:2px;"></span>
@@ -1405,10 +1405,10 @@ function slseeifchecked_4(name,idprefix)
 
             <div class="form-group" style="padding:0px 25px 25px 25px;">
             <div class="col-md-6">
-              <button type="button" class="btn btn-danger btn-block" id="send-decline">CANCEL</button>
+              <button type="button" class="btn btn-danger btn-block" id="send-decline">CANCELAR</button>
             </div>
             <div class="col-md-6">
-              <button type="button" class="btn btn-warning btn-block" id="send-confirm">CONFIRM</button>
+              <button type="button" class="btn btn-warning btn-block" id="send-confirm">CONFIRMAR</button>
             </div>
 
             </div>
@@ -1423,7 +1423,7 @@ function slseeifchecked_4(name,idprefix)
   <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
     <div class="mb-container">
       <div class="mb-middle">
-        <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+        <div class="mb-title"><span class="fa fa-sign-out"></span> Terminar <strong>sesión</strong>?</div>
         <div class="mb-content">
           <p>¿Estás segura de que quieres terminar esta sesión?</p>
           <p>Ya saber que hacer.</p>
@@ -1666,10 +1666,10 @@ function slseeifchecked_4(name,idprefix)
       if (confirmed) {
         const sweetAlert = await Swal.fire({
           icon: 'success',
-          title: 'SUCCESS',
+          title: 'EXITO',
           width: 450,
           html: '<br><p align="left" style="padding-left:10px;">TENEMOS CONFIRMACIÓN!</p><hr><p align="left" style="padding-left:10px;"><strong>Transaction ID/Hash:</strong></p><p align="left" style="font-size:13px;padding-left:10px;">' + hash + '</p>',
-          confirmButtonText: '<i class="fas fa-external-link-alt"></i> View in TzStats',
+          confirmButtonText: '<i class="fas fa-external-link-alt"></i> Ver en TzStats',
           showCancelButton: true,
           cancelButtonText: "<i class='fas fa-thumbs-up'></i> Gracias"
         })
@@ -1679,7 +1679,7 @@ function slseeifchecked_4(name,idprefix)
           window.open(url)
         }
       } else {
-        throw new Error('Unable to confirm operation')
+        throw new Error('No se pudo confirmar operacion')
       }
 
       $('#send-decline').click()
