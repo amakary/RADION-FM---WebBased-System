@@ -255,8 +255,8 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
         <li class="xn-icon-button pull-right">
           <a href="#"><i class="fad fa-language fa-lg"></i></a>
           <ul class="xn-drop-left xn-drop-dark animated zoomIn">
-
-            <li><a href="index.php">&nbsp; &nbsp; ENGLISH</a></li>
+	    <li><a href="index.php"><img src="/img/flags/us.png" style="height:20px; width:20px;">&nbsp; &nbsp; ENGLISH</a></li>
+            <li><a href="index-es.php"><img src="/img/flags/es.png" style="height:20px; width:20px;">&nbsp; &nbsp; ESPAÑOL</a></li>
           </ul>
         </li>
         <!-- END LANGUAGE BAR -->
