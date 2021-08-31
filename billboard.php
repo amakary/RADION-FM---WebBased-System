@@ -20,8 +20,8 @@ $week_of = gmdate('F d, Y', strtotime('monday this week') - 18000);
 $query_this = <<<EOD
 SELECT
   `song`.*,
-  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND `song_like`.`SONG_LIKE_STATUS` = 1 AND `song_like`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.01 +
-  (SELECT COUNT(*) FROM `song_love` WHERE `song_love`.`SONG_ID` = `song`.`SONG_ID` AND `song_love`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.01 +
+  (SELECT COUNT(*) FROM `song_like` WHERE `song_like`.`SONG_ID` = `song`.`SONG_ID` AND (`song_like`.`SONG_LIKE_STATUS` = 1 OR `song_like`.`SONG_LIKE_STATUS` = 2) AND `song_like`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.01 +
+  (SELECT COUNT(*) FROM `song_love` WHERE `song_love`.`SONG_ID` = `song`.`SONG_ID` AND (`song_love`.`SONG_LOVE_STATUS` = 1 OR `song_love`.`SONG_LOVE_STATUS` = 2) AND `song_love`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.01 +
   (SELECT COUNT(*) FROM `song_tweet` WHERE `song_tweet`.`SONG_ID` = `song`.`SONG_ID` AND `song_tweet`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') * 0.01 +
   (SELECT COALESCE(SUM(`song_downloads_nft`.`PRICE_USD`), 0) FROM `song_downloads_nft` WHERE `song_downloads_nft`.`SONG_ID` =  `song`.`SONG_ID` AND `song_downloads_nft`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') +
   (SELECT COALESCE(SUM(`song_downloads`.`PRICE_USD`), 0) FROM `song_downloads` WHERE `song_downloads`.`SONG_ID` = `song`.`SONG_ID` AND `song_downloads`.`DATE` BETWEEN '{$this_week_start}' AND '{$this_week_end}') AS `score`

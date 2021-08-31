@@ -27,7 +27,7 @@ if ($type == 1) {
     $con->query("INSERT INTO `song_like` (`SONG_ID`, `SONG_LIKE_USERNAME`, `SONG_LIKE_STATUS`) VALUES ($song_id, '$slusername', 1)");
   } else if ($status == 1) {
     // remove like if already liked
-    $con->query("DELETE FROM `song_like` WHERE `SONG_ID`=$song_id AND `SONG_LIKE_USERNAME`='$slusername' AND `SONG_LIKE_STATUS`=$status");
+    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=2 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status");
   } else {
     // song was dislike, update to like
     $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=1 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status");
@@ -42,7 +42,7 @@ if ($type == 1) {
     $con->query("INSERT INTO `song_like` (`SONG_ID`, `SONG_LIKE_USERNAME`, `SONG_LIKE_STATUS`) VALUES ($song_id, '$slusername', 0)");
   } else if ($status == 0) {
     // remove dislike if already disliked
-    $con->query("DELETE FROM `song_like` WHERE `SONG_ID`=$song_id AND `SONG_LIKE_USERNAME`='$slusername' AND `SONG_LIKE_STATUS`=$status");
+    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=4 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status");
   } else {
     // remove like, then update to dislike
     $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=0 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status");
@@ -53,8 +53,10 @@ if ($type == 1) {
 
   if ($status === null) {
     $con->query("INSERT INTO `song_love` (`SONG_ID`, `SONG_LOVE_USERNAME`) VALUES ($song_id, '$slusername')");
+  } else if ($status == 1) {
+    $con->query("UPDATE `song_love` SET `SONG_LOVE_STATUS`=2 WHERE `SONG_LOVE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LOVE_STATUS`=$status");
   } else {
-    $con->query("DELETE FROM `song_love` WHERE `SONG_ID`=$song_id AND `SONG_LOVE_USERNAME`='$slusername'");
+    $con->query("UPDATE `song_love` SET `SONG_LOVE_STATUS`=1 WHERE `SONG_LOVE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LOVE_STATUS`=$status");
   }
 }
 
