@@ -275,14 +275,14 @@ date_default_timezone_set('US/Eastern');
                             <div class="pull-right">
                                 <span class="label label-danger"><?php if (function_exists('sl_showprivatemessagecount')) {
                                                                         sl_showprivatemessagecount();
-                                                                    } ?> nuevos</span>
+                                                                    } ?> Nuevo</span>
                             </div>
                         </div>
                         <div class="panel-body list-group list-group-contacts scroll" style="height: 200px;">
 
                         </div>
                         <div class="panel-footer text-center">
-                            <a href="#" class="sidebar-toggle">Mostrar Mensajes</a>
+                            <a href="#" class="sidebar-toggle">Mostrar todos los mensajes</a>
                         </div>
                     </div>
                 </li>
@@ -403,7 +403,7 @@ date_default_timezone_set('US/Eastern');
                             </div>
 
                             <div class="widget-big-int" style="margin-top:-33px;"><small>$</small><span class="tezos-price-usd"></span></div>
-                            <div class="widget-subtitle">Change 24h
+                            <div class="widget-subtitle">Cambio 24h
                               <span>
                                 <span class="tezos-change-24hr-down" style="display:none;">
                                   <span class="fas fa-sort-down fa-xs" style="vertical-align:2px;"></span>
@@ -626,12 +626,12 @@ date_default_timezone_set('US/Eastern');
 													</div>
 
 													<small>
-													<div style="color:#c0c0c0;" id="cc-by"><li>Attribution 4.0 International</li></div>
-													<div style="color:#c0c0c0;" id="cc-by-nc"><li>Attribution-NonCommercial 4.0 International</li></div>
-													<div style="color:#c0c0c0;" id="cc-by-nd"><li>Attribution-NoDerivatives 4.0 International</li></div>
-													<div style="color:#c0c0c0;" id="cc-by-nc-nd"><li>Attribution-NonCommercial-NoDerivatives 4.0 International</li></div>
-													<div style="color:#c0c0c0;" id="cc-by-sa"><li>Attribution-ShareAlike 4.0 International</li></div>
-													<div style="color:#c0c0c0;" id="cc-by-nc-sa"><li>Attribution-NonCommercial-ShareAlike 4.0 International</li></div>
+													<div style="color:#c0c0c0;" id="cc-by"><li>Atribución 4.0 Internacional</li></div>
+													<div style="color:#c0c0c0;" id="cc-by-nc"><li>Atribución-NonCommercial 4.0 Internacional</li></div>
+													<div style="color:#c0c0c0;" id="cc-by-nd"><li>Atribución-NoDerivatives 4.0 Internacional</li></div>
+													<div style="color:#c0c0c0;" id="cc-by-nc-nd"><li>Atribución-NonCommercial-NoDerivatives 4.0 Internacional</li></div>
+													<div style="color:#c0c0c0;" id="cc-by-sa"><li>Atribución-ShareAlike 4.0 Internacional</li></div>
+													<div style="color:#c0c0c0;" id="cc-by-nc-sa"><li>Atribución-NonCommercial-ShareAlike 4.0 Internacional</li></div>
 													</small>
 													<hr>
 
@@ -828,14 +828,14 @@ date_default_timezone_set('US/Eastern');
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fas fa-sign-out-alt"></span> Log <strong>Out</strong> ?</div>
+                <div class="mb-title"><span class="fas fa-sign-out-alt"></span> Terminar <strong>sesión</strong> ?</div>
                 <div class="mb-content">
-                    <p>Are you sure you want to log out?</p>
-                    <p>Press No if youwant to continue work. Press Yes to logout current session.</p>
+                    <p>Esta seguro que quiere terminar su sesión?</p>
+
                 </div>
                 <div class="mb-footer">
                     <div class="pull-right">
-                        <a href="/slpw/sitelokpw.php?sitelokaction=logout" class="btn btn-success btn-lg">Yes</a>
+                        <a href="/slpw/sitelokpw.php?sitelokaction=logout" class="btn btn-success btn-lg">Si</a>
                         <button class="btn btn-default btn-lg mb-control-close">No</button>
                     </div>
                 </div>
@@ -989,7 +989,7 @@ date_default_timezone_set('US/Eastern');
                         on_link = " ";
 
                         if (result[3] != 0) {
-                            on_link = '<a href=http://' + result[3] + ' target="_blank" style="text-decoration:none" rel="nofollow"> Visit sponsor</a>';
+                            on_link = '<a href=http://' + result[3] + ' target="_blank" style="text-decoration:none" rel="nofollow"> Visite Auspiciador</a>';
                         }
                         $("#on_sibmission").html(result[2] + on_link);
 
@@ -1038,54 +1038,44 @@ date_default_timezone_set('US/Eastern');
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="defModalHead"><i class="fa fa-exclamation-circle"></i> LICENSING CHART</h4>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                    <h4 class="modal-title" id="defModalHead"><i class="fa fa-exclamation-circle"></i> TIPO DE LICENCIAS</h4>
                 </div>
                 <div class="modal-body">
-                    <p align="justify" style="padding-left:3%; padding-right:3%; padding-bottom:20px;">Creative Commons is a one of several public
-                        copyright license that enable the free distribution of an otherwise copyrighted "work" and it is characterized by the following icon
+                    <p align="justify" style="padding-left:3%; padding-right:3%; padding-bottom:20px;">Creative Commons es una de las varias licencias públicas de derechos de autor que permiten la distribución gratuita de una "obra" que de otro modo tendría derechos de autor y se caracteriza por el siguiente icono
                         <i class="fab fa-creative-commons fa-lg"></i>.<br><br>
-                        Public license or public copyright license is a license by which a copyright holder as licensor
-                        can grant additional copyright permissions to any and all persons in the general public as licensees.</p>
+                        La licencia o la licencia pública de derechos de autor es una licencia mediante la cual un titular de derechos de autor es licenciante y puede otorgar permisos de derechos de autor adicionales a todas y cada una de las personas del público en general como licenciatarios.</p>
 
                     <div style="background-color:#CCE4C8; padding:25px 5px 5px 25px; height:100px;">
                         <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <span style="padding-left:85px; padding-right:30px;"> = </span><span align="right">Attribution alone</span><br>
-                        <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <i class="fab fa-creative-commons-sa fa-2x"></i> <span style="padding-left:60px; padding-right:30px;"> = </span> <span align="right">Attribution + ShareAlike</span>
-                        <p style="padding-top:5px; padding-right:10px; color:#27ae60" align="right"> - Attribution and allow Share, Remix and Commercial use -</p>
+                        <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <i class="fab fa-creative-commons-sa fa-2x"></i> <span style="padding-left:55px; padding-right:30px;"> = </span> <span align="right">Attribution + ShareAlike</span>
+                        <p style="padding-top:5px; padding-right:10px; font-size:9px; color:#27ae60" align="right"> - Atribuir y permitir uso compartido, remezclado y comercial -</p>
                     </div>
 
                     <div style="background-color:#E5EED6; padding:25px 5px 5px 25px; height:100px;">
                         <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <i class="fab fa-creative-commons-nc fa-2x"></i> <span style="padding-left:60px; padding-right:30px;"> = </span><span align="right">Sharing + Non-Commercial</span><br>
-                        <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <i class="fab fa-creative-commons-nc fa-2x"></i> <i class="fab fa-creative-commons-sa fa-2x"></i> <span style="padding-left:35px; padding-right:30px;"> = </span><span align="right">Attribution + Noncommercial + ShareAlike</span>
-                        <p style="padding-top:5px; padding-right:10px; color:#27ae60" align="right">- Attribution and allow Share and Remix only -</p>
+                        <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <i class="fab fa-creative-commons-nc fa-2x"></i> <i class="fab fa-creative-commons-sa fa-2x"></i> <span style="padding-left:30px; padding-right:30px;"> = </span><span align="right">Attribution + Noncommercial + ShareAlike</span>
+                        <p style="padding-top:5px; padding-right:10px; font-size:9px; color:#27ae60" align="right">- Atribución y permitir compartir y remezclar únicamente -</p>
                     </div>
 
                     <div style="background-color:#F4F4D2; padding:25px 5px 5px 25px; height:100px;">
                         <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <i class="fab fa-creative-commons-nd fa-2x"></i><span style="padding-left:60px; padding-right:30px;"> = </span><span align="right">Attribution + NoDerivatives</span><br>
-                        <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <i class="fab fa-creative-commons-nc fa-2x"></i> <i class="fab fa-creative-commons-nd fa-2x"></i><span style="padding-left:35px; padding-right:30px;"> = </span><span align="right">Attribution + Noncommercial + NoDerivatives</span>
-                        <p style="padding-top:5px; padding-right:10px; color:#f39c12" align="right">- Attribution and allow Share only. *Option 1 also allow Commercial use -</p>
+                        <i class="fab fa-creative-commons fa-2x"></i> <i class="fab fa-creative-commons-by fa-2x"></i> <i class="fab fa-creative-commons-nc fa-2x"></i> <i class="fab fa-creative-commons-nd fa-2x"></i><span style="padding-left:30px; padding-right:30px;"> = </span><span align="right">Attribution + Noncommercial + NoDerivatives</span>
+                        <p style="padding-top:5px; padding-right:10px; font-size:9px; color:#f39c12" align="right">- Atribución y permitir compartir únicamente. -</p>
                     </div>
                     <div style="background-color:#EDE2E2; padding:25px 5px 5px 25px; height:80px;">
-                        <i class="fa fa-copyright fa-2x"></i> <span style="padding-left:110px; padding-right:30px;"> = </span><span align="right">All Rights Reserved</span><br>
-                        <p style="padding-top:5px; padding-right:10px; color:#c0392b" align="right"> - Least Open -</p>
+                        <i class="far fa-copyright fa-2x"></i> <span style="padding-left:115px; padding-right:30px;"> = </span><span align="right">Todos los derechos reservados</span><br>
+                        <p style="padding-top:5px; padding-right:10px; font-size:9px; color:#c0392b" align="right"> - Menos abierta -</p>
                     </div>
 
 
                     <br>
-                    <p align="justify" style="padding-right:3%; padding-left:3%;"><strong>IMPORTANT NOTE</strong>:<br><br> We recommend you the following Licensing to
-                        distribute your work in our platform.
-                        <i class="fab fa-creative-commons fa-lg"></i>
-                        <i class="fab fa-creative-commons-by fa-lg"></i>
-                        <i class="fab fa-creative-commons-nc fa-lg"></i>
-                        <i class="fab fa-creative-commons-nd fa-lg"></i>
-                        <br>
-                        <br>
-                        Keep in mind that CC license does not create conflic with other agreement as long as you don't have an exclusive deal. If you put your music under a non-commercial or no derivatives license, you still open
-                        to other deals. Agency or entities can contact you directly through RADION platform at any time. Just keep your profile info updated.<br>
+                    <p align="justify" style="padding-right:3%; padding-left:3%;"><strong>IMPORTANTE</strong>:<br><br>
+                        Tenga en cuenta que la licencia CC no crea conflictos con otro acuerdo siempre que no tenga un trato exclusivo. Si pones tu música bajo una licencia no comercial o sin derivados, aún estás abierto a otras ofertas. La agencia o entidades pueden contactarlo directamente a través de la plataforma RADION en cualquier momento. Solo mantén actualizada la información de tu perfil.<br>
                         <br>
                         <p>
                             <div align="right">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                             </div>
                 </div>
             </div>
@@ -1128,7 +1118,7 @@ date_default_timezone_set('US/Eastern');
     event.preventDefault()
     if (connected) {
       await wallet.clearActiveAccount()
-      $('#connect-wallet').html('<i class="fad fa-wallet"></i> Connect Wallet')
+      $('#connect-wallet').html('<i class="fad fa-wallet"></i> Conectar Billetera')
       $('.xtz-balance').text('0 ꜩ')
       $('.usd-balance').text('0')
       $('.radio-balance').text('0 RADIO')
@@ -1140,11 +1130,11 @@ date_default_timezone_set('US/Eastern');
 
     try {
       await wallet.requestPermissions()
-      $('#connect-wallet').html('<i class="fad fa-wallet"></i> Disconnect Wallet')
+      $('#connect-wallet').html('<i class="fad fa-wallet"></i> Desconectar Billetera')
       connected = true
     } catch (error) {
       noty({
-        text: '<i class="far fa-exclamation-circle fa-lg"></i> Connection to wallet was not granted',
+        text: '<i class="far fa-exclamation-circle fa-lg"></i> Conexion fue cancelada',
         layout: 'topRight',
         type: 'error',
         timeout: 5000
@@ -1202,7 +1192,7 @@ date_default_timezone_set('US/Eastern');
   $('#delete-confirm').click(async function (event) {
     event.preventDefault()
     noty({
-      text: 'Removing from server! Please wait a moment.',
+      text: 'Eliminando del Servidor! Favor de esperar.',
       layout: 'topRight',
       timeout: 5000
     })
