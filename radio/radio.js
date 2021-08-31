@@ -8,9 +8,9 @@
  *  MIT License
  */
 
-window.onload(function(){ 
-// Cache references to DOM elements. 
-var elms = ['station0', 'title0', 'live0', 'playing0', 'station1', 'title1', 'live1', 'playing1', 'station2', 'title2', 'live2', 'playing2', 'station3', 'title3', 'live3', 'playing3', 'station4', 'title4', 'live4', 'playing4']; 
+window.onload(function(){
+// Cache references to DOM elements.
+var elms = ['station0', 'title0', 'live0', 'playing0', 'station1', 'title1', 'live1', 'playing1', 'station2', 'title2', 'live2', 'playing2', 'station3', 'title3', 'live3', 'playing3', 'station4', 'title4', 'live4', 'playing4', 'station5', 'title5', 'live5', 'playing5', 'station6', 'title6', 'live6', 'playing6', 'station7', 'title7', 'live7', 'playing7', 'station8', 'title8', 'live8', 'playing8', 'station9', 'title9', 'live9', 'playing9'];
 elms.forEach(function(elm) { window[elm] = document.getElementById(elm); }); })
 
 /**
@@ -23,13 +23,13 @@ var Radio = function(stations) {
 
   self.stations = stations;
   self.index = 0;
-  
+
   // Setup the display for each station.
   for (var i=0; i<self.stations.length; i++) {
     window['title' + i].innerHTML = '<b>' + self.stations[i].freq + '</b> ' + self.stations[i].title;
     window['station' + i].addEventListener('click', function(index) {
       var isNotPlaying = (self.stations[index].howl && !self.stations[index].howl.playing());
-      
+
       // Stop other sounds or the current one.
       radio.stop();
 
@@ -108,36 +108,78 @@ Radio.prototype = {
   }
 };
 
-// Setup our new radio and pass in the stations.
-var radio = new Radio([
+const stations = [
   {
     freq: 'MAIN',
-    title: "STATION",
+    title: 'STATION',
     src: ['https://radion.fm:8002/stream/1/'],
-    howl: null
+    howl: null,
+    streams: true
   },
   {
     freq: 'PODCAST',
-    title: "STATION",
+    title: 'STATION',
     src: ['https://radion.fm:8002/stream/2/'],
-    howl: null
+    howl: null,
+    streams: false
   },
   {
     freq: 'DJ',
-    title: "STATION",
+    title: 'STATION',
     src: ['https://www.radion.fm:8002/dj-mp3', ''],
-    howl: null
+    howl: null,
+    streams: false
   },
   {
     freq: 'LATINO',
-    title: "STATION",
+    title: 'STATION',
     src: ['https://www.radion.fm:8002/latino-mp3', ''],
-    howl: null
+    howl: null,
+    streams: false
   },
   {
     freq: 'NEWS',
-    title: "STATION",
+    title: 'STATION',
     src: ['', ''],
-    howl: null
+    howl: null,
+    streams: false
+  },
+  {
+    freq: 'INDIE ROCK',
+    title: 'STATION',
+    src: ['', ''],
+    howl: null,
+    streams: false
+  },
+  {
+    freq: 'COUNTRY MUSIC',
+    title: 'STATION',
+    src: ['', ''],
+    howl: null,
+    streams: false
+  },
+  {
+    freq: 'POP',
+    title: 'STATION',
+    src: ['', ''],
+    howl: null,
+    streams: false
+  },
+  {
+    freq: 'RAP',
+    title: 'STATION',
+    src: ['', ''],
+    howl: null,
+    streams: false
+  },
+  {
+    freq: 'HIP HOP',
+    title: 'STATION',
+    src: ['', ''],
+    howl: null,
+    streams: false
   }
-]);
+]
+
+// Setup our new radio and pass in the stations.
+var radio = new Radio(stations);

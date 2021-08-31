@@ -199,12 +199,80 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
 							<div class="informer informer-default">OFF</div>
             </li>
 
+            <li id="station5" class="station">
+              <a href="#" class="title">
+                <i class="fal fa-signal-stream fa-lg"></i>&nbsp;
+                <div id="title5" class="subtitle"></div>
+                <div id="playing5" class="playing">
+    							<div class="rect1"></div>
+    							<div class="rect2"></div>
+    							<div class="rect3"></div>
+    							<div class="rect4"></div>
+    							<div class="rect5"></div>
+                </div>
+              </a>
+              <div class="informer informer-default">OFF</div>
+            </li>
 
-            <li><a href="#"><i class="fal fa-signal-stream fa-lg"></i>&nbsp; INDIE ROCK</a><div class="informer informer-default">OFF</div></li>
-            <li><a href="#"><i class="fal fa-signal-stream fa-lg"></i>&nbsp; COUNTRY MUSIC</a><div class="informer informer-default">OFF</div></li>
-            <li><a href="#"><i class="fal fa-signal-stream fa-lg"></i>&nbsp; POP</a><div class="informer informer-default">OFF</div></li>
-            <li><a href="#"><i class="fal fa-signal-stream fa-lg"></i>&nbsp; RAP</a><div class="informer informer-default">OFF</div></li>
-            <li><a href="#"><i class="fal fa-signal-stream fa-lg"></i>&nbsp; HIP HOP / R&B</a><div class="informer informer-default">OFF</div></li>
+            <li id="station6" class="station">
+              <a href="#" class="title">
+                <i class="fal fa-signal-stream fa-lg"></i>&nbsp;
+                <div id="title6" class="subtitle"></div>
+                <div id="playing6" class="playing">
+    							<div class="rect1"></div>
+    							<div class="rect2"></div>
+    							<div class="rect3"></div>
+    							<div class="rect4"></div>
+    							<div class="rect5"></div>
+                </div>
+              </a>
+              <div class="informer informer-default">OFF</div>
+            </li>
+
+            <li id="station7" class="station">
+              <a href="#" class="title">
+                <i class="fal fa-signal-stream fa-lg"></i>&nbsp;
+                <div id="title7" class="subtitle"></div>
+                <div id="playing7" class="playing">
+    							<div class="rect1"></div>
+    							<div class="rect2"></div>
+    							<div class="rect3"></div>
+    							<div class="rect4"></div>
+    							<div class="rect5"></div>
+                </div>
+              </a>
+              <div class="informer informer-default">OFF</div>
+            </li>
+
+            <li id="station8" class="station">
+              <a href="#" class="title">
+                <i class="fal fa-signal-stream fa-lg"></i>&nbsp;
+                <div id="title8" class="subtitle"></div>
+                <div id="playing8" class="playing">
+    							<div class="rect1"></div>
+    							<div class="rect2"></div>
+    							<div class="rect3"></div>
+    							<div class="rect4"></div>
+    							<div class="rect5"></div>
+                </div>
+              </a>
+              <div class="informer informer-default">OFF</div>
+            </li>
+
+            <li id="station9" class="station">
+              <a href="#" class="title">
+                <i class="fal fa-signal-stream fa-lg"></i>&nbsp;
+                <div id="title9" class="subtitle"></div>
+                <div id="playing9" class="playing">
+    							<div class="rect1"></div>
+    							<div class="rect2"></div>
+    							<div class="rect3"></div>
+    							<div class="rect4"></div>
+    							<div class="rect5"></div>
+                </div>
+              </a>
+              <div class="informer informer-default">OFF</div>
+            </li>
           </ul>
         </li>
         <!-- END STATIONS MENU -->
@@ -356,7 +424,8 @@ if ($result->num_rows > 0) {
     style="width:35px;height:35px">
 </lord-icon>
                     <strong id="station_name" style="color:#F39C12;"> ESTACIÓN PRINCIPAL </strong>
-                    <i style="margin-left:10px; margin-bottom:10px; padding-left:10px; padding-right:10px; border-radius:3px; text-align: center; background-color:#A93226; height:18px; color:#fff;display:inline-block; family-font:Arial;">EN VIVO</i>
+                    <i id="station-online" style="margin-left:10px; margin-bottom:10px; padding-left:10px; padding-right:10px; border-radius:3px; text-align: center; background-color:#A93226; height:18px; color:#fff;display:inline-block; family-font:Arial;">EN VIVO</i>
+                    <i id="station-offline" class="label label-default" style="display:none; margin-left:20px; margin-bottom:10px;">OFFLINE</div>
                   </span>
                 </div>
 
@@ -1331,7 +1400,22 @@ Este contrato se puede adquirir solo a través de un NFT, de modo que el nuevo p
   async function updateSong () {
     const sid = window.sid || 1
     const mid = window.mid
-    const metadata = await getCurrentMetadata(sid)
+    let metadata = null
+    try {
+      metadata = await getCurrentMetadata(sid)
+    } catch (error) {
+      $('#nft-check').css('display', 'none')
+      $('#nft-warn').css('display', 'initial')
+      $('#playingart').attr('src', '/img/offline.jpg')
+      $('#artist_name').text('')
+      $('.songTitleSpan').text('')
+      $('#username').text('')
+      $('#username').attr('href', '#')
+      $('.next_congcls').text('')
+      $('#twitter-share-button').off()
+      $('[class|="cc-icon"]').hide()
+      return null
+    }
 
     if (metadata.talb !== mid) {
       window.mid = metadata.talb
@@ -1359,19 +1443,19 @@ Este contrato se puede adquirir solo a través de un NFT, de modo que el nuevo p
         window.open(intentURL, 'childwindow', 'width=550,height=425,toolbar=0,status=0')
         $.post('/php/tweet.php', { id: window.mid })
       })
+
+      if (metadata.copyright !== '') {
+        const cc = metadata.copyright.split('-')
+        $('[class|="cc-icon"]').hide()
+        if (cc.includes('by')) $('.cc-icon-by').show()
+        if (cc.includes('nc')) $('.cc-icon-nc').show()
+        if (cc.includes('nd')) $('.cc-icon-nd').show()
+        if (cc.includes('sa')) $('.cc-icon-sa').show()
+      }
     }
 
     const downloadBtn = $('.download-btn')
     if (downloadBtn.is(':disabled')) downloadBtn.removeAttr('disabled')
-
-    if (metadata.copyright !== '') {
-      const cc = metadata.copyright.split('-')
-      $('[class|="cc-icon"]').hide()
-      if (cc.includes('by')) $('.cc-icon-by').show()
-      if (cc.includes('nc')) $('.cc-icon-nc').show()
-      if (cc.includes('nd')) $('.cc-icon-nd').show()
-      if (cc.includes('sa')) $('.cc-icon-sa').show()
-    }
 
     $('#like_count').text(metadata.isLikes)
     $('#unlike_count').text(metadata.isUnlike)
@@ -1556,6 +1640,7 @@ Este contrato se puede adquirir solo a través de un NFT, de modo que el nuevo p
 
   <script>
   async function playRadio () {
+    if (!window.streams) return
     radio.play(window.sid - 1)
     $('#play_icon').addClass('fa-stop').removeClass('fa-play')
     $('.btn-paused').removeClass('btn-paused').addClass('btn-playing')
@@ -1572,6 +1657,7 @@ Este contrato se puede adquirir solo a través de un NFT, de modo que el nuevo p
   $(document).ready(function () {
     express_view()
     window.sid = 1
+    window.streams = true
 
     $(document).on('click', '.btn-paused', playRadio)
     $(document).on('click', '.btn-playing', stopRadio)
@@ -1585,8 +1671,18 @@ Este contrato se puede adquirir solo a través de un NFT, de modo que el nuevo p
       window.mid = undefined
 
   		$('#station_name').text(sname)
-      await playRadio()
-      await updateSong()
+      const play = await updateSong()
+      if (play !== null) {
+        window.streams = true
+        $('#station-online').show()
+        $('#station-offline').hide()
+        await playRadio()
+      } else {
+        $('#station-online').hide()
+        $('#station-offline').show()
+        window.streams = false
+        await stopRadio()
+      }
   	})
 
     $('.download-btn').on('click', async function (e) {
