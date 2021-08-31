@@ -255,8 +255,8 @@ if (isset($_REQUEST['logout']) && $_REQUEST['logout'] == 'true') {
         <li class="xn-icon-button pull-right">
           <a href="#"><i class="fad fa-language fa-lg"></i></a>
           <ul class="xn-drop-left xn-drop-dark animated zoomIn">
-
-            <li><a href="index.php">&nbsp; &nbsp; ENGLISH</a></li>
+            <li><a href="index-es.php"><img src="/img/flags/es.png" style="height:20px; width:20px;">&nbsp; &nbsp; ESPAÑOL</a></li>
+            <li><a href="index.php"><img src="/img/flags/us.png" style="height:20px; width:20px;">&nbsp; &nbsp; ENGLISH</a></li>
           </ul>
         </li>
         <!-- END LANGUAGE BAR -->
@@ -786,8 +786,8 @@ if ($result->num_rows > 0) {
   <div class="sidebar">
     <div class="sidebar-wrapper scroll">
       <div class="sidebar-tabs">
-        <a href="#sidebar_1" class="sidebar-tab"><i class="fas fa-newspaper"></i>&nbsp;&nbsp;NEWS</a>
-        <a href="#sidebar_2" class="sidebar-tab"><i class="far fa-exclamation-circle"></i>&nbsp;&nbsp;&nbsp;LEGAL CONTRACTS</a>
+        <a href="#sidebar_1" class="sidebar-tab"><i class="fas fa-newspaper"></i>&nbsp;&nbsp;NOTICIAS</a>
+        <a href="#sidebar_2" class="sidebar-tab"><i class="far fa-exclamation-circle"></i>&nbsp;&nbsp;&nbsp;CONTRATOS Y LICENCIAS</a>
       </div>
 
       <div class="sidebar-tab-content form-horizontal active" id="sidebar_1">
@@ -859,86 +859,85 @@ if ($result->num_rows > 0) {
       </div>
 
       <div class="sidebar-tab-content form-horizontal" id="sidebar_2">
-        <p style="padding:10px 30px 0px 30px; color:#B3B6B7;" align="justify"><small style="color:#fff;">RADION FM respects the intellectual property rights of others, and we expect our users to do the same. We use legal contracts to detail the terms that the asset is subject to, along with its licensing. Buyers must respect the terms of the contract in order to avoid copyright infringements and prevent potential penalties.</small><br><br>
+        <p style="padding:10px 30px 0px 30px; color:#B3B6B7;" align="justify"><small style="color:#fff;">RADION FM respeta los derechos de propiedad intelectual de otros y esperamos que nuestros usuarios hagan lo mismo. Usamos contratos legales para detallar los términos a los que está sujeto el activo, junto con su licencia. Los compradores deben respetar los términos del contrato para evitar infracciones de derechos de autor y evitar posibles sanciones.</small><br><br>
 </small></p>
 <div style="border-bottom: 1px dashed #7B7D7D; padding: 0px 30px 0px 30px; "></div>
 <p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify">
-<small><span style="color:#fff;"><strong>Basic Lease</strong></span> - 1 Year Contract / PPU Suggested <span style="color:#f2c945;">$20</span> USD<br><br>
+<small><span style="color:#fff;"><strong>Contrato E</strong></span> - Terminos por 1 Año / Precio Sugerido <span style="color:#f2c945;">$20</span> USD<br><br>
 MP3: Yes<br>
 WAV: No<br>
-Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
-Trackout: No<br>
-Free Downloads: No<br>
-Distribution Copies: 3000<br>
-Performances (No-Profit): Unlimited<br>
-Paid Performances: None<br>
-Music Videos or (YouTube video): 1<br>
-Audio Streams: Unlimited<br>
-Video Streams: No<br>
-Broadcasting Rights: No<br>
-Number of radio stations: None<br>
-Exclusive Rights: No<br><br>
-This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+Licencia: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
+Descargas Gratuitas: No<br>
+Distribucion de Copias Limitadas: 3000<br>
+Presentaciones (Sin fin de lucro): Sin limite<br>
+Presentaciones Pagadas: No autorizado<br>
+Autorización para usar en (YouTube): Yes - 1 video<br>
+Servicio de Transmisión: Ilimitada<br>
+Transmisión en Video: No autorizado<br>
+Derechos de Transmisión de Radio: No incluidas<br>
+Numero de estaciones de radio: 0<br>
+Derechos Exclusivos de autor: No<br><br>
+Esta licencia permite a otros reutilizar el trabajo para cualquier propósito, incluso comercial; sin embargo, no se puede compartir con otros de forma adaptativa y se debe dar crédito.<br><br></small></p>
 
 <div style="border-bottom: 1px dashed #7B7D7D; padding-right:30px; padding-left:30px;"></div>
 
 <p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
-<span style="color:#fff;"><strong>Trackout Lease</strong></span>- 1 Year Contract / PPU Suggested <span style="color:#f2c945;">$100</span> USD<br><br>
+<span style="color:#fff;"><strong>Contrato T</strong></span>- Terminos por 1 Año / Precio Sugerido <span style="color:#f2c945;">$100</span> USD<br><br>
 MP3: Yes<br>
 WAV: No<br>
-Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
-Trackout: No<br>
-Free Downloads: No<br>
-Distribution Copies: 8000<br>
-Performances (No-Profit): None<br>
-Paid Performances: 200<br>
-Music Videos or (YouTube video): 2<br>
-Audio Streams: Unlimited<br>
-Video Streams: No<br>
-Broadcasting Rights: Yes<br>
-Number of radio stations: Unlimited<br>
-Exclusive Rights: No<br><br>
-This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+Licencia: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
+Sacar de Inventario: Si
+Descargas Gratuitas: No<br>
+Distribucion de Copias Limitadas: 8000<br>
+Presentaciones (Sin fin de lucro): No<br>
+Presentaciones Pagadas: 200<br>
+Autorización para usar en (YouTube): Si - 2 videos<br>
+Servicio de Transmisión: Ilimitada<br>
+Transmisión en Video: No autorizado<br>
+Derechos de Transmisión de Radio: Yes<br>
+Numero de estaciones de radio: Ilimitado<br>
+Derechos Exclusivos de autor: No<br><br>
+Esta licencia permite a otros reutilizar el trabajo para cualquier propósito, incluso comercial; sin embargo, no se puede compartir con otros de forma adaptativa y se debe dar crédito.<br><br></small></p>
 
 <div style="border-bottom: 1px dashed #7B7D7D; padding:10px;"></div>
 
 <p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
-<span style="color:#fff;"><strong>Lease Premium</strong></span> - 1 Year Contract / Price Suggested <span style="color:#f2c945;">$300</span> USD<br><br>
+<span style="color:#fff;"><strong>Contrato P</strong></span> - Terminos por 1 Año / Price Sugerido <span style="color:#f2c945;">$300</span> USD<br><br>
 MP3: Yes<br>
 WAV: No<br>
-Licensing: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
-Trackout: Yes<br>
-Free Downloads: No<br>
-Distribution Copies: 10000<br>
-Performances (No-Profit): None<br>
-Paid Performances: Unlimited<br>
-Music Videos or (YouTube video): Unlimited<br>
-Audio Streams: Unlimited<br>
+Licencia: Attributions / No Derivatives | <i class="fab fa-creative-commons fa-lg"></i> <i class="fab fa-creative-commons-by fa-lg"></i> <i class="fab fa-creative-commons-nd fa-lg"></i><br>
+Sacar de Inventario: Si<br>
+Descargas Gratuitas: No<br>
+Distribucion de Copias Limitadas: 10000<br>
+Presentaciones (Sin fin de lucro): No<br>
+Presentaciones Pagadas: Ilimitadas<br>
+Autorización para usar en (YouTube): Si- Ilimitado<br>
+Servicio de Transmisión: Ilimitada<br>
 Video Streams: No<br>
-Broadcasting Rights: Yes<br>
-Number of radio stations: Unlimited<br>
-Exclusive Rights: No<br><br>
-This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.<br><br></small></p>
+Derechos de Transmisión de Radio: Si<br>
+Numero de estaciones de radio: Ilimitado<br>
+Derechos Exclusivos de autor: No<br><br>
+Esta licencia permite a otros reutilizar el trabajo para cualquier propósito, incluso comercial; sin embargo, no se puede compartir con otros de forma adaptativa y se debe dar crédito.<br><br></small></p>
 
 <div style="border-bottom: 1px dashed #7B7D7D; padding:10px;"></div>
 
 <p style="padding:20px 40px 0px 40px; color:#B3B6B7;" align="justify"><small>
-<span style="color:#fff;"><strong>Exclusive Rights</strong></span> - Permanent / Price Suggested <span style="color:#f2c945;">$2000</span> USD<br><br>
+<span style="color:#fff;"><strong>Derechos de Autor</strong></span> - Permanente / Precio Sugerido <span style="color:#f2c945;">$2000</span> USD<br><br>
 MP3: No<br>
-WAV: Yes<br>
-Licensing: N/A<br>
-Trackout: Yes<br>
-Free Downloads: Unlimited<br>
-Distribution Copies: Unlimited<br>
-Performances (No-Profit): Unlimited<br>
-Paid Performances: Unlimited<br>
-Music Videos or (YouTube video): Unlimited<br>
-Audio Streams: Unlimited<br>
-Video Streams: Unlimited<br>
-Broadcasting Rights: Yes<br>
-Number of radio stations: Unlimited<br>
-Exclusive Rights: Yes<br><br>
-Any NFT that carry this contract, allow you to become legally the new owner and/or right holder of the asset.<br><br>
+WAV: Si<br>
+Licencia: N/A<br>
+Sacar de Inventario: Si<br>
+Descargas Gratuitas: Sin Restricción<br>
+Distribution Copies: Sin Restricción<br>
+Performances (No-Profit): Sin Restricción<br>
+Paid Performances: Sin Restricción<br>
+Music Videos or (YouTube video): Sin Restricción<br>
+Audio Streams: Sin Restricción<br>
+Video Streams: Sin Restricción<br>
+Broadcasting Rights: Sin Restricción<br>
+Number of radio stations: Sin Restricción<br>
+Exclusive Rights: Si<br><br>
+Este contrato se puede adquirir solo a través de un NFT, de modo que el nuevo propietario tenga posesión absoluta del activo, incluyendo: token, contrato legal y el archivo.<br><br>
 </small></p>
       </div>
     </div>
@@ -1037,7 +1036,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       <a style="text-decoration: none;" href="radion-ads-es.php" class="linko"> Publicidad</a>
       <span style="color: #85929E;">|</span>
       <a style="text-decoration: none;" href="creative-commons-es.php" class="linko"> Creative Commons</a>
-      <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> Informe Oficial</a>
+      <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> Documento Oficial</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="free-ID3-tag-editor.php" target="blank" class="linko"> ID3 Tag Editor</a>
       <div style="padding-top:30px; padding-bottom:10px;">
         <p style="color:#85929E; margin-bottom:-3px;">&copy; 2021 RADION Beta V1.1 </p>
@@ -2037,7 +2036,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
 
     if (loggedIn) {
       noty({
-        text: 'You should log in first to download the asset and contract',
+        text: 'Debes iniciar sesion primero para poder descargar un activo',
         type: 'error',
         layout: 'topRight',
         timeout: 5000
@@ -2092,7 +2091,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       })
 
       noty({
-        text: '<i class="fas fa-compact-disc fa-lg fa-spin"></i> Transaction Request Sent. Confirming...<br>Please wait for confirmation! Do not refresh browser...',
+        text: '<i class="fas fa-compact-disc fa-lg fa-spin"></i> Transaccion fue enviada. Confirmando...<br>Favor de esperar confirmacion!.',
         type: 'information',
         layout: 'topRight'
       })
@@ -2101,7 +2100,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       await operation.confirmation(1)
 
       noty({
-        text: 'Please wait for download. Do not refresh browser! This may take a while...',
+        text: 'Favor de esperar su descarga. No actualize el navegador cuando este en proceso! Esto puede tomar algo de tiempo.',
         type: 'information',
         layout: 'topRight'
       })
@@ -2129,18 +2128,18 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       // Display SUCCESS
       const sweetAlert = await Swal.fire({
         icon: 'success',
-        title: 'SUCCESS',
+        title: 'EXITO',
         width: 450,
-        html: '<br><p align="left" style="padding-left:10px;">WE HAVE CONFIRMATION!</p><hr><p align="left" style="padding-left:10px;"><strong>Transaction ID/Hash:</strong></p><p align="left" style="font-size:13px;padding-left:10px;">' + hash + '</p>',
-        confirmButtonText: '<i class="fas fa-external-link-alt"></i> View in TzStats',
+        html: '<br><p align="left" style="padding-left:10px;">TENEMOS CONFIRMACION!</p><hr><p align="left" style="padding-left:10px;"><strong>Transaccion ID/Hash:</strong></p><p align="left" style="font-size:13px;padding-left:10px;">' + hash + '</p>',
+        confirmButtonText: '<i class="fas fa-external-link-alt"></i> Ver en TzStats',
         showCancelButton: true,
-        cancelButtonText: "<i class='fas fa-thumbs-up'></i> Got It"
+        cancelButtonText: "<i class='fas fa-thumbs-up'></i> Gracias"
       })
 
       if (sweetAlert.value) window.open('https://tzstats.com/' + hash)
     } else {
       noty({
-        text: 'Unable to find the edition',
+        text: 'Incapaz de encontrar la edicion',
         layout: 'topRight',
         type: 'error',
         timeout: 5000
