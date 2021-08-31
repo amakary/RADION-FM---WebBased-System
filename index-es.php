@@ -1028,16 +1028,16 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     </div>
 
     <div class="x-content-footer" align="center" style="padding-left:2%; padding-right:2%; background-color:#33414E; margin-top:200px;">
-      <a style="text-decoration: none;" href="our-mission.php" target="blank" class="linko"> Our Mission</a>
+      <a style="text-decoration: none;" href="our-mission-es.php" target="blank" class="linko"> Nuestra Misión</a>
       <span style="color: #85929E;">|</span>
-      <a style="text-decoration: none;" href="intellectual-property-policy.php" class="linko"> Intellectual Property Policy</a>
+      <a style="text-decoration: none;" href="intellectual-property-policy-es.php" class="linko"> Política de propiedad intelectual</a>
       <span style="color: #85929E;">|</span>
-      <a style="text-decoration: none;" href="billboard.php" class="linko"> Crypto Billboard</a>
+      <a style="text-decoration: none;" href="billboard.php" class="linko"> Billboard</a>
       <span style="color: #85929E;">|</span>
-      <a style="text-decoration: none;" href="radion-ads.php" class="linko"> RADION Ads</a>
+      <a style="text-decoration: none;" href="radion-ads-es.php" class="linko"> Publicidad</a>
       <span style="color: #85929E;">|</span>
-      <a style="text-decoration: none;" href="creative-commons.php" class="linko"> Creative Commons</a>
-      <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> White paper</a>
+      <a style="text-decoration: none;" href="creative-commons-es.php" class="linko"> Creative Commons</a>
+      <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> Informe Oficial</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="free-ID3-tag-editor.php" target="blank" class="linko"> ID3 Tag Editor</a>
       <div style="padding-top:30px; padding-bottom:10px;">
         <p style="color:#85929E; margin-bottom:-3px;">&copy; 2021 RADION Beta V1.1 </p>
