@@ -61,11 +61,11 @@ $billboard_week = [];
 if ($result_week->num_rows > 0) {
   $billboard_res = $result_week->fetch_object();
   $billboard_week = json_decode($billboard_res->BILLBOARD, true);
-}
 
-usort($billboard_week, function ($a, $b) {
-  return $a['rank'] < $b['rank'] ? -1 : 1;
-});
+  usort($billboard_week, function ($a, $b) {
+    return $a['rank'] < $b['rank'] ? -1 : 1;
+  });
+}
 
 $query_last = "SELECT `BILLBOARD` FROM `song_billboard_changes` ORDER BY `BILLBOARD_ID` DESC LIMIT 1";
 $result_last = $con->query($query_last);
@@ -75,13 +75,13 @@ if ($result_last->num_rows > 0) {
   $billboard_res = $result_last->fetch_object();
   $billboard_last = json_decode($billboard_res->BILLBOARD, true);
   $billboard_last_text = $billboard_res->BILLBOARD;
+
+  usort($billboard_last, function ($a, $b) {
+    return $a['rank'] < $b['rank'] ? -1 : 1;
+  });
 } else {
   $billboard_last = $billboard_week;
 }
-
-usort($billboard_last, function ($a, $b) {
-  return $a['rank'] < $b['rank'] ? -1 : 1;
-});
 
 // Merging this week's and last saved tops
 $billboard = array_slice($billboard_this, 0, 30);
@@ -160,21 +160,18 @@ EOD;
 foreach ($billboard as $index => $song) {
   $song_id = $song['song_id'];
   $index_last = searchById($song_id, $billboard_last);
-  $index_this = searchById($song_id, $billboard_this);
-  $prev_arrow = isset($billboard[$index - 1]['arrow']) ? $billboard[$index - 1]['arrow'] : 0;
-  $next_arrow = isset($billboard[$index + 1]['arrow']) ? $billboard[$index + 1]['arrow'] : 0;
-  $score_this = $index_this !== null ? $billboard_this[$index_this]['score'] : 0;
+  $prev_arrow = $index > 0 ? (int) $billboard[$index - 1]['arrow'] : 0;
+  $last_arrow = isset($billboard_last[$index_last]['arrow']) ? (int) $billboard_last[$index_last]['arrow'] : 0;
+  $moves = $index_last !== null ? $index_last - $index : 0;
 
-  if ($index_last > $index || $index_last === null) {
+  if ($moves === 0) {
+    $billboard[$index]['arrow'] = $last_arrow;
+  } else if ($index_last === null || $moves > 0) {
     $billboard[$index]['arrow'] = 1;
-  } else if ($prev_arrow == -1) {
-    $billboard[$index]['arrow'] = 0;
-  } else if ($index_last < $index && $prev_arrow == 1) {
+  } else if ($moves === -1 && $prev_arrow === 1) {
     $billboard[$index]['arrow'] = -1;
-  } else if ($index_last == $index) {
-    $billboard[$index]['arrow'] = isset($billboard_last[$index]['arrow']) ? $billboard_last[$index]['arrow'] : 0;
-  } else if ($prev_arrow == 0 && $next_arrow == 0) {
-    $billboard[$index]['arrow'] = 0;
+  } else if ($moves === -1 && $prev_arrow !== 1) {
+    $billboard[$index]['arrow'] = $last_arrow;
   } else {
     $billboard[$index]['arrow'] = 0;
   }
@@ -341,9 +338,17 @@ if (strcmp($billboard_last_text, $encoded) !== 0) {
     }
 
     $last_index = searchById($song_id, $billboard_week);
+    $this_week_chart_res = $con->query("SELECT * FROM `song` WHERE `SONG_ID`=$song_id AND (`billboard_week`='00-00-00 00:00:00' OR `billboard_week`='$this_week_start')");
+    $this_week_chart = false;
+    if ($this_week_chart_res->num_rows > 0) {
+      $this_week_chart = $this_week_chart_res->fetch_object();
+      if ($this_week_chart->billboard_week === '00-00-00 00:00:00') {
+        $con->query("UPDATE `song` SET `billboard_week`='$this_week_start' WHERE `SONG_ID`=$song_id");
+      }
+    }
 
   ?>
-  <?= $last_index === null ? "<script>assetsWeek.push('$artwork')</script>" : '' ?>
+  <?= $last_index === null && $this_week_chart ? "<script>assetsWeek.push('$artwork')</script>" : '' ?>
   <div class="panel panel-default asset-container" style="margin: 0 50px 2px 50px; border-radius:0 30px 0 0; width:calc(100% - 100px);">
     <div class="minimize active">
       <div class="panel-body" style="width:calc(100% - 100px);">
@@ -431,10 +436,16 @@ if (strcmp($billboard_last_text, $encoded) !== 0) {
               <?php } ?>
               <span style="font-size:10px; color:#F39C12;">WKS ON CHART</span>
             </div>
-            
+
           </div>
-          <div align="right"><img src="/img/flags/<?= $country ?>.png" width="16" height="16"></div>
+          </div>
+        <div align="right" style="padding-top:20px; padding-right:5px; color:#808B96;"><img src="/img/flags/<?= $country ?>.png" width="16" height="16"> |
+          <span style="padding-left:3px; padding-right:5px; font-size:11px;">Copyright: <span></span></span>-
+          <span style="padding-left:3px; padding-right:10px; font-size:11px;">ISRC Code: </span>-
+          <span style="padding-left:3px; padding-right:10px; font-size:11px;">Licensed: <span style="color:#34495E;"><strong>CC-BY-NC-ND</strong></span></span>-
+          <span style="padding-left:3px; font-size:11px;"> Royalties: <span style="color:#27AE60;"><strong>%100</strong></span></span>
         </div>
+
       </div>
 
       <span align="right" style="width:150px;">
