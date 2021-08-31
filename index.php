@@ -425,7 +425,7 @@ if ($result->num_rows > 0) {
 </lord-icon>
                     <strong id="station_name" style="color:#F39C12;"> MAIN STATION </strong>
                     <i id="station-online" style="margin-left:10px; margin-bottom:10px; padding-left:10px; padding-right:10px; border-radius:3px; text-align: center; background-color:#A93226; height:18px; color:#fff;display:inline-block; family-font:Arial;">LIVE NOW</i>
-                    <i id="station-offline" class="label label-default" style="display:none; margin-left:20px; margin-bottom:10px;">OFFLINE</div>
+                    <i id="station-offline" class="label label-default" style="display:none; margin-left:20px; margin-bottom:10px;">OFFLINE</i>
                   </span>
                 </div>
 
