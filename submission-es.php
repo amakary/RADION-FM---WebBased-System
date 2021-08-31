@@ -185,9 +185,7 @@ date_default_timezone_set('US/Eastern');
                       <a href="#" class="profile-control-left sidebar-toggle"><i class="far fa-comment-alt-lines"></i></a>
                       <a href="edit-profile-es.php" class="profile-control-right"><i class="fad fa-user-edit"></i></a>
                   </div>
-                  <div align="right" style="margin-top:10px;">
-                  <button onclick="introJs().start();" class="btn btn-info btn-xs">TOMAR EXCURSIÓN</button>
-                </div>
+                  
               </div>
           </li>
 
@@ -462,7 +460,7 @@ date_default_timezone_set('US/Eastern');
 
 
 
-                                        <div class="row" data-step="1" data-intro="If you want to upload your music in our platform, you have to complete the form properly. Most of the entries are simple, however, some of them could be confusing and so we will elaborate a little bit more on those entries. " data-position="right">
+                                        <div class="row">
                                                 <!-- UPLOAD ZONE -->
 
                                             <div class="panel-body">
@@ -472,12 +470,12 @@ date_default_timezone_set('US/Eastern');
 
                                             <div class="col-md-6">
                                               <div class="form-group">
-                                                <form action="/upload.php" id="dropzone" class="dropzone dropzone-mini" data-step="2" data-intro="This dropzone is where you place you MP3 file and your album cover image. You have to add both in the same place to have a successful upload." data-position="right"></form>
+                                                <form action="/upload.php" id="dropzone" class="dropzone dropzone-mini"></form>
                                               </div>
 
 											<div align="justify" style="color:#c0c0c0; padding-right:15px; padding-left:15px;"><small><strong>Nota</strong>: Asegúrese de que la información sea correcta al subir su canción. La caratula debe tener un máximo de 800x800 px. </small></div>
 
-											<div class="col-md-12" style="padding-bottom:30px; padding-top:20px;" data-step="3" data-intro="These entries are kind of obvious, nevertheless; you have to populate inputs with corresponding data, including; the title of your song, the name of the artist, and the name of the album." data-position="right">
+											<div class="col-md-12" style="padding-bottom:30px; padding-top:20px;" data-step="3" data-intro="Estas opciones son facil de entender y completar." data-position="right">
                                         <div class="form-group has-info">
                                             <label class="control-label">TÍTULO DE LA CANCIÓN</label>
                                             <input id="title" type="text" class="form-control"/>
@@ -493,13 +491,13 @@ date_default_timezone_set('US/Eastern');
                                     </div>
 
 
-										<div class="col-md-3" data-step="4" data-intro="Here is where you add the year that the song was created." data-position="right">
+										<div class="col-md-3">
 										<div class="form-group has-info">
                                             <label class="control-label">AÑO</label>
                                             <input id="year" type="text" class="form-control"/>
                                         </div>
 										</div>
-										<div class="col-md-3" class="col-md-3" data-step="5" data-intro="Here is where you add track number of the song. This apply if the song belongs to an entire album. If the the song is a cover/single, then you should add two digits (01). " data-position="right">
+										<div class="col-md-3" class="col-md-3">
 										<div class="form-group has-info">
                                             <label class="control-label">PISTA</label>
                                             <input id="track" type="text" class="form-control"/>
@@ -507,7 +505,7 @@ date_default_timezone_set('US/Eastern');
 										</div>
 
 
-										<div class="col-md-6" data-step="6" data-intro="Select the genre of your song. If you don't see the genre of your song listed, please contact us. " data-position="right">
+										<div class="col-md-6">
 										<div class="form-group has-info">
                       <label class="control-label">GÉNERO</label>
                       <select id="genre" class="form-control btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -539,20 +537,20 @@ date_default_timezone_set('US/Eastern');
 										</div>
 
 										<div class="col-md-12" style="padding-top:20px;">
-										<div class="form-group has-info"  data-step="7" data-intro="Here its where you enter the name of your record label. If you don't have one leave it blank or type N/A. This will record labels know that your song is open for a potential business." data-position="right">
+										<div class="form-group has-info" >
                                             <label class="control-label">SELLO DISCOGRÁFICO</label>
                                             <input id="record-label" name="record-label" type="text" class="form-control"/>
                                         </div>
 										</div>
 										<div class="col-md-12" style="padding-top:20px;">
-										<div class="form-group has-info" data-step="8" data-intro="This entry is populated with the public key that you use when you created your account." data-position="right">
+										<div class="form-group has-info">
                                             <label class="control-label">BILLETERA PÚBLICA</label>
                                             <input id="wallet-address" name="wallet-address" type="text" class="form-control" value="<?= $slcustom6 ?>" placeholder="<?php echo $slcustom6; ?>" readonly/>
                                         </div>
 										</div>
 
 										<div class="col-md-12" style="padding-top:20px; padding-bottom:30px;">
-										<div class="form-group has-info" data-step="9" data-intro="Publisher is by default RADION FM. We embed this information in ID3 tags, so if others find your music, they know where to download with crypto." data-position="right">
+										<div class="form-group has-info">
                                             <label class="control-label">EDITORIAL</label>
                                             <input id="publisher" name="publisher" type="text" class="form-control" value="" placeholder="RADION FM - www.radion.fm" readonly/>
                                         </div>
@@ -560,7 +558,7 @@ date_default_timezone_set('US/Eastern');
 
 
                                                 </div>
-                                                <div class="col-md-6"  data-step="10" data-intro="Let's take a look at the license! Here is where you select the license that you want. However, this license apply strictly to users or music lovers that purchase your songs. We do recommend some specific attributes for your license in order to protect your asset and apply best practice for the distribution and promotion of your music. " data-position="right">
+                                                <div class="col-md-6" >
 													<h3><strong>LICENCIA DE MUSICA</strong> </h3>
                                                     <div align="right" style="margin-top:-25px; margin-bottom:10px;"><img src="img/cc-logo-1.jpg"></div>
 													<p align="justify"><small>RADION permite a los artistas / músicos a marcar su canción original con una Licencia Creative Commons para distribuir a través de nuestra red. Usamos estas licencias para proteger el trabajo de los músicos y permitirles conservar sus derechos de autor.Los usuarios pueden descargar las conciones, pero están restringidos a los términos de la licencia.</small></p>
