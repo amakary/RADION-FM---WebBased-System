@@ -8,6 +8,13 @@ $loginredirect=2;
 require_once 'slpw/slloginform.php';
 require_once 'slpw/sitelokpw.php';
 
+$actionpage = $startpage;
+if (strpos($actionpage, '?') > -1) {
+  $actionpage .= '&redirect=' . urlencode('/index-es.php');
+} else {
+  $actionpage .= "?redirect=" . urlencode('/index-es.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es" class="body-full-height">
@@ -273,7 +280,7 @@ if (function_exists('slcaptchahead'))
 
 					<div class="form-horizontal" style="padding-left:30px; padding-right:30px;">
                     <div id="slform_11">
-<form action="<?php echo $startpage; ?>" method="post" id="siteloklogin_11" onSubmit="return slvalidateform_11(this)">
+<form action="<?php echo $actionpage; ?>" method="post" id="siteloklogin_11" onSubmit="return slvalidateform_11(this)">
 <input type="hidden" id="loginformused_11" name="loginformused" value="1">
 <input type="hidden" id="forgotpassword_11" name="forgotpassword" value="">
 <div class="sltextfield_11">
