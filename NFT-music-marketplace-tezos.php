@@ -423,7 +423,6 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
   <script src="/js/actions.js"></script>
   <script src="/js/tezos.js"></script>
   <script src="/js/helpers.js"></script>
-  <script src="/js/ipfs.js"></script>
   <!-- END TEMPLATE -->
   <!-- END SCRIPTS -->
 
