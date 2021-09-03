@@ -162,7 +162,7 @@ foreach ($billboard as $index => $song) {
   $index_last = searchById($song_id, $billboard_last);
   $prev_arrow = $index > 0 ? (int) $billboard[$index - 1]['arrow'] : 0;
   $last_arrow = isset($billboard_last[$index_last]['arrow']) ? (int) $billboard_last[$index_last]['arrow'] : 0;
-  $moves = $index_last !== null ? $index_last - $index : 0;
+  $moves = $index_last !== null ? $index_last - $index : 30;
 
   if ($moves === 0) {
     $billboard[$index]['arrow'] = $last_arrow;
