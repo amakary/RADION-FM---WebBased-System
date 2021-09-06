@@ -248,11 +248,13 @@ while ($pl_song = $result->fetch_object()) {
     }, 50)
   }, 2000)
 
-  $('.flip, .back a').click(function () {
+  $('.flip, .back a').click(function (event) {
+    event.preventDefault()
     $('.player').toggleClass('playlist')
   })
 
-  $('.bottom a').not('.flip').click(function () {
+  $('.bottom a').not('.flip').click(function (event) {
+    event.preventDefault()
     $(this).toggleClass('active')
   })
   </script>
