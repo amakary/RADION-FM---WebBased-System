@@ -262,16 +262,7 @@ async function submitForm () {
       $('#submit_btn').attr('disabled', null)
     },
     success: function (data) {
-      if (data.success) {
-        noty({
-          text: '<i class="far fa-check-circle fa-lg"></i> Submission was successful!',
-          type: 'success',
-          layout: 'topRight',
-          timeout: 5000
-        })
-
-        window.location.reload()
-      } else if (data.copyright !== null) {
+      if (data.copyright !== null) {
         const songID = data.copyright.song_id
         const hash = data.copyright.hash
 
@@ -322,6 +313,17 @@ async function submitForm () {
             }]
           })
         }
+      }
+
+      if (data.success) {
+        noty({
+          text: '<i class="far fa-check-circle fa-lg"></i> Submission was successful!',
+          type: 'success',
+          layout: 'topRight',
+          timeout: 5000
+        })
+
+        window.location.reload()
       } else {
         noty({
           text: '<p align="center"><strong>ATTENTION <i class="fas fa-exclamation"></i></strong></p> ' + data.message,

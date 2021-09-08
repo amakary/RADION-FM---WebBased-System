@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $in_genre = isset($_POST['genre']) ? $_POST['genre'] : '';
   $in_record = isset($_POST['record-label']) ? $_POST['record-label'] : '';
   $in_copyright = isset($_POST['copyright']) ? $_POST['copyright'] : '';
+  $potential_copyright = false;
 
   $title = $con->real_escape_string($in_title);
   $artist = $con->real_escape_string($in_artist);
@@ -99,51 +100,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'song_id' => $song_id,
       'hash' => $hash
     ];
-    display_result();
+    $potential_copyright = true;
   }
 
-  $acoustid_creds = json_decode(file_get_contents('acoustid.json'));
-  $clientkey = $acoustid_creds->clientkey;
-  $lookup = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&duration=$duration&fingerprint=$fingerprint");
-  if ($lookup->status === 'ok' && count($lookup->results) > 0) {
-    $trackid = $lookup->results[0]->id;
-    $recordings = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&trackid=$trackid&meta=recordings");
-    if ($recordings->status === 'ok' && count($recordings->results) > 0) {
-      $recordings_result = $recordings->results[0];
-      if (count($recordings_result->recordings) > 0) {
-        $recording_id = $recordings_result->recordings[0]->id;
-        $releases = get_json("https://musicbrainz.org/ws/2/recording/$recording_id?inc=artists+releases+label-rels&fmt=json");
-        $release_id = isset($releases->releases[0]) ? $releases->releases[0]->id : null;
-        $label = isset($releases->relations[0]) ? $releases->relations[0]->label->name : 'No label';
-        $release_year = substr($releases->{'first-release-date'}, 0, 4);
-        $title = $releases->title;
-        $artists = '';
-        $artworks = $release_id !== null ? get_json("https://coverartarchive.org/release/$release_id") : null;
-        $artwork = $artworks !== null && count($artworks->images) > 0 ? $artworks->images[0]->thumbnails->small : '';
+  if (!$potential_copyright) {
+    $acoustid_creds = json_decode(file_get_contents('acoustid.json'));
+    $clientkey = $acoustid_creds->clientkey;
+    $lookup = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&duration=$duration&fingerprint=$fingerprint");
+    if ($lookup->status === 'ok' && count($lookup->results) > 0) {
+      $trackid = $lookup->results[0]->id;
+      $recordings = get_json("https://api.acoustid.org/v2/lookup?client=$clientkey&trackid=$trackid&meta=recordings");
+      if ($recordings->status === 'ok' && count($recordings->results) > 0) {
+        $recordings_result = $recordings->results[0];
+        if (count($recordings_result->recordings) > 0) {
+          $recording_id = $recordings_result->recordings[0]->id;
+          $releases = get_json("https://musicbrainz.org/ws/2/recording/$recording_id?inc=artists+releases+label-rels&fmt=json");
+          $release_id = isset($releases->releases[0]) ? $releases->releases[0]->id : null;
+          $label = isset($releases->relations[0]) ? $releases->relations[0]->label->name : 'No label';
+          $release_year = substr($releases->{'first-release-date'}, 0, 4);
+          $title = $releases->title;
+          $artists = '';
+          $artworks = $release_id !== null ? get_json("https://coverartarchive.org/release/$release_id") : null;
+          $artwork = $artworks !== null && count($artworks->images) > 0 ? $artworks->images[0]->thumbnails->small : '';
 
-        for ($i = 0; $i < count($releases->{'artist-credit'}); $i++) {
-          $artist = $releases->{'artist-credit'}[$i]->name;
-          $artists = empty($artists) ? $artist : "$artists; $artist";
+          for ($i = 0; $i < count($releases->{'artist-credit'}); $i++) {
+            $artist = $releases->{'artist-credit'}[$i]->name;
+            $artists = empty($artists) ? $artist : "$artists; $artist";
+          }
+
+          $message = '';
+          $message .= '<div align="center" style="color:#F39C12;"><strong>ATTENTION <i class="fas fa-exclamation"></i></strong></div><p style="color:#7B7D7D; padding:10px;" align=justify">We have detected potential copyright infringement with this recording. Please read our <a href="https://www.radion.fm/intellectual-property-policy.php" target="blank">Intellectual property policy</a> for more information. If you think we have made a mistake please contact us.</p>';
+          $message .= '<div class="row">';
+          $message .= '  <img src="' . $artwork . '" alt="' . $title . ' artwork" class="col-sm-4" style="border-radius:30px">';
+          $message .= '  <div class="col-sm-8">';
+          $message .= '    <span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
+          $message .= '    <span style="color:#999;">Artist: </span><span>' . $artists . '</span><br>';
+          $message .= '    <span style="color:#999;">Label: </span><span>' . $label . '</span><br>';
+          $message .= '    <span style="color:#999;">Release: </span><span>' . $release_year . '</span><br> <i class="far fa-copyright"></i>';
+          $message .= '  </div>';
+          $message .= '</div>';
+          $result['message'] = 'Potential copyright detected';
+          $result['copyright'] = [
+            'message' => $message,
+            'song_id' => null,
+            'hash' => null
+          ];
+          $potential_copyright = true;
         }
-
-        $message = '';
-        $message .= '<div align="center" style="color:#F39C12;"><strong>ATTENTION <i class="fas fa-exclamation"></i></strong></div><p style="color:#7B7D7D; padding:10px;" align=justify">We have detected potential copyright infringement with this recording. Please read our <a href="https://www.radion.fm/intellectual-property-policy.php" target="blank">Intellectual property policy</a> for more information. If you think we have made a mistake please contact us.</p>';
-        $message .= '<div class="row">';
-        $message .= '  <img src="' . $artwork . '" alt="' . $title . ' artwork" class="col-sm-4" style="border-radius:30px">';
-        $message .= '  <div class="col-sm-8">';
-        $message .= '    <span style="color:#999;">Title: </span><span>' . $title . '</span><br>';
-        $message .= '    <span style="color:#999;">Artist: </span><span>' . $artists . '</span><br>';
-        $message .= '    <span style="color:#999;">Label: </span><span>' . $label . '</span><br>';
-        $message .= '    <span style="color:#999;">Release: </span><span>' . $release_year . '</span><br> <i class="far fa-copyright"></i>';
-        $message .= '  </div>';
-        $message .= '</div>';
-        $result['message'] = 'Potential copyright detected';
-        $result['copyright'] = [
-          'message' => $message,
-          'song_id' => null,
-          'hash' => null
-        ];
-        display_result();
       }
     }
   }
@@ -169,7 +172,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     while (strlen($number_id) < 5) $number_id = "0$number_id";
     $rdon_id = $slcustom1 . 'RADION' . substr($year, -2) . $number_id;
     $fingerprint64 = base64_encode(json_encode($fingerprint_raw));
-    $insert_query = "INSERT INTO `song` (`COUNTRY_CODE`,`RDON_ID`,`NUMBER_ID`,`USER_NAME`,`SONG_NAME`,`SONG_GENRE`,`ARTIST_NAME`,`ALBUM_NAME`,`YEAR`,`RECORD_LABEL`,`COPYRIGHT`,`SONG_SUBMIT_DATE`,`duration`,`fingerprint`) VALUES ('$slcustom1','$rdon_id','$number_id','$slusername','$title','$genre','$artist','$album',$year,'$record','$copyright','$date',$duration,'$fingerprint64')";
+    $song_status = $potential_copyright ? 4 : 0;
+    $insert_query = "INSERT INTO `song` (`COUNTRY_CODE`,`RDON_ID`,`NUMBER_ID`,`USER_NAME`,`SONG_NAME`,`SONG_GENRE`,`ARTIST_NAME`,`ALBUM_NAME`,`YEAR`,`RECORD_LABEL`,`COPYRIGHT`,`SONG_SUBMIT_DATE`,`SONG_STATUS`,`duration`,`fingerprint`) VALUES ('$slcustom1','$rdon_id','$number_id','$slusername','$title','$genre','$artist','$album',$year,'$record','$copyright','$date',$song_status,$duration,'$fingerprint64')";
 
     if ($con->query($insert_query)) {
       $last_inserted_id = $con->insert_id;
