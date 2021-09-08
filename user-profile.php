@@ -168,7 +168,7 @@ SELECT
   (SELECT COUNT(*) FROM `song_tweet` WHERE `song_tweet`.`SONG_ID` = `song`.`SONG_ID`) AS `shares`,
   (SELECT COUNT(*) FROM `song_play` WHERE `song_play`.`SONG_ID` = `song`.`SONG_ID`) AS `plays`
 FROM `song`
-WHERE `song`.`USER_NAME` = '{$profile_username}' AND `song`.`SONG_STATUS` <> 0
+WHERE `song`.`USER_NAME` = '{$profile_username}' AND (`song`.`SONG_STATUS` = 1 OR `song`.`SONG_STATUS` = 2)
 ORDER BY `song`.`SONG_ID` DESC
 LIMIT $from,$to
 EOD;
