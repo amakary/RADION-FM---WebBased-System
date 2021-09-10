@@ -23,13 +23,10 @@ while ($top = $tops->fetch_object()) {
   $userid = $user->id;
   $hash = md5("$userid$SiteKey");
   $profile_link = "/user-profile.php?uid=$userid&hash=$hash";
-  $avatar = $user->Custom2 !== '' ? $user->Custom2 : 'no-image.jpg';
-  $expiry = 0;
-  $param1 = 'NOLOG';
-  $timenow = time();
-  $hash = md5("$SiteKey$avatar$expiry$slusername$param1$timenow");
-  $avatar_download = base64_encode("$avatar,0,$slusername,$param1,,0,$timenow,$hash");
-  $avatar_link = "/?sldownload=$avatar_download/$avatar";
+  ob_start();
+  siteloklink($user->Custom2, 0);
+  $avatar_link = ob_get_contents();
+  ob_end_clean();
   $tops_json[] = [
     'username' => $username,
     'total_downloads' => $top->COUNT,
@@ -68,13 +65,10 @@ while ($user = $defaults->fetch_object()) {
   $userid = $user->id;
   $hash = md5("$userid$SiteKey");
   $profile_link = "/user-profile.php?uid=$userid&hash=$hash";
-  $avatar = $user->Custom2 !== '' ? $user->Custom2 : 'no-image.jpg';
-  $expiry = 0;
-  $param1 = 'NOLOG';
-  $timenow = time();
-  $hash = md5("$SiteKey$avatar$expiry$slusername$param1$timenow");
-  $avatar_download = base64_encode("$avatar,0,$slusername,$param1,,0,$timenow,$hash");
-  $avatar_link = "/?sldownload=$avatar_download/$avatar";
+  ob_start();
+  siteloklink($user->Custom2, 0);
+  $avatar_link = ob_get_contents();
+  ob_end_clean();
   $tops_json[] = [
     'username' => $username,
     'total_downloads' => 0,
