@@ -19,33 +19,37 @@ if ($song_id === null) {
 
 if ($type == 1) {
   // Like or remove like
-  $status_query = $con->query("SELECT `SONG_LIKE_STATUS` AS status FROM `song_like` WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id");
-  $status = $status_query && $status_query->num_rows > 0 ? $status_query->fetch_object()->status : null;
+  $like_query_res = $con->query("SELECT `SONG_LIKE_STATUS` AS `status`, `DATE` as `date` FROM `song_like` WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id");
+  $like_query = $like_query_res->num_rows > 0 ? $like_query_res->fetch_object() : null;
+  $status = $like_query !== null ? $like_query->status : null;
+  $date = $like_query !== null ? $like_query->date : null;
 
-  if ($status === null) {
+  if ($like_query === null) {
     // insert like
     $con->query("INSERT INTO `song_like` (`SONG_ID`, `SONG_LIKE_USERNAME`, `SONG_LIKE_STATUS`) VALUES ($song_id, '$slusername', 1)");
   } else if ($status == 1) {
     // remove like if already liked
-    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=2 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status");
+    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=2 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status AND `DATE`='$date'");
   } else {
     // song was dislike, update to like
-    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=1 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status");
+    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=1 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status AND `DATE`='$date'");
   }
 } else if ($type == 2) {
   // Dislike or remove dislike
-  $status_query = $con->query("SELECT `SONG_LIKE_STATUS` AS status FROM `song_like` WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id");
-  $status = $status_query && $status_query->num_rows > 0 ? $status_query->fetch_object()->status : null;
+  $dislike_query_res = $con->query("SELECT `SONG_LIKE_STATUS` AS `status`, `DATE` as `date` FROM `song_like` WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id");
+  $dislike_query = $dislike_query_res->num_rows > 0 ? $dislike_query_res->fetch_object() : null;
+  $status = $dislike_query !== null ? $dislike_query->status : null;
+  $date = $dislike_query !== null ? $dislike_query->date : null;
 
-  if ($status === null) {
+  if ($dislike_query === null) {
     // insert dislike
     $con->query("INSERT INTO `song_like` (`SONG_ID`, `SONG_LIKE_USERNAME`, `SONG_LIKE_STATUS`) VALUES ($song_id, '$slusername', 0)");
   } else if ($status == 0) {
     // remove dislike if already disliked
-    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=4 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status");
+    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=4 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status AND `DATE`='$date'");
   } else {
     // remove like, then update to dislike
-    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=0 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status");
+    $con->query("UPDATE `song_like` SET `SONG_LIKE_STATUS`=0 WHERE `SONG_LIKE_USERNAME`='$slusername' AND `SONG_ID`=$song_id AND `SONG_LIKE_STATUS`=$status AND `DATE`='$date'");
   }
 } else if ($type == 3) {
   $status_query = $con->query("SELECT `SONG_LOVE_STATUS` AS status FROM `song_love` WHERE `SONG_LOVE_USERNAME`='$slusername' AND `SONG_ID`=$song_id");
