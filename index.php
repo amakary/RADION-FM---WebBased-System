@@ -1114,7 +1114,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     </div>
 
     <div style="background-color:#33414E; padding-bottom:10px; padding-right:30px;" align="right">
-	    <span style="padding-right:30px;"><strong>Contract Address</strong>: KT1NSLhBqkWbGnr6PeYwigwKzurRgUF36vas</span>
+	    <span style="padding-right:30px; color:#fff;"><strong>Contract Address</strong>: <span style="color:#F39C12;">KT1NSLhBqkWbGnr6PeYwigwKzurRgUF36vas</span></span>
       <a style="text-decoration: none;" href="privacy-policy.php" class="linko">Privacy Policy</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration:none;" href="terms-of-use.php" class="linko">Terms of Use </a>
       <span style="padding-right:20px; padding-left:20px;"></span>
