@@ -1104,7 +1104,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
       <span style="color: #85929E;">|</span>
       <a style="text-decoration: none;" href="radion-ads.php" class="linko"> RADION Ads</a>
       <span style="color: #85929E;">|</span>
-      <a style="text-decoration: none;" href="creative-commons.php" class="linko"> Creative Commons</a>
+      <a style="text-decoration: none;" href="https://quipuswap.com/swap?from=tez&to=KT1NSLhBqkWbGnr6PeYwigwKzurRgUF36vas_0" class="linko"> RADIO Token</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="white-paper.pdf" target="blank" class="linko"> White paper</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration: none;" href="free-ID3-tag-editor.php" target="blank" class="linko"> ID3 Tag Editor</a>
       <div style="padding-top:30px; padding-bottom:10px;">
@@ -1114,6 +1114,7 @@ Any NFT that carry this contract, allow you to become legally the new owner and/
     </div>
 
     <div style="background-color:#33414E; padding-bottom:10px; padding-right:30px;" align="right">
+	    <span style="padding-right:30px;"><strong>Contract Address</strong>: KT1NSLhBqkWbGnr6PeYwigwKzurRgUF36vas</span>
       <a style="text-decoration: none;" href="privacy-policy.php" class="linko">Privacy Policy</a>
       <span style="color: #85929E;">|</span> <a style="text-decoration:none;" href="terms-of-use.php" class="linko">Terms of Use </a>
       <span style="padding-right:20px; padding-left:20px;"></span>
