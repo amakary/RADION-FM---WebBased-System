@@ -1,7 +1,7 @@
 
 # RADION FM
 
-RADION FM is an experiemtal project that works on Tezos Blockchain. The web-based system is intended to support new artist recruitment, and development in the music industry with blockchain technology. We have have developed new tools to enrich the musician's career. Including; but not limited to a no custodian method of payment with cryptocurrency, Free NFTs, copyright registry with blockchain, music licenses and more. 
+RADION FM is an experiemtal project that works on Tezos Blockchain. The web-based system is a bridge between the music industry and blockchain technology, intended to support new artist recruitment and development. The platform offers all the needs to comply with the music industry today, including: ISRC codes, copyright registry, distribution in and out of the blockchain spectrum, NFTs, legal contracts, royalty collection, music license, and more... RADION has introduced new tools to enrich the musician's career and experience. Some of these tools includes a no custodian method of payment with cryptocurrency, where the artist can receive royalties directly to his/her wallet when someone download his/her song. 
 
 RADION FM system distribute and promote music through multiple online radio feeds! These streams are "braodcasted" on RADION platform and its programming is made by music uploaded by users. RADION stream allow purchases and downloads with cryptocurrency (XTZ). RADION allow transactions between musicians and music lovers with no commission or royalty fees. All transactions are confirmed on Tezos Blockchain. 
 
