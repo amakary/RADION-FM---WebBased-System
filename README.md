@@ -8,7 +8,7 @@ RADION FM system distribute and promote music through multiple online radio feed
 ![image](https://user-images.githubusercontent.com/31939627/117907324-98a0fc80-b2a4-11eb-9f19-c092df804655.png)
 
 Music NFTs
-RADION platform allow musicians to mint their music NFTs for Free. However, our approach toward NFT are different from rest of NFTs platform in the crypto space because our effort is oriented to comply with the standarts of the music industry, including; legal affairs (legal contracts), copyright registry, and protect every single song minted with soundwave fingerprint to prevent copyright infringements or unauthorized use of artist's music.   
+RADION platform allow musicians to mint their music NFTs for Free. However, our approach toward NFT are different from rest of NFTs platform in the crypto space because our effort is oriented to comply with the standards of the music industry, including; legal affairs (legal contracts), copyright registry, and protect every single song minted with soundwave fingerprint to prevent copyright infringements or unauthorized use of artist's music.   
 
 
 ![image](https://user-images.githubusercontent.com/31939627/120156218-c56b7400-c1bf-11eb-9dda-928a2992954d.png)
